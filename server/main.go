@@ -1,73 +1,75 @@
 package main
 
 import (
-	"fmt"
+	"github.com/gofiber/fiber/v2"
+	"github.com/gofiber/template/html/v2"
+	"github.com/joho/godotenv"
 	"log"
-	"net/http"
 	"os"
 )
 
-//type Todo struct {
-//	ID    int    `json:"id"`
-//	Title string `json:"title"`
-//	Done  bool   `json:"done"`
-//	Body  string `json:"body"`
-//}
-
 func main() {
-	fmt.Println("Hello World")
 
-	http.Handle("/", http.FileServer(http.Dir("./client/dist")))
-	if err := http.ListenAndServe(os.Getenv("SITE_PORT"), nil); err != nil {
-		log.Panic(err)
+	// Load env file
+	if err := godotenv.Load(".env"); err != nil {
+		log.Fatal("Error loading .env file")
 	}
 
-	//app := fiber.New()
+	engine := html.New("./client/dist", ".html")
+
+	// Create app
+	app := fiber.New(fiber.Config{
+		Views: engine,
+	})
+
+	// Configure app
+	app.Static("/", "./client/dist")
+
+	// Routing
+	app.Route("/", Routes)
+
+	// Start app
+	err := app.Listen(os.Getenv("SITE_PORT"))
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	// Load env file
+	//if err := godotenv.Load(".env"); err != nil {
+	//	log.Fatal("Error loading .env file")
+	//}
 	//
-	//app.Use(cors.New(cors.Config{
-	//	AllowOrigins: "http://localhost:3000",
-	//	AllowHeaders: "Origin, Content-Type, Accept",
-	//}))
+	//fmt.Println("Hello World")
 	//
-	//var todos []Todo
-	//
-	//app.Get("/", func(ctx *fiber.Ctx) error {
-	//	return ctx.SendString("OK")
-	//})
-	//
-	//app.Post("/api/todos", func(ctx *fiber.Ctx) error {
-	//	todo := &Todo{}
-	//
-	//	if err := ctx.BodyParser(todo); err != nil {
-	//		return err
-	//	}
-	//
-	//	todo.ID = len(todos) + 1
-	//
-	//	todos = append(todos, *todo)
-	//
-	//	return ctx.JSON(todos)
-	//})
-	//
-	//app.Patch("/api/todos/:id/done", func(ctx *fiber.Ctx) error {
-	//	id, err := ctx.ParamsInt("id")
+	//// Connect to db
+	//log.Println("Connecting to DB...")
+	//db, trace := dbDriver.ConnectSQL(os.Getenv("DBNAME"))
+	//if trace.HasError() {
+	//	trace.Read()
+	//	log.Fatal()
+	//}
+	////Close connection
+	//defer func(SQL *sql.DB) {
+	//	err := SQL.Close()
 	//	if err != nil {
-	//		return ctx.Status(401).SendString("Invalid id")
+	//		trace = errortrace.NewTrace(err)
+	//		trace.Read()
 	//	}
+	//}(db.SQL)
+	//log.Println("Connected to DB")
 	//
-	//	for index, todo := range todos {
-	//		if todo.ID == id {
-	//			todos[index].Done = true
-	//			break
-	//		}
-	//	}
+	//http.Handle("/", http.FileServer(http.Dir("./client/dist")))
+	//server := &http.Server{
+	//	Addr:    os.Getenv("SITE_PORT"),
+	//	Handler: Routes(),
+	//}
 	//
-	//	return ctx.JSON(todos)
-	//})
-	//
-	//app.Get("/api/todos", func(ctx *fiber.Ctx) error {
-	//	return ctx.JSON(todos)
-	//})
-	//
-	//log.Fatal(app.Listen(":8080"))
+	//if err := server.ListenAndServe(); err != nil {
+	//	log.Fatal(err)
+	//}
+
+	//if err := http.ListenAndServe(os.Getenv("SITE_PORT"), nil); err != nil {
+	//	log.Panic(err)
+	//}
+
 }

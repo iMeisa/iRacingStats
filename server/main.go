@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+	"os"
 )
 
 //type Todo struct {
@@ -17,7 +18,7 @@ func main() {
 	fmt.Println("Hello World")
 
 	http.Handle("/", http.FileServer(http.Dir("./client/dist")))
-	if err := http.ListenAndServe(":8080", nil); err != nil {
+	if err := http.ListenAndServe(os.Getenv("SITE_PORT"), nil); err != nil {
 		log.Panic(err)
 	}
 

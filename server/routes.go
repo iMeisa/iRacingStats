@@ -2,7 +2,6 @@ package main
 
 import (
 	"github.com/gofiber/fiber/v2"
-	"github.com/iMeisa/iRacingStats/server/api"
 )
 
 func home(ctx *fiber.Ctx) error {

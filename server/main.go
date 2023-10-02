@@ -5,11 +5,14 @@ import (
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/template/html/v2"
 	"github.com/iMeisa/errortrace"
-	"github.com/iMeisa/iRacingStats/server/dbDriver"
+	apiDriver "github.com/iMeisa/iRacingStats/server/api"
+	"github.com/iMeisa/iRacingStats/server/db"
 	"github.com/joho/godotenv"
 	"log"
 	"os"
 )
+
+var api apiDriver.Api
 
 func main() {
 
@@ -33,11 +36,12 @@ func main() {
 
 	// Connect to db
 	log.Println("Connecting to DB...")
-	db, trace := dbDriver.ConnectSQL(os.Getenv("DBNAME"))
+	dbConnection, trace := db.ConnectSQL(os.Getenv("DBNAME"))
 	if trace.HasError() {
 		trace.Read()
 		log.Fatal()
 	}
+	api.DB = dbConnection
 	//Close connection
 	defer func(SQL *sql.DB) {
 		err := SQL.Close()
@@ -45,7 +49,7 @@ func main() {
 			trace = errortrace.NewTrace(err)
 			trace.Read()
 		}
-	}(db.SQL)
+	}(dbConnection.SQL)
 	log.Println("Connected to DB")
 
 	// Start app

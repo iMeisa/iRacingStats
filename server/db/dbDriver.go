@@ -1,4 +1,4 @@
-package dbDriver
+package db
 
 import (
 	"database/sql"

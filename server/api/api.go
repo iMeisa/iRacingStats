@@ -2,14 +2,19 @@ package api
 
 import (
 	"github.com/gofiber/fiber/v2"
+	"github.com/iMeisa/iRacingStats/server/db"
 )
+
+type Api struct {
+	DB *db.DB
+}
 
 type jsonResponse struct {
 	Ok  bool   `json:"ok"`
 	Msg string `json:"msg"`
 }
 
-func Get(ctx *fiber.Ctx) error {
+func (a *Api) Get(ctx *fiber.Ctx) error {
 	resp := jsonResponse{
 		Ok:  true,
 		Msg: "Hello",

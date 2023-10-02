@@ -1,6 +1,7 @@
 package api
 
 import (
+	"fmt"
 	"github.com/gofiber/fiber/v2"
 	"github.com/iMeisa/iRacingStats/server/db"
 )
@@ -15,11 +16,17 @@ type jsonResponse struct {
 }
 
 func (a *Api) Get(ctx *fiber.Ctx) error {
-	resp := jsonResponse{
-		Ok:  true,
-		Msg: "Hello",
+	//resp := jsonResponse{
+	//	Ok:  true,
+	//	Msg: "Hello",
+	//}
+
+	query, trace := a.DB.Query("customers", 1)
+	if trace.HasError() {
+		fmt.Println(trace)
 	}
-	return ctx.JSON(resp)
+
+	return ctx.JSON(query)
 }
 
 //func Post(w http.ResponseWriter, r *http.Request) {

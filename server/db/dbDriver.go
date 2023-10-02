@@ -1,6 +1,7 @@
 package db
 
 import (
+	"context"
 	"database/sql"
 	"fmt"
 	"github.com/iMeisa/errortrace"
@@ -12,7 +13,8 @@ import (
 
 // DB holds the database connection pool
 type DB struct {
-	SQL *sql.DB
+	SQL    *sql.DB
+	Tables []string
 }
 
 var dbConn = &DB{}
@@ -41,6 +43,7 @@ func ConnectSQL(dbName string) (*DB, errortrace.ErrorTrace) {
 	db.SetConnMaxIdleTime(connMaxLifetime)
 
 	dbConn.SQL = db
+	dbConn.getTables()
 
 	return dbConn, errortrace.NilTrace()
 }
@@ -66,4 +69,34 @@ func NewDatabase(dbType, connArgs string) (*sql.DB, errortrace.ErrorTrace) {
 	}
 
 	return db, errortrace.NilTrace()
+}
+
+func (d *DB) getTables() {
+	ctx, cancel := context.WithTimeout(context.Background(), 3*time.Second)
+	defer cancel()
+
+	log.Println("Retrieving tables...")
+
+	statement := `
+		SELECT tablename
+		FROM pg_catalog.pg_tables
+		WHERE schemaname != 'pg_catalog' AND 
+			schemaname != 'information_schema';
+	`
+
+	rows, err := d.SQL.QueryContext(ctx, statement)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	for rows.Next() {
+		var tableName string
+
+		err = rows.Scan(&tableName)
+		if err != nil {
+			log.Fatal(err)
+		}
+
+		d.Tables = append(d.Tables, tableName)
+	}
 }

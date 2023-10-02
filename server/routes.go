@@ -15,7 +15,7 @@ func Routes(router fiber.Router) {
 	router.Route("/api", func(router fiber.Router) {
 
 		// API GET routes
-		router.Get("/:action", api.Get)
+		router.Get("/:table", api.Get)
 
 		// API POST routes
 		//router.Post("/{api-post}/{action}", api.Post)

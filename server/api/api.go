@@ -16,14 +16,16 @@ type jsonResponse struct {
 }
 
 func (a *Api) Get(ctx *fiber.Ctx) error {
-	//resp := jsonResponse{
-	//	Ok:  true,
-	//	Msg: "Hello",
-	//}
+	resp := jsonResponse{
+		Ok: false,
+	}
 
-	query, trace := a.DB.Query("customers", 1)
+	tableName := ctx.Params("table")
+	query, trace := a.DB.Query(tableName, ctx.Queries())
 	if trace.HasError() {
 		fmt.Println(trace)
+		resp.Msg = trace.ErrorString()
+		return ctx.JSON(resp)
 	}
 
 	return ctx.JSON(query)

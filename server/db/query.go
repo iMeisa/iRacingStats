@@ -57,7 +57,7 @@ func (d *DB) Query(tableName string, queries UrlQueryMap) ([]JsonMap, errortrace
 
 	// Validate tableName
 	if !d.validTable(tableName) {
-		return nil, errortrace.NewTrace(errors.New("invalid table name"))
+		return nil, errortrace.NewTrace(errors.New(fmt.Sprintf("invalid table name: %s", tableName)))
 	}
 
 	// Set max limit to LimitMax
@@ -70,7 +70,7 @@ func (d *DB) Query(tableName string, queries UrlQueryMap) ([]JsonMap, errortrace
 			limit $1
 		) t
 	`, tableName)
-	fmt.Println(statement)
+	//fmt.Println(statement)
 
 	rows, err := d.SQL.QueryContext(ctx, statement, limit)
 	if err != nil {

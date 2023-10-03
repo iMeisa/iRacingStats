@@ -16,6 +16,7 @@ const LimitMax = 50
 type JsonMap map[string]interface{}
 type UrlQueryMap map[string]string
 
+// stringToJsonMap unmarshals string JSON into a JsonMap
 func stringToJsonMap(jsonString string) (JsonMap, errortrace.ErrorTrace) {
 	var jsonMap JsonMap
 	err := json.Unmarshal([]byte(jsonString), &jsonMap)
@@ -26,6 +27,7 @@ func stringToJsonMap(jsonString string) (JsonMap, errortrace.ErrorTrace) {
 	return jsonMap, errortrace.NilTrace()
 }
 
+// getLimit retrieves limit given by the user and validates it
 func (q UrlQueryMap) getLimit() int {
 
 	// Check if limit query exists
@@ -48,6 +50,7 @@ func (q UrlQueryMap) getLimit() int {
 	return limit
 }
 
+// Query validates and executes api query requested by the user
 func (d *DB) Query(tableName string, queries UrlQueryMap) ([]JsonMap, errortrace.ErrorTrace) {
 	ctx, cancel := context.WithTimeout(context.Background(), 3*time.Second)
 	defer cancel()
@@ -74,8 +77,8 @@ func (d *DB) Query(tableName string, queries UrlQueryMap) ([]JsonMap, errortrace
 		return nil, errortrace.NewTrace(err)
 	}
 
+	// Create a JSON array
 	var results []JsonMap
-
 	for rows.Next() {
 		var result string
 
@@ -92,15 +95,4 @@ func (d *DB) Query(tableName string, queries UrlQueryMap) ([]JsonMap, errortrace
 	}
 
 	return results, errortrace.NilTrace()
-
-	//fmt.Println(results)
-
-	//resultsJson, err := json.Marshal(results)
-	//if err != nil {
-	//	return "", errortrace.NewTrace(err)
-	//}
-	//
-	//fmt.Println(resultsJson)
-	//
-	//return "", errortrace.NilTrace()
 }

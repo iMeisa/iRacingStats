@@ -7,10 +7,12 @@ import (
 	"time"
 )
 
+// validTable checks if tableName provided is an existing table
 func (d *DB) validTable(tableName string) bool {
 	return slices.Contains(d.Tables, tableName)
 }
 
+// queryTableCols gets all columns in a table and their data types
 func (d *DB) queryTableCols(schema, tableName string) (map[string]string, errortrace.ErrorTrace) {
 	ctx, cancel := context.WithTimeout(context.Background(), 3*time.Second)
 	defer cancel()

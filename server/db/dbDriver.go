@@ -71,6 +71,7 @@ func NewDatabase(dbType, connArgs string) (*sql.DB, errortrace.ErrorTrace) {
 	return db, errortrace.NilTrace()
 }
 
+// getTables retrieves all tables in database and stores them in the DB struct
 func (d *DB) getTables() {
 	ctx, cancel := context.WithTimeout(context.Background(), 3*time.Second)
 	defer cancel()

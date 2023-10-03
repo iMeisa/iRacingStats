@@ -41,8 +41,9 @@ func main() {
 		trace.Read()
 		log.Fatal()
 	}
+	// Add connection to API
 	api.DB = dbConnection
-	//Close connection
+	// Close connection on shutdown
 	defer func(SQL *sql.DB) {
 		err := SQL.Close()
 		if err != nil {

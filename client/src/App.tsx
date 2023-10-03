@@ -1,27 +1,34 @@
-
 import './App.css'
-// import {Pill} from "@mantine/core";
+import * as React from 'react';
 import ResponsiveAppBar from "./components/Navbar.tsx";
-import Home from "./pages/Home.tsx";
-import {Route, Routes} from "react-router-dom";
-import About from "./pages/About.tsx";
-import Races from "./pages/Races.tsx";
-import Cars from "./pages/Cars.tsx";
-import Tracks from "./pages/Tracks.tsx";
+import useMediaQuery from '@mui/material/useMediaQuery';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
+import CssBaseline from '@mui/material/CssBaseline';
+import Routes from './components/Routes.tsx';
+
 
 function App() {
 
+    const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)');
+
+    const theme = React.useMemo(
+        () =>
+            createTheme({
+                palette: {
+                    mode: prefersDarkMode ? 'dark' : 'light',
+                },
+            }),
+        [prefersDarkMode],
+    );
 
     return (
         <>
-            <ResponsiveAppBar/>
-            <Routes>
-                <Route path="/" element={<Home />} />
-                <Route path="/races" element={<Races />} />
-                <Route path="/cars" element={<Cars />} />
-                <Route path="/tracks" element={<Tracks />} />
-                <Route path="/about" element={<About />} />
-            </Routes>
+            <ThemeProvider theme={theme}>
+                <CssBaseline />
+                <ResponsiveAppBar/>
+                <Routes />
+
+            </ThemeProvider>
         </>
     )
 }

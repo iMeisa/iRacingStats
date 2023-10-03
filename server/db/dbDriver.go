@@ -78,11 +78,11 @@ func (d *DB) getTables() {
 
 	log.Println("Retrieving tables...")
 
+	// Get all view names
 	statement := `
-		SELECT tablename
-		FROM pg_catalog.pg_tables
-		WHERE schemaname != 'pg_catalog' AND 
-			schemaname != 'information_schema';
+		SELECT table_name
+		FROM information_schema.tables
+		WHERE table_schema = 'public'
 	`
 
 	rows, err := d.SQL.QueryContext(ctx, statement)

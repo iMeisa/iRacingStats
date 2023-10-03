@@ -4,8 +4,32 @@ import (
 	"context"
 	"github.com/iMeisa/errortrace"
 	"slices"
+	"strconv"
 	"time"
 )
+
+func (q UrlQueryMap) validateIntQuery(key string, definedParams intQuery) int {
+
+	// Check if key exists in query
+	val, ok := q[key]
+	if !ok {
+		return definedParams.defaultValue
+	}
+
+	// Check if int
+	param, err := strconv.Atoi(val)
+	if err != nil {
+		return definedParams.defaultValue
+	}
+
+	// Check if not more than max
+	if param > definedParams.maxValue {
+		return definedParams.maxValue
+	}
+
+	return param
+
+}
 
 // validTable checks if tableName provided is an existing table
 func (d *DB) validTable(tableName string) bool {

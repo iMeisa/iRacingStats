@@ -6,15 +6,8 @@ import (
 	"errors"
 	"fmt"
 	"github.com/iMeisa/errortrace"
-	"strconv"
 	"time"
 )
-
-const LimitDefault = 10
-const LimitMax = 50
-
-type JsonMap map[string]interface{}
-type UrlQueryMap map[string]string
 
 // stringToJsonMap unmarshals string JSON into a JsonMap
 func stringToJsonMap(jsonString string) (JsonMap, errortrace.ErrorTrace) {
@@ -27,29 +20,6 @@ func stringToJsonMap(jsonString string) (JsonMap, errortrace.ErrorTrace) {
 	return jsonMap, errortrace.NilTrace()
 }
 
-// getLimit retrieves limit given by the user and validates it
-func (q UrlQueryMap) getLimit() int {
-
-	// Check if limit query exists
-	val, ok := q["limit"]
-	if !ok {
-		return LimitDefault
-	}
-
-	// Check if int
-	limit, err := strconv.Atoi(val)
-	if err != nil {
-		return LimitDefault
-	}
-
-	// Check if not more than max
-	if limit > LimitMax {
-		return LimitMax
-	}
-
-	return limit
-}
-
 // Query validates and executes api query requested by the user
 func (d *DB) Query(tableName string, queries UrlQueryMap) ([]JsonMap, errortrace.ErrorTrace) {
 	ctx, cancel := context.WithTimeout(context.Background(), 3*time.Second)
@@ -60,19 +30,21 @@ func (d *DB) Query(tableName string, queries UrlQueryMap) ([]JsonMap, errortrace
 		return nil, errortrace.NewTrace(errors.New(fmt.Sprintf("invalid table name: %s", tableName)))
 	}
 
-	// Set max limit to LimitMax
-	limit := queries.getLimit()
+	// Validate url queries
+	limit := queries.validateIntQuery("rows", rowCountParams)
+	offset := queries.validateIntQuery("from", offsetParams)
 
+	// SQL query
 	statement := fmt.Sprintf(`
-		select row_to_json(t)
-		from (
-			select * from %s
-			limit $1
+		SELECT row_to_json(t)
+		FROM (
+			SELECT * FROM %s
+			LIMIT $1 OFFSET $2
 		) t
 	`, tableName)
 	//fmt.Println(statement)
 
-	rows, err := d.SQL.QueryContext(ctx, statement, limit)
+	rows, err := d.SQL.QueryContext(ctx, statement, limit, offset)
 	if err != nil {
 		return nil, errortrace.NewTrace(err)
 	}

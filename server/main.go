@@ -3,6 +3,7 @@ package main
 import (
 	"database/sql"
 	"github.com/gofiber/fiber/v2"
+	"github.com/gofiber/fiber/v2/middleware/cors"
 	"github.com/gofiber/template/html/v2"
 	"github.com/iMeisa/errortrace"
 	apiDriver "github.com/iMeisa/iRacingStats/server/api"
@@ -27,6 +28,13 @@ func main() {
 	app := fiber.New(fiber.Config{
 		Views: engine,
 	})
+
+	// Allow cors development
+	app.Use(cors.New(cors.Config{
+		AllowOriginsFunc: func(origin string) bool {
+			return os.Getenv("ENV") == "dev"
+		},
+	}))
 
 	// Configure app
 	app.Static("/", "./client/dist")

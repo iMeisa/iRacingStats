@@ -33,16 +33,18 @@ func (d *DB) Query(tableName string, queries UrlQueryMap) ([]JsonMap, errortrace
 	// Validate url queries
 	limit := queries.validateIntQuery("rows", rowCountParams)
 	offset := queries.validateIntQuery("from", offsetParams)
+	where := queries.createWhereClause(d, tableName)
 
 	// SQL query
 	statement := fmt.Sprintf(`
 		SELECT row_to_json(t)
 		FROM (
 			SELECT * FROM %s
+			%s
 			LIMIT $1 OFFSET $2
 		) t
-	`, tableName)
-	//fmt.Println(statement)
+	`, tableName, where)
+	fmt.Println(statement)
 
 	rows, err := d.SQL.QueryContext(ctx, statement, limit, offset)
 	if err != nil {

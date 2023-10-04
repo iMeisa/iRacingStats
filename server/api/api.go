@@ -21,6 +21,7 @@ func (a *Api) Get(ctx *fiber.Ctx) error {
 	}
 
 	tableName := ctx.Params("table")
+	//fmt.Println(ctx.Queries())
 	query, trace := a.DB.Query(tableName, ctx.Queries())
 	if trace.HasError() {
 		fmt.Println(trace)

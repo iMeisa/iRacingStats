@@ -1,10 +1,6 @@
 import {useEffect, useState} from "react";
 
-import {
-    DataGrid,
-    GridColDef,
-    GridRenderCellParams,
-} from '@mui/x-data-grid';
+import {DataGrid, GridColDef, GridRenderCellParams,} from '@mui/x-data-grid';
 import './Races.css'
 
 
@@ -25,9 +21,10 @@ const columns: GridColDef[] = [
         renderCell: (params: GridRenderCellParams<any, string>) =>
             <a style={{color: 'white'}} href={`/sessions/${params.row.id}`}>{params.value}</a>
     },
+    { field: 'subsession_count', headerName: 'Subsessions', width: 100, align: 'center' },
     { field: 'start_time', headerName: 'Start Time', width: 200 },
     { field: 'track_name', headerName: 'Track', width: 300 },
-    { field: 'config_name', headerName: 'Config', width: 300 },
+    { field: 'config_name', headerName: 'Config', width: 150 },
 ];
 
 export default function Races() {
@@ -35,6 +32,7 @@ export default function Races() {
     const emptyRows: Array<Record<string, unknown>>[] = []
     const [rows, setRows] = useState(emptyRows);
 
+    // Fetch sessions
     useEffect(() => {
         fetch(`http://127.0.0.1:8080/api/sessions?rows=100&from=0`)
             .then((response) => response.json())
@@ -49,6 +47,9 @@ export default function Races() {
                     // Format time to JS date
                     const start_date = new Date( Date.parse(obj['start_time'] as string) )
                     obj['start_time'] = start_date.toLocaleString()
+
+                    // Subsession count
+                    obj['subsession_count'] = (obj['associated_subsession_ids'] as number[]).length
 
                     return obj
                 })

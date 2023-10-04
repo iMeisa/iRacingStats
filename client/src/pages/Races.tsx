@@ -1,12 +1,10 @@
-// async function getSubsessions(): Promise<Array<Record<string, unknown>>> {
-//     return (await fetch('http://127.0.0.1:8080/api/subsessions')).json()
-// }
-
 import {useEffect, useState} from "react";
-// import {TableContainer, Table, TableHead, TableCell} from "@mui/material";
-// import Paper from '@mui/material/Paper';
 
-import {DataGrid, GridColDef, GridRenderCellParams} from '@mui/x-data-grid';
+import {
+    DataGrid,
+    GridColDef,
+    GridRenderCellParams,
+} from '@mui/x-data-grid';
 import './Races.css'
 
 
@@ -20,8 +18,14 @@ const columns: GridColDef[] = [
         sortable: false,
     },
     // { field: 'id', headerName: 'ID', width: 100},
-    { field: 'series_short_name', headerName: 'Series', width: 500 },
-    { field: 'start_time', headerName: 'Start Time', width: 200},
+    {
+        field: 'series_short_name',
+        headerName: 'Series',
+        width: 500,
+        renderCell: (params: GridRenderCellParams<any, string>) =>
+            <a style={{color: 'white'}} href={`/sessions/${params.row.id}`}>{params.value}</a>
+    },
+    { field: 'start_time', headerName: 'Start Time', width: 200 },
     { field: 'track_name', headerName: 'Track', width: 300 },
     { field: 'config_name', headerName: 'Config', width: 300 },
 ];
@@ -38,7 +42,7 @@ export default function Races() {
 
                 // Data formatting here
                 data.map(function (obj: Record<string, unknown>): Record<string, unknown> {
-                    // Rename 'subsession_id' to 'id'
+                    // Rename 'session_id' to 'id'
                     obj['id'] = obj['session_id']
                     delete obj['session_id']
 
@@ -55,9 +59,12 @@ export default function Races() {
 
     return (
         <>
-            <h1>Races</h1>
+            <h1>💀Races💀</h1>
+            {/*<h1>💀</h1>*/}
+            {/*<h1 className={"fuelvine-ad"}>DOWNLOAD FUELVINE NOW!!!!!!!!!!!!!!!!!!!!!!</h1>*/}
             <div className={"data-grid"}>
                 <DataGrid
+                    sx={{color: 'white'}}
                     rows={rows}
                     columns={columns}
                     initialState={{

@@ -48,7 +48,7 @@ export default function Sessions() {
 
     // Fetch session
     useEffect(() => {
-        fetch(`http://127.0.0.1:8080/api/subsessions_view?session_id=${id}`)
+        fetch(`http://127.0.0.1:8080/api/subsessions_view?rows=100&session_id=${id}`)
             .then((response) => response.json())
             .then((data: Record<string, unknown>[]) => {
                 console.log(data)

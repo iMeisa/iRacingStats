@@ -34,9 +34,10 @@ export default function Races() {
 
     // Fetch sessions
     useEffect(() => {
-        fetch(`http://127.0.0.1:8080/api/sessions?rows=100&from=0`)
+        fetch(`http://127.0.0.1:8080/api/sessions?rows=100`)
             .then((response) => response.json())
             .then((data: Record<string, unknown>[]) => {
+                console.log(data)
 
                 // Data formatting here
                 data.map(function (obj: Record<string, unknown>): Record<string, unknown> {

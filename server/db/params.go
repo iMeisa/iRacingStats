@@ -5,7 +5,7 @@ import "math"
 // rowCountParams defines params for LIMIT
 var rowCountParams = intQuery{
 	defaultValue: 10,
-	maxValue:     50,
+	maxValue:     500,
 }
 
 // offsetParams defines params for OFFSET

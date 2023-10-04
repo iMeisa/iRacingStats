@@ -1,4 +1,6 @@
 .data-grid {
     margin: 0 10%;
     color: white;
+    height: 70vh;
+    max-height: 40em;
 }

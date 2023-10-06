@@ -44,7 +44,7 @@ func (d *DB) Query(tableName string, queries UrlQueryMap) ([]JsonMap, errortrace
 			LIMIT $1 OFFSET $2
 		) t
 	`, tableName, where)
-	fmt.Println(statement)
+	//fmt.Println(statement)
 
 	rows, err := d.SQL.QueryContext(ctx, statement, limit, offset)
 	if err != nil {

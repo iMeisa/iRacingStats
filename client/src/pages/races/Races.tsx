@@ -1,7 +1,8 @@
 import {useEffect, useState} from "react";
 
-import {DataGrid, GridColDef, GridRenderCellParams,} from '@mui/x-data-grid';
-import './Races.css'
+import {DataGrid, GridColDef, GridPaginationModel, GridRenderCellParams,} from '@mui/x-data-grid';
+import '../Races.css'
+import {LinearProgress} from "@mui/material";
 
 
 const columns: GridColDef[] = [
@@ -10,7 +11,7 @@ const columns: GridColDef[] = [
         headerName: '',
         width: 75,
         renderCell: (params: GridRenderCellParams<any, string>) =>
-            <img src={"https://images-static.iracing.com/img/logos/series/"+params.value}  alt="logo" width={60}/>,
+            <img src={"https://images-static.iracing.com/img/logos/series/"+params.value}  alt="logo" width={65}/>,
         sortable: false,
     },
     // { field: 'id', headerName: 'ID', width: 100},
@@ -19,7 +20,7 @@ const columns: GridColDef[] = [
         headerName: 'Series',
         width: 500,
         renderCell: (params: GridRenderCellParams<any, string>) =>
-            <a style={{color: 'white'}} href={`/sessions/${params.row.id}`}>{params.value}</a>
+            <a style={{color: 'white', textDecoration: 'underline', fontStyle: 'italic'}} href={`/sessions/${params.row.id}`}>{params.value}</a>
     },
     { field: 'subsession_count', headerName: 'Subsessions', width: 100, align: 'center' },
     { field: 'start_time', headerName: 'Start Time', width: 200 },
@@ -27,13 +28,24 @@ const columns: GridColDef[] = [
     { field: 'config_name', headerName: 'Config', width: 150 },
 ];
 
+
+
 export default function Races() {
 
     const emptyRows: Array<Record<string, unknown>>[] = []
     const [rows, setRows] = useState(emptyRows);
 
+    const [loading, setLoading] = useState(true)
+
+    const [retrieveRows, setRetrieveRows] = useState(true)
+
     // Fetch sessions
     useEffect(() => {
+
+        // Only fetch if set to retrieve rows
+        if (!retrieveRows) return
+
+        setLoading(true)
         fetch(`http://127.0.0.1:8080/api/sessions?rows=100`)
             .then((response) => response.json())
             .then((data: Record<string, unknown>[]) => {
@@ -56,16 +68,23 @@ export default function Races() {
                 })
 
                 setRows(rows.concat(data))
+
+                setLoading(false)
+                setRetrieveRows(false)
             })
-    }, [])
+    }, [retrieveRows])
 
     return (
         <>
-            <h1>💀Races💀</h1>
+            <h1>Races</h1>
             {/*<h1>💀</h1>*/}
             {/*<h1 className={"fuelvine-ad"}>DOWNLOAD FUELVINE NOW!!!!!!!!!!!!!!!!!!!!!!</h1>*/}
             <div className={"data-grid"}>
                 <DataGrid
+                    slots={{
+                        loadingOverlay: LinearProgress,
+                    }}
+                    loading={loading}
                     sx={{color: 'white'}}
                     rows={rows}
                     columns={columns}
@@ -75,8 +94,18 @@ export default function Races() {
                         },
                     }}
                     pageSizeOptions={[10, 25]}
+                    onPaginationModelChange={(model) => setRetrieveRows(changeRows(model, rows.length))}
                 />
             </div>
         </>
     )
+}
+
+function changeRows(model: GridPaginationModel, rowCount: number): boolean {
+    const totalPages = rowCount / model.pageSize
+    const pagesLeft = totalPages - model.page
+
+    console.log(pagesLeft)
+
+    return pagesLeft <= 1;
 }

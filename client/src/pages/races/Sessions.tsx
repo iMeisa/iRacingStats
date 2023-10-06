@@ -1,4 +1,3 @@
-
 import {useParams} from "react-router-dom";
 import {DataGrid, GridColDef} from "@mui/x-data-grid";
 import {useEffect, useState} from "react";
@@ -76,12 +75,10 @@ export default function Sessions() {
                     const start_date = new Date( Date.parse(obj['start_time'] as string) )
                     obj['start_time'] = start_date.toLocaleString()
 
-                    // Milliseconds to elapsed time
-                    const date = new Date(0);
-                    date.setMilliseconds(obj['event_average_lap'] as number / 10); // specify value for SECONDS here
-                    const averageLap = date.toISOString().substring(14, 23);
-                    console.log(averageLap)
-                    obj['average_lap'] = averageLap
+                    // Tenths of milliseconds to elapsed time
+                    const date = new Date(0)
+                    date.setMilliseconds(obj['event_average_lap'] as number / 10)
+                    obj['average_lap'] = date.toISOString().substring(14, 23)
 
                     return obj
                 })

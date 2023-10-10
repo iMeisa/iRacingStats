@@ -11,6 +11,8 @@ import (
 
 func (q UrlQueryMap) createWhereClause(db *DB, tableName string) string {
 
+	specialCharacters := []string{"~", ">", "<"}
+
 	columns, trace := db.queryTableCols("public", tableName)
 	if trace.HasError() {
 		trace.Read()
@@ -28,6 +30,13 @@ func (q UrlQueryMap) createWhereClause(db *DB, tableName string) string {
 
 	for key, value := range q {
 
+		// Check for special characters
+		finalCharacter := string(key[len(key)-1])
+		// If final character exists, check if column is valid without the final character
+		if slices.Contains(specialCharacters, finalCharacter) {
+			key = key[:len(key)-1]
+		}
+
 		// Guard clauses
 		// Skip if column isn't valid
 		if !slices.Contains(columnNames, key) {
@@ -38,7 +47,13 @@ func (q UrlQueryMap) createWhereClause(db *DB, tableName string) string {
 			continue
 		}
 
-		param := fmt.Sprintf("%s=%s", key, value)
+		var param string
+		switch finalCharacter {
+		case "~":
+			param = fmt.Sprintf(`%s ilike '%%%s%%'`, key, value)
+		default:
+			param = fmt.Sprintf("%s=%s", key, value)
+		}
 
 		//fmt.Printf("Is %s a valid column? %v", key, slices.Contains(columnNames, key))
 		clause = fmt.Sprint(clause, " ", param)

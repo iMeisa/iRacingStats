@@ -21,8 +21,8 @@ const columns: GridColDef[] = [
     {
         field: 'use_count',
         headerName: 'Use Count',
-        width: 90,
-        align: 'center',
+        flex: 1,
+        // align: 'center',
     },
     // {
     //     field: 'series_short_name',
@@ -71,7 +71,7 @@ export default function Cars() {
     return (
         <>
             {/*<h1>Cars</h1>*/}
-            <Box sx={{ width: '100%', px: 30, mt: 10 }}>
+            <Box className={"container"} sx={{ width: '100%'}}>
                 <TabContext value={value}>
                     <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
                         <TabList onChange={handleChange} aria-label="lab API tabs example" centered>

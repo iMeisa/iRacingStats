@@ -5,6 +5,11 @@
   text-align: center;
 }
 
+.container {
+  margin: 0 10%;
+  max-width: 80vw;
+}
+
 .data-grid {
   margin: 0 10%;
   color: white;

@@ -10,6 +10,10 @@
   max-width: 80vw;
 }
 
+.small-container {
+  width: 30em;
+}
+
 .data-grid {
   margin: 0 10%;
   color: white;

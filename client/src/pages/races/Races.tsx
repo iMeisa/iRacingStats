@@ -8,7 +8,7 @@ import {LinearProgress} from "@mui/material";
 const columns: GridColDef[] = [
     {
         field: 'series_logo',
-        headerName: '',
+        headerName: 'Series',
         width: 75,
         renderCell: (params: GridRenderCellParams<any, string>) =>
             <img src={"https://images-static.iracing.com/img/logos/series/"+params.value}  alt="logo" width={65}/>,
@@ -17,10 +17,11 @@ const columns: GridColDef[] = [
     // { field: 'id', headerName: 'ID', width: 100},
     {
         field: 'series_short_name',
-        headerName: 'Series',
+        headerName: '',
+        headerAlign: 'center',
         width: 500,
         renderCell: (params: GridRenderCellParams<any, string>) =>
-            <a style={{color: 'white', textDecoration: 'underline', fontStyle: 'italic'}} href={`/sessions/${params.row.id}`}>{params.value}</a>
+            <a style={{ textDecoration: 'underline', fontStyle: 'italic'}} href={`/sessions/${params.row.id}`}>{params.value}</a>
     },
     { field: 'subsession_count', headerName: 'Subsessions', width: 100, align: 'center' },
     { field: 'start_time', headerName: 'Start Time', width: 200 },
@@ -38,6 +39,12 @@ export default function Races() {
     const [loading, setLoading] = useState(true)
 
     const [retrieveRows, setRetrieveRows] = useState(true)
+
+    // Column defaults
+    columns.map((col) => {
+        col.hideSortIcons = true
+        // col.headerClassName = 'data-header'
+    })
 
     // Fetch sessions
     useEffect(() => {
@@ -86,7 +93,7 @@ export default function Races() {
                         loadingOverlay: LinearProgress,
                     }}
                     loading={loading}
-                    sx={{color: 'white'}}
+                    // sx={{color: 'white'}}
                     rows={rows}
                     columns={columns}
                     initialState={{

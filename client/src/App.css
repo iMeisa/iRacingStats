@@ -17,6 +17,10 @@
   max-height: 40em;
 }
 
+.data-header {
+  background-color: midnightblue;
+}
+
 .logo {
   height: 6em;
   padding: 1.5em;

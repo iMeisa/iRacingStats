@@ -46,7 +46,7 @@ export default function Races() {
         if (!retrieveRows) return
 
         setLoading(true)
-        fetch(`http://127.0.0.1:8080/api/sessions?rows=100`)
+        fetch(`http://127.0.0.1:8080/api/sessions?rows=100&from=${rows.length}`)
             .then((response) => response.json())
             .then((data: Record<string, unknown>[]) => {
                 console.log(data)

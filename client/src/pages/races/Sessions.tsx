@@ -1,6 +1,7 @@
 import {useParams} from "react-router-dom";
 import {DataGrid, GridColDef} from "@mui/x-data-grid";
 import {useEffect, useState} from "react";
+import {LinearProgress} from "@mui/material";
 
 function sortSubsessions(subsessions: Record<string, unknown>[]): Record<string, unknown>[] {
     subsessions.sort((a,b) => (b.event_strength_of_field as number) - (a.event_strength_of_field as number))
@@ -45,6 +46,8 @@ export default function Sessions() {
     const emptySession: Record<string, unknown> = {}
     const [session, setSession] = useState(emptySession)
 
+    const [loading, setLoading] = useState(true)
+
     // Fetch session
     useEffect(() => {
         fetch(`http://127.0.0.1:8080/api/subsessions_view?rows=100&session_id=${id}`)
@@ -52,13 +55,6 @@ export default function Sessions() {
             .then((data: Record<string, unknown>[]) => {
                 console.log(data)
                 setSession(data[0])
-                // console.log(session)
-
-
-                // let series_name = data[0].series_short_name as string
-                // if (series_name === "Mission R Challenge - Fixed") {
-                //     data[0]['series_short_name'] = series_name + "💀"
-                // }
 
                 sortSubsessions(data)
 
@@ -84,6 +80,7 @@ export default function Sessions() {
                 })
 
                 setRows(data)
+                setLoading(false)
             })
     }, [])
 
@@ -95,6 +92,10 @@ export default function Sessions() {
                 <div className={"data-grid"}>
                     <DataGrid
                         sx={{color: 'white'}}
+                        slots={{
+                            loadingOverlay: LinearProgress,
+                        }}
+                        loading={loading}
                         rows={rows}
                         columns={columns}
                         initialState={{

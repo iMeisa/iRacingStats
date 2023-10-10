@@ -1,7 +1,7 @@
 import {useEffect, useState} from "react";
 
 import {DataGrid, GridColDef, GridPaginationModel, GridRenderCellParams,} from '@mui/x-data-grid';
-import '../Races.css'
+import './Races.css'
 import {LinearProgress} from "@mui/material";
 
 
@@ -32,7 +32,7 @@ const columns: GridColDef[] = [
 
 export default function Races() {
 
-    const emptyRows: Array<Record<string, unknown>>[] = []
+    const emptyRows: Record<string, unknown>[] = []
     const [rows, setRows] = useState(emptyRows);
 
     const [loading, setLoading] = useState(true)
@@ -76,11 +76,12 @@ export default function Races() {
 
     return (
         <>
-            <h1>Races</h1>
+            <h2>Races</h2>
             {/*<h1>💀</h1>*/}
             {/*<h1 className={"fuelvine-ad"}>DOWNLOAD FUELVINE NOW!!!!!!!!!!!!!!!!!!!!!!</h1>*/}
             <div className={"data-grid"}>
                 <DataGrid
+                    autoHeight
                     slots={{
                         loadingOverlay: LinearProgress,
                     }}

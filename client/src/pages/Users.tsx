@@ -1,6 +1,6 @@
 import {LinearProgress, TextField} from "@mui/material";
 import Box from "@mui/material/Box";
-import React, {useEffect, useState} from "react";
+import {useEffect, useState} from "react";
 import { useSearchParams} from "react-router-dom";
 import {DataGrid, GridColDef} from "@mui/x-data-grid";
 
@@ -20,40 +20,56 @@ export default function Users() {
     const emptyRows: Record<string, unknown>[] = []
     const [rows, setRows] = useState(emptyRows);
 
-    const [loading, setLoading] = useState(true)
+    const [loading, setLoading] = useState(false)
 
     const [searchParams, setSearchParams] = useSearchParams({name: ""})
     const name = searchParams.get("name")
 
+    // Fetch on name change
     useEffect(() => {
 
         console.log(name)
-        if (name === null || name === "") {
+        if (name === null || name === "" || name.length < 2) {
             setRows(emptyRows)
+            setLoading(false)
             return
         }
-
         setLoading(true)
+
+        // Continue after delay is done
         const url = `http://127.0.0.1:8080/api/customers?display_name~=${name.replace('+', ' ')}`
         console.log(url)
-        fetch(url)
-            .then((response) => response.json())
-            .then((data: Record<string, unknown>[]) => {
-                console.log(data)
+        const delayedFetch = setTimeout(() => {
+            fetch(url)
+                .then((response) => response.json())
+                .then((data: Record<string, unknown>[]) => {
+                    console.log(data)
 
-                // Data formatting here
-                data.map(function (obj: Record<string, unknown>): Record<string, unknown> {
-                    // Rename 'session_id' to 'id'
-                    obj['id'] = obj['cust_id']
-                    delete obj['cust_id']
+                    if (data === null) {
+                        setRows(emptyRows)
+                        return
+                    }
 
-                    return obj
+                    // Data formatting here
+                    data.map(function (obj: Record<string, unknown>): Record<string, unknown> {
+                        // Rename 'session_id' to 'id'
+                        obj['id'] = obj['cust_id']
+                        delete obj['cust_id']
+
+                        return obj
+                    })
+
+                    setRows(data)
+                })
+                .finally(() => {
+                    setLoading(false)
                 })
 
-                setRows(data)
-                setLoading(false)
-            })
+        }, 500)
+
+        return () => clearTimeout(delayedFetch)
     }, [name]);
+
 
     return (
         <>
@@ -92,8 +108,8 @@ export default function Users() {
                                 paginationModel: { page: 0, pageSize: 10 },
                             },
                         }}
-                        pageSizeOptions={[10, 25]}
-                        // onPaginationModelChange={(model) => setRetrieveRows(changeRows(model, rows.length))}
+                        pageSizeOptions={[10]}
+
                     />
 
                 </Box>

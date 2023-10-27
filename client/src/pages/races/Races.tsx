@@ -23,10 +23,9 @@ const columns: GridColDef[] = [
         renderCell: (params: GridRenderCellParams<any, string>) =>
             <a style={{ textDecoration: 'underline', fontStyle: 'italic'}} href={`/sessions/${params.row.id}`}>{params.value}</a>
     },
-    { field: 'subsession_count', headerName: 'Subsessions', width: 100, align: 'center' },
-    { field: 'start_time', headerName: 'Start Time', width: 200 },
-    { field: 'track_name', headerName: 'Track', width: 300 },
-    { field: 'config_name', headerName: 'Config', width: 150 },
+    { field: 'subsession_count', headerName: 'Splits', width: 100, align: 'center', headerAlign: 'center' },
+    { field: 'end_time', headerName: 'End Time', width: 200 },
+    { field: 'track', headerName: 'Track', flex: 1 },
 ];
 
 
@@ -43,6 +42,7 @@ export default function Races() {
     // Column defaults
     columns.map((col) => {
         col.hideSortIcons = true
+        col.sortable = false
         // col.headerClassName = 'data-header'
     })
 
@@ -53,7 +53,7 @@ export default function Races() {
         if (!retrieveRows) return
 
         setLoading(true)
-        fetch(`http://127.0.0.1:8080/api/sessions?rows=100&from=${rows.length}`)
+        fetch(`http://127.0.0.1:8080/api/session_view?rows=500&from=${rows.length}`)
             .then((response) => response.json())
             .then((data: Record<string, unknown>[]) => {
                 console.log(data)
@@ -65,11 +65,11 @@ export default function Races() {
                     delete obj['session_id']
 
                     // Format time to JS date
-                    const start_date = new Date( Date.parse(obj['start_time'] as string) )
-                    obj['start_time'] = start_date.toLocaleString()
+                    const start_date = new Date( obj['end_time'] as number * 1000 )
+                    obj['end_time'] = start_date.toLocaleString()
 
-                    // Subsession count
-                    obj['subsession_count'] = (obj['associated_subsession_ids'] as number[]).length
+                    // Tracks
+                    obj['track'] = obj['track_config'] === '' ? obj['track_name'] : `${obj['track_name']} - ${obj['track_config']}`
 
                     return obj
                 })
@@ -84,6 +84,7 @@ export default function Races() {
     return (
         <>
             <h2>Races</h2>
+            <p style={{color: 'lightgrey'}}>Last 24 Hours</p>
             {/*<h1>💀</h1>*/}
             {/*<h1 className={"fuelvine-ad"}>DOWNLOAD FUELVINE NOW!!!!!!!!!!!!!!!!!!!!!!</h1>*/}
             <div className={"data-grid"}>

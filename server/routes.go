@@ -10,8 +10,6 @@ func home(ctx *fiber.Ctx) error {
 
 func Routes(router fiber.Router) {
 
-	router.Get("/:page", home)
-
 	router.Route("/api", func(router fiber.Router) {
 
 		// API GET routes
@@ -21,4 +19,6 @@ func Routes(router fiber.Router) {
 		//router.Post("/{api-post}/{action}", api.Post)
 
 	})
+
+	router.Get("/:page/*", home)
 }

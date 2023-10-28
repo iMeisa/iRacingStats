@@ -206,8 +206,6 @@ func (d *DB) Subsessions(sessionId int) []models.Subsession {
 		subsessions = append(subsessions, subsession)
 	}
 
-	fmt.Println(subsessions)
-
 	return subsessions
 
 }

@@ -16,6 +16,7 @@ def update():
 
     print('--- building client')
     os.chdir('client')
+    os.system('yarn install')
     os.system('yarn build')
 
     print('--- restarting supervisor')

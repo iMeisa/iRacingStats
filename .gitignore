@@ -3,6 +3,7 @@ static/js/*
 .env
 *.yml
 *.pickle
+*.log
 client/node_modules/
 client/dist/
 scripts/

@@ -11,9 +11,10 @@ def update():
     print('--- git pull')
     os.system('git pull')
 
-    print('--- building go project')
+    print('--- building server')
     os.system(f'go build -o {EXE_NAME} server/*.go')
 
+    print('--- building client')
     os.chdir('client')
     os.system('yarn build')
 

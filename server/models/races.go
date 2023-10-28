@@ -10,4 +10,12 @@ type Session struct {
 }
 
 type Subsession struct {
+	Id              int    `json:"id"`
+	StrengthOfField int    `json:"strength_of_field"`
+	FieldSize       int    `json:"field_size"`
+	AverageLap      int    `json:"average_lap"`
+	LeadChanges     int    `json:"lead_changes"`
+	Cautions        int    `json:"cautions"`
+	SeriesLogo      string `json:"series_logo"`
+	SeriesName      string `json:"series_name"`
 }

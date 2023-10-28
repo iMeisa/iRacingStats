@@ -153,3 +153,61 @@ func (d *DB) Sessions() []models.Session {
 
 	return sessions
 }
+
+func (d *DB) Subsessions(sessionId int) []models.Subsession {
+	ctx, cancel := context.WithTimeout(context.Background(), 3*time.Second)
+	defer cancel()
+
+	statement := `
+		SELECT subsession_id,
+			   event_strength_of_field,
+			   series_logo,
+			   series_short_name,
+			   count(subsession_id) AS field_size,
+			   event_average_lap,
+			   num_lead_changes,
+			   num_cautions
+		from subsessions
+		JOIN sessions USING (session_id)
+		JOIN seasons USING (season_id)
+		JOIN series USING (series_id)
+		JOIN results USING (subsession_id)
+		WHERE session_id = $1 AND simsession_number=0
+		GROUP BY subsession_id, event_strength_of_field, series_logo, series_short_name
+		ORDER BY event_strength_of_field DESC
+	`
+
+	var subsessions []models.Subsession
+
+	rows, err := d.SQL.QueryContext(ctx, statement, sessionId)
+	if err != nil {
+		log.Println("error querying db/sessions: ", err)
+		return subsessions
+	}
+
+	for rows.Next() {
+
+		var subsession models.Subsession
+		err = rows.Scan(
+			&subsession.Id,
+			&subsession.StrengthOfField,
+			&subsession.SeriesLogo,
+			&subsession.SeriesName,
+			&subsession.FieldSize,
+			&subsession.AverageLap,
+			&subsession.LeadChanges,
+			&subsession.Cautions,
+		)
+		if err != nil {
+			log.Println("error scanning session rows: ", err)
+			return nil
+		}
+
+		subsessions = append(subsessions, subsession)
+	}
+
+	fmt.Println(subsessions)
+
+	return subsessions
+
+}

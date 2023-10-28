@@ -98,6 +98,10 @@ export default function Races() {
                         pagination: {
                             paginationModel: { page: 0, pageSize: 10 },
                         },
+
+                        sorting: {
+                            sortModel: [{field: 'end_time', sort: 'desc'}],
+                        }
                     }}
                     pageSizeOptions={[10, 25]}
                     onPaginationModelChange={(model) => setRetrieveRows(changeRows(model, rows.length))}

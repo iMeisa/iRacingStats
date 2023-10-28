@@ -4,6 +4,8 @@ import (
 	"fmt"
 	"github.com/gofiber/fiber/v2"
 	"github.com/iMeisa/iRacingStats/server/db"
+	"log"
+	"strconv"
 )
 
 type Api struct {
@@ -29,6 +31,16 @@ func (a *Api) Get(ctx *fiber.Ctx) error {
 	case "sessions":
 		fmt.Println("api/sessions")
 		query = a.DB.Sessions()
+
+	case "session":
+
+		sessionId, err := strconv.Atoi(ctx.Query("session_id"))
+		if err != nil {
+			log.Println("parsing session_id: ", err)
+		}
+
+		query = a.DB.Subsessions(sessionId)
+
 	default:
 		query, _ = a.DB.Query(tableName, ctx.Queries())
 	}

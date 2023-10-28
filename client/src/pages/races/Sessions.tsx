@@ -2,6 +2,7 @@ import {useParams} from "react-router-dom";
 import {DataGrid, GridColDef} from "@mui/x-data-grid";
 import {useEffect, useState} from "react";
 import {LinearProgress} from "@mui/material";
+import CurrentUrl from "../../variables/Url.ts";
 
 function sortSubsessions(subsessions: Record<string, unknown>[]): Record<string, unknown>[] {
     subsessions.sort((a,b) => (b.event_strength_of_field as number) - (a.event_strength_of_field as number))
@@ -19,11 +20,11 @@ const columns: GridColDef[] = [
     //     sortable: false,
     // },
     { field: 'split', headerName: 'Split', headerAlign: 'center', align: 'center' },
-    { field: 'event_strength_of_field', headerName: 'Strength Of Field', flex: 1, headerAlign: 'center', align: 'center'},
+    { field: 'strength_of_field', headerName: 'Strength Of Field', flex: 1, headerAlign: 'center', align: 'center'},
     { field: 'field_size', headerName: 'Field Size', flex: 1, headerAlign: 'center', align: 'center' },
     { field: 'average_lap', headerName: 'Average Lap', flex: 1, headerAlign: 'center', align: 'center' },
-    { field: 'num_lead_changes', headerName: 'Lead Changes', flex: 1, headerAlign: 'center', align: 'center' },
-    { field: 'num_cautions', headerName: 'Cautions', flex: 1, headerAlign: 'center', align: 'center' },
+    { field: 'lead_changes', headerName: 'Lead Changes', flex: 1, headerAlign: 'center', align: 'center' },
+    { field: 'cautions', headerName: 'Cautions', flex: 1, headerAlign: 'center', align: 'center' },
     { field: 'id', headerName: 'ID', headerAlign: 'center', align: 'right'},
     // {
     //     field: 'series_short_name',
@@ -50,7 +51,8 @@ export default function Sessions() {
 
     // Fetch session
     useEffect(() => {
-        fetch(`http://127.0.0.1:8080/api/subsessions_view?rows=100&session_id=${id}`)
+        const url = `${CurrentUrl()}/api/session?session_id=${id}`
+        fetch(url)
             .then((response) => response.json())
             .then((data: Record<string, unknown>[]) => {
                 console.log(data)
@@ -63,17 +65,9 @@ export default function Sessions() {
                     // Add split numbers
                     obj["split"] = index+1
 
-                    // Rename 'subsession_id' to 'id'
-                    obj['id'] = obj['subsession_id']
-                    delete obj['subsession_id']
-
-                    // Format time to JS date
-                    const start_date = new Date( Date.parse(obj['start_time'] as string) )
-                    obj['start_time'] = start_date.toLocaleString()
-
                     // Tenths of milliseconds to elapsed time
                     const date = new Date(0)
-                    date.setMilliseconds(obj['event_average_lap'] as number / 10)
+                    date.setMilliseconds(obj['average_lap'] as number / 10)
                     obj['average_lap'] = date.toISOString().substring(14, 23)
 
                     return obj

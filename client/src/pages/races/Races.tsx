@@ -54,8 +54,8 @@ export default function Races() {
         if (!retrieveRows) return
 
         setLoading(true)
-        const url = `${CurrentUrl()}/api/session_view?rows=500&from=${rows.length}`
-        console.log(url)
+        const url = `${CurrentUrl()}/api/sessions?rows=500&from=${rows.length}`
+        // console.log(url)
         fetch(url)
             .then((response) => response.json())
             .then((data: Record<string, unknown>[]) => {
@@ -63,16 +63,10 @@ export default function Races() {
 
                 // Data formatting here
                 data.map(function (obj: Record<string, unknown>): Record<string, unknown> {
-                    // Rename 'session_id' to 'id'
-                    obj['id'] = obj['session_id']
-                    delete obj['session_id']
 
                     // Format time to JS date
                     const start_date = new Date( obj['end_time'] as number * 1000 )
                     obj['end_time'] = start_date.toLocaleString()
-
-                    // Tracks
-                    obj['track'] = obj['track_config'] === '' ? obj['track_name'] : `${obj['track_name']} - ${obj['track_config']}`
 
                     return obj
                 })

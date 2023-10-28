@@ -16,17 +16,21 @@ type jsonResponse struct {
 }
 
 func (a *Api) Get(ctx *fiber.Ctx) error {
-	resp := jsonResponse{
-		Ok: false,
-	}
+	//resp := jsonResponse{
+	//	Ok: false,
+	//}
 
 	tableName := ctx.Params("table")
 	//fmt.Println(ctx.Queries())
-	query, trace := a.DB.Query(tableName, ctx.Queries())
-	if trace.HasError() {
-		fmt.Println(trace)
-		resp.Msg = trace.ErrorString()
-		return ctx.JSON(resp)
+
+	var query interface{}
+
+	switch tableName {
+	case "sessions":
+		fmt.Println("api/sessions")
+		query = a.DB.Sessions()
+	default:
+		query, _ = a.DB.Query(tableName, ctx.Queries())
 	}
 
 	return ctx.JSON(query)

@@ -6,6 +6,8 @@ import (
 	"errors"
 	"fmt"
 	"github.com/iMeisa/errortrace"
+	"github.com/iMeisa/iRacingStats/server/models"
+	"log"
 	"time"
 )
 
@@ -18,6 +20,21 @@ func stringToJsonMap(jsonString string) (JsonMap, errortrace.ErrorTrace) {
 	}
 
 	return jsonMap, errortrace.NilTrace()
+}
+
+func (d *DB) LatestSubsessionTime() int {
+	ctx, cancel := context.WithTimeout(context.Background(), 3*time.Second)
+	defer cancel()
+
+	row := d.SQL.QueryRowContext(ctx, "SELECT max(end_time) FROM subsessions")
+
+	var latestTime int
+	err := row.Scan(&latestTime)
+	if err != nil {
+		return 0
+	}
+
+	return latestTime
 }
 
 // Query validates and executes api query requested by the user
@@ -69,4 +86,70 @@ func (d *DB) Query(tableName string, queries UrlQueryMap) ([]JsonMap, errortrace
 	}
 
 	return results, errortrace.NilTrace()
+}
+
+func (d *DB) Sessions() []models.Session {
+	ctx, cancel := context.WithTimeout(context.Background(), 3*time.Second)
+	defer cancel()
+
+	fmt.Println("db/sessions")
+
+	statement := `
+		SELECT session_id,
+			   series_logo,
+			   series_short_name,
+			   max(end_time) as end_time,
+			   count(session_id),
+			   track_name,
+			   config_name
+		FROM sessions s
+		join subsessions sb using (session_id)
+		join seasons se using (season_id)
+		join series sr using (series_id)
+		join race_weeks using (season_id, race_week_num)
+		join tracks using (track_id)
+		where end_time > ((select max(end_time) from subsessions)::integer - 86400)
+		group by session_id, series_logo, series_short_name, track_name, config_name
+		order by session_id desc
+	`
+
+	//d.LatestSubsessionTime()-int(24*time.Hour/time.Second)
+
+	var sessions []models.Session
+
+	rows, err := d.SQL.QueryContext(ctx, statement)
+	if err != nil {
+		log.Println("error querying db/sessions: ", err)
+		return sessions
+	}
+
+	for rows.Next() {
+
+		var session models.Session
+		var trackName string
+		var trackConfig string
+		err = rows.Scan(
+			&session.SessionId,
+			&session.SeriesLogo,
+			&session.SeriesShortName,
+			&session.EndTime,
+			&session.SubsessionCount,
+			&trackName,
+			&trackConfig,
+		)
+		if err != nil {
+			log.Println("error scanning session rows: ", err)
+			return nil
+		}
+
+		session.Track = trackName
+
+		if trackConfig != "" {
+			session.Track += " - " + trackConfig
+		}
+
+		sessions = append(sessions, session)
+	}
+
+	return sessions
 }

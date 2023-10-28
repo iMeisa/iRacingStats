@@ -3,6 +3,7 @@ import {useEffect, useState} from "react";
 import {DataGrid, GridColDef, GridPaginationModel, GridRenderCellParams,} from '@mui/x-data-grid';
 import './Races.css'
 import {LinearProgress} from "@mui/material";
+import CurrentUrl from "../../variables/Url.ts";
 
 
 const columns: GridColDef[] = [
@@ -53,7 +54,9 @@ export default function Races() {
         if (!retrieveRows) return
 
         setLoading(true)
-        fetch(`http://127.0.0.1:8080/api/session_view?rows=500&from=${rows.length}`)
+        const url = `${CurrentUrl()}/api/session_view?rows=500&from=${rows.length}`
+        console.log(url)
+        fetch(url)
             .then((response) => response.json())
             .then((data: Record<string, unknown>[]) => {
                 console.log(data)

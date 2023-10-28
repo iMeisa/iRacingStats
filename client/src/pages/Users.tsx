@@ -3,6 +3,7 @@ import Box from "@mui/material/Box";
 import {useEffect, useState} from "react";
 import { useSearchParams} from "react-router-dom";
 import {DataGrid, GridColDef} from "@mui/x-data-grid";
+import CurrentUrl from "../variables/Url.ts";
 
 const columns: GridColDef[] = [
     {
@@ -37,8 +38,8 @@ export default function Users() {
         setLoading(true)
 
         // Continue after delay is done
-        const url = `http://127.0.0.1:8080/api/customers?display_name~=${name.replace('+', ' ')}`
-        console.log(url)
+        const url = `${CurrentUrl()}/api/customers?display_name~=${name.replace('+', ' ')}`
+        // console.log(url)
         const delayedFetch = setTimeout(() => {
             fetch(url)
                 .then((response) => response.json())

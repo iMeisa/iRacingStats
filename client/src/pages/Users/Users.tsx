@@ -3,7 +3,7 @@ import Box from "@mui/material/Box";
 import {useEffect, useState} from "react";
 import { useSearchParams} from "react-router-dom";
 import {DataGrid, GridColDef} from "@mui/x-data-grid";
-import CurrentUrl from "../variables/Url.ts";
+import CurrentUrl from "../../variables/Url.ts";
 
 const columns: GridColDef[] = [
     {
@@ -98,6 +98,10 @@ export default function Users() {
                         initialState={{
                             pagination: {
                                 paginationModel: { page: 0, pageSize: 10 },
+                            },
+
+                            sorting: {
+                                sortModel: [{field: 'display_name', sort: 'asc'}],
                             },
                         }}
                         pageSizeOptions={[10]}

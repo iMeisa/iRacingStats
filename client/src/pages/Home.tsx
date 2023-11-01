@@ -1,7 +1,7 @@
 import viteLogo from "../assets/vite.svg";
 import reactLogo from "../assets/react.svg";
 import {useEffect, useState} from "react";
-import UnixToDate from "../functions/date/UnixToDate.ts";
+import {UnixToDate, UnixToDateTime} from "../functions/date/UnixToDate.ts";
 import CurrentUrl from "../variables/Url.ts";
 
 export default function Home() {
@@ -31,7 +31,7 @@ export default function Home() {
             <h1>Vite + React</h1>
 
             <h3>Data Range</h3>
-            <p>{UnixToDate(minTime)} - {UnixToDate(maxTime)}</p>
+            <p>{UnixToDate(minTime)} - {UnixToDateTime(maxTime)}</p>
         </>
     )
 }

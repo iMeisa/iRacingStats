@@ -6,7 +6,7 @@ import Races from "../pages/races/Races.tsx";
 import Sessions from "../pages/races/Sessions.tsx";
 import Cars from "../pages/Cars.tsx";
 import Tracks from "../pages/Tracks.tsx";
-import Users from "../pages/Users.tsx";
+import Users from "../pages/Users/Users.tsx";
 
 export default function Routes() {
     return (

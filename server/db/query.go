@@ -92,8 +92,6 @@ func (d *DB) Sessions() []models.Session {
 	ctx, cancel := context.WithTimeout(context.Background(), 3*time.Second)
 	defer cancel()
 
-	fmt.Println("db/sessions")
-
 	statement := `
 		SELECT session_id,
 			   series_logo,

@@ -1,7 +1,6 @@
 package api
 
 import (
-	"fmt"
 	"github.com/gofiber/fiber/v2"
 	"github.com/iMeisa/iRacingStats/server/db"
 	"log"
@@ -29,7 +28,6 @@ func (a *Api) Get(ctx *fiber.Ctx) error {
 
 	switch tableName {
 	case "sessions":
-		fmt.Println("api/sessions")
 		query = a.DB.Sessions()
 
 	case "session":

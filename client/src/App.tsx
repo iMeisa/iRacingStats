@@ -5,6 +5,7 @@ import useMediaQuery from '@mui/material/useMediaQuery';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 import Routes from './components/Routes.tsx';
+import Footer from "./components/Footer.tsx";
 
 
 function App() {
@@ -27,6 +28,7 @@ function App() {
                 <ResponsiveAppBar/>
                 <CssBaseline />
                 <Routes />
+                <Footer/>
             </ThemeProvider>
         </>
     )

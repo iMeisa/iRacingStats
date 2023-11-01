@@ -1,8 +1,9 @@
 import {useParams} from "react-router-dom";
 import {DataGrid, GridColDef} from "@mui/x-data-grid";
 import {useEffect, useState} from "react";
-import {LinearProgress} from "@mui/material";
+import {LinearProgress, Skeleton} from "@mui/material";
 import CurrentUrl from "../../variables/Url.ts";
+import "./Sessions.css"
 
 function sortSubsessions(subsessions: Record<string, unknown>[]): Record<string, unknown>[] {
     subsessions.sort((a,b) => (b.event_strength_of_field as number) - (a.event_strength_of_field as number))
@@ -20,7 +21,7 @@ const columns: GridColDef[] = [
     //     sortable: false,
     // },
     { field: 'split', headerName: 'Split', headerAlign: 'center', align: 'center' },
-    { field: 'strength_of_field', headerName: 'Strength Of Field', flex: 1, headerAlign: 'center', align: 'center'},
+    { field: 'strength_of_field', headerName: 'SOF', flex: 1, headerAlign: 'center', align: 'center'},
     { field: 'field_size', headerName: 'Field Size', flex: 1, headerAlign: 'center', align: 'center' },
     { field: 'average_lap', headerName: 'Average Lap', flex: 1, headerAlign: 'center', align: 'center' },
     { field: 'lead_changes', headerName: 'Lead Changes', flex: 1, headerAlign: 'center', align: 'center' },
@@ -51,6 +52,7 @@ export default function Sessions() {
 
     // Fetch session
     useEffect(() => {
+
         const url = `${CurrentUrl()}/api/session?session_id=${id}`
         fetch(url)
             .then((response) => response.json())
@@ -75,20 +77,41 @@ export default function Sessions() {
 
                 setRows(data)
                 setLoading(false)
+
+                // setTimeout(() => {
+                //     setRows(data)
+                //     setLoading(false)
+                // }, 2000)
             })
     }, [])
 
     return (
         <>
-            <div style={{marginTop: 20}}>
-                <img src={"https://images-static.iracing.com/img/logos/series/"+session.series_logo}  alt="logo" height={150}/>
-                <h3>{session.series_short_name as string}</h3>
+            <div style={{ marginTop: 20 }}>
+                <div className={"centered"}>
+                    { loading ? (
+                        <>
+                            <Skeleton className={"centered logo"} variant="rounded" width={200} height={100} />
+                            <Skeleton className={"centered"} variant="text" sx={{ fontSize: '1.5rem', width: '20vw' }}/>
+                        </>
+                    ) : (
+                        <>
+                            <img
+                                className={"session-logo"}
+                                src={"https://images-static.iracing.com/img/logos/series/"+session.series_logo}
+                                alt="logo"
+                            />
+                            <h3>{session.series_name as string}</h3>
+                        </>
+                    )}
+                </div>
                 <div className={"data-grid"}>
                     <DataGrid
                         // sx={{color: 'white'}}
                         slots={{
                             loadingOverlay: LinearProgress,
                         }}
+                        autoHeight
                         loading={loading}
                         rows={rows}
                         columns={columns}
@@ -97,7 +120,7 @@ export default function Sessions() {
                                 paginationModel: { page: 0, pageSize: 10 },
                             },
                         }}
-                        pageSizeOptions={[10, 25]}
+                        pageSizeOptions={[10]}
                     />
                 </div>
 

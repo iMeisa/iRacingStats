@@ -5,7 +5,6 @@ import './Races.css'
 import {LinearProgress} from "@mui/material";
 import CurrentUrl from "../../variables/Url.ts";
 
-
 const columns: GridColDef[] = [
     {
         field: 'series_logo',
@@ -120,7 +119,7 @@ export default function Races() {
                             }
                         }
                     }}
-                    pageSizeOptions={[10, 25]}
+                    pageSizeOptions={[10]}
                 />
             </div>
         </>

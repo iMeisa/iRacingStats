@@ -39,7 +39,7 @@ export default function Users() {
 
         // Continue after delay is done
         const url = `${CurrentUrl()}/api/customers?display_name=${name.replace('+', ' ')}`
-        // console.log(url)
+        console.log(url)
         const delayedFetch = setTimeout(() => {
             fetch(url)
                 .then((response) => response.json())

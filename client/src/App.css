@@ -21,8 +21,8 @@
 .data-grid {
   margin: 0 10%;
   color: white;
-  height: 70vh;
-  max-height: 40em;
+  height: 65vh;
+  max-height: 39em;
 }
 
 .data-header {
@@ -56,6 +56,12 @@
   a:nth-of-type(2) .logo {
     animation: logo-spin infinite 20s linear;
   }
+}
+
+.MuiDataGrid-root {
+  margin: 1em 10% 10em 10%;
+  /*margin-bottom: 100px;*/
+  max-height: 70vh;
 }
 
 .card {

@@ -25,10 +25,10 @@ function App() {
     return (
         <>
             <ThemeProvider theme={theme}>
-                <ResponsiveAppBar/>
+                <ResponsiveAppBar />
                 <CssBaseline />
                 <Routes />
-                <Footer/>
+                <Footer />
             </ThemeProvider>
         </>
     )

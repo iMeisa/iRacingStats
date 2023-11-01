@@ -105,24 +105,22 @@ export default function Sessions() {
                         </>
                     )}
                 </div>
-                <div className={"data-grid"}>
-                    <DataGrid
-                        // sx={{color: 'white'}}
-                        slots={{
-                            loadingOverlay: LinearProgress,
-                        }}
-                        autoHeight
-                        loading={loading}
-                        rows={rows}
-                        columns={columns}
-                        initialState={{
-                            pagination: {
-                                paginationModel: { page: 0, pageSize: 10 },
-                            },
-                        }}
-                        pageSizeOptions={[10]}
-                    />
-                </div>
+                <DataGrid
+                    // sx={{color: 'white'}}
+                    slots={{
+                        loadingOverlay: LinearProgress,
+                    }}
+                    autoHeight
+                    loading={loading}
+                    rows={rows}
+                    columns={columns}
+                    initialState={{
+                        pagination: {
+                            paginationModel: { page: 0, pageSize: 10 },
+                        },
+                    }}
+                    pageSizeOptions={[10]}
+                />
 
             </div>
             {/*<h1>HELLO PUNY HUMAN</h1>*/}

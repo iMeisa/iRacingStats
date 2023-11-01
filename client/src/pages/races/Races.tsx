@@ -23,7 +23,12 @@ const columns: GridColDef[] = [
         headerAlign: 'center',
         width: 500,
         renderCell: (params: GridRenderCellParams<any, string>) =>
-            <a style={{ textDecoration: 'underline', fontStyle: 'italic'}} href={`/sessions/${params.row.id}`}>{params.value}</a>
+            <a
+                style={{ textDecoration: 'underline', fontStyle: 'italic', color: 'inherit'}}
+                href={`/sessions/${params.row.id}`}
+            >
+                {params.value}
+            </a>
     },
     { field: 'subsession_count', headerName: 'Splits', width: 100, align: 'center', headerAlign: 'center' },
     { field: 'end_time', headerName: '', width: 200, hideable: true },
@@ -87,7 +92,7 @@ export default function Races() {
     return (
         <>
             <h2>Races</h2>
-            <p style={{color: 'lightgrey'}}>Last 24 Hours</p>
+            <p style={{color: 'darkgray'}}>Last 24 Hours</p>
             {/*<h1>💀</h1>*/}
             {/*<h1 className={"fuelvine-ad"}>DOWNLOAD FUELVINE NOW!!!!!!!!!!!!!!!!!!!!!!</h1>*/}
             <div className={"data-grid"}>
@@ -97,7 +102,7 @@ export default function Races() {
                         loadingOverlay: LinearProgress,
                     }}
                     loading={loading}
-                    // sx={{color: 'white'}}
+                    // sx={{color: 'inherit'}}
                     rows={rows}
                     columns={columns}
                     initialState={{

@@ -85,7 +85,7 @@ export default function Sessions() {
                 <h3>{session.series_short_name as string}</h3>
                 <div className={"data-grid"}>
                     <DataGrid
-                        sx={{color: 'white'}}
+                        // sx={{color: 'white'}}
                         slots={{
                             loadingOverlay: LinearProgress,
                         }}

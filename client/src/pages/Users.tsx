@@ -38,7 +38,7 @@ export default function Users() {
         setLoading(true)
 
         // Continue after delay is done
-        const url = `${CurrentUrl()}/api/customers?display_name~=${name.replace('+', ' ')}`
+        const url = `${CurrentUrl()}/api/customers?display_name=${name.replace('+', ' ')}`
         // console.log(url)
         const delayedFetch = setTimeout(() => {
             fetch(url)
@@ -50,15 +50,6 @@ export default function Users() {
                         setRows(emptyRows)
                         return
                     }
-
-                    // Data formatting here
-                    data.map(function (obj: Record<string, unknown>): Record<string, unknown> {
-                        // Rename 'session_id' to 'id'
-                        obj['id'] = obj['cust_id']
-                        delete obj['cust_id']
-
-                        return obj
-                    })
 
                     setRows(data)
                 })

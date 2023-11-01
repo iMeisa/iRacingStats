@@ -228,3 +228,42 @@ func (d *DB) Subsessions(sessionId int) []models.Subsession {
 	return subsessions
 
 }
+
+func (d *DB) Users(name string) []map[string]any {
+	ctx, cancel := getContext()
+	defer cancel()
+
+	fmt.Println(name)
+
+	statement := fmt.Sprintf(`
+		SELECT cust_id, display_name
+		FROM customers
+		WHERE display_name ilike '%%%s%%'
+	`, name)
+
+	fmt.Println(statement)
+
+	rows, err := d.SQL.QueryContext(ctx, statement)
+	if err != nil {
+		log.Println("error querying users:", err)
+	}
+
+	var customers []map[string]any
+	for rows.Next() {
+		var custId int
+		var displayName string
+		err = rows.Scan(&custId, &displayName)
+		if err != nil {
+			log.Println("error scanning users:", err)
+			continue
+		}
+
+		customer := make(map[string]any)
+		customer["id"] = custId
+		customer["display_name"] = displayName
+
+		customers = append(customers, customer)
+	}
+
+	return customers
+}

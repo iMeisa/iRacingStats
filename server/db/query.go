@@ -37,6 +37,27 @@ func (d *DB) LatestSubsessionTime() int {
 	return latestTime
 }
 
+func (d *DB) DataRange() map[string]int {
+	dataRange := make(map[string]int)
+
+	ctx, cancel := getContext()
+	defer cancel()
+
+	row := d.SQL.QueryRowContext(ctx, "SELECT MIN(end_time), MAX(end_time) FROM subsessions WHERE end_time > 0 LIMIT 1")
+
+	var minTime int
+	var maxTime int
+	err := row.Scan(&minTime, &maxTime)
+	if err != nil {
+		log.Println("error retrieving subsession data range:", err)
+	}
+
+	dataRange["min"] = minTime
+	dataRange["max"] = maxTime
+
+	return dataRange
+}
+
 // Query validates and executes api query requested by the user
 func (d *DB) Query(tableName string, queries UrlQueryMap) ([]JsonMap, errortrace.ErrorTrace) {
 	ctx, cancel := context.WithTimeout(context.Background(), 3*time.Second)

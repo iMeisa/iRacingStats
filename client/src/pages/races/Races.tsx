@@ -14,6 +14,7 @@ const columns: GridColDef[] = [
         renderCell: (params: GridRenderCellParams<any, string>) =>
             <img src={"https://images-static.iracing.com/img/logos/series/"+params.value}  alt="logo" width={65}/>,
         sortable: false,
+        headerAlign: 'center',
     },
     // { field: 'id', headerName: 'ID', width: 100},
     {
@@ -25,13 +26,13 @@ const columns: GridColDef[] = [
             <a style={{ textDecoration: 'underline', fontStyle: 'italic'}} href={`/sessions/${params.row.id}`}>{params.value}</a>
     },
     { field: 'subsession_count', headerName: 'Splits', width: 100, align: 'center', headerAlign: 'center' },
-    { field: 'end_time', headerName: 'End Time', width: 200, hideable: true },
+    { field: 'end_time', headerName: '', width: 200, hideable: true },
     {
         field: 'end_time_formatted',
         headerName: 'End Time',
         width: 200
     },
-    { field: 'track', headerName: 'Track', flex: 1 },
+    { field: 'track', headerName: 'Track', flex: 1, minWidth: 200 },
 ];
 
 

@@ -1,10 +1,23 @@
 import viteLogo from "../assets/vite.svg";
 import reactLogo from "../assets/react.svg";
-import {Button} from "@mui/material";
-import {useState} from "react";
+import {useEffect, useState} from "react";
+import UnixToDate from "../functions/date/UnixToDate.ts";
+import CurrentUrl from "../variables/Url.ts";
 
 export default function Home() {
-    const [count, setCount] = useState(0)
+    const [minTime, setMinTime] = useState(0)
+    const [maxTime, setMaxTime] = useState(0)
+
+    useEffect(() => {
+        const url = `${CurrentUrl()}/api/data_range`
+        fetch(url)
+            .then((response) => response.json())
+            .then((data: Record<string, number>) => {
+                setMinTime(data['min'])
+                setMaxTime(data['max'])
+            })
+    }, []);
+
     return (
         <>
             <div>
@@ -16,17 +29,9 @@ export default function Home() {
                 </a>
             </div>
             <h1>Vite + React</h1>
-            <div className="card">
-                <button onClick={() => setCount((count) => count + 1)}>
-                    count is {count}
-                </button>
-                <p>
-                    Edit <code>src/App.tsx</code> and save to test HMR
-                </p>
-            </div>
-            <p className="read-the-docs">
-                Click on the Vite and React logos to learn more
-            </p>
-            <Button variant="contained">click me pleeaeeesssssse</Button></>
+
+            <h3>Data Range</h3>
+            <p>{UnixToDate(minTime)} - {UnixToDate(maxTime)}</p>
+        </>
     )
 }

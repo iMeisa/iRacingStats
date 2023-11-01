@@ -27,6 +27,9 @@ func (a *Api) Get(ctx *fiber.Ctx) error {
 	var query interface{}
 
 	switch tableName {
+	case "data_range":
+		query = a.DB.DataRange()
+
 	case "sessions":
 		query = a.DB.Sessions()
 

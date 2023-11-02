@@ -6,7 +6,7 @@ import Races from "../../pages/races/Races.tsx";
 import Sessions from "../../pages/races/Sessions.tsx";
 import Series from "../../pages/series/Series.tsx"
 import SeriesList from "../../pages/series/SeriesList.tsx"
-import Cars from "../../pages/Cars.tsx";
+import Cars from "../../pages/cars/Cars.tsx";
 import Tracks from "../../pages/Tracks.tsx";
 import Users from "../../pages/users/Users.tsx";
 

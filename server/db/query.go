@@ -275,8 +275,9 @@ func (d *DB) User(id int) []map[string]any {
 	//fmt.Println(name)
 
 	statement := `
-		SELECT cust_id, display_name
-		FROM customers
+		SELECT cust_id, display_name, member_since, c.club_id, club_name
+		FROM customers c
+		JOIN clubs cl USING (club_id)
 		WHERE cust_id = $1
 	`
 
@@ -287,7 +288,10 @@ func (d *DB) User(id int) []map[string]any {
 	var customers []map[string]any
 	var custId int
 	var displayName string
-	err := row.Scan(&custId, &displayName)
+	var memberSince int
+	var clubId int
+	var clubName string
+	err := row.Scan(&custId, &displayName, &memberSince, &clubId, &clubName)
 	if err != nil {
 		log.Println("error scanning users:", err)
 	}
@@ -295,6 +299,9 @@ func (d *DB) User(id int) []map[string]any {
 	customer := make(map[string]any)
 	customer["id"] = custId
 	customer["display_name"] = displayName
+	customer["member_since"] = memberSince
+	customer["club_id"] = clubId
+	customer["club_name"] = clubName
 
 	customers = append(customers, customer)
 

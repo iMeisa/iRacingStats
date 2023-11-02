@@ -1,7 +1,7 @@
 import {DataGrid, GridColDef, GridRenderCellParams} from "@mui/x-data-grid";
 import useFetch from "../../hooks/useFetch.ts";
 import {LinearProgress} from "@mui/material";
-import DefaultLogo from "../../assets/defaults/DefaultLogo.tsx";
+import DefaultLogo from "../../components/images/DefaultLogo.tsx";
 
 const columns: GridColDef[] = [
     {

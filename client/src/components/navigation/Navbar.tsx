@@ -14,7 +14,7 @@ import StackedLineChartIcon from '@mui/icons-material/StackedLineChart';
 import {Link} from 'react-router-dom'
 import './Navbar.css'
 
-const pages = ['Races', 'series', 'Cars', 'Tracks', 'users'];
+const pages = ['Races', 'Series', 'Cars', 'Tracks', 'Users'];
 // const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 
 function pageLink(pageName: string) {

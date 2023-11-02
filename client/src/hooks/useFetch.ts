@@ -1,9 +1,9 @@
 import {useEffect, useState} from "react";
 import CurrentUrl from "../variables/Url.ts";
 
-export default function useFetch(endpoint: string, dataFunc: (obj: Record<string, unknown>) => Record<string, unknown>): [Record<string, unknown>[], boolean] {
+export default function useFetch<Type = Record<string, unknown>>(endpoint: string, dataFunc: (obj: Type) => Type): [Type[], boolean] {
 
-    const emptyRows: Record<string, unknown>[] = []
+    const emptyRows: Type[] = []
     const [rows, setRows] = useState(emptyRows);
 
     const [loading, setLoading] = useState(true)
@@ -17,7 +17,7 @@ export default function useFetch(endpoint: string, dataFunc: (obj: Record<string
         // console.log(url)
         fetch(url)
             .then((response) => response.json())
-            .then((data: Record<string, unknown>[]) => {
+            .then((data: Type[]) => {
 
                 // Data formatting here
                 data.map(dataFunc)

@@ -4,6 +4,7 @@ import {DataGrid, GridColDef, GridRenderCellParams,} from '@mui/x-data-grid';
 import './Races.css'
 import {LinearProgress} from "@mui/material";
 import CurrentUrl from "../../variables/Url.ts";
+import {Link} from "react-router-dom";
 
 const columns: GridColDef[] = [
     {
@@ -23,12 +24,12 @@ const columns: GridColDef[] = [
         minWidth: 350,
         flex: 1,
         renderCell: (params: GridRenderCellParams<any, string>) =>
-            <a
+            <Link
                 style={{ textDecoration: 'underline', fontStyle: 'italic', color: 'inherit', fontWeight: 'bold'}}
-                href={`/sessions/${params.row.id}`}
+                to={`/sessions/${params.row.id}`}
             >
                 {params.value}
-            </a>
+            </Link>
     },
     { field: 'subsession_count', headerName: 'Splits', width: 50, align: 'center', headerAlign: 'center' },
     { field: 'end_time', headerName: '', width: 200, hideable: true },

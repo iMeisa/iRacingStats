@@ -1,7 +1,7 @@
 import {LinearProgress, TextField} from "@mui/material";
 import Box from "@mui/material/Box";
 import {useEffect, useState} from "react";
-import { useSearchParams} from "react-router-dom";
+import {Link, useSearchParams} from "react-router-dom";
 import {DataGrid, GridColDef} from "@mui/x-data-grid";
 import CurrentUrl from "../../variables/Url.ts";
 
@@ -12,6 +12,11 @@ const columns: GridColDef[] = [
         flex: 1,
         headerAlign: 'center',
         align: 'center',
+        renderCell: params =>
+            <Link
+                style={{ color: 'inherit' }}
+                to={`/user/${params.row.id}`}
+            >{params.value}</Link>
     }
 ];
 
@@ -72,7 +77,7 @@ export default function Users() {
                     justifyContent: 'center',
                 }}
             >
-                <Box className={"small-container"} sx={{mt: 10}}>
+                <Box className={"small-container"} sx={{mt: 5}}>
                     <TextField
                         fullWidth
                         label="Search user(s)"
@@ -84,14 +89,13 @@ export default function Users() {
                         }, {replace: true})}
                     />
                     <DataGrid
-                        autoHeight
                         slots={{
                             loadingOverlay: LinearProgress,
                         }}
                         loading={loading}
                         sx={{
-                            color: 'white',
-                            mt: 5,
+                            color: 'inherit',
+                            mt: 3,
                         }}
                         rows={rows}
                         columns={columns}
@@ -105,6 +109,14 @@ export default function Users() {
                             },
                         }}
                         pageSizeOptions={[10]}
+
+                        onCellClick={
+                            (
+                                params,
+                                _,
+                                __
+                            ) => <Link to={`/user/${params.id}`}/>
+                        }
 
                     />
 

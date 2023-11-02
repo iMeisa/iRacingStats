@@ -51,6 +51,10 @@ export default function CarTable() {
             pagination: {
                 paginationModel: { page: 0, pageSize: 10 },
             },
+
+            sorting: {
+                sortModel: [{field: 'car_name', sort: 'asc'}],
+            },
         }}
         pageSizeOptions={[10]}
     />

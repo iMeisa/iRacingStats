@@ -1,11 +1,11 @@
 import './App.css'
 import * as React from 'react';
-import ResponsiveAppBar from "./components/Navbar.tsx";
+import ResponsiveAppBar from "./components/navigation/Navbar.tsx";
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
-import Routes from './components/Routes.tsx';
-import Footer from "./components/Footer.tsx";
+import Routes from './components/navigation/Routes.tsx';
+import Footer from "./components/navigation/Footer.tsx";
 
 
 function App() {

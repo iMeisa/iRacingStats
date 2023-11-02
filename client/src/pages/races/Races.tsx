@@ -8,7 +8,7 @@ import CurrentUrl from "../../variables/Url.ts";
 const columns: GridColDef[] = [
     {
         field: 'series_logo',
-        headerName: 'Series',
+        headerName: 'series',
         width: 75,
         renderCell: (params: GridRenderCellParams<any, string>) =>
             <img src={"https://images-static.iracing.com/img/logos/series/"+params.value}  alt="logo" width={65}/>,
@@ -20,7 +20,8 @@ const columns: GridColDef[] = [
         field: 'series_short_name',
         headerName: '',
         headerAlign: 'center',
-        width: 500,
+        minWidth: 350,
+        flex: 1,
         renderCell: (params: GridRenderCellParams<any, string>) =>
             <a
                 style={{ textDecoration: 'underline', fontStyle: 'italic', color: 'inherit', fontWeight: 'bold'}}
@@ -29,12 +30,12 @@ const columns: GridColDef[] = [
                 {params.value}
             </a>
     },
-    { field: 'subsession_count', headerName: 'Splits', width: 100, align: 'center', headerAlign: 'center' },
+    { field: 'subsession_count', headerName: 'Splits', width: 50, align: 'center', headerAlign: 'center' },
     { field: 'end_time', headerName: '', width: 200, hideable: true },
     {
         field: 'end_time_formatted',
         headerName: 'End Time',
-        width: 200
+        width: 170
     },
     { field: 'track', headerName: 'Track', flex: 1, minWidth: 200 },
 ];

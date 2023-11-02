@@ -60,8 +60,7 @@
 
 .MuiDataGrid-root {
   margin: 1em 10% 10em 10%;
-  /*margin-bottom: 100px;*/
-  max-height: 70vh;
+  max-height: 65vh;
 }
 
 .card {

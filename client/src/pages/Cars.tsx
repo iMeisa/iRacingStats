@@ -26,7 +26,7 @@ const columns: GridColDef[] = [
     },
     // {
     //     field: 'series_short_name',
-    //     headerName: 'Series',
+    //     headerName: 'series',
     //     width: 500,
     //     renderCell: (params: GridRenderCellParams<any, string>) =>
     //         <a style={{color: 'white', textDecoration: 'underline', fontStyle: 'italic'}} href={`/sessions/${params.row.id}`}>{params.value}</a>

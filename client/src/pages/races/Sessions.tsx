@@ -27,16 +27,6 @@ const columns: GridColDef[] = [
     { field: 'lead_changes', headerName: 'Lead Changes', flex: 1, headerAlign: 'center', align: 'center' },
     { field: 'cautions', headerName: 'Cautions', flex: 1, headerAlign: 'center', align: 'center' },
     { field: 'id', headerName: 'ID', headerAlign: 'center', align: 'right'},
-    // {
-    //     field: 'series_short_name',
-    //     headerName: 'Series',
-    //     minWidth: 500,
-    //     renderCell: (params: GridRenderCellParams<any, string>) =>
-    //         <a style={{color: 'white'}} href={`/sessions/${params.row.id}`}>{params.value}</a>
-    // },
-    // { field: 'start_time', headerName: 'Start Time', minWidth: 200 },
-    // { field: 'track_name', headerName: 'Track', minWidth: 300 },
-    // { field: 'config_name', headerName: 'Config', minWidth: 300 },
 ];
 
 export default function Sessions() {

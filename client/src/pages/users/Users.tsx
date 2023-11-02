@@ -65,7 +65,7 @@ export default function Users() {
 
     return (
         <>
-            {/*<h2>Users</h2>*/}
+            {/*<h2>users</h2>*/}
             <div
                 style={{
                     display: 'flex',

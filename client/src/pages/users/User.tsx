@@ -1,4 +1,4 @@
-import useFetch from "../../hooks/useFetch.ts";
+// import useFetch from "../../hooks/useFetch.ts";
 import {useParams} from "react-router-dom";
 
 export default function User() {

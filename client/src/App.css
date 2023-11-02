@@ -63,6 +63,20 @@
   max-height: 65vh;
 }
 
+.MuiDataGrid-cell {
+  padding: 3px 5px;
+}
+
+.MuiDataGrid-cell img {
+  width: 55px;
+  height: 45px;
+  object-fit: contain;
+  margin: auto;
+  /*padding: auto;*/
+  display: block;
+}
+
+
 .card {
   padding: 2em;
 }

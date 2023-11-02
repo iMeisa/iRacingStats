@@ -22,7 +22,7 @@ export default function useFetch(endpoint: string, dataFunc: (obj: Record<string
                 // Data formatting here
                 data.map(dataFunc)
 
-                setRows(rows.concat(data))
+                setRows(data)
                 setLoading(false)
             })
     }, [])

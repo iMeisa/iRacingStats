@@ -1,6 +1,7 @@
 import {DataGrid, GridColDef, GridRenderCellParams} from "@mui/x-data-grid";
 import {LinearProgress} from "@mui/material";
 import useFetch from "../../hooks/useFetch.ts";
+import DefaultLogo from "../../assets/defaults/DefaultLogo.tsx";
 
 const columns: GridColDef[] = [
     {
@@ -8,9 +9,12 @@ const columns: GridColDef[] = [
         headerName: 'logo',
         width: 75,
         renderCell: (params: GridRenderCellParams<any, string>) =>
-            <img src={"https://images-static.iracing.com"+params.value}  alt="logo"  width={60}/>,
+            params.value === '' ?
+                DefaultLogo(60) :
+                <img src={"https://images-static.iracing.com"+params.value}  alt="logo"  width={60}/>,
         sortable: false,
         headerAlign: 'center',
+        align: 'right'
     },
     {
         field: 'car_name',

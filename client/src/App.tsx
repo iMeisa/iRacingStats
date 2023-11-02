@@ -1,4 +1,5 @@
 import './App.css'
+import './DataGrid.css'
 import * as React from 'react';
 import ResponsiveAppBar from "./components/navigation/Navbar.tsx";
 import useMediaQuery from '@mui/material/useMediaQuery';

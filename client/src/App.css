@@ -9,10 +9,10 @@
   margin: auto;
 }
 
-.container {
-  margin: 0 10%;
-  max-width: 80vw;
-}
+/*.container {*/
+/*  margin: 0 10%;*/
+/*  max-width: 80vw;*/
+/*}*/
 
 .small-container {
   width: 30em;
@@ -56,24 +56,6 @@
   a:nth-of-type(2) .logo {
     animation: logo-spin infinite 20s linear;
   }
-}
-
-.MuiDataGrid-root {
-  margin: 1em 10% 10em 10%;
-  max-height: 65vh;
-}
-
-.MuiDataGrid-cell {
-  padding: 3px 5px;
-}
-
-.MuiDataGrid-cell img {
-  width: 55px;
-  height: 45px;
-  object-fit: contain;
-  margin: auto;
-  /*padding: auto;*/
-  display: block;
 }
 
 

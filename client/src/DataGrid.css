@@ -1,0 +1,27 @@
+
+
+.MuiDataGrid-root {
+    margin: 1em 10% 10em 10%;
+    max-height: 65vh;
+}
+
+.MuiDataGrid-cell {
+    padding: 3px 5px;
+}
+
+.MuiDataGrid-cell img {
+    width: 55px;
+    height: 45px;
+    object-fit: contain;
+    margin: auto;
+    /*padding: auto;*/
+    display: block;
+}
+
+/* --- Mobile --- */
+@media (max-width : 768px) {
+    .MuiDataGrid-root {
+        margin: 1em 1% 10em 1%;
+        max-height: 65vh;
+    }
+}

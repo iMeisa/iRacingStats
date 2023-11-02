@@ -20,6 +20,7 @@ const columns: GridColDef[] = [
         field: 'car_name',
         headerName: 'Car Name',
         flex: 1,
+        minWidth: 200,
     },
     {
         field: 'free_with_subscription',

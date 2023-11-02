@@ -20,12 +20,12 @@ const columns: GridColDef[] = [
     //         <img src={"https://images-static.iracing.com/img/logos/series/"+params.value}  alt="logo" minWidth={60}/>,
     //     sortable: false,
     // },
-    { field: 'split', headerName: 'Split', headerAlign: 'center', align: 'center' },
-    { field: 'strength_of_field', headerName: 'SOF', flex: 1, headerAlign: 'center', align: 'center'},
-    { field: 'field_size', headerName: 'Field Size', flex: 1, headerAlign: 'center', align: 'center' },
-    { field: 'average_lap', headerName: 'Average Lap', flex: 1, headerAlign: 'center', align: 'center' },
-    { field: 'lead_changes', headerName: 'Lead Changes', flex: 1, headerAlign: 'center', align: 'center' },
-    { field: 'cautions', headerName: 'Cautions', flex: 1, headerAlign: 'center', align: 'center' },
+    { field: 'split', headerName: 'Split', headerAlign: 'center', align: 'center', flex: 1 },
+    { field: 'strength_of_field', headerName: 'SOF', flex: 1, headerAlign: 'center', align: 'center', minWidth: 70},
+    { field: 'field_size', headerName: 'Field Size', flex: 1, headerAlign: 'center', align: 'center', minWidth: 100 },
+    { field: 'average_lap', headerName: 'Average Lap', flex: 1, headerAlign: 'center', align: 'center', minWidth: 125 },
+    { field: 'lead_changes', headerName: 'Lead Changes', flex: 1, headerAlign: 'center', align: 'center', minWidth: 125 },
+    { field: 'cautions', headerName: 'Cautions', flex: 1, headerAlign: 'center', align: 'center', minWidth: 75 },
     { field: 'id', headerName: 'ID', headerAlign: 'center', align: 'right'},
 ];
 

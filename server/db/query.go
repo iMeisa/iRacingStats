@@ -233,7 +233,7 @@ func (d *DB) Users(name string) []map[string]any {
 	ctx, cancel := getContext()
 	defer cancel()
 
-	fmt.Println(name)
+	//fmt.Println(name)
 
 	statement := fmt.Sprintf(`
 		SELECT cust_id, display_name
@@ -241,7 +241,7 @@ func (d *DB) Users(name string) []map[string]any {
 		WHERE display_name ilike '%%%s%%'
 	`, name)
 
-	fmt.Println(statement)
+	//fmt.Println(statement)
 
 	rows, err := d.SQL.QueryContext(ctx, statement)
 	if err != nil {
@@ -264,6 +264,39 @@ func (d *DB) Users(name string) []map[string]any {
 
 		customers = append(customers, customer)
 	}
+
+	return customers
+}
+
+func (d *DB) User(id int) []map[string]any {
+	ctx, cancel := getContext()
+	defer cancel()
+
+	//fmt.Println(name)
+
+	statement := `
+		SELECT cust_id, display_name
+		FROM customers
+		WHERE cust_id = $1
+	`
+
+	//fmt.Println(statement)
+
+	row := d.SQL.QueryRowContext(ctx, statement, id)
+
+	var customers []map[string]any
+	var custId int
+	var displayName string
+	err := row.Scan(&custId, &displayName)
+	if err != nil {
+		log.Println("error scanning users:", err)
+	}
+
+	customer := make(map[string]any)
+	customer["id"] = custId
+	customer["display_name"] = displayName
+
+	customers = append(customers, customer)
 
 	return customers
 }

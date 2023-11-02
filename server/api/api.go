@@ -45,6 +45,9 @@ func (a *Api) Get(ctx *fiber.Ctx) error {
 
 		query = a.DB.Subsessions(sessionId)
 
+	case "user":
+		query = a.DB.User(ctx.QueryInt("cust_id"))
+
 	default:
 		query, _ = a.DB.Query(tableName, ctx.Queries())
 	}

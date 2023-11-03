@@ -3,7 +3,7 @@ import {UnixToDate, UnixToDateTime} from "../functions/date/UnixToDate.ts";
 import CurrentUrl from "../variables/Url.ts";
 import Typography from "@mui/material/Typography";
 import CountUp from "react-countup";
-import { Paper } from "@mui/material";
+import {CircularProgress, Paper} from "@mui/material";
 
 export default function Home() {
     const [minTime, setMinTime] = useState(0)
@@ -30,7 +30,7 @@ export default function Home() {
                     setPrevCount(subsessionCount)
                     setSubsessionCount(data[0]['count'])
                 })
-        }, 1000)
+        }, 4000)
 
         return () => clearInterval(interval)
     });
@@ -43,7 +43,11 @@ export default function Home() {
 
             <Paper elevation={5} style={{ width: '12em', padding: '0.25em 2em 1em 2em', margin: '2em auto' }}>
                 <h3>Subsessions</h3>
-                <CountUp start={prevCount} end={subsessionCount} redraw={true}/>
+                { subsessionCount < 1 ? (
+                    <CircularProgress size={'1em'}/>
+                ) : (
+                    <CountUp start={prevCount} end={subsessionCount} redraw={true} duration={5}/>
+                )}
             </Paper>
         </>
     )

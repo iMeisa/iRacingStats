@@ -14,7 +14,19 @@ import GitHubIcon from '@mui/icons-material/GitHub';
 export default function Footer() {
 
     return <>
-        <AppBar className={"footer"} position={"fixed"} sx={{ top: 'auto', bottom: 0 }} color="transparent">
+        <AppBar
+            className={"footer"}
+            position={"fixed"}
+            sx={{
+                top: 'auto',
+                bottom: 0,
+                display: {
+                    xs: 'none',
+                    md: 'flex',
+                },
+            }}
+            color="transparent"
+        >
             <Toolbar style={{ display: 'flex', justifyContent: 'center' }}>
 
 

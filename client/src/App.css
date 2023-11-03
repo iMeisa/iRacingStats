@@ -9,10 +9,12 @@
   margin: auto;
 }
 
-/*.container {*/
-/*  margin: 0 10%;*/
-/*  max-width: 80vw;*/
-/*}*/
+
+@media (max-width : 900px) {
+  .footer {
+    display: none;
+  }
+}
 
 .small-container {
   width: 30em;

@@ -1,9 +1,11 @@
-import {useParams} from "react-router-dom";
+import {Link, useParams} from "react-router-dom";
 import {DataGrid, GridColDef} from "@mui/x-data-grid";
 import {useEffect, useState} from "react";
 import {LinearProgress, Skeleton} from "@mui/material";
 import CurrentUrl from "../../variables/Url.ts";
 import "./Sessions.css"
+import Button from "@mui/material/Button";
+import FormatListNumberedIcon from '@mui/icons-material/FormatListNumbered';
 
 function sortSubsessions(subsessions: Record<string, unknown>[]): Record<string, unknown>[] {
     subsessions.sort((a,b) => (b.event_strength_of_field as number) - (a.event_strength_of_field as number))
@@ -20,12 +22,23 @@ const columns: GridColDef[] = [
     //         <img src={"https://images-static.iracing.com/img/logos/series/"+params.value}  alt="logo" minWidth={60}/>,
     //     sortable: false,
     // },
-    { field: 'split', headerName: 'Split', headerAlign: 'center', align: 'center', flex: 1 },
+    {
+        field: 'results',
+        headerName: '',
+        headerAlign: 'center',
+        align: 'center',
+        width: 125,
+        renderCell: (params) =>
+            <Link to={`/subsession/${params.row.id}`}>
+                <Button variant="contained" size="small" startIcon={<FormatListNumberedIcon/>} >Results</Button>
+            </Link>
+    },
+    { field: 'split', headerName: '', headerAlign: 'center', align: 'center', width: 20 },
     { field: 'strength_of_field', headerName: 'SOF', flex: 1, headerAlign: 'center', align: 'center', minWidth: 70},
     { field: 'field_size', headerName: 'Field Size', flex: 1, headerAlign: 'center', align: 'center', minWidth: 100 },
     { field: 'average_lap', headerName: 'Average Lap', flex: 1, headerAlign: 'center', align: 'center', minWidth: 125 },
     { field: 'lead_changes', headerName: 'Lead Changes', flex: 1, headerAlign: 'center', align: 'center', minWidth: 125 },
-    { field: 'cautions', headerName: 'Cautions', flex: 1, headerAlign: 'center', align: 'center', minWidth: 75 },
+    { field: 'cautions', headerName: 'Cautions', flex: 1, headerAlign: 'center', align: 'center', minWidth: 90, hideable: true },
     { field: 'id', headerName: 'ID', headerAlign: 'center', align: 'right'},
 ];
 
@@ -97,6 +110,7 @@ export default function Sessions() {
                     )}
                 </div>
                 <DataGrid
+
                     slots={{
                         loadingOverlay: LinearProgress,
                     }}
@@ -104,6 +118,7 @@ export default function Sessions() {
                     loading={loading}
                     rows={rows}
                     columns={columns}
+                    disableColumnMenu={true}
                     initialState={{
                         pagination: {
                             paginationModel: { page: 0, pageSize: 10 },
@@ -111,7 +126,6 @@ export default function Sessions() {
                     }}
                     pageSizeOptions={[10]}
                 />
-
             </div>
             {/*<h1>HELLO PUNY HUMAN</h1>*/}
             {/*<h1>{id}</h1>*/}

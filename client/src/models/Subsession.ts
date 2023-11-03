@@ -1,0 +1,16 @@
+export type Subsession = {
+    end_time: number,
+    event_average_lap: number,
+    event_laps_complete: number,
+    event_strength_of_field: number,
+    heat_info_id: number,
+    num_caution_laps: number,
+    num_cautions: number,
+    num_laps_for_qual_average: number,
+    num_laps_for_solo_average: number,
+    num_lead_changes: number,
+    private_session_id: number,
+    session_id: number,
+    subsession_id: number,
+    verified: boolean,
+}

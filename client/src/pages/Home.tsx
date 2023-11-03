@@ -1,5 +1,5 @@
 import {useEffect, useState} from "react";
-import {UnixToDate, UnixToDateTime} from "../functions/date/UnixToDate.ts";
+import {UnixToDate, UnixToDateTime} from "../functions/datetime/UnixToDate.ts";
 import CurrentUrl from "../variables/Url.ts";
 import Typography from "@mui/material/Typography";
 import CountUp from "react-countup";
@@ -41,7 +41,7 @@ export default function Home() {
             <h3>Data Range</h3>
             <p>{UnixToDate(minTime)} - {UnixToDateTime(maxTime)}</p>
 
-            <Paper elevation={5} style={{ width: '12em', padding: '0.25em 2em 1em 2em', margin: '2em auto' }}>
+            <Paper elevation={5} style={{ width: '12em', padding: '0.25rem 2rem 1rem 2rem', margin: '2em auto' }}>
                 <h3>Subsessions</h3>
                 { subsessionCount < 1 ? (
                     <CircularProgress size={'1em'}/>

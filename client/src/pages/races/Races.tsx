@@ -38,7 +38,7 @@ const columns: GridColDef[] = [
     },
     { field: 'subsession_count', headerName: 'Splits', width: 70, align: 'center', headerAlign: 'center' },
     { field: 'end_time', headerName: '', hideable: true },
-    { field: 'end_time_formatted', headerName: 'End Time', width: 100, headerAlign: 'center', align: 'center' },
+    { field: 'end_time_formatted', headerName: 'End Time', width: 115, headerAlign: 'center', align: 'center' },
     { field: 'track', headerName: 'Track', flex: 1, minWidth: 200 },
 ];
 
@@ -77,7 +77,7 @@ export default function Races() {
                 // Data formatting here
                 data.map(function (obj: Record<string, unknown>): Record<string, unknown> {
 
-                    // Format time to JS date
+                    // Format time to JS datetime
                     const start_date = new Date( obj['end_time'] as number * 1000 )
                     obj['end_time_formatted'] = start_date.toLocaleTimeString()
 

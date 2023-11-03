@@ -90,13 +90,13 @@ export default function Sessions() {
                                 className={"session-logo"}
                                 src={"https://images-static.iracing.com/img/logos/series/"+session.series_logo}
                                 alt="logo"
+                                loading="lazy"
                             />
                             <h3>{session.series_name as string}</h3>
                         </>
                     )}
                 </div>
                 <DataGrid
-                    // sx={{color: 'white'}}
                     slots={{
                         loadingOverlay: LinearProgress,
                     }}

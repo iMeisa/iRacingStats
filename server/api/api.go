@@ -33,6 +33,9 @@ func (a *Api) Get(ctx *fiber.Ctx) error {
 	case "data_range":
 		query = a.DB.DataRange()
 
+	case "series":
+		query = a.DB.Series()
+
 	case "sessions":
 		query = a.DB.Sessions()
 

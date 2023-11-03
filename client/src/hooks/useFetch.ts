@@ -1,7 +1,7 @@
 import {useEffect, useState} from "react";
 import CurrentUrl from "../variables/Url.ts";
 
-export default function useFetch<Type = Record<string, unknown>>(endpoint: string, dataFunc: (obj: Type) => Type): [Type[], boolean] {
+export default function useFetch<Type = Record<string, unknown>>(endpoint: string, dataFunc: (obj: Type) => Type = obj => obj): [Type[], boolean] {
 
     const emptyRows: Type[] = []
     const [rows, setRows] = useState(emptyRows);

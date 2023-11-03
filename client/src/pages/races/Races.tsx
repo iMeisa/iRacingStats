@@ -12,7 +12,12 @@ const columns: GridColDef[] = [
         headerName: 'Series',
         width: 75,
         renderCell: (params: GridRenderCellParams<any, string>) =>
-            <img src={"https://images-static.iracing.com/img/logos/series/"+params.value}  alt="logo" width={65}/>,
+            <img
+                src={"https://images-static.iracing.com/img/logos/series/"+params.value}
+                alt="logo"
+                width={65}
+                loading="lazy"
+            />,
         sortable: false,
         headerAlign: 'center',
     },
@@ -31,12 +36,12 @@ const columns: GridColDef[] = [
                 {params.value}
             </Link>
     },
-    { field: 'subsession_count', headerName: 'Splits', width: 50, align: 'center', headerAlign: 'center' },
+    { field: 'subsession_count', headerName: 'Splits', width: 70, align: 'center', headerAlign: 'center' },
     { field: 'end_time', headerName: '', hideable: true },
     {
         field: 'end_time_formatted',
         headerName: 'End Time',
-        width: 180
+        width: 100
     },
     { field: 'track', headerName: 'Track', flex: 1, minWidth: 200 },
 ];
@@ -78,7 +83,7 @@ export default function Races() {
 
                     // Format time to JS date
                     const start_date = new Date( obj['end_time'] as number * 1000 )
-                    obj['end_time_formatted'] = start_date.toLocaleString()
+                    obj['end_time_formatted'] = start_date.toLocaleTimeString()
 
                     return obj
                 })
@@ -102,7 +107,8 @@ export default function Races() {
                     loadingOverlay: LinearProgress,
                 }}
                 loading={loading}
-                // sx={{color: 'inherit'}}
+                sx={{color: 'inherit'}}
+                disableColumnMenu={true}
                 rows={rows}
                 columns={columns}
                 initialState={{

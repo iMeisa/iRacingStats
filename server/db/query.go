@@ -109,6 +109,57 @@ func (d *DB) Query(tableName string, queries UrlQueryMap) ([]JsonMap, errortrace
 	return results, errortrace.NilTrace()
 }
 
+func (d *DB) Series() []map[string]any {
+	ctx, cancel := context.WithTimeout(context.Background(), 3*time.Second)
+	defer cancel()
+
+	statement := `
+		SELECT series_id,
+			   series_logo,
+			   series_short_name,
+			   license_category
+		FROM series s
+		JOIN license_categories USING (license_category_id)
+		ORDER BY series_short_name
+	`
+
+	var seriess []map[string]any
+
+	rows, err := d.SQL.QueryContext(ctx, statement)
+	if err != nil {
+		log.Println("error querying series: ", err)
+		return seriess
+	}
+
+	for rows.Next() {
+
+		var id int
+		var logo string
+		var name string
+		var category string
+		err = rows.Scan(
+			&id,
+			&logo,
+			&name,
+			&category,
+		)
+		if err != nil {
+			log.Println("error scanning session rows: ", err)
+			return nil
+		}
+
+		series := make(map[string]any)
+		series["id"] = id
+		series["logo"] = logo
+		series["name"] = name
+		series["category"] = category
+
+		seriess = append(seriess, series)
+	}
+
+	return seriess
+}
+
 func (d *DB) Sessions() []models.Session {
 	ctx, cancel := context.WithTimeout(context.Background(), 3*time.Second)
 	defer cancel()

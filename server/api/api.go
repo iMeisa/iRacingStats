@@ -27,6 +27,9 @@ func (a *Api) Get(ctx *fiber.Ctx) error {
 	var query interface{}
 
 	switch tableName {
+	case "count":
+		query = a.DB.QueryCount(ctx.Query("table"))
+
 	case "customers":
 		query = a.DB.Users(ctx.Query("display_name"))
 

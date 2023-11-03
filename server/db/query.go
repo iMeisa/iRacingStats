@@ -109,6 +109,50 @@ func (d *DB) Query(tableName string, queries UrlQueryMap) ([]JsonMap, errortrace
 	return results, errortrace.NilTrace()
 }
 
+// QueryCount validates table and return row count
+func (d *DB) QueryCount(tableName string) []JsonMap {
+	ctx, cancel := context.WithTimeout(context.Background(), 3*time.Second)
+	defer cancel()
+
+	// Validate tableName
+	if !d.validTable(tableName) {
+		return nil
+	}
+
+	// SQL query
+	statement := fmt.Sprintf(`
+		SELECT row_to_json(t)
+		FROM (
+			SELECT count(*) FROM %s
+		) t
+	`, tableName)
+	//fmt.Println(statement)
+
+	rows, err := d.SQL.QueryContext(ctx, statement)
+	if err != nil {
+		return nil
+	}
+
+	// Create a JSON array
+	var results []JsonMap
+	for rows.Next() {
+		var result string
+
+		err = rows.Scan(&result)
+		if err != nil {
+			return nil
+		}
+
+		resultJson, trace := stringToJsonMap(result)
+		if trace.HasError() {
+			return nil
+		}
+		results = append(results, resultJson)
+	}
+
+	return results
+}
+
 func (d *DB) Series() []map[string]any {
 	ctx, cancel := context.WithTimeout(context.Background(), 3*time.Second)
 	defer cancel()

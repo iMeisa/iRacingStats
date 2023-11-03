@@ -1,12 +1,16 @@
-import viteLogo from "../assets/vite.svg";
-import reactLogo from "../assets/react.svg";
 import {useEffect, useState} from "react";
 import {UnixToDate, UnixToDateTime} from "../functions/date/UnixToDate.ts";
 import CurrentUrl from "../variables/Url.ts";
+import Typography from "@mui/material/Typography";
+import CountUp from "react-countup";
+import { Paper } from "@mui/material";
 
 export default function Home() {
     const [minTime, setMinTime] = useState(0)
     const [maxTime, setMaxTime] = useState(0)
+
+    const [subsessionCount, setSubsessionCount] = useState(0)
+    const [prevCount, setPrevCount] = useState(0)
 
     useEffect(() => {
         const url = `${CurrentUrl()}/api/data_range`
@@ -18,20 +22,29 @@ export default function Home() {
             })
     }, []);
 
+    useEffect(() => {
+        const interval = setInterval(() => {
+            fetch(`${CurrentUrl()}/api/count?table=subsessions`)
+                .then(r => r.json())
+                .then(data => {
+                    setPrevCount(subsessionCount)
+                    setSubsessionCount(data[0]['count'])
+                })
+        }, 1000)
+
+        return () => clearInterval(interval)
+    });
+
     return (
         <>
-            <div>
-                <a href="https://vitejs.dev" target="_blank">
-                    <img src={viteLogo} className="logo" alt="Vite logo"/>
-                </a>
-                <a href="https://react.dev" target="_blank">
-                    <img src={reactLogo} className="logo react" alt="React logo"/>
-                </a>
-            </div>
-            <h1>Vite + React</h1>
-
+            <Typography variant="h2" component="h1" mt={3}>iRacing Stats</Typography>
             <h3>Data Range</h3>
             <p>{UnixToDate(minTime)} - {UnixToDateTime(maxTime)}</p>
+
+            <Paper elevation={5} style={{ width: '10%', padding: '0.25em 2em 1em 2em', margin: '2em auto' }}>
+                <h3>Subsessions</h3>
+                <CountUp start={prevCount} end={subsessionCount} redraw={true}/>
+            </Paper>
         </>
     )
 }

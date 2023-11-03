@@ -38,11 +38,7 @@ const columns: GridColDef[] = [
     },
     { field: 'subsession_count', headerName: 'Splits', width: 70, align: 'center', headerAlign: 'center' },
     { field: 'end_time', headerName: '', hideable: true },
-    {
-        field: 'end_time_formatted',
-        headerName: 'End Time',
-        width: 100
-    },
+    { field: 'end_time_formatted', headerName: 'End Time', width: 100, headerAlign: 'center', align: 'center' },
     { field: 'track', headerName: 'Track', flex: 1, minWidth: 200 },
 ];
 

@@ -54,6 +54,9 @@ func (a *Api) Get(ctx *fiber.Ctx) error {
 	case "user":
 		query = a.DB.User(ctx.QueryInt("cust_id"))
 
+	case "visit":
+		a.DB.AddPageVisit(ctx.Query("page"))
+
 	default:
 		query, _ = a.DB.Query(tableName, ctx.Queries())
 	}

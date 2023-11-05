@@ -61,6 +61,8 @@ func main() {
 	}(dbConnection.SQL)
 	log.Println("Connected to DB")
 
+	go insertVisits(dbConnection)
+
 	// Start app
 	err := app.Listen(os.Getenv("SITE_PORT"))
 	if err != nil {

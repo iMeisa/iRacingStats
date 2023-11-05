@@ -7,6 +7,7 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 import Routes from './components/navigation/Routes.tsx';
 import Footer from "./components/navigation/Footer.tsx";
+import usePageHit from "./hooks/usePageHit.ts"
 
 
 function App() {
@@ -22,6 +23,8 @@ function App() {
             }),
         [prefersDarkMode],
     );
+
+    usePageHit()
 
     return (
         <>

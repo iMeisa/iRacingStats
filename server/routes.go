@@ -2,6 +2,8 @@ package main
 
 import (
 	"github.com/gofiber/fiber/v2"
+	"github.com/iMeisa/iRacingStats/server/db"
+	"time"
 )
 
 func home(ctx *fiber.Ctx) error {
@@ -21,4 +23,11 @@ func Routes(router fiber.Router) {
 	})
 
 	router.Get("/:page/*", home)
+}
+
+func insertVisits(db *db.DB) {
+	for {
+		time.Sleep(5 * time.Second)
+		db.UpdateVisits()
+	}
 }

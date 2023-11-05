@@ -57,7 +57,7 @@ func (q UrlQueryMap) createWhereClause(db *DB, tableName string) string {
 
 		//fmt.Printf("Is %s a valid column? %v", key, slices.Contains(columnNames, key))
 		clause = fmt.Sprint(clause, " ", param)
-		fmt.Println(clause)
+		//fmt.Println(clause)
 	}
 
 	// Test if params have been added

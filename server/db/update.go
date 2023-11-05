@@ -9,7 +9,7 @@ var visits = make(map[string]int)
 
 func (d *DB) AddPageVisit(page string) {
 	visits[fmt.Sprintf("%s", page)]++
-	log.Println(visits)
+	//log.Println(visits)
 }
 
 func (d *DB) UpdateVisits() {
@@ -22,7 +22,7 @@ func (d *DB) UpdateVisits() {
 	`
 
 	for page, hits := range visits {
-		log.Println(page)
+		//log.Println(page)
 		_, err := d.SQL.ExecContext(ctx, statement, page, hits)
 
 		if err != nil {

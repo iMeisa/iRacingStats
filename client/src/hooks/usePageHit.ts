@@ -9,7 +9,7 @@ export default function UsePageHit() {
 
     useEffect(() => {
         const strippedUrl = StripUrl(location.pathname)
-        console.log("hitting: ", strippedUrl)
+        // console.log("hitting: ", strippedUrl)
         fetch(`${CurrentUrl()}/api/visit?page=${strippedUrl}`).then(r => console.log(r));
     }, [location])
 }

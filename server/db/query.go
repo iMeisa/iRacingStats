@@ -165,6 +165,10 @@ func (d *DB) Series() []map[string]any {
 			   license_category
 		FROM series s
 		JOIN license_categories USING (license_category_id)
+		JOIN seasons USING (series_id)
+		JOIN sessions USING (season_id)
+		WHERE start_time > ((select max(start_time) from sessions)::integer - (86400*7))
+		GROUP BY series_id, series_logo, series_short_name, license_category
 		ORDER BY series_short_name
 	`
 

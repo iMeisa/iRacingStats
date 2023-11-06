@@ -6,6 +6,16 @@ import {useEffect, useState} from "react";
 import {Subsession as SubsessionModel} from "../../models/Subsession.ts";
 import InfoCard from "../../components/data/InfoCard.tsx";
 import LapTime from "../../functions/datetime/LapTime.ts";
+import {DataGrid, GridColDef} from "@mui/x-data-grid";
+import {LinearProgress} from "@mui/material";
+
+const columns: GridColDef[] = [
+    { field: 'finish_position', headerName: '#' },
+    { field: 'cust_id', headerName: 'customer', flex: 1},
+    { field: 'car_id', headerName: 'car', flex: 1},
+    { field: 'average_lap', headerName: 'avg lap', flex: 1},
+    { field: 'best_lap_time', headerName: 'best lap', headerAlign: 'center', align: 'center', flex: 1},
+];
 
 export default function Subsession() {
 
@@ -34,6 +44,18 @@ export default function Subsession() {
         if (subsessions.length > 0) setSubsession(subsessions[0])
     }, [subsessions]);
 
+    const [results, loading] = useFetch(`/api/results?rows=500&simsession_number=0&subsession_id=${id}`,
+        (obj) => {
+            obj['id'] = obj['result_id']
+            obj['finish_position'] = obj['finish_position'] as number + 1
+            obj['average_lap'] = LapTime(obj['average_lap'] as number)
+            obj['best_lap_time'] = LapTime(obj['best_lap_time'] as number)
+            return obj
+        })
+
+    useEffect(() => {
+        console.log(results)
+    }, [results]);
 
     return <>
         <Container>
@@ -45,6 +67,19 @@ export default function Subsession() {
                 <InfoCard title="Strength of Field" info={subsession.event_strength_of_field}/>
                 <InfoCard title="Caution Laps" info={subsession.num_caution_laps}/>
             </Grid>
+
+            <DataGrid
+
+                slots={{
+                    loadingOverlay: LinearProgress,
+                }}
+                loading={loading}
+
+                columns={columns}
+                rows={results}
+
+                pageSizeOptions={[]}
+            />
         </Container>
     </>
 }

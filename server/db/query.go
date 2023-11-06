@@ -162,11 +162,14 @@ func (d *DB) Series() []map[string]any {
 		SELECT series_id,
 			   series_logo,
 			   series_short_name,
-			   license_category
+			   license_category,
+			   AVG(new_sub_level - old_sub_level) / 100 as sr_change
 		FROM series s
 		JOIN license_categories USING (license_category_id)
 		JOIN seasons USING (series_id)
 		JOIN sessions USING (season_id)
+		JOIN subsessions USING (session_id)
+		JOIN results USING (subsession_id)
 		WHERE start_time > ((select max(start_time) from sessions)::integer - (86400*7))
 		GROUP BY series_id, series_logo, series_short_name, license_category
 		ORDER BY series_short_name
@@ -186,11 +189,13 @@ func (d *DB) Series() []map[string]any {
 		var logo string
 		var name string
 		var category string
+		var srChange string
 		err = rows.Scan(
 			&id,
 			&logo,
 			&name,
 			&category,
+			&srChange,
 		)
 		if err != nil {
 			log.Println("error scanning session rows: ", err)
@@ -202,6 +207,7 @@ func (d *DB) Series() []map[string]any {
 		series["logo"] = logo
 		series["name"] = name
 		series["category"] = category
+		series["sr_change"] = srChange
 
 		seriess = append(seriess, series)
 	}

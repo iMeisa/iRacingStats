@@ -154,7 +154,11 @@ func (d *DB) QueryCount(tableName string) []JsonMap {
 	return results
 }
 
-func (d *DB) Series() []map[string]any {
+func (d *DB) Results() []models.Result {
+	return nil
+}
+
+func (d *DB) Series() []models.Series {
 	ctx, cancel := context.WithTimeout(context.Background(), 3*time.Second)
 	defer cancel()
 
@@ -162,8 +166,10 @@ func (d *DB) Series() []map[string]any {
 		SELECT series_id,
 			   series_logo,
 			   series_short_name,
+			   s.license_category_id,
 			   license_category,
-			   AVG(new_sub_level - old_sub_level) / 100 as sr_change
+			   min_license_level
+-- 			   AVG(new_sub_level - old_sub_level) / 100 as sr_change
 		FROM series s
 		JOIN license_categories USING (license_category_id)
 		JOIN seasons USING (series_id)
@@ -171,11 +177,11 @@ func (d *DB) Series() []map[string]any {
 		JOIN subsessions USING (session_id)
 		JOIN results USING (subsession_id)
 		WHERE start_time > ((select max(start_time) from sessions)::integer - (86400*7))
-		GROUP BY series_id, series_logo, series_short_name, license_category
+		GROUP BY series_id, series_logo, series_short_name, license_category, min_license_level
 		ORDER BY series_short_name
 	`
 
-	var seriess []map[string]any
+	var seriess []models.Series
 
 	rows, err := d.SQL.QueryContext(ctx, statement)
 	if err != nil {
@@ -185,29 +191,20 @@ func (d *DB) Series() []map[string]any {
 
 	for rows.Next() {
 
-		var id int
-		var logo string
-		var name string
-		var category string
-		var srChange string
+		var series models.Series
 		err = rows.Scan(
-			&id,
-			&logo,
-			&name,
-			&category,
-			&srChange,
+			&series.Id,
+			&series.Logo,
+			&series.Name,
+			&series.CategoryId,
+			&series.Category,
+			&series.MinLicenseLevel,
+			//&series.SrChange,
 		)
 		if err != nil {
 			log.Println("error scanning session rows: ", err)
 			return nil
 		}
-
-		series := make(map[string]any)
-		series["id"] = id
-		series["logo"] = logo
-		series["name"] = name
-		series["category"] = category
-		series["sr_change"] = srChange
 
 		seriess = append(seriess, series)
 	}
@@ -226,7 +223,9 @@ func (d *DB) Sessions() []models.Session {
 			   max(end_time) as end_time,
 			   count(session_id),
 			   track_name,
-			   config_name
+			   config_name,
+			   s.license_category_id,
+			   sr.min_license_level
 		FROM sessions s
 		join subsessions sb using (session_id)
 		join seasons se using (season_id)
@@ -234,7 +233,7 @@ func (d *DB) Sessions() []models.Session {
 		join race_weeks using (season_id, race_week_num)
 		join tracks using (track_id)
 		where end_time > ((select max(end_time) from subsessions)::integer - 86400)
-		group by session_id, series_logo, series_short_name, track_name, config_name
+		group by session_id, series_logo, series_short_name, track_name, config_name, sr.min_license_level
 		order by session_id desc
 	`
 
@@ -261,6 +260,8 @@ func (d *DB) Sessions() []models.Session {
 			&session.SubsessionCount,
 			&trackName,
 			&trackConfig,
+			&session.CategoryId,
+			&session.MinLicenseLevel,
 		)
 		if err != nil {
 			log.Println("error scanning session rows: ", err)

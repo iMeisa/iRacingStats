@@ -5,6 +5,7 @@ import './Races.css'
 import {LinearProgress} from "@mui/material";
 import CurrentUrl from "../../variables/Url.ts";
 import {Link} from "react-router-dom";
+import CategoryLogo from "../../functions/img/CategoryLogo.tsx";
 
 const columns: GridColDef[] = [
     {
@@ -21,7 +22,16 @@ const columns: GridColDef[] = [
         sortable: false,
         headerAlign: 'center',
     },
-    // { field: 'id', headerName: 'ID', width: 100},
+    {
+        width: 50,
+        field: 'category_id',
+        headerName: '',
+        sortable: false,
+        align: 'center',
+        renderCell: params =>
+            CategoryLogo(params.value, params.row.min_license_level)
+
+    },
     {
         field: 'series_short_name',
         headerName: '',

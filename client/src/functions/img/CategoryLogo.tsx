@@ -3,7 +3,7 @@ import {LicenseTertiaryColor} from "./LicenseColor.ts";
 
 export default function CategoryLogo(id: number, licenseLevel: number) {
 
-    console.log("level", licenseLevel)
+    // console.log("level", licenseLevel)
 
     let path: string
     switch (id) {
@@ -25,7 +25,7 @@ export default function CategoryLogo(id: number, licenseLevel: number) {
 
 
     const licenseColor = LicenseTertiaryColor(licenseLevel)
-    console.log(licenseColor)
+    // console.log(licenseColor)
 
     return <>
         <svg

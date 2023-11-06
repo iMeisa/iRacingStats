@@ -72,7 +72,7 @@ func NewDatabase(dbType, connArgs string) (*sql.DB, errortrace.ErrorTrace) {
 }
 
 func getContext() (context.Context, context.CancelFunc) {
-	return context.WithTimeout(context.Background(), 3*time.Second)
+	return context.WithTimeout(context.Background(), 60*time.Second)
 }
 
 // getTables retrieves all tables in database and stores them in the DB struct

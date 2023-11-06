@@ -163,7 +163,7 @@ func (d *DB) Series() []models.Series {
 	defer cancel()
 
 	statement := `
-		SELECT series_id,
+		SELECT DISTINCT series_id,
 			   series_logo,
 			   series_short_name,
 			   s.license_category_id,
@@ -177,7 +177,6 @@ func (d *DB) Series() []models.Series {
 		JOIN subsessions USING (session_id)
 		JOIN results USING (subsession_id)
 		WHERE start_time > ((select max(start_time) from sessions)::integer - (86400*7))
-		GROUP BY series_id, series_logo, series_short_name, license_category, min_license_level
 		ORDER BY series_short_name
 	`
 

@@ -1,17 +1,14 @@
 import {DataGrid, GridColDef, GridRenderCellParams} from "@mui/x-data-grid";
 import {LinearProgress} from "@mui/material";
 import useFetch from "../../hooks/useFetch.ts";
-import DefaultLogo from "../../components/images/DefaultLogo.tsx";
+import CarLogo from "../../components/images/CarLogo.tsx";
 
 const columns: GridColDef[] = [
     {
         field: 'logo',
-        headerName: 'logo',
+        headerName: 'Logo',
         width: 75,
-        renderCell: (params: GridRenderCellParams<any, string>) =>
-            params.value === '' ?
-                DefaultLogo(60) :
-                <img src={"https://images-static.iracing.com"+params.value}  alt="logo"  width={60}/>,
+        renderCell: (params: GridRenderCellParams<any, string>) => <CarLogo link={params.value as string}/>,
         sortable: false,
         headerAlign: 'center',
         align: 'right'
@@ -29,6 +26,13 @@ const columns: GridColDef[] = [
         flex: 1,
     },
 ];
+
+// const handleLogoLoad = (id: number) => {
+//     // @ts-ignore
+//     document.getElementById(`logo-skeleton-${id}`).style.display = 'none'
+//     // @ts-ignore
+//     document.getElementById(`logo-${id}`).style.display = 'block'
+// }
 
 export default function CarTable() {
 

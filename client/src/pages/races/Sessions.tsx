@@ -6,6 +6,7 @@ import CurrentUrl from "../../variables/Url.ts";
 import "./Sessions.css"
 import Button from "@mui/material/Button";
 import FormatListNumberedIcon from '@mui/icons-material/FormatListNumbered';
+import LoadingImage from "../../components/images/LoadingImage.tsx";
 
 function sortSubsessions(subsessions: Record<string, unknown>[]): Record<string, unknown>[] {
     subsessions.sort((a,b) => (b.event_strength_of_field as number) - (a.event_strength_of_field as number))
@@ -92,6 +93,12 @@ export default function Sessions() {
         <>
             <div style={{ marginTop: 20 }}>
                 <div className={"centered"}>
+                    {/*<LoadingImage*/}
+                    {/*    width={200}*/}
+                    {/*    height={100}*/}
+                    {/*    url={"https://images-static.iracing.com/img/logos/series/"}*/}
+                    {/*    endpoint={session.series_logo as string}*/}
+                    {/*/>*/}
                     { loading ? (
                         <>
                             <Skeleton className={"centered logo"} variant="rounded" width={200} height={100} />

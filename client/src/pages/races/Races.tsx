@@ -6,19 +6,14 @@ import {LinearProgress} from "@mui/material";
 import CurrentUrl from "../../variables/Url.ts";
 import {Link} from "react-router-dom";
 import CategoryLogo from "../../functions/img/CategoryLogo.tsx";
+import SeriesLogo from "../../components/images/SeriesLogo.tsx";
 
 const columns: GridColDef[] = [
     {
         field: 'series_logo',
         headerName: 'Series',
         width: 75,
-        renderCell: (params: GridRenderCellParams<any, string>) =>
-            <img
-                src={"https://images-static.iracing.com/img/logos/series/"+params.value}
-                alt="logo"
-                width={65}
-                loading="lazy"
-            />,
+        renderCell: (params: GridRenderCellParams<any, string>) => <SeriesLogo link={params.value}/>,
         sortable: false,
         headerAlign: 'center',
     },
@@ -61,8 +56,6 @@ export default function Races() {
 
     const [loading, setLoading] = useState(true)
 
-    const [retrieveRows, setRetrieveRows] = useState(true)
-
     // Column defaults
     columns.map((col) => {
         col.hideSortIcons = true
@@ -72,9 +65,6 @@ export default function Races() {
 
     // Fetch sessions
     useEffect(() => {
-
-        // Only fetch if set to retrieve rows
-        if (!retrieveRows) return
 
         setLoading(true)
         const url = `${CurrentUrl()}/api/sessions`
@@ -97,9 +87,8 @@ export default function Races() {
                 setRows(rows.concat(data))
 
                 setLoading(false)
-                setRetrieveRows(false)
             })
-    }, [retrieveRows])
+    }, [])
 
     return (
         <>

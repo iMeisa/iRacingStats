@@ -5,20 +5,17 @@ import {
 } from "@mui/x-data-grid";
 import useFetch from "../../hooks/useFetch.ts";
 import {LinearProgress, Tooltip} from "@mui/material";
-import DefaultLogo from "../../components/images/DefaultLogo.tsx";
 import ToTitle from "../../functions/strings/Title.ts";
 import CategoryLogo from "../../functions/img/CategoryLogo.tsx";
 import "./SeriesList.css"
+import SeriesLogo from "../../components/images/SeriesLogo.tsx";
 
 const columns: GridColDef[] = [
     {
         field: 'logo',
         headerName: 'Series',
         width: 75,
-        renderCell: (params: GridRenderCellParams<any, string>) =>
-            params.value === '' ?
-                DefaultLogo(50) :
-                <img src={"https://images-static.iracing.com/img/logos/series/"+params.value}  alt="logo" width={65}/>,
+        renderCell: (params: GridRenderCellParams<any, string>) => <SeriesLogo link={params.value} />,
         sortable: false,
         headerAlign: 'center',
     },

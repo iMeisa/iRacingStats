@@ -6,7 +6,6 @@ import CurrentUrl from "../../variables/Url.ts";
 import "./Sessions.css"
 import Button from "@mui/material/Button";
 import FormatListNumberedIcon from '@mui/icons-material/FormatListNumbered';
-import LoadingImage from "../../components/images/LoadingImage.tsx";
 
 function sortSubsessions(subsessions: Record<string, unknown>[]): Record<string, unknown>[] {
     subsessions.sort((a,b) => (b.event_strength_of_field as number) - (a.event_strength_of_field as number))

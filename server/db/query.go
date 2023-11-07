@@ -172,11 +172,12 @@ func (d *DB) Series() []models.Series {
 -- 			   AVG(new_sub_level - old_sub_level) / 100 as sr_change
 		FROM series s
 		JOIN license_categories USING (license_category_id)
-		JOIN seasons USING (series_id)
-		JOIN sessions USING (season_id)
-		JOIN subsessions USING (session_id)
-		JOIN results USING (subsession_id)
-		WHERE start_time > ((select max(start_time) from sessions)::integer - (86400*7))
+-- 		JOIN seasons USING (series_id)
+-- 		JOIN sessions USING (season_id)
+-- 		JOIN subsessions USING (session_id)
+-- 		JOIN results USING (subsession_id)
+-- 		WHERE start_time > ((select max(start_time) from sessions)::integer - (86400*7))
+		WHERE active = true
 		ORDER BY series_short_name
 	`
 

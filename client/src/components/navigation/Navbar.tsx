@@ -3,46 +3,59 @@ import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
 import IconButton from '@mui/material/IconButton';
-import Typography from '@mui/material/Typography';
-import Menu from '@mui/material/Menu';
 import MenuIcon from '@mui/icons-material/Menu';
 import Container from '@mui/material/Container';
 import Button from '@mui/material/Button';
-import MenuItem from '@mui/material/MenuItem';
 import StackedLineChartIcon from '@mui/icons-material/StackedLineChart';
+import SportsScoreIcon from '@mui/icons-material/SportsScore';
+import FormatListBulletedIcon from '@mui/icons-material/FormatListBulleted';
+import DirectionsCarFilledIcon from '@mui/icons-material/DirectionsCarFilled';
+import PeopleIcon from '@mui/icons-material/People';
 import {Link} from 'react-router-dom'
 import './Navbar.css'
+import {Drawer, List, ListItem, ListItemButton, ListItemText} from "@mui/material";
+import {useState} from "react";
+import CategoryLogo from "../../functions/img/CategoryLogo.tsx";
 
 const pages = ['Races', 'Series', 'Cars', 'Tracks', 'Users'];
-// const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 
 function pageLink(pageName: string) {
     return `/${pageName.toLowerCase()}`
 }
 
-function ResponsiveAppBar() {
-    const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
-    // const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);
+const pageIcons = (page: string) => {
+    switch (page) {
+        case 'Races':
+            return <SportsScoreIcon/>
+        case 'Series':
+            return <FormatListBulletedIcon/>
+        case 'Cars':
+            return <DirectionsCarFilledIcon/>
+        case 'Tracks':
+            return <div style={{ width: '24px', height: '16px', display: 'flex', justifyContent: 'center' }}>
+                {CategoryLogo(1, 0, 16)}
+            </div>
+        case 'Users':
+            return <PeopleIcon/>
+        default:
+            return <></>
+    }
+}
 
-    const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
-        setAnchorElNav(event.currentTarget);
-    };
+function ResponsiveAppBar() {
+    const [navOpen, setNavOpen] = useState<boolean>(false)
 
     const handleSetActiveNav = (event: React.MouseEvent<HTMLElement>) => {
         event.currentTarget.classList.add('nav-active')
     };
 
-    // const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
-    //     setAnchorElUser(event.currentTarget);
-    // };
-
-    const handleCloseNavMenu = () => {
-        setAnchorElNav(null);
+    const handleOpenNavMenu = () => {
+        setNavOpen(true)
     };
 
-    // const handleCloseUserMenu = () => {
-    //     setAnchorElUser(null);
-    // };
+    const handleCloseNavMenu = () => {
+        setNavOpen(false);
+    };
 
     return (
         <AppBar position="static">
@@ -64,25 +77,6 @@ function ResponsiveAppBar() {
                             }}
                         />
                     </Link>
-
-                    {/*<Typography*/}
-                    {/*    variant="h6"*/}
-                    {/*    noWrap*/}
-                    {/*    component="a"*/}
-                    {/*    href="/"*/}
-                    {/*    sx={{*/}
-                    {/*        flexGrow: 1,*/}
-                    {/*        mr: 2,*/}
-                    {/*        display: { xs: 'none', md: 'flex' },*/}
-                    {/*        fontFamily: 'monospace',*/}
-                    {/*        fontWeight: 700,*/}
-                    {/*        letterSpacing: '.3rem',*/}
-                    {/*        color: 'inherit',*/}
-                    {/*        textDecoration: 'none',*/}
-                    {/*    }}*/}
-                    {/*>*/}
-                    {/*    LOGO*/}
-                    {/*</Typography>*/}
 
                     <Box
                         sx={{
@@ -134,66 +128,26 @@ function ResponsiveAppBar() {
                         >
                             <MenuIcon/>
                         </IconButton>
-                        <Menu
-                            id="menu-appbar"
-                            anchorEl={anchorElNav}
-                            anchorOrigin={{
-                                vertical: 'bottom',
-                                horizontal: 'right',
-                            }}
-                            keepMounted
-                            transformOrigin={{
-                                vertical: 'top',
-                                horizontal: 'right',
-                            }}
-                            open={Boolean(anchorElNav)}
-                            onClose={handleCloseNavMenu}
-                            sx={{
-                                display: {xs: 'block', md: 'none'},
-                            }}
-                        >
-                            {pages.map((page) => (
-                                <Link to={pageLink(page)} style={{ color: 'inherit' }}>
-                                    <MenuItem key={page} onClick={handleCloseNavMenu}>
-                                        <Typography textAlign="center">
-                                            {page}
-                                        </Typography>
-                                    </MenuItem>
-                                </Link>
-                            ))}
-                        </Menu>
-                    </Box>
 
-                    {/*User avatar for if I decide to implement users*/}
-                    {/*<Box sx={{ flexGrow: 0 }}>*/}
-                    {/*    <Tooltip title="Open settings">*/}
-                    {/*        <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>*/}
-                    {/*            <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />*/}
-                    {/*        </IconButton>*/}
-                    {/*    </Tooltip>*/}
-                    {/*    <Menu*/}
-                    {/*        sx={{ mt: '45px' }}*/}
-                    {/*        id="menu-appbar"*/}
-                    {/*        anchorEl={anchorElUser}*/}
-                    {/*        anchorOrigin={{*/}
-                    {/*            vertical: 'top',*/}
-                    {/*            horizontal: 'right',*/}
-                    {/*        }}*/}
-                    {/*        keepMounted*/}
-                    {/*        transformOrigin={{*/}
-                    {/*            vertical: 'top',*/}
-                    {/*            horizontal: 'right',*/}
-                    {/*        }}*/}
-                    {/*        open={Boolean(anchorElUser)}*/}
-                    {/*        onClose={handleCloseUserMenu}*/}
-                    {/*    >*/}
-                    {/*        {settings.map((setting) => (*/}
-                    {/*            <MenuItem key={setting} onClick={handleCloseUserMenu}>*/}
-                    {/*                <Typography textAlign="center">{setting}</Typography>*/}
-                    {/*            </MenuItem>*/}
-                    {/*        ))}*/}
-                    {/*    </Menu>*/}
-                    {/*</Box>*/}
+                        <Drawer
+                            anchor={'left'}
+                            open={navOpen}
+                            onClose={handleCloseNavMenu}
+                        >
+                            <List>
+                                {pages.map((page) => (
+                                    <Link to={pageLink(page)} style={{ color: 'inherit' }}>
+                                        <ListItem disablePadding>
+                                            <ListItemButton onClick={handleCloseNavMenu}>
+                                                {pageIcons(page)}
+                                                <ListItemText primary={page}/>
+                                            </ListItemButton>
+                                        </ListItem>
+                                    </Link>
+                                ))}
+                            </List>
+                        </Drawer>
+                    </Box>
                 </Toolbar>
             </Container>
         </AppBar>

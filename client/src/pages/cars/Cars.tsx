@@ -4,6 +4,7 @@ import React, {useState} from "react";
 import TabPanel from '@mui/lab/TabPanel';
 import {TabContext, TabList} from "@mui/lab";
 import CarTable from "./CarTable.tsx";
+import Container from "@mui/material/Container";
 
 // function a11yProps(index: number) {
 //     return {
@@ -23,6 +24,8 @@ export default function Cars() {
         <>
             {/*<h1>Cars</h1>*/}
             {/*<Box className={"container"} sx={{ width: '100%'}}>*/}
+
+            <Container maxWidth="xl">
                 <TabContext value={value}>
                     <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
                         <TabList onChange={handleChange} aria-label="lab API tabs example" centered>
@@ -35,6 +38,7 @@ export default function Cars() {
                     </TabPanel>
                     <TabPanel value="2">car classes</TabPanel>
                 </TabContext>
+            </Container>
             {/*</Box>*/}
         </>
     )

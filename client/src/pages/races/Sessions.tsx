@@ -6,6 +6,7 @@ import CurrentUrl from "../../variables/Url.ts";
 import "./Sessions.css"
 import Button from "@mui/material/Button";
 import FormatListNumberedIcon from '@mui/icons-material/FormatListNumbered';
+import Container from "@mui/material/Container";
 
 function sortSubsessions(subsessions: Record<string, unknown>[]): Record<string, unknown>[] {
     subsessions.sort((a,b) => (b.event_strength_of_field as number) - (a.event_strength_of_field as number))
@@ -115,23 +116,26 @@ export default function Sessions() {
                         </>
                     )}
                 </div>
-                <DataGrid
 
-                    slots={{
-                        loadingOverlay: LinearProgress,
-                    }}
-                    autoHeight
-                    loading={loading}
-                    rows={rows}
-                    columns={columns}
-                    disableColumnMenu={true}
-                    initialState={{
-                        pagination: {
-                            paginationModel: { page: 0, pageSize: 10 },
-                        },
-                    }}
-                    pageSizeOptions={[10]}
-                />
+                <Container maxWidth="xl">
+                    <DataGrid
+
+                        slots={{
+                            loadingOverlay: LinearProgress,
+                        }}
+                        autoHeight
+                        loading={loading}
+                        rows={rows}
+                        columns={columns}
+                        disableColumnMenu={true}
+                        initialState={{
+                            pagination: {
+                                paginationModel: { page: 0, pageSize: 10 },
+                            },
+                        }}
+                        pageSizeOptions={[10]}
+                    />
+                </Container>
             </div>
             {/*<h1>HELLO PUNY HUMAN</h1>*/}
             {/*<h1>{id}</h1>*/}

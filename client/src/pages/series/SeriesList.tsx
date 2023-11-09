@@ -9,6 +9,7 @@ import ToTitle from "../../functions/strings/Title.ts";
 import CategoryLogo from "../../functions/img/CategoryLogo.tsx";
 import "./SeriesList.css"
 import SeriesLogo from "../../components/images/SeriesLogo.tsx";
+import Container from "@mui/material/Container";
 
 const columns: GridColDef[] = [
     {
@@ -50,31 +51,33 @@ export default function SeriesList() {
 
     return <>
         <h2>Series List</h2>
-        <DataGrid
-            // autoHeight
-            slots={{
-                loadingOverlay: LinearProgress,
-            }}
-            loading={loading}
+        <Container maxWidth="xl">
+            <DataGrid
+                // autoHeight
+                slots={{
+                    loadingOverlay: LinearProgress,
+                }}
+                loading={loading}
 
-            columns={columns}
-            rows={rows}
+                columns={columns}
+                rows={rows}
 
-            initialState={{
+                initialState={{
 
-                pagination: {
-                    paginationModel: { page: 0, pageSize: 10 },
-                },
+                    pagination: {
+                        paginationModel: { page: 0, pageSize: 10 },
+                    },
 
-                sorting: {
-                    sortModel: [{field: 'series_short_name', sort: 'asc'}],
-                },
+                    sorting: {
+                        sortModel: [{field: 'series_short_name', sort: 'asc'}],
+                    },
 
-            }}
+                }}
 
-            pageSizeOptions={[10]}
+                pageSizeOptions={[10]}
 
-            // onPaginationModelChange={handlePaginationData}
-        />
+                // onPaginationModelChange={handlePaginationData}
+            />
+        </Container>
     </>
 }

@@ -7,6 +7,7 @@ import CurrentUrl from "../../variables/Url.ts";
 import {Link} from "react-router-dom";
 import CategoryLogo from "../../functions/img/CategoryLogo.tsx";
 import SeriesLogo from "../../components/images/SeriesLogo.tsx";
+import Container from "@mui/material/Container";
 
 const columns: GridColDef[] = [
     {
@@ -96,33 +97,36 @@ export default function Races() {
             <p style={{color: 'darkgray'}}>Last 24 Hours</p>
             {/*<h1>💀</h1>*/}
             {/*<h1 className={"fuelvine-ad"}>DOWNLOAD FUELVINE NOW!!!!!!!!!!!!!!!!!!!!!!</h1>*/}
-            <DataGrid
-                // autoHeight
-                slots={{
-                    loadingOverlay: LinearProgress,
-                }}
-                loading={loading}
-                sx={{color: 'inherit'}}
-                disableColumnMenu={true}
-                rows={rows}
-                columns={columns}
-                initialState={{
-                    pagination: {
-                        paginationModel: { page: 0, pageSize: 10 },
-                    },
 
-                    sorting: {
-                        sortModel: [{field: 'end_time', sort: 'desc'}],
-                    },
+            <Container maxWidth="xl">
+                <DataGrid
+                    // autoHeight
+                    slots={{
+                        loadingOverlay: LinearProgress,
+                    }}
+                    loading={loading}
+                    sx={{color: 'inherit'}}
+                    disableColumnMenu={true}
+                    rows={rows}
+                    columns={columns}
+                    initialState={{
+                        pagination: {
+                            paginationModel: { page: 0, pageSize: 10 },
+                        },
 
-                    columns: {
-                        columnVisibilityModel: {
-                            end_time: false
+                        sorting: {
+                            sortModel: [{field: 'end_time', sort: 'desc'}],
+                        },
+
+                        columns: {
+                            columnVisibilityModel: {
+                                end_time: false
+                            }
                         }
-                    }
-                }}
-                pageSizeOptions={[10]}
-            />
+                    }}
+                    pageSizeOptions={[10]}
+                />
+            </Container>
         </>
     )
 }

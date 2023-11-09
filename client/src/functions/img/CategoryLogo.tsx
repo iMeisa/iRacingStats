@@ -1,7 +1,7 @@
 import {LicenseTertiaryColor} from "./LicenseColor.ts";
 // import {LicenseSecondaryColor} from "./LicenseColor.ts";
 
-export default function CategoryLogo(id: number, licenseLevel: number) {
+export default function CategoryLogo(id: number, licenseLevel: number = 0, size: number = 25) {
 
     // console.log("level", licenseLevel)
 
@@ -24,14 +24,14 @@ export default function CategoryLogo(id: number, licenseLevel: number) {
     }
 
 
-    const licenseColor = LicenseTertiaryColor(licenseLevel)
+    const licenseColor = licenseLevel === 0 ? 'currentColor' : LicenseTertiaryColor(licenseLevel)
     // console.log(licenseColor)
 
     return <>
         <svg
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 16 16"
-            height={25}
+            height={size}
         >
             <path fill={licenseColor} d={path}></path>
         </svg>

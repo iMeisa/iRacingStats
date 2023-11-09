@@ -58,7 +58,7 @@ export default function Subsession() {
     }, [results]);
 
     return <>
-        <Container>
+        <Container maxWidth='xl'>
             <Grid container mt={2} spacing={2}>
                 <InfoCard title="Average Lap" info={LapTime(subsession.event_average_lap)}/>
                 <InfoCard title="Laps Completed" info={subsession.event_laps_complete}/>

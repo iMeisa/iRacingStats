@@ -1,9 +1,9 @@
 import {LinearProgress, TextField} from "@mui/material";
-import Box from "@mui/material/Box";
 import {useEffect, useState} from "react";
 import {Link, useSearchParams} from "react-router-dom";
 import {DataGrid, GridColDef} from "@mui/x-data-grid";
 import CurrentUrl from "../../variables/Url.ts";
+import Container from "@mui/material/Container";
 
 const columns: GridColDef[] = [
     {
@@ -77,7 +77,7 @@ export default function Users() {
                     justifyContent: 'center',
                 }}
             >
-                <Box className={"small-container"} sx={{mt: 5}}>
+                <Container maxWidth="sm" sx={{mt: 5}}>
                     <TextField
                         fullWidth
                         label="Search user(s)"
@@ -120,7 +120,7 @@ export default function Users() {
 
                     />
 
-                </Box>
+                </Container>
 
             </div>
         </>

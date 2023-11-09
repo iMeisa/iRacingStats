@@ -106,18 +106,17 @@ function ResponsiveAppBar() {
                     <Link to='/'>
                         <StackedLineChartIcon
                             sx={{
-                                flexGrow: 2,
+                                // flexGrow: 2,
                                 display: {
                                     xs: 'flex',
                                     md: 'none',
                                 },
-                                mr: 1,
                                 color: 'white',
                             }}
                         />
                     </Link>
 
-                    <Box sx={{display: {xs: 'flex', md: 'none'}}}>
+                    <Box sx={{display: {xs: 'flex', md: 'none'}, ml: 'auto'}}>
                         <IconButton
                             size="large"
                             aria-label="account of current user"
@@ -130,7 +129,7 @@ function ResponsiveAppBar() {
                         </IconButton>
 
                         <Drawer
-                            anchor={'left'}
+                            anchor={'right'}
                             open={navOpen}
                             onClose={handleCloseNavMenu}
                         >
@@ -140,7 +139,7 @@ function ResponsiveAppBar() {
                                         <ListItem disablePadding>
                                             <ListItemButton onClick={handleCloseNavMenu}>
                                                 {pageIcons(page)}
-                                                <ListItemText primary={page}/>
+                                                <ListItemText style={{marginLeft: '3px'}} primary={page}/>
                                             </ListItemButton>
                                         </ListItem>
                                     </Link>

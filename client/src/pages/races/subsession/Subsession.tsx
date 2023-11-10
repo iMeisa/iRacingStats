@@ -16,6 +16,17 @@ import RatingBadge from "../../../components/data/RatingBadge.tsx";
 const columns: GridColDef[] = [
     { field: 'finish_position', headerName: '#', width: 10, headerAlign: 'right', align: 'right' },
     {
+        field: 'display_name',
+        headerName: 'Driver',
+        flex: 1,
+        minWidth: 150,
+        renderCell: params =>
+            <Link
+                style={{ textDecoration: 'underline', fontStyle: 'italic', color: 'inherit', fontWeight: 'bold'}}
+                to={`/user/${params.row.cust_id}`}
+            >{params.value}</Link>
+    },
+    {
         field: 'rating',
         headerName: '',
         width: 200,
@@ -27,17 +38,6 @@ const columns: GridColDef[] = [
                 old_ir={params.row.oldi_rating}
                 new_ir={params.row.newi_rating}
             />,
-    },
-    {
-        field: 'display_name',
-        headerName: 'Driver',
-        flex: 1,
-        minWidth: 150,
-        renderCell: params =>
-            <Link
-                style={{ textDecoration: 'underline', fontStyle: 'italic', color: 'inherit', fontWeight: 'bold'}}
-                to={`/user/${params.row.cust_id}`}
-            >{params.value}</Link>
     },
     {
         field: 'logo',
@@ -104,6 +104,11 @@ export default function Subsession() {
         console.log(results)
     }, [results]);
 
+    // Column defaults
+    columns.map((col) => {
+        col.hideSortIcons = true
+    })
+
     return <>
         <Container maxWidth='xl'>
             <Box sx={{ display: { xs: 'none', md: 'block' } }}>
@@ -159,6 +164,7 @@ export default function Subsession() {
                             rows={results}
                             pageSizeOptions={[100]}
                             hideFooter
+                            disableColumnMenu
                         />
                     </AccordionDetails>
                 </Accordion>

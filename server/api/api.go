@@ -3,8 +3,6 @@ package api
 import (
 	"github.com/gofiber/fiber/v2"
 	"github.com/iMeisa/iRacingStats/server/db"
-	"log"
-	"strconv"
 )
 
 type Api struct {
@@ -22,7 +20,6 @@ func (a *Api) Get(ctx *fiber.Ctx) error {
 	//}
 
 	tableName := ctx.Params("table")
-	//fmt.Println(ctx.Queries())
 
 	var query interface{}
 
@@ -43,13 +40,10 @@ func (a *Api) Get(ctx *fiber.Ctx) error {
 		query = a.DB.Sessions()
 
 	case "session":
+		query = a.DB.Subsessions(ctx.QueryInt("session_id"))
 
-		sessionId, err := strconv.Atoi(ctx.Query("session_id"))
-		if err != nil {
-			log.Println("parsing session_id: ", err)
-		}
-
-		query = a.DB.Subsessions(sessionId)
+	case "subsession_results":
+		query = a.DB.SubsessionResults(ctx.QueryInt("id"))
 
 	case "user":
 		query = a.DB.User(ctx.QueryInt("cust_id"))

@@ -1,7 +1,6 @@
 package db
 
 import (
-	"context"
 	"encoding/json"
 	"errors"
 	"fmt"
@@ -9,7 +8,6 @@ import (
 	"github.com/iMeisa/iRacingStats/server/models"
 	"log"
 	"slices"
-	"time"
 )
 
 // stringToJsonMap unmarshals string JSON into a JsonMap
@@ -24,7 +22,7 @@ func stringToJsonMap(jsonString string) (JsonMap, errortrace.ErrorTrace) {
 }
 
 func (d *DB) LatestSubsessionTime() int {
-	ctx, cancel := context.WithTimeout(context.Background(), 3*time.Second)
+	ctx, cancel := getContext()
 	defer cancel()
 
 	row := d.SQL.QueryRowContext(ctx, "SELECT max(end_time) FROM subsessions")
@@ -61,7 +59,7 @@ func (d *DB) DataRange() map[string]int {
 
 // Query validates and executes api query requested by the user
 func (d *DB) Query(tableName string, queries UrlQueryMap) ([]JsonMap, errortrace.ErrorTrace) {
-	ctx, cancel := context.WithTimeout(context.Background(), 3*time.Second)
+	ctx, cancel := getContext()
 	defer cancel()
 
 	// Validate tableName
@@ -112,7 +110,7 @@ func (d *DB) Query(tableName string, queries UrlQueryMap) ([]JsonMap, errortrace
 
 // QueryCount validates table and return row count
 func (d *DB) QueryCount(tableName string) []JsonMap {
-	ctx, cancel := context.WithTimeout(context.Background(), 3*time.Second)
+	ctx, cancel := getContext()
 	defer cancel()
 
 	// Validate tableName
@@ -154,12 +152,46 @@ func (d *DB) QueryCount(tableName string) []JsonMap {
 	return results
 }
 
-func (d *DB) Results() []models.Result {
-	return nil
+func (d *DB) SubsessionResults(id int) []JsonMap {
+	ctx, cancel := getContext()
+	defer cancel()
+
+	// SQL query
+	statement := `
+		SELECT row_to_json(t)
+		FROM (
+			SELECT * 
+			FROM results
+			JOIN customers USING (cust_id)
+			JOIN cars USING (car_id)
+			WHERE subsession_id=$1 AND simsession_number=0
+		) t
+	`
+
+	rows, err := d.SQL.QueryContext(ctx, statement, id)
+
+	// Create a JSON array
+	var results []JsonMap
+	for rows.Next() {
+		var result string
+
+		err = rows.Scan(&result)
+		if err != nil {
+			return nil
+		}
+
+		resultJson, trace := stringToJsonMap(result)
+		if trace.HasError() {
+			return nil
+		}
+		results = append(results, resultJson)
+	}
+
+	return results
 }
 
 func (d *DB) Series() []models.Series {
-	ctx, cancel := context.WithTimeout(context.Background(), 3*time.Second)
+	ctx, cancel := getContext()
 	defer cancel()
 
 	statement := `
@@ -213,7 +245,7 @@ func (d *DB) Series() []models.Series {
 }
 
 func (d *DB) Sessions() []models.Session {
-	ctx, cancel := context.WithTimeout(context.Background(), 3*time.Second)
+	ctx, cancel := getContext()
 	defer cancel()
 
 	statement := `
@@ -281,7 +313,7 @@ func (d *DB) Sessions() []models.Session {
 }
 
 func (d *DB) Subsessions(sessionId int) []models.Subsession {
-	ctx, cancel := context.WithTimeout(context.Background(), 3*time.Second)
+	ctx, cancel := getContext()
 	defer cancel()
 
 	statement := `

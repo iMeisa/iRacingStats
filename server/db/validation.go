@@ -63,7 +63,7 @@ func (q UrlQueryMap) createWhereClause(db *DB, tableName string) string {
 			clause = fmt.Sprint(clause, " ", param)
 		}
 
-		fmt.Println(clause)
+		//fmt.Println(clause)
 	}
 
 	// Test if params have been added

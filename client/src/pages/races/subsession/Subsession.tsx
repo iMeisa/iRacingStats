@@ -11,9 +11,23 @@ import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import CarLogo from "../../../components/images/CarLogo.tsx";
+import RatingBadge from "../../../components/data/RatingBadge.tsx";
 
 const columns: GridColDef[] = [
-    { field: 'finish_position', headerName: '#', width: 75 },
+    { field: 'finish_position', headerName: '#', width: 10, headerAlign: 'right', align: 'right' },
+    {
+        field: 'rating',
+        headerName: '',
+        width: 200,
+        renderCell: params =>
+            <RatingBadge
+                license={params.row.new_license_level}
+                old_sr={params.row.old_sub_level}
+                new_sr={params.row.new_sub_level}
+                old_ir={params.row.oldi_rating}
+                new_ir={params.row.newi_rating}
+            />,
+    },
     {
         field: 'display_name',
         headerName: 'Driver',
@@ -29,7 +43,8 @@ const columns: GridColDef[] = [
         field: 'logo',
         headerName: 'Car',
         headerAlign: 'center',
-        width: 75,
+        align: 'right',
+        width: 80,
         renderCell: (params: GridRenderCellParams<any, string>) =>
             <Tooltip title={params.row.car_name} disableInteractive>
                 <span>

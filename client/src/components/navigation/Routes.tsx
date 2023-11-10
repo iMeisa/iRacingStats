@@ -3,7 +3,7 @@ import Home from "../../pages/Home.tsx";
 import {Route, Routes as RouterRoutes} from "react-router-dom";
 import Races from "../../pages/races/Races.tsx";
 import Sessions from "../../pages/races/Sessions.tsx";
-import Subsession from "../../pages/races/Subsession.tsx";
+import Subsession from "../../pages/races/subsession/Subsession.tsx";
 import Series from "../../pages/series/Series.tsx"
 import SeriesList from "../../pages/series/SeriesList.tsx"
 import Cars from "../../pages/cars/Cars.tsx";

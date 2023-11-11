@@ -57,6 +57,48 @@ func (d *DB) DataRange() map[string]int {
 	return dataRange
 }
 
+func (d *DB) DriverResults(id int) []JsonMap {
+	ctx, cancel := getContext()
+	defer cancel()
+
+	// SQL query
+	statement := `
+		SELECT row_to_json(t)
+		FROM (
+			SELECT * 
+			FROM results
+			JOIN subsessions USING (subsession_id)
+			JOIN sessions USING (session_id)
+			JOIN seasons USING (season_id)
+			JOIN customers USING (cust_id)
+			JOIN cars USING (car_id)
+			WHERE cust_id=$1 AND simsession_number=0
+			ORDER BY subsession_id DESC
+		) t
+	`
+
+	rows, err := d.SQL.QueryContext(ctx, statement, id)
+
+	// Create a JSON array
+	var results []JsonMap
+	for rows.Next() {
+		var result string
+
+		err = rows.Scan(&result)
+		if err != nil {
+			return nil
+		}
+
+		resultJson, trace := stringToJsonMap(result)
+		if trace.HasError() {
+			return nil
+		}
+		results = append(results, resultJson)
+	}
+
+	return results
+}
+
 // Query validates and executes api query requested by the user
 func (d *DB) Query(tableName string, queries UrlQueryMap) ([]JsonMap, errortrace.ErrorTrace) {
 	ctx, cancel := getContext()
@@ -162,6 +204,8 @@ func (d *DB) SubsessionResults(id int) []JsonMap {
 		FROM (
 			SELECT * 
 			FROM results
+			JOIN subsessions USING (subsession_id)
+			JOIN sessions USING (session_id)
 			JOIN customers USING (cust_id)
 			JOIN cars USING (car_id)
 			WHERE subsession_id=$1 AND simsession_number=0

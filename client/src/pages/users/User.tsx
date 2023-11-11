@@ -1,14 +1,12 @@
 import useFetch from "../../hooks/useFetch.ts";
 import {useParams} from "react-router-dom";
 import {useEffect, useState} from "react";
-// import {Paper} from "@mui/material";
 import Grid from '@mui/material/Unstable_Grid2';
 import Container from "@mui/material/Container";
-import ClubLogo from "../../components/images/ClubLogo.tsx";
-import {UnixToDate} from "../../functions/datetime/UnixToDate.ts";
 import Typography from "@mui/material/Typography";
 import "./User.css"
-import { Paper } from "@mui/material";
+import {Paper, Stack} from "@mui/material";
+import RatingBadge from "../../components/data/RatingBadge.tsx";
 
 type User = {
     id: number,
@@ -30,7 +28,7 @@ export default function User() {
                 return obj
             })
 
-    const [results, _] = useFetch(`/api/results?cust_id=${id}`)
+    const [results, _] = useFetch(`/api/driver_results?id=${id}`)
 
     useEffect(() => {
 
@@ -45,26 +43,59 @@ export default function User() {
         <Container>
             <Grid container spacing={2} style={{ marginTop: '2em' }}>
 
-                <Grid container md>
+                <Grid md={6}>
 
-                    <Grid md>
-                        <Paper>{UnixToDate(user.member_since)}</Paper>
-                    </Grid>
-                    <Grid md>
-                        <Paper>{user.club_name}</Paper>
-                    </Grid>
+                    <Paper>
+
+                        <Stack direction="row" spacing={1}>
+
+                            <Grid xs={6}>
+                                <Paper elevation={3}>
+                                    <Typography>
+                                        {user.display_name}
+                                    </Typography>
+                                </Paper>
+                            </Grid>
+
+                            <Grid xs={6}>
+                                <Paper elevation={3}>
+                                    <Stack direction="row">
+                                        <Stack>
+                                            <RatingBadge category={1}/>
+                                            <RatingBadge category={2}/>
+                                        </Stack>
+                                        <Stack>
+                                            <RatingBadge category={3}/>
+                                            <RatingBadge category={4}/>
+                                        </Stack>
+                                    </Stack>
+                                </Paper>
+                            </Grid>
+                        </Stack>
+                    </Paper>
 
                 </Grid>
 
-                <Grid container md={4}>
-                    <Grid xs>
-                        <Paper elevation={12} sx={{ height: '10rem', lineHeight: '5rem' }}>
-                            <Typography variant="h6">{user.display_name}</Typography>
-                            <ClubLogo id={user.club_id} clubName={user.club_name} />
-                        </Paper>
-                    </Grid>
+                {/*<Grid container md>*/}
 
-                </Grid>
+                {/*    <Grid md>*/}
+                {/*        <Paper>{UnixToDate(user.member_since)}</Paper>*/}
+                {/*    </Grid>*/}
+                {/*    <Grid md>*/}
+                {/*        <Paper>{user.club_name}</Paper>*/}
+                {/*    </Grid>*/}
+
+                {/*</Grid>*/}
+
+                {/*<Grid container md={4}>*/}
+                {/*    <Grid xs>*/}
+                {/*        <Paper elevation={12} sx={{ height: '10rem', lineHeight: '5rem' }}>*/}
+                {/*            <Typography variant="h6">{user.display_name}</Typography>*/}
+                {/*            <ClubLogo id={user.club_id} clubName={user.club_name} />*/}
+                {/*        </Paper>*/}
+                {/*    </Grid>*/}
+
+                {/*</Grid>*/}
             </Grid>
         </Container>
     </>

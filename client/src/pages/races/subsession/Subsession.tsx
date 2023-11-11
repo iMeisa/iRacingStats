@@ -21,6 +21,7 @@ const columns: GridColDef[] = [
         width: 200,
         renderCell: params =>
             <RatingBadge
+                category={params.row.license_category_id}
                 license={params.row.new_license_level}
                 old_sr={params.row.old_sub_level}
                 safety_rating={params.row.new_sub_level}
@@ -46,6 +47,7 @@ const columns: GridColDef[] = [
         width: 140,
         renderCell: params =>
             <RatingBadge
+                category={params.row.license_category_id}
                 license={params.row.new_license_level}
                 safety_rating={params.row.new_sub_level}
                 irating={params.row.newi_rating}

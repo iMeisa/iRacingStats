@@ -2,6 +2,19 @@ package models
 
 import "time"
 
+type License struct {
+	Level    int `json:"level"`
+	SubLevel int `json:"sub_level"`
+	IRating  int `json:"irating"`
+}
+
+type UserLicenses struct {
+	Oval     License `json:"oval"`
+	Road     License `json:"road"`
+	DirtOval License `json:"dirt_oval"`
+	DirtRoad License `json:"dirt_road"`
+}
+
 type Result struct {
 	CustId                  int       `json:"cust_id"`
 	TeamId                  int       `json:"team_id"`
@@ -91,4 +104,13 @@ type Subsession struct {
 	SeriesLogo      string `json:"series_logo"`
 	SeriesName      string `json:"series_name"`
 	StrengthOfField int    `json:"strength_of_field"`
+}
+
+type User struct {
+	Id          int          `json:"id"`
+	Name        string       `json:"name"`
+	MemberSince int          `json:"member_since"`
+	ClubId      int          `json:"club_id"`
+	ClubName    string       `json:"club_name"`
+	Licenses    UserLicenses `json:"licenses"`
 }

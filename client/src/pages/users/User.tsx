@@ -7,22 +7,14 @@ import Typography from "@mui/material/Typography";
 import "./User.css"
 import {Paper, Stack} from "@mui/material";
 import RatingBadge from "../../components/data/RatingBadge.tsx";
-
-type User = {
-    id: number,
-    display_name: string,
-    member_since: number,
-    club_id: number,
-    club_name: string,
-}
+import {User as UserModel, defaultUser} from "./UserTypes.ts";
 
 export default function User() {
     const {id} = useParams()
 
-    const emptyUser: User = {id: 0, display_name: '', member_since: 0, club_id: 0, club_name: ''}
-    const [user, setUser] = useState(emptyUser)
+    const [user, setUser] = useState(defaultUser)
 
-    const [users, _loading] = useFetch<User>(`/api/user?cust_id=${id}`,
+    const [users, _loading] = useFetch<UserModel>(`/api/user?cust_id=${id}`,
             (obj) => {
                 // obj['id'] = obj['cust_id']
                 return obj
@@ -52,7 +44,7 @@ export default function User() {
                             <Grid xs={6}>
                                 <Paper elevation={3}>
                                     <Typography>
-                                        {user.display_name}
+                                        {user.name}
                                     </Typography>
                                 </Paper>
                             </Grid>
@@ -61,12 +53,32 @@ export default function User() {
                                 <Paper elevation={3}>
                                     <Stack direction="row">
                                         <Stack>
-                                            <RatingBadge category={1}/>
-                                            <RatingBadge category={2}/>
+                                            <RatingBadge
+                                                category={1}
+                                                license={user.licenses.oval.level}
+                                                safety_rating={user.licenses.oval.sub_level}
+                                                irating={user.licenses.oval.irating}
+                                            />
+                                            <RatingBadge
+                                                category={3}
+                                                license={user.licenses.dirt_oval.level}
+                                                safety_rating={user.licenses.dirt_oval.sub_level}
+                                                irating={user.licenses.dirt_oval.irating}
+                                            />
                                         </Stack>
                                         <Stack>
-                                            <RatingBadge category={3}/>
-                                            <RatingBadge category={4}/>
+                                            <RatingBadge
+                                                category={2}
+                                                license={user.licenses.road.level}
+                                                safety_rating={user.licenses.road.sub_level}
+                                                irating={user.licenses.road.irating}
+                                            />
+                                            <RatingBadge
+                                                category={4}
+                                                license={user.licenses.dirt_road.level}
+                                                safety_rating={user.licenses.dirt_road.sub_level}
+                                                irating={user.licenses.dirt_road.irating}
+                                            />
                                         </Stack>
                                     </Stack>
                                 </Paper>

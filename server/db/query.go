@@ -455,12 +455,11 @@ func (d *DB) Users(name string) []map[string]any {
 	return customers
 }
 
-func (d *DB) User(id int) []map[string]any {
+func (d *DB) User(id int) []models.User {
 	ctx, cancel := getContext()
 	defer cancel()
 
-	//fmt.Println(name)
-
+	// User
 	statement := `
 		SELECT cust_id, display_name, member_since, c.club_id, club_name
 		FROM customers c
@@ -468,29 +467,66 @@ func (d *DB) User(id int) []map[string]any {
 		WHERE cust_id = $1
 	`
 
-	//fmt.Println(statement)
-
 	row := d.SQL.QueryRowContext(ctx, statement, id)
 
-	var customers []map[string]any
-	var custId int
-	var displayName string
-	var memberSince int
-	var clubId int
-	var clubName string
-	err := row.Scan(&custId, &displayName, &memberSince, &clubId, &clubName)
+	var users []models.User
+	var user models.User
+	err := row.Scan(&user.Id, &user.Name, &user.MemberSince, &user.ClubId, &user.ClubName)
 	if err != nil {
 		log.Println("error scanning users:", err)
 	}
 
-	customer := make(map[string]any)
-	customer["id"] = custId
-	customer["display_name"] = displayName
-	customer["member_since"] = memberSince
-	customer["club_id"] = clubId
-	customer["club_name"] = clubName
+	// Licenses
+	statement = `
+		SELECT license_category_id, 
+			   new_license_level, 
+			   new_sub_level, 
+			   newi_rating
+		FROM results r
+		JOIN subsessions s USING (subsession_id)
+		JOIN sessions s2 USING (session_id)
+		WHERE cust_id = $1 AND simsession_number = 0 AND subsession_id IN (
+			SELECT max(subsession_id)
+			FROM results r 
+			JOIN subsessions s USING (subsession_id)
+			JOIN sessions s2 USING (session_id)
+			WHERE cust_id = $1
+			GROUP BY license_category_id
+		)
+		GROUP BY license_category_id, new_license_level, new_sub_level, newi_rating
+	`
 
-	customers = append(customers, customer)
+	rows, err := d.SQL.QueryContext(ctx, statement, id)
+	if err != nil {
+		log.Println("error querying user licenses: ", err)
+	}
 
-	return customers
+	var licenses models.UserLicenses
+	for rows.Next() {
+		var category int
+		var license models.License
+
+		err = rows.Scan(&category, &license.Level, &license.SubLevel, &license.IRating)
+		if err != nil {
+			log.Println("error scanning license: ", err)
+		}
+
+		switch category {
+		case 1:
+			licenses.Oval = license
+		case 2:
+			licenses.Road = license
+		case 3:
+			licenses.DirtOval = license
+		case 4:
+			licenses.DirtRoad = license
+		}
+
+	}
+
+	user.Licenses = licenses
+
+	users = append(users, user)
+
+	return users
 }

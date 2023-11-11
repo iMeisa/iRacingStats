@@ -3,6 +3,9 @@ import {LicenseColor, LicenseSecondaryColor, LicenseTertiaryColor} from "../../f
 import CategoryLogo from "../../functions/img/CategoryLogo.tsx";
 
 function formatChange(old_num: number, new_num: number, decimal: boolean) {
+
+    if (old_num === 0) return ''
+
     let change = new_num - old_num
 
     let changeFormatted: string
@@ -16,8 +19,16 @@ function formatChange(old_num: number, new_num: number, decimal: boolean) {
     return changeFormatted
 }
 
-export default function RatingBadge
-    (props: {license: number, old_sr: number, new_sr: number, old_ir: number, new_ir: number}) {
+type RatingBadgeProps = {
+    license: number,
+    old_sr?: number,
+    safety_rating: number,
+    old_ir?: number,
+    irating: number,
+    show_change: boolean,
+}
+
+export default function RatingBadge(props: RatingBadgeProps) {
     return <Box
         sx={{
 
@@ -32,7 +43,7 @@ export default function RatingBadge
 
             borderRadius: 2,
 
-            width: '12rem',
+            width:  props.show_change ? '12rem' : '7.5rem',
 
             display: 'flex',
             justifyContent: 'space-evenly'
@@ -41,7 +52,8 @@ export default function RatingBadge
         <div style={{ height: '16px', display: 'block', marginTop: 'auto', marginBottom: 'auto' }}>
             {CategoryLogo(1, 0, 16)}
         </div>
-        <strong>{props.new_sr / 100} {formatChange(props.old_sr, props.new_sr, true)}</strong>
-        {props.new_ir} {formatChange(props.old_ir, props.new_ir, false)}
+        <strong>{(props.safety_rating / 100).toFixed(2)}</strong>
+        <strong>{ props.show_change ? formatChange(props.old_sr ? props.old_sr : 0, 0, true) : ''}</strong>
+        {props.irating} { props.show_change ? formatChange(props.old_ir ? props.old_ir : 0, props.irating, false) : '' }
     </Box>
 }

@@ -16,6 +16,20 @@ import RatingBadge from "../../../components/data/RatingBadge.tsx";
 const columns: GridColDef[] = [
     { field: 'finish_position', headerName: '#', width: 10, headerAlign: 'right', align: 'right' },
     {
+        field: 'rating',
+        headerName: '',
+        width: 200,
+        renderCell: params =>
+            <RatingBadge
+                license={params.row.new_license_level}
+                old_sr={params.row.old_sub_level}
+                safety_rating={params.row.new_sub_level}
+                old_ir={params.row.oldi_rating}
+                irating={params.row.newi_rating}
+                show_change={true}
+            />,
+    },
+    {
         field: 'display_name',
         headerName: 'Driver',
         flex: 1,
@@ -27,16 +41,15 @@ const columns: GridColDef[] = [
             >{params.value}</Link>
     },
     {
-        field: 'rating',
+        field: 'mobile_rating',
         headerName: '',
-        width: 200,
+        width: 140,
         renderCell: params =>
             <RatingBadge
                 license={params.row.new_license_level}
-                old_sr={params.row.old_sub_level}
-                new_sr={params.row.new_sub_level}
-                old_ir={params.row.oldi_rating}
-                new_ir={params.row.newi_rating}
+                safety_rating={params.row.new_sub_level}
+                irating={params.row.newi_rating}
+                show_change={false}
             />,
     },
     {
@@ -125,6 +138,15 @@ export default function Subsession() {
                     rows={results}
 
                     pageSizeOptions={[100]}
+
+                    initialState={{
+                        columns: {
+                            columnVisibilityModel: {
+                                mobile_rating: false
+                            }
+                        }
+                    }}
+
                 />
             </Box>
 
@@ -165,6 +187,14 @@ export default function Subsession() {
                             pageSizeOptions={[100]}
                             hideFooter
                             disableColumnMenu
+
+                            initialState={{
+                                columns: {
+                                    columnVisibilityModel: {
+                                        rating: false
+                                    }
+                                }
+                            }}
                         />
                     </AccordionDetails>
                 </Accordion>

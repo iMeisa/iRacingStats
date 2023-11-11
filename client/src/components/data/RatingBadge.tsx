@@ -71,7 +71,7 @@ export default function RatingBadge(props: RatingBadgeProps) {
             {CategoryLogo(props.category, 0, 18)}
         </div>
         <strong style={{ textAlign: 'center' }}>{(safety_rating / 100).toFixed(2)}</strong>
-        <strong style={{ textAlign: 'center' }}>{ show_change ? formatChange(old_sr, 0, true) : ''}</strong>
+        <strong style={{ textAlign: 'center' }}>{ show_change ? formatChange(old_sr, safety_rating, true) : ''}</strong>
         { iratingEstimated ? `~${irating}` : irating} { show_change ? formatChange(old_ir, irating, false) : '' }
     </Box>
 }

@@ -39,6 +39,8 @@ export default function RatingBadge(props: RatingBadgeProps) {
     const irating = props.irating ? props.irating : 1350
     const show_change = props.show_change ? props.show_change : false
 
+    const rookieRatings = [-1, 1350]
+    const iratingEstimated = license < 4 && !rookieRatings.includes(irating)
 
     return <Box
         sx={{
@@ -70,6 +72,6 @@ export default function RatingBadge(props: RatingBadgeProps) {
         </div>
         <strong style={{ textAlign: 'center' }}>{(safety_rating / 100).toFixed(2)}</strong>
         <strong style={{ textAlign: 'center' }}>{ show_change ? formatChange(old_sr, 0, true) : ''}</strong>
-        {irating} { show_change ? formatChange(old_ir, irating, false) : '' }
+        { iratingEstimated ? `~${irating}` : irating} { show_change ? formatChange(old_ir, irating, false) : '' }
     </Box>
 }

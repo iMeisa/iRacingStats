@@ -481,7 +481,10 @@ func (d *DB) User(id int) []models.User {
 		SELECT license_category_id, 
 			   new_license_level, 
 			   new_sub_level, 
-			   newi_rating
+			   newi_rating,
+			   event_strength_of_field,
+			   finish_position_in_class,
+	   		   (SELECT count(*) FROM results WHERE subsession_id = s.subsession_id AND simsession_number = 0) AS drivers
 		FROM results r
 		JOIN subsessions s USING (subsession_id)
 		JOIN sessions s2 USING (session_id)
@@ -493,7 +496,7 @@ func (d *DB) User(id int) []models.User {
 			WHERE cust_id = $1
 			GROUP BY license_category_id
 		)
-		GROUP BY license_category_id, new_license_level, new_sub_level, newi_rating
+		GROUP BY license_category_id, new_license_level, new_sub_level, newi_rating, event_strength_of_field, finish_position_in_class, s.subsession_id 
 	`
 
 	rows, err := d.SQL.QueryContext(ctx, statement, id)
@@ -506,9 +509,20 @@ func (d *DB) User(id int) []models.User {
 		var category int
 		var license models.License
 
-		err = rows.Scan(&category, &license.Level, &license.SubLevel, &license.IRating)
+		var sof float32
+		var pos float32
+		var fieldSize float32
+
+		err = rows.Scan(&category, &license.Level, &license.SubLevel, &license.IRating, &sof, &pos, &fieldSize)
 		if err != nil {
 			log.Println("error scanning license: ", err)
+		}
+
+		// iRating estimation
+		if license.IRating < 0 {
+			pos++
+			var halfField = fieldSize / 2
+			license.IRating = int(sof + ((halfField - pos) / halfField * 100))
 		}
 
 		switch category {

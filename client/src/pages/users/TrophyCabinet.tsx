@@ -68,8 +68,8 @@ export default function TrophyCabinet(props: {loading: boolean, results: Record<
 
     const trophies = FilterPodiums(props.results)
 
-    return <TableContainer component={Paper}>
-        <Table aria-label="simple table">
+    return <TableContainer sx={{ maxHeight: '65vh' }} component={Paper}>
+        <Table stickyHeader aria-label="simple table">
             <TableHead>
                 <TableRow>
                     <TableCell>Series Name</TableCell>

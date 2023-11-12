@@ -8,8 +8,9 @@ type SeriesTrophies = {
     bronzes: number,
 }
 
-function FilterPodiums(results: Record<string, unknown>[]): SeriesTrophies[] {
+function FilterPodiums(results: Record<string, unknown>[]): [SeriesTrophies[], SeriesTrophies] {
     let trophies: SeriesTrophies[] = []
+    let totals: SeriesTrophies = { id: 0, series: '', golds: 0, silvers: 0, bronzes: 0 }
 
     let podiums: Record<number, SeriesTrophies> = {}
 
@@ -33,12 +34,15 @@ function FilterPodiums(results: Record<string, unknown>[]): SeriesTrophies[] {
         switch (position) {
             case 0:
                 podiums[series_id].golds++
+                totals.golds++
                 break
             case 1:
                 podiums[series_id].silvers++
+                totals.silvers++
                 break
             case 2:
                 podiums[series_id].bronzes++
+                totals.bronzes++
                 break
         }
     })
@@ -52,7 +56,7 @@ function FilterPodiums(results: Record<string, unknown>[]): SeriesTrophies[] {
     console.log("trophies: ", trophies)
 
     trophies.sort((a,b) => (a.golds < b.golds) ? 1 : ((b.golds < a.golds) ? -1 : 0));
-    return SortTrophies(trophies)
+    return [SortTrophies(trophies), totals]
 }
 
 function SortTrophies(trophies: SeriesTrophies[]): SeriesTrophies[] {
@@ -66,16 +70,30 @@ export default function TrophyCabinet(props: {loading: boolean, results: Record<
 
     console.log('trophy cabinet')
 
-    const trophies = FilterPodiums(props.results)
+    const [trophies, totals] = FilterPodiums(props.results)
+
+
 
     return <TableContainer sx={{ maxHeight: '65vh' }} component={Paper}>
         <Table stickyHeader aria-label="simple table">
             <TableHead>
                 <TableRow>
-                    <TableCell>Series Name</TableCell>
-                    <TableCell align="right">Gold</TableCell>
-                    <TableCell align="right">Silver</TableCell>
-                    <TableCell align="right">Bronze</TableCell>
+                    <TableCell>
+                        <strong>Series</strong> <br/>
+                        Total
+                    </TableCell>
+                    <TableCell align="right">
+                        <strong>Gold</strong> <br/>
+                        {totals.golds}
+                    </TableCell>
+                    <TableCell align="right">
+                        <strong>Silver</strong> <br/>
+                        {totals.silvers}
+                    </TableCell>
+                    <TableCell align="right">
+                        <strong>Bronze</strong> <br/>
+                        {totals.bronzes}
+                    </TableCell>
                 </TableRow>
             </TableHead>
             <TableBody>

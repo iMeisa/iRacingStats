@@ -1,15 +1,18 @@
 import useFetch from "../../hooks/useFetch.ts";
 import {useParams} from "react-router-dom";
-import {useEffect, useState} from "react";
+import {SyntheticEvent, useEffect, useState} from "react";
 import Grid from '@mui/material/Unstable_Grid2';
 import Container from "@mui/material/Container";
 import "./User.css"
-import {Paper, Skeleton, Stack} from "@mui/material";
+import {Accordion, AccordionDetails, AccordionSummary, Box, Paper, Skeleton, Stack, Tooltip} from "@mui/material";
 import RatingBadge from "../../components/data/RatingBadge.tsx";
 import {User as UserModel, defaultUser, UserLicenses} from "./UserTypes.ts";
 import TrophyCabinet from "./TrophyCabinet.tsx";
 import ClubLogo from "../../components/images/ClubLogo.tsx";
 import Typography from "@mui/material/Typography";
+import DataRange from "../../functions/datetime/DataRange.ts";
+import InfoIcon from '@mui/icons-material/Info';
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 
 export default function User() {
     const {id} = useParams()
@@ -32,26 +35,91 @@ export default function User() {
         console.log("results: ", results)
     }, [users, results]);
 
+
+    const [expanded, setExpanded] = useState<string | false>('results');
+
+    const handleChange =
+        (panel: string) => (_event: SyntheticEvent, isExpanded: boolean) => {
+            setExpanded(isExpanded ? panel : false);
+        };
+
     return <>
         {/*{user.id} {user.display_name} {String(loading)}*/}
         <Container>
-            <Grid container spacing={2} style={{ marginTop: '2em' }}>
+            <Grid sx={{ display: {xs: 'none', md: 'flex'} }} container spacing={2} style={{ marginTop: '2em' }}>
                 <Grid xs={12} md={6}>
-                    <Paper sx={{ pt: 2 }}>
-                        <Stack direction={{ xs: "column", md: "row" }} justifyContent="space-evenly">
-                            <Info user={user} loading={loading} />
-                            <Licenses licenses={user.licenses}/>
-                        </Stack>
-                    </Paper>
+                    <Paper sx={{ p: 1 }}>
 
+                    <Typography variant="subtitle1" pb={0.5} fontWeight="bold">
+                        Info
+                    </Typography>
+
+                    <InfoCard user={user} loading={loading}/>
+                </Paper>
                 </Grid>
 
                 <Grid xs={12} md={6}>
+                    <Stack direction="row" spacing={1} sx={{ display: 'flex', justifyContent: 'center' }}>
+                        <Typography variant="subtitle1" sx={{ fontWeight: 'bold' }}>
+                            Trophy Cabinet
+                        </Typography>
+                        <Tooltip placement="top" arrow title={'Data range: ' + DataRange()}>
+                            <InfoIcon/>
+                        </Tooltip>
+                    </Stack>
                     <TrophyCabinet loading={results_loading} results={results}/>
                 </Grid>
             </Grid>
+
+            <Box sx={{ display: { xs: 'block', md: 'none' }}} mt={2}>
+
+                <Accordion expanded={expanded === 'info'} onChange={handleChange('info')}>
+                    <AccordionSummary
+                        expandIcon={<ExpandMoreIcon/>}
+                        aria-controls="panel1a-content"
+                        id="panel1a-header"
+                    >
+                        <Typography> Info </Typography>
+                    </AccordionSummary>
+
+                    <AccordionDetails>
+                        <InfoCard user={user} loading={loading}/>
+                    </AccordionDetails>
+                </Accordion>
+
+                <Accordion expanded={expanded === 'trophies'} onChange={handleChange('trophies')}>
+                    <AccordionSummary
+                        expandIcon={<ExpandMoreIcon/>}
+                        aria-controls="panel1a-content"
+                        id="panel1a-header"
+                    >
+                        <Typography> Trophy Cabinet </Typography>
+                    </AccordionSummary>
+
+                    <AccordionDetails>
+                        <TrophyCabinet loading={results_loading} results={results}/>
+                    </AccordionDetails>
+                </Accordion>
+
+            </Box>
+
         </Container>
     </>
+}
+
+function InfoCard(props: {user: UserModel, loading: boolean}) {
+    return <Paper elevation={3} sx={{ p: 1 }}>
+        <Stack
+            direction={{ xs: "column", md: "row" }}
+            justifyContent="space-evenly"
+            sx={{
+                my: 'auto'
+            }}
+        >
+            <Info user={props.user} loading={props.loading} />
+            <Licenses loading={props.loading} licenses={props.user.licenses}/>
+        </Stack>
+    </Paper>
 }
 
 function Info(props: {user: UserModel, loading: boolean}) {
@@ -59,8 +127,8 @@ function Info(props: {user: UserModel, loading: boolean}) {
         <Skeleton/>
         <Skeleton/>
     </> : <>
-        <Stack>
-            <Typography variant="subtitle2" component="h6">
+        <Stack sx={{ mb: { xs: 1, md: 'auto' } }}>
+            <Typography variant="subtitle1" component="h1" fontWeight="bold">
                 {props.user.name}
             </Typography>
             <Grid>
@@ -71,7 +139,7 @@ function Info(props: {user: UserModel, loading: boolean}) {
 }
 
 function Licenses(props: {loading: boolean, licenses: UserLicenses}) {
-    return <Stack direction="row" justifyContent="center" sx={{ pb: 2 }}>
+    return <Stack direction="row" justifyContent="center" sx={{ my: 'auto' }}>
         <Stack>
             <RatingBadge
                 loading={props.loading}

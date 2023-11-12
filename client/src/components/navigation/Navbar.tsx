@@ -17,7 +17,7 @@ import {Drawer, List, ListItem, ListItemButton, ListItemText} from "@mui/materia
 import {useState} from "react";
 import CategoryLogo from "../../functions/img/CategoryLogo.tsx";
 
-const pages = ['Races', 'Series', 'Cars', 'Tracks', 'Users'];
+const pages = ['Races', 'Series', 'Cars', 'Users'];
 
 function pageLink(pageName: string) {
     return `/${pageName.toLowerCase()}`

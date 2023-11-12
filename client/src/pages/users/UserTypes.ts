@@ -10,7 +10,7 @@ type License = {
     irating: number,
 }
 
-type UserLicenses = {
+export type UserLicenses = {
     oval: License,
     road: License,
     dirt_oval: License,

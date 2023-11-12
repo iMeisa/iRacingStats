@@ -1,6 +1,7 @@
 import Box from "@mui/material/Box";
 import {LicenseColor, LicenseSecondaryColor, LicenseTertiaryColor} from "../../functions/img/LicenseColor.ts";
 import CategoryLogo from "../../functions/img/CategoryLogo.tsx";
+import {CircularProgress} from "@mui/material";
 
 function formatChange(old_num: number, new_num: number, decimal: boolean) {
 
@@ -21,6 +22,7 @@ function formatChange(old_num: number, new_num: number, decimal: boolean) {
 
 type RatingBadgeProps = {
     category: number,
+    loading: boolean,
     license?: number,
     old_sr?: number,
     safety_rating?: number,
@@ -70,8 +72,13 @@ export default function RatingBadge(props: RatingBadgeProps) {
         <div style={{ height: '18px', display: 'block', marginTop: 'auto', marginBottom: 'auto' }}>
             {CategoryLogo(props.category, 0, 18)}
         </div>
-        <strong style={{ textAlign: 'center' }}>{(safety_rating / 100).toFixed(2)}</strong>
-        <strong style={{ textAlign: 'center' }}>{ show_change ? formatChange(old_sr, safety_rating, true) : ''}</strong>
-        { iratingEstimated ? `~${irating}` : irating} { show_change ? formatChange(old_ir, irating, false) : '' }
+
+        { props.loading ? <CircularProgress size="1em" sx={{ my: 'auto', color: LicenseSecondaryColor(license) }} /> : <>
+            <strong style={{ textAlign: 'center' }}>{(safety_rating / 100).toFixed(2)}</strong>
+            <strong style={{ textAlign: 'center' }}>{ show_change ? formatChange(old_sr, safety_rating, true) : ''}</strong>
+            { iratingEstimated ? `~${irating}` : irating} { show_change ? formatChange(old_ir, irating, false) : '' }
+        </>
+        }
+
     </Box>
 }

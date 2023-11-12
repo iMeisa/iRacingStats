@@ -70,16 +70,18 @@ function Info(props: {user: UserModel, loading: boolean}) {
     </>
 }
 
-function Licenses(props: {licenses: UserLicenses}) {
+function Licenses(props: {loading: boolean, licenses: UserLicenses}) {
     return <Stack direction="row" justifyContent="center" sx={{ pb: 2 }}>
         <Stack>
             <RatingBadge
+                loading={props.loading}
                 category={1}
                 license={props.licenses.oval.level}
                 safety_rating={props.licenses.oval.sub_level}
                 irating={props.licenses.oval.irating}
             />
             <RatingBadge
+                loading={props.loading}
                 category={3}
                 license={props.licenses.dirt_oval.level}
                 safety_rating={props.licenses.dirt_oval.sub_level}
@@ -88,12 +90,14 @@ function Licenses(props: {licenses: UserLicenses}) {
         </Stack>
         <Stack>
             <RatingBadge
+                loading={props.loading}
                 category={2}
                 license={props.licenses.road.level}
                 safety_rating={props.licenses.road.sub_level}
                 irating={props.licenses.road.irating}
             />
             <RatingBadge
+                loading={props.loading}
                 category={4}
                 license={props.licenses.dirt_road.level}
                 safety_rating={props.licenses.dirt_road.sub_level}

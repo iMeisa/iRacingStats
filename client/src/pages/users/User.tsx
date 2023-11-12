@@ -36,7 +36,7 @@ export default function User() {
     }, [users, results]);
 
 
-    const [expanded, setExpanded] = useState<string | false>('results');
+    const [expanded, setExpanded] = useState<string | false>('info');
 
     const handleChange =
         (panel: string) => (_event: SyntheticEvent, isExpanded: boolean) => {

@@ -47,13 +47,13 @@ function FilterPodiums(results: Record<string, unknown>[]): [SeriesTrophies[], S
         }
     })
 
-    console.log("podiums: ", podiums)
+    // console.log("podiums: ", podiums)
 
     for (const series_id in podiums) {
         trophies.push(podiums[series_id])
     }
 
-    console.log("trophies: ", trophies)
+    // console.log("trophies: ", trophies)
 
     trophies.sort((a,b) => (a.golds < b.golds) ? 1 : ((b.golds < a.golds) ? -1 : 0));
     return [SortTrophies(trophies), totals]
@@ -68,7 +68,7 @@ function SortTrophies(trophies: SeriesTrophies[]): SeriesTrophies[] {
 
 export default function TrophyCabinet(props: {loading: boolean, results: Record<string, unknown>[]}) {
 
-    console.log('trophy cabinet')
+    // console.log('trophy cabinet')
 
     const [trophies, totals] = FilterPodiums(props.results)
 

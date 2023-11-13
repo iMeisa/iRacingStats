@@ -7,3 +7,20 @@
 /*    padding-top: 2em;*/
 /*    text-align: center;*/
 /*}*/
+
+.stat-border {
+    border: 2px solid;
+    border-radius: 5px;
+}
+
+.info {
+    border-color: #66d5e3;
+}
+
+.race-stats {
+    border-color: #94ea79;
+}
+
+.trophies {
+    border-color: #e59302;
+}

@@ -3,7 +3,7 @@ import {DataGrid, GridColDef} from "@mui/x-data-grid";
 import {useEffect, useState} from "react";
 import {LinearProgress, Skeleton} from "@mui/material";
 import CurrentUrl from "../../variables/Url.ts";
-import "./Sessions.css"
+import "./Session.css"
 import Button from "@mui/material/Button";
 import FormatListNumberedIcon from '@mui/icons-material/FormatListNumbered';
 import Container from "@mui/material/Container";
@@ -40,10 +40,19 @@ const columns: GridColDef[] = [
     { field: 'average_lap', headerName: 'Average Lap', flex: 1, headerAlign: 'center', align: 'center', minWidth: 125 },
     { field: 'lead_changes', headerName: 'Lead Changes', flex: 1, headerAlign: 'center', align: 'center', minWidth: 125 },
     { field: 'cautions', headerName: 'Cautions', flex: 1, headerAlign: 'center', align: 'center', minWidth: 90, hideable: true },
+    {
+        field: 'verified',
+        headerName: '',
+        headerAlign: 'center',
+        align: 'center',
+        width: 20,
+        type: 'boolean',
+        
+    },
     { field: 'id', headerName: 'ID', headerAlign: 'center', align: 'right'},
 ];
 
-export default function Sessions() {
+export default function Session() {
     const {id} = useParams()
 
     const emptyRows: Record<string, unknown>[] = []

@@ -370,7 +370,8 @@ func (d *DB) Subsessions(sessionId int) []models.Subsession {
 			   event_average_lap,
 			   num_lead_changes,
 			   num_cautions, 
-			   caution_type
+			   caution_type,
+			   verified
 		from subsessions
 		JOIN sessions USING (session_id)
 		JOIN seasons USING (season_id)
@@ -402,6 +403,7 @@ func (d *DB) Subsessions(sessionId int) []models.Subsession {
 			&subsession.LeadChanges,
 			&subsession.Cautions,
 			&subsession.CautionType,
+			&subsession.Verified,
 		)
 		if err != nil {
 			log.Println("error scanning session rows: ", err)

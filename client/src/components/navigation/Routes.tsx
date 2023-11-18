@@ -2,7 +2,7 @@
 import Home from "../../pages/Home.tsx";
 import {Route, Routes as RouterRoutes} from "react-router-dom";
 import Races from "../../pages/races/Races.tsx";
-import Sessions from "../../pages/races/Sessions.tsx";
+import Session from "../../pages/races/Session.tsx";
 import Subsession from "../../pages/races/subsession/Subsession.tsx";
 import Series from "../../pages/series/Series.tsx"
 import SeriesList from "../../pages/series/SeriesList.tsx"
@@ -19,7 +19,7 @@ export default function Routes() {
             <Route path="/races" element={<Races />} />
             <Route path="/series" element={<SeriesList />} />
             <Route path="/series/:id" element={<Series />} />
-            <Route path="/sessions/:id" element={<Sessions />} />
+            <Route path="/sessions/:id" element={<Session />} />
             <Route path="/subsession/:id" element={<Subsession />} />
             <Route path="/tracks" element={<Tracks />} />
             <Route path="/users" element={<Users />} />

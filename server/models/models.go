@@ -104,6 +104,7 @@ type Subsession struct {
 	SeriesLogo      string `json:"series_logo"`
 	SeriesName      string `json:"series_name"`
 	StrengthOfField int    `json:"strength_of_field"`
+	Verified        bool   `json:"verified"`
 }
 
 type User struct {

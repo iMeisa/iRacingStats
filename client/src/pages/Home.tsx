@@ -40,18 +40,16 @@ export default function Home() {
     return (
         <>
             <Typography variant="h2" component="h1" mt={3}>iRacing Stats</Typography>
-            <h3>Data Range</h3>
-            <p>{UnixToDate(minTime)} - {UnixToDateTime(maxTime)}</p>
 
             <Paper elevation={5} style={{ width: '12em', padding: '0.25rem 2rem 1rem 2rem', margin: '2em auto' }}>
                 <h3>Subsessions</h3>
-                {/*<Odometer value={subsessionCount} duration={2000} format="(,ddd)"/>*/}
                 { loadingCount ? (
                     <CircularProgress size={'1em'}/>
                 ) : (
-                    <Odometer value={subsessionCount} duration={2000} format="(,ddd)"/>
+                    <Odometer value={subsessionCount} duration={5000} format="(,ddd)"/>
                 )}
             </Paper>
+            <p>{UnixToDate(minTime)} - {UnixToDateTime(maxTime)}</p>
         </>
     )
 }

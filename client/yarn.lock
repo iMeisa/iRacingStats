@@ -1709,6 +1709,11 @@ object-assign@^4.1.1:
   resolved "https://registry.yarnpkg.com/object-assign/-/object-assign-4.1.1.tgz#2109adc7965887cfc05cbbd442cac8bfbb360863"
   integrity sha512-rJgTQnkUnH1sFw8yT6VSU3zD3sWmu6sZhIseY8VX+GRu3P6F7Fu+JNDoXfklElbLJSnc3FUQHVe4cU5hj+BcUg==
 
+odometer@^0.4.8:
+  version "0.4.8"
+  resolved "https://registry.yarnpkg.com/odometer/-/odometer-0.4.8.tgz#2f6703bf4c6b384c278236d04d4bc8171abe4374"
+  integrity sha512-bfKuAhWE/qMCiX9bwX90c5bTpt7MDVeq1e6YsOHQrYokNhv9jhS5JbR9kg6i+FeWmDgalf3VUtwNx1aVaZ8cgg==
+
 once@^1.3.0:
   version "1.4.0"
   resolved "https://registry.yarnpkg.com/once/-/once-1.4.0.tgz#583b1aa775961d4b113ac17d9c50baef9dd76bd1"
@@ -1851,6 +1856,13 @@ react-is@^18.2.0:
   version "18.2.0"
   resolved "https://registry.yarnpkg.com/react-is/-/react-is-18.2.0.tgz#199431eeaaa2e09f86427efbb4f1473edb47609b"
   integrity sha512-xWGDIW6x921xtzPkhiULtthJHoJvBbF3q26fzloPCK0hsvxtPVelvftw3zjbHWSkR2km9Z+4uxbDDK/6Zw9B8w==
+
+react-odometerjs@^3.1.0:
+  version "3.1.0"
+  resolved "https://registry.yarnpkg.com/react-odometerjs/-/react-odometerjs-3.1.0.tgz#81674b6edbb38e0414ef3e44f9a5a1ea4a285f3c"
+  integrity sha512-jHG1wyNgg3J7OYaJugixkQTPpUHK5ddfa13XSQlxs5YR5qIWIPwVtjlxSp8xD3UuXjUXjjGAyCyYZ9k3ar8aCg==
+  dependencies:
+    odometer "^0.4.8"
 
 react-refresh@^0.14.0:
   version "0.14.0"

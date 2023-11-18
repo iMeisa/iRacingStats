@@ -1,9 +1,5 @@
-// import BottomNavigation from '@mui/material/BottomNavigation';
-// import BottomNavigationAction from '@mui/material/BottomNavigationAction';
-// import RestoreIcon from '@mui/icons-material/Restore';
-// import FavoriteIcon from '@mui/icons-material/Favorite';
-// import LocationOnIcon from '@mui/icons-material/LocationOn';
-// import {useState} from "react";
+
+// import discord from "../../assets/discord.svg"
 
 import AppBar from "@mui/material/AppBar";
 import Link from "@mui/material/Link";
@@ -47,6 +43,10 @@ export default function Footer() {
                         Changelog
                     </Button>
                 </Link>
+
+                {/*<Button color="inherit">*/}
+                {/*    <img src={discord} alt={discord} height={24}/>*/}
+                {/*</Button>*/}
             </Toolbar>
         </AppBar>
     </>

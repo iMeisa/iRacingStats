@@ -47,7 +47,6 @@ const columns: GridColDef[] = [
         align: 'center',
         width: 20,
         type: 'boolean',
-        
     },
     { field: 'id', headerName: 'ID', headerAlign: 'center', align: 'right'},
 ];

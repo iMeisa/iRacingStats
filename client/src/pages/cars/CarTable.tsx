@@ -6,7 +6,7 @@ import CarLogo from "../../components/images/CarLogo.tsx";
 const columns: GridColDef[] = [
     {
         field: 'logo',
-        headerName: 'Logo',
+        headerName: '',
         width: 75,
         renderCell: (params: GridRenderCellParams<any, string>) => <CarLogo link={params.value as string}/>,
         sortable: false,

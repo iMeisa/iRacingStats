@@ -7,7 +7,7 @@ import Subsession from "../../pages/races/subsession/Subsession.tsx";
 import Series from "../../pages/series/Series.tsx"
 import SeriesList from "../../pages/series/SeriesList.tsx"
 import Cars from "../../pages/cars/Cars.tsx";
-import Tracks from "../../pages/Tracks.tsx";
+import Tracks from "../../pages/tracks/Tracks.tsx";
 import Users from "../../pages/users/Users.tsx";
 import User from "../../pages/users/User.tsx";
 

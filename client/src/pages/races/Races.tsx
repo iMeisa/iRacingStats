@@ -2,7 +2,7 @@ import {useEffect, useState} from "react";
 
 import {DataGrid, GridColDef, GridRenderCellParams,} from '@mui/x-data-grid';
 import './Races.css'
-import {LinearProgress} from "@mui/material";
+import {LinearProgress, Tooltip} from "@mui/material";
 import CurrentUrl from "../../variables/Url.ts";
 import {Link} from "react-router-dom";
 import CategoryLogo from "../../functions/img/CategoryLogo.tsx";
@@ -35,12 +35,14 @@ const columns: GridColDef[] = [
         minWidth: 350,
         flex: 1,
         renderCell: (params: GridRenderCellParams<any, string>) =>
-            <Link
-                style={{ textDecoration: 'underline', fontStyle: 'italic', color: 'inherit', fontWeight: 'bold'}}
-                to={`/sessions/${params.row.id}`}
-            >
-                {params.value}
-            </Link>
+            <Tooltip title="See splits">
+                <Link
+                    style={{ textDecoration: 'underline', fontStyle: 'italic', color: 'inherit', fontWeight: 'bold'}}
+                    to={`/sessions/${params.row.id}`}
+                >
+                        {params.value}
+                </Link>
+            </Tooltip>
     },
     { field: 'subsession_count', headerName: 'Splits', width: 70, align: 'center', headerAlign: 'center' },
     { field: 'end_time', headerName: '', hideable: true },

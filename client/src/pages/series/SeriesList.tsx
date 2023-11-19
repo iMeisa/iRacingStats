@@ -11,7 +11,6 @@ import "./SeriesList.css"
 import SeriesLogo from "../../components/images/SeriesLogo.tsx";
 import Container from "@mui/material/Container";
 import {Link} from "react-router-dom";
-import useWindowSize from "../../hooks/useWindowSize.ts";
 import useIsMobile from "../../hooks/useIsMobile.ts";
 
 const columns: GridColDef[] = [

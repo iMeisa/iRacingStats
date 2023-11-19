@@ -241,11 +241,20 @@ func (d *DB) Series(id int) []models.Series {
 
 	statement := `
 		SELECT DISTINCT series_id,
-			   series_logo,
 			   series_short_name,
+			   series_logo,
 			   s.license_category_id,
 			   license_category,
-			   min_license_level
+			   active,
+			   official,
+			   fixed_setup,
+			   min_license_level,
+			   forum_url,
+			   min_starters,
+			   max_starters,
+			   large_image,
+			   series_copy,
+			   small_image
 -- 			   AVG(new_sub_level - old_sub_level) / 100 as sr_change
 		FROM series s
 		JOIN license_categories USING (license_category_id)
@@ -274,11 +283,20 @@ func (d *DB) Series(id int) []models.Series {
 		var series models.Series
 		err = rows.Scan(
 			&series.Id,
-			&series.Logo,
 			&series.Name,
+			&series.Logo,
 			&series.CategoryId,
 			&series.Category,
+			&series.Active,
+			&series.Official,
+			&series.FixedSetup,
 			&series.MinLicenseLevel,
+			&series.ForumUrl,
+			&series.MinStarters,
+			&series.MaxStarters,
+			&series.LargeImage,
+			&series.SeriesCopy,
+			&series.SmallImage,
 			//&series.SrChange,
 		)
 		if err != nil {

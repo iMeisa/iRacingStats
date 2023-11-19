@@ -74,12 +74,21 @@ type Result struct {
 
 type Series struct {
 	Id              int     `json:"id"`
-	Logo            string  `json:"logo"`
 	Name            string  `json:"name"`
+	Logo            string  `json:"logo"`
 	CategoryId      int     `json:"category_id"`
 	Category        string  `json:"category"`
-	SrChange        float32 `json:"sr_change"`
+	Active          bool    `json:"active"`
+	Official        bool    `json:"official"`
+	FixedSetup      bool    `json:"fixed_setup"`
 	MinLicenseLevel int     `json:"min_license_level"`
+	ForumUrl        string  `json:"forum_url"`
+	MinStarters     int     `json:"min_starters"`
+	MaxStarters     int     `json:"max_starters"`
+	LargeImage      string  `json:"large_image"`
+	SeriesCopy      string  `json:"copy"`
+	SmallImage      string  `json:"small_image"`
+	SrChange        float32 `json:"sr_change"`
 }
 
 type Session struct {

@@ -93,6 +93,7 @@ type Series struct {
 
 type Session struct {
 	SessionId       int    `json:"id"`
+	SeriesId        int    `json:"series_id"`
 	SeriesLogo      string `json:"series_logo"`
 	SeriesShortName string `json:"series_short_name"`
 	SubsessionCount int    `json:"subsession_count"`
@@ -114,6 +115,7 @@ type Subsession struct {
 	SeriesName      string `json:"series_name"`
 	StrengthOfField int    `json:"strength_of_field"`
 	Verified        bool   `json:"verified"`
+	SeriesId        int    `json:"series_id"`
 }
 
 type User struct {

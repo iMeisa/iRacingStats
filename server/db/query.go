@@ -323,7 +323,8 @@ func (d *DB) Sessions() []models.Session {
 			   track_name,
 			   config_name,
 			   s.license_category_id,
-			   sr.min_license_level
+			   sr.min_license_level,
+			   sr.series_id
 		FROM sessions s
 		join subsessions sb using (session_id)
 		join seasons se using (season_id)
@@ -331,7 +332,7 @@ func (d *DB) Sessions() []models.Session {
 		join race_weeks using (season_id, race_week_num)
 		join tracks using (track_id)
 		where end_time > ((select max(end_time) from subsessions)::integer - 86400)
-		group by session_id, series_logo, series_short_name, track_name, config_name, sr.min_license_level
+		group by session_id, series_logo, series_short_name, track_name, config_name, sr.min_license_level, sr.series_id
 		order by session_id desc
 	`
 
@@ -360,6 +361,7 @@ func (d *DB) Sessions() []models.Session {
 			&trackConfig,
 			&session.CategoryId,
 			&session.MinLicenseLevel,
+			&session.SeriesId,
 		)
 		if err != nil {
 			log.Println("error scanning session rows: ", err)
@@ -392,14 +394,15 @@ func (d *DB) Subsessions(sessionId int) []models.Subsession {
 			   num_lead_changes,
 			   num_cautions, 
 			   caution_type,
-			   verified
+			   verified,
+			   series_id
 		from subsessions
 		JOIN sessions USING (session_id)
 		JOIN seasons USING (season_id)
 		JOIN series USING (series_id)
 		JOIN results USING (subsession_id)
 		WHERE session_id = $1 AND simsession_number=0
-		GROUP BY subsession_id, event_strength_of_field, series_logo, series_short_name, caution_type
+		GROUP BY subsession_id, event_strength_of_field, series_logo, series_short_name, caution_type, series_id
 		ORDER BY event_strength_of_field DESC
 	`
 
@@ -425,6 +428,7 @@ func (d *DB) Subsessions(sessionId int) []models.Subsession {
 			&subsession.Cautions,
 			&subsession.CautionType,
 			&subsession.Verified,
+			&subsession.SeriesId,
 		)
 		if err != nil {
 			log.Println("error scanning session rows: ", err)

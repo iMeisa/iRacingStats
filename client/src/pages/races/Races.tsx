@@ -14,7 +14,10 @@ const columns: GridColDef[] = [
         field: 'series_logo',
         headerName: 'Series',
         width: 75,
-        renderCell: (params: GridRenderCellParams<any, string>) => <SeriesLogo link={params.value}/>,
+        renderCell: (params: GridRenderCellParams<any, string>) =>
+            <Link to={`/series/${params.row.series_id}`}>
+                <SeriesLogo link={params.value} />
+            </Link>,
         sortable: false,
         headerAlign: 'center',
     },

@@ -109,13 +109,19 @@ export default function Session() {
                         </>
                     ) : (
                         <>
-                            <img
-                                className={"session-logo"}
-                                src={"https://images-static.iracing.com/img/logos/series/"+session.series_logo}
-                                alt="logo"
-                                loading="lazy"
-                            />
-                            <h3>{session.series_name as string}</h3>
+
+                            <Link
+                                style={{ textDecoration: 'underline', fontStyle: 'italic', color: 'inherit', fontWeight: 'bold'}}
+                                to={`/series/${session['series_id']}`}
+                            >
+                                <img
+                                    className={"session-logo"}
+                                    src={"https://images-static.iracing.com/img/logos/series/"+session.series_logo}
+                                    alt="logo"
+                                    loading="lazy"
+                                />
+                                <h3>{session.series_name as string}</h3>
+                            </Link>
                         </>
                     )}
                 </div>

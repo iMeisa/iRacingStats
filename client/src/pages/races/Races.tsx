@@ -90,7 +90,7 @@ export default function Races() {
                     return obj
                 })
 
-                setRows(rows.concat(data))
+                setRows(data)
 
                 setLoading(false)
             })

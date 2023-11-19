@@ -11,6 +11,8 @@ import "./SeriesList.css"
 import SeriesLogo from "../../components/images/SeriesLogo.tsx";
 import Container from "@mui/material/Container";
 import {Link} from "react-router-dom";
+import useWindowSize from "../../hooks/useWindowSize.ts";
+import useIsMobile from "../../hooks/useIsMobile.ts";
 
 const columns: GridColDef[] = [
     {
@@ -51,6 +53,7 @@ const columns: GridColDef[] = [
     },
     // { field: 'category', headerName: 'Category', flex: 1},
     // { field: 'sr_change', headerName: 'Avg SR Change', flex: 1},
+    { field: 'active', headerName: 'Active', headerAlign: 'center', align: 'center', width: 125, type: "boolean"},
     { field: 'id', headerName: 'ID', headerAlign: 'center', align: 'center', flex: 0},
 ];
 
@@ -63,6 +66,8 @@ export default function SeriesList() {
             return obj
         })
 
+    const isMobile = useIsMobile()
+
     // TODO: Fetch sr change separately
 
     return <>
@@ -74,10 +79,9 @@ export default function SeriesList() {
                     loadingOverlay: LinearProgress,
                 }}
                 loading={loading}
-
                 columns={columns}
                 rows={rows}
-
+                disableColumnMenu={isMobile}
                 initialState={{
 
                     pagination: {
@@ -88,6 +92,11 @@ export default function SeriesList() {
                         sortModel: [{field: 'id', sort: 'asc'}],
                     },
 
+                    filter: {
+                        filterModel: {
+                            items: [{field: 'active', operator: 'is', value: 'true'}]
+                        }
+                    },
                 }}
 
                 pageSizeOptions={[10]}

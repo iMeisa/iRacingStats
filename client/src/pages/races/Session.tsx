@@ -89,11 +89,6 @@ export default function Session() {
 
                 setRows(data)
                 setLoading(false)
-
-                // setTimeout(() => {
-                //     setRows(data)
-                //     setLoading(false)
-                // }, 2000)
             })
     }, [])
 

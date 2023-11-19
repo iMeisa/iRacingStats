@@ -37,7 +37,7 @@ func (a *Api) Get(ctx *fiber.Ctx) error {
 		query = a.DB.DriverResults(ctx.QueryInt("id"))
 
 	case "series":
-		query = a.DB.Series(ctx.QueryInt("id"))
+		query = a.DB.Series(ctx.QueryInt("id"), ctx.QueryBool("active"))
 
 	case "sessions":
 		query = a.DB.Sessions()

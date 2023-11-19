@@ -30,7 +30,7 @@ export default function Home() {
                 .then(r => r.json())
                 .then(data => {
                     setLoadingCount(false)
-                    Sleep(0.1).then(() => setSubsessionCount(data[0]['count']))
+                    Sleep(0.01).then(() => setSubsessionCount(data[0]['count']))
                 })
         }, 4000)
 
@@ -39,7 +39,7 @@ export default function Home() {
 
     return (
         <>
-            <Typography variant="h2" component="h1" mt={3}>iRacing Stats</Typography>
+            <Typography variant="h3" fontWeight={600} mt={3}>iRacing Stats</Typography>
 
             <Paper elevation={5} style={{ width: '12em', padding: '0.25rem 2rem 1rem 2rem', margin: '2em auto' }}>
                 <h3>Subsessions</h3>

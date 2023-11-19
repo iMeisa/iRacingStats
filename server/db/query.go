@@ -235,7 +235,7 @@ func (d *DB) SubsessionResults(id int) []JsonMap {
 	return results
 }
 
-func (d *DB) Series() []models.Series {
+func (d *DB) Series(id int) []models.Series {
 	ctx, cancel := getContext()
 	defer cancel()
 
@@ -255,8 +255,11 @@ func (d *DB) Series() []models.Series {
 -- 		JOIN results USING (subsession_id)
 -- 		WHERE start_time > ((select max(start_time) from sessions)::integer - (86400*7))
 		WHERE active = true
-		ORDER BY series_short_name
 	`
+
+	if id > 0 {
+		statement += fmt.Sprintf(" AND series_id = %d ", id)
+	}
 
 	var seriess []models.Series
 

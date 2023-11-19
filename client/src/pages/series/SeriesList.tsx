@@ -10,6 +10,7 @@ import CategoryLogo from "../../functions/img/CategoryLogo.tsx";
 import "./SeriesList.css"
 import SeriesLogo from "../../components/images/SeriesLogo.tsx";
 import Container from "@mui/material/Container";
+import {Link} from "react-router-dom";
 
 const columns: GridColDef[] = [
     {
@@ -32,7 +33,19 @@ const columns: GridColDef[] = [
             </Tooltip>
 
     },
-    { field: 'name', headerName: '', flex: 1, minWidth: 300},
+    {
+        field: 'name',
+        headerName: '',
+        flex: 1,
+        minWidth: 300,
+        renderCell: (params: GridRenderCellParams<any, string>) =>
+            <Link
+                style={{ textDecoration: 'underline', fontStyle: 'italic', color: 'inherit', fontWeight: 'bold'}}
+                to={`/series/${params.row.id}`}
+            >
+                {params.value}
+            </Link>
+    },
     // { field: 'category', headerName: 'Category', flex: 1},
     // { field: 'sr_change', headerName: 'Avg SR Change', flex: 1},
     { field: 'id', headerName: 'ID', headerAlign: 'center', align: 'center', flex: 0},
@@ -69,7 +82,7 @@ export default function SeriesList() {
                     },
 
                     sorting: {
-                        sortModel: [{field: 'series_short_name', sort: 'asc'}],
+                        sortModel: [{field: 'id', sort: 'asc'}],
                     },
 
                 }}

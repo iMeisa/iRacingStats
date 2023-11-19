@@ -101,12 +101,7 @@ export default function Session() {
         <>
             <div style={{ marginTop: 20 }}>
                 <div className={"centered"}>
-                    {/*<LoadingImage*/}
-                    {/*    width={200}*/}
-                    {/*    height={100}*/}
-                    {/*    url={"https://images-static.iracing.com/img/logos/series/"}*/}
-                    {/*    endpoint={session.series_logo as string}*/}
-                    {/*/>*/}
+
                     { loading ? (
                         <>
                             <Skeleton className={"centered logo"} variant="rounded" width={200} height={100} />

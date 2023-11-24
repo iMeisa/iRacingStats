@@ -59,7 +59,7 @@ const columns: GridColDef[] = [
         minWidth: 350,
         flex: 1,
         renderCell: (params: GridRenderCellParams<any, string>) =>
-            <Tooltip title="See splits">
+            <Tooltip title="Subsession Results">
                 <Link
                     style={{ textDecoration: 'underline', fontStyle: 'italic', color: 'inherit', fontWeight: 'bold'}}
                     to={`/subsession/${params.row.subsession_id}`}
@@ -98,7 +98,7 @@ export default function Races(props: {results: Record<string, unknown>[], loadin
     return <DataGrid
         columns={columns}
         rows={props.results}
-
+        disableColumnMenu
         pageSizeOptions={[]}
     />
 }

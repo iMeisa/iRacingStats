@@ -1,8 +1,11 @@
 import {CircularProgress, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow} from "@mui/material";
+import {Link} from "react-router-dom";
+import SeriesLogo from "../../components/images/SeriesLogo.tsx";
 
 type SeriesTrophies = {
     id: number,
     series: string,
+    logo: string,
     golds: number,
     silvers: number,
     bronzes: number,
@@ -10,7 +13,7 @@ type SeriesTrophies = {
 
 function FilterPodiums(results: Record<string, unknown>[]): [SeriesTrophies[], SeriesTrophies] {
     let trophies: SeriesTrophies[] = []
-    let totals: SeriesTrophies = { id: 0, series: '', golds: 0, silvers: 0, bronzes: 0 }
+    let totals: SeriesTrophies = { id: 0, series: '', logo: '', golds: 0, silvers: 0, bronzes: 0 }
 
     let podiums: Record<number, SeriesTrophies> = {}
 
@@ -25,6 +28,7 @@ function FilterPodiums(results: Record<string, unknown>[]): [SeriesTrophies[], S
             podiums[series_id] = {
                 id: series_id,
                 series: result['series_short_name'] as string,
+                logo: result['series_logo'] as string,
                 golds: 0,
                 silvers: 0,
                 bronzes: 0,
@@ -82,6 +86,7 @@ export default function TrophyCabinet(props: {loading: boolean, results: Record<
                         <strong>Series</strong> <br/>
                         Total
                     </TableCell>
+                    <TableCell></TableCell>
                     <TableCell align="right">
                         <strong>Gold</strong> <br/>
                         {totals.golds}
@@ -117,7 +122,12 @@ function CabinetRows(props: {trophies: SeriesTrophies[]}) {
                 key={row.id}
                 sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
             >
-                <TableCell component="th" scope="row">
+                <TableCell>
+                    <Link to={`/series/${row.id}`}>
+                        <SeriesLogo link={row.logo} />
+                    </Link>
+                </TableCell>
+                <TableCell component="th" scope="row" sx={{ fontWeight: 'bold' }}>
                     {row.series}
                 </TableCell>
                 <TableCell align="right">{row.golds}</TableCell>

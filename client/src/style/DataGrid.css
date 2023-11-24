@@ -5,9 +5,9 @@
     max-height: 65vh;
 }
 
-.MuiDataGrid-virtualScroller:not(:has(.MuiDataGrid-virtualScrollerContent--overflowed)) {
-    overflow-x: hidden !important;
-}
+/*.MuiDataGrid-virtualScroller:not(:has(.MuiDataGrid-virtualScrollerContent--overflowed)) {*/
+/*    overflow-x: hidden !important;*/
+/*}*/
 
 .MuiDataGrid-cell {
     padding: 3px 5px;

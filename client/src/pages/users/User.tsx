@@ -7,6 +7,7 @@ import UserInfo, {InfoProps} from "./panels/Info.tsx";
 import {User as UserModel, defaultUser} from "./UserTypes.ts";
 import UserMenu from "./UserMenu.tsx";
 import Box from "@mui/material/Box";
+import Races from "./panels/Races.tsx";
 
 export default function User() {
     const {id} = useParams()
@@ -14,12 +15,19 @@ export default function User() {
     const [user, setUser] = useState(defaultUser)
 
     const [users, loading] = useFetch<UserModel>(`/api/user?cust_id=${id}`,
-            (obj) => {
-                // obj['id'] = obj['cust_id']
-                return obj
-            })
+        (obj) => {
+            // obj['id'] = obj['cust_id']
+            return obj
+        }
+    )
 
-    const [results, results_loading] = useFetch(`/api/driver_results?id=${id}`)
+    const [results, results_loading] = useFetch(`/api/driver_results?id=${id}`,
+        (obj) => {
+            obj['id'] = obj['result_id']
+            obj['dnf'] = obj['reason_out_id'] !== 0
+            return obj
+        }
+    )
 
     const [tab, setTab] = useState(0)
 
@@ -52,6 +60,9 @@ function Tabs(props: TabProps) {
     switch (props.tab) {
         case 0: {
             return <UserInfo user={props.user} loading={props.loading} results={props.results} results_loading={props.results_loading}/>
+        }
+        case 1: {
+            return <Races results={props.results} loading={props.results_loading} />
         }
         default: {
             return <></>

@@ -12,7 +12,7 @@ function a11yProps(index: number) {
     };
 }
 
-const panels = ['Info', 'Races', 'Tracks']
+const panels = ['Info', 'Races']
 
 export default function UserMenu(props: {onChange: (value: number) => void, mobile?: boolean}) {
     const [value, setValue] = useState(0);
@@ -45,7 +45,7 @@ export default function UserMenu(props: {onChange: (value: number) => void, mobi
                 value={value}
                 onChange={(_, newValue) => handleChange(newValue)}
                 aria-label="Vertical tabs example"
-                sx={{ borderRight: 1, borderColor: 'divider' }}
+                // sx={{ borderRight: 1, borderColor: 'divider' }}
             >
                 {panels.map((value, index) =>
                     <Tab label={value} {...a11yProps(index)}/>

@@ -48,6 +48,7 @@ export default function User() {
                 <Tabs tab={tab} user={user} loading={loading} results={results} results_loading={results_loading}/>
             </Container>
         </Box>
+        <Box height={'2em'} display={{xs: 'block', md: 'none'}}/>
     </>
 }
 

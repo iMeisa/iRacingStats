@@ -51,7 +51,7 @@ export default function UserInfo(props: InfoProps) {
                     <Paper className={"stat-border info"} sx={{ p: 1 }}>
 
                         <Typography variant="subtitle1" pb={0.5} fontWeight="bold">
-                            Info
+                            Driver
                         </Typography>
 
                         <InfoCard user={props.user} loading={props.loading}/>
@@ -96,7 +96,7 @@ export default function UserInfo(props: InfoProps) {
                     aria-controls="panel1a-content"
                     id="panel1a-header"
                 >
-                    <Typography> Info </Typography>
+                    <Typography> Driver </Typography>
                 </AccordionSummary>
 
                 <AccordionDetails>

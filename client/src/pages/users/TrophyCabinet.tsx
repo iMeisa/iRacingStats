@@ -1,6 +1,7 @@
 import {CircularProgress, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow} from "@mui/material";
 import {Link} from "react-router-dom";
 import SeriesLogo from "../../components/images/SeriesLogo.tsx";
+import useIsMobile from "../../hooks/useIsMobile.ts";
 
 type SeriesTrophies = {
     id: number,
@@ -76,7 +77,7 @@ export default function TrophyCabinet(props: {loading: boolean, results: Record<
 
     const [trophies, totals] = FilterPodiums(props.results)
 
-
+    const isMobile = useIsMobile()
 
     return <TableContainer sx={{ maxHeight: '65vh' }} component={Paper}>
         <Table stickyHeader aria-label="simple table">
@@ -86,7 +87,7 @@ export default function TrophyCabinet(props: {loading: boolean, results: Record<
                         <strong>Series</strong> <br/>
                         Total
                     </TableCell>
-                    <TableCell></TableCell>
+                    { isMobile ? <></> : <TableCell></TableCell>}
                     <TableCell align="right">
                         <strong>Gold</strong> <br/>
                         {totals.golds}
@@ -108,14 +109,14 @@ export default function TrophyCabinet(props: {loading: boolean, results: Record<
                             <CircularProgress/>
                         </TableCell>
                 ) : (
-                    <CabinetRows trophies={trophies}/>
+                    <CabinetRows trophies={trophies} mobile={isMobile}/>
                 )}
             </TableBody>
         </Table>
     </TableContainer>
 }
 
-function CabinetRows(props: {trophies: SeriesTrophies[]}) {
+function CabinetRows(props: {trophies: SeriesTrophies[], mobile: boolean}) {
     return <>
         { props.trophies.length > 0 ? props.trophies.map((row) => (
             <TableRow
@@ -127,9 +128,11 @@ function CabinetRows(props: {trophies: SeriesTrophies[]}) {
                         <SeriesLogo link={row.logo} />
                     </Link>
                 </TableCell>
-                <TableCell component="th" scope="row" sx={{ fontWeight: 'bold' }}>
-                    {row.series}
-                </TableCell>
+                { props.mobile? <></> :
+                    <TableCell component="th" scope="row" sx={{ fontWeight: 'bold' }}>
+                        {row.series}
+                    </TableCell>
+                }
                 <TableCell align="right">{row.golds}</TableCell>
                 <TableCell align="right">{row.silvers}</TableCell>
                 <TableCell align="right">{row.bronzes}</TableCell>

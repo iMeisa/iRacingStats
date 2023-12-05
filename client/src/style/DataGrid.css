@@ -5,10 +5,6 @@
     max-height: 65vh;
 }
 
-/*.MuiDataGrid-virtualScroller:not(:has(.MuiDataGrid-virtualScrollerContent--overflowed)) {*/
-/*    overflow-x: hidden !important;*/
-/*}*/
-
 .MuiDataGrid-cell {
     padding: 3px 5px;
 }
@@ -26,5 +22,12 @@
     .MuiDataGrid-root {
         margin: 1em 1% 10em 1%;
         max-height: 65vh;
+    }
+}
+
+/* --- Desktop Only --- */
+@media (min-width: 900px) {
+    .MuiDataGrid-virtualScroller:not(:has(.MuiDataGrid-virtualScrollerContent--overflowed)) {
+        overflow-x: hidden !important;
     }
 }

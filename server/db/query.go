@@ -335,8 +335,7 @@ func (d *DB) Sessions() []models.Session {
 		join subsessions sb using (session_id)
 		join seasons se using (season_id)
 		join series sr using (series_id)
-		join race_weeks using (season_id, race_week_num)
-		left join tracks t on t.track_id = s.track_id 
+		join tracks t using (track_id)
 		where end_time > ((select max(end_time) from subsessions)::integer - 86400)
 		group by session_id, series_logo, series_short_name, track_name, config_name, sr.min_license_level, sr.series_id
 		order by session_id desc

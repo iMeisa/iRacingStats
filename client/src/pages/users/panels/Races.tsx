@@ -96,6 +96,10 @@ const columns: GridColDef[] = [
 
 export default function Races(props: {results: Record<string, unknown>[], loading: boolean}) {
     return <DataGrid
+        sx={{
+            maxHeight: '75vh'
+        }}
+        // autoHeight
         columns={columns}
         rows={props.results}
         disableColumnMenu

@@ -2,7 +2,7 @@ import {DataGrid, GridColDef, GridRenderCellParams} from "@mui/x-data-grid";
 import {Link} from "react-router-dom";
 import SeriesLogo from "../../../components/images/SeriesLogo.tsx";
 import CategoryLogo from "../../../functions/img/CategoryLogo.tsx";
-import {Tooltip} from "@mui/material";
+import {LinearProgress, Tooltip} from "@mui/material";
 import EmojiEventsIcon from '@mui/icons-material/EmojiEvents';
 import { amber, grey, deepOrange } from '@mui/material/colors'
 import {UnixToDateTime} from "../../../functions/datetime/UnixToDate.ts";
@@ -102,6 +102,10 @@ const columns: GridColDef[] = [
 
 export default function Races(props: {results: Record<string, unknown>[], loading: boolean}) {
     return <DataGrid
+        slots={{
+            loadingOverlay: LinearProgress,
+        }}
+        loading={props.loading}
         sx={{
             maxHeight: '75vh',
         }}

@@ -1,6 +1,6 @@
 import {DataGrid, GridColDef, GridRenderCellParams} from "@mui/x-data-grid";
 import {Link} from "react-router-dom";
-import {Tooltip} from "@mui/material";
+import {LinearProgress, Tooltip} from "@mui/material";
 import {UnixToDateTime, UnixToTime} from "../../../functions/datetime/UnixToDate.ts";
 import Button from "@mui/material/Button";
 import FormatListNumberedIcon from "@mui/icons-material/FormatListNumbered";
@@ -64,6 +64,10 @@ const columns: GridColDef[] = [
 
 export default function Races(props: {results: Record<string, unknown>[], loading: boolean}) {
     return <DataGrid
+        slots={{
+            loadingOverlay: LinearProgress,
+        }}
+        loading={props.loading}
         sx={{
             maxHeight: '75vh',
             minHeight: '100px',

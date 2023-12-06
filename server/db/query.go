@@ -73,6 +73,7 @@ func (d *DB) DriverResults(id int) []JsonMap {
 			JOIN series USING (series_id)
 			JOIN customers USING (cust_id)
 			JOIN cars USING (car_id)
+			JOIN tracks USING (track_id)
 			WHERE cust_id=$1 AND simsession_number=0
 			ORDER BY subsession_id DESC
 		) t

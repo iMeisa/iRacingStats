@@ -92,12 +92,18 @@ const columns: GridColDef[] = [
         minWidth: 50,
         type: "boolean",
     },
+    {
+        field: 'track',
+        headerName: 'Track',
+        flex: 1,
+        minWidth: 300,
+    }
 ];
 
 export default function Races(props: {results: Record<string, unknown>[], loading: boolean}) {
     return <DataGrid
         sx={{
-            maxHeight: '75vh'
+            maxHeight: '75vh',
         }}
         // autoHeight
         columns={columns}

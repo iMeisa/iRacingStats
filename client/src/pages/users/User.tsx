@@ -8,6 +8,7 @@ import {User as UserModel, defaultUser} from "./UserTypes.ts";
 import UserMenu from "./UserMenu.tsx";
 import Box from "@mui/material/Box";
 import Races from "./panels/Races.tsx";
+import Grid from "@mui/material/Unstable_Grid2";
 
 export default function User() {
     const {id} = useParams()
@@ -25,6 +26,12 @@ export default function User() {
         (obj) => {
             obj['id'] = obj['result_id']
             obj['dnf'] = obj['reason_out_id'] !== 0
+
+            let track = obj['track_name']
+            const track_config = obj['config_name']
+            if (track_config !== '') track += " - " + track_config
+            obj['track'] = track
+
             return obj
         }
     )
@@ -41,13 +48,17 @@ export default function User() {
 
     return <>
         {/*{user.id} {user.display_name} {String(loading)}*/}
-        <Box display={'flex'}>
-            <UserMenu onChange={value => setTab(value)}/>
-            <Container maxWidth="xl">
-                <UserMenu mobile onChange={value => setTab(value)}/>
-                <Tabs tab={tab} user={user} loading={loading} results={results} results_loading={results_loading}/>
-            </Container>
-        </Box>
+        <Grid container>
+            <Grid md={1}>
+                <UserMenu onChange={value => setTab(value)}/>
+            </Grid>
+            <Grid md>
+                <Container maxWidth="xl">
+                    <UserMenu mobile onChange={value => setTab(value)}/>
+                    <Tabs tab={tab} user={user} loading={loading} results={results} results_loading={results_loading}/>
+                </Container>
+            </Grid>
+        </Grid>
         <Box height={'2em'} display={{xs: 'block', md: 'none'}}/>
     </>
 }

@@ -1,12 +1,14 @@
 import {useParams} from "react-router-dom";
-import {Paper, Skeleton} from "@mui/material";
 import useFetch from "../../hooks/useFetch.ts";
-import Typography from "@mui/material/Typography";
 import {useEffect, useState} from "react";
 import {Series as SeriesModel, SeriesDefault} from "../../types/Types.ts";
 import Grid from "@mui/material/Unstable_Grid2";
+import SideMenu from "../../components/navigation/SideMenu.tsx";
+import Info from "./panels/Info.tsx";
+import Races from "./panels/Races.tsx";
 import Container from "@mui/material/Container";
-import Box from "@mui/material/Box";
+
+const panels = ['Info', 'Races']
 
 export default function Series() {
 
@@ -16,56 +18,48 @@ export default function Series() {
 
     const [series, setSeries] = useState(SeriesDefault)
 
+    const [tab, setTab] = useState(0)
+
+    const [races, races_loading] = useFetch(`/api/series_sessions?id=${id}`)
+
     useEffect(() => {
         if (seriess.length < 1) return
         setSeries(seriess[0])
         console.log(series)
     }, [seriess]);
 
-    return <Container maxWidth="xl">
-
-        <Grid container mt={2}>
-
-            <Grid sm={12} md={12} lg>
-                { loading ? (
-                    <>
-                        <Skeleton className={"centered logo"} variant="rounded" width={200} height={100} />
-                        <Skeleton className={"centered"} variant="text" sx={{ fontSize: '1.5rem', width: '20vw' }}/>
-                    </>
-                ) : (
-                    <>
-                        <img
-                            className={"session-logo"}
-                            src={"https://images-static.iracing.com/img/logos/series/"+series.logo}
-                            alt="logo"
-                            loading="lazy"
-                        />
-                        <Typography variant="h4" fontWeight="bold" mt={2}>{series.name}</Typography>
-                    </>
-                )}
-                <Typography variant="subtitle2">more to come soon</Typography>
-            </Grid>
-
-            <Grid sm={12} md={12} lg={5}>
-                <Paper
-                    sx={{
-                        p: 2,
-                        height: '40vh',
-                        overflow: 'auto',
-                        overflowX: 'hidden',
-                        display: 'flex',
-                    }}
-                >
-                    <Box m="auto">
-                        <Typography variant="h6" fontWeight="bold" mb={1}>Details</Typography>
-
-                        <Typography paragraph>
-                            <div dangerouslySetInnerHTML={{__html: series.copy}}/>
-                        </Typography>
-                    </Box>
-                </Paper>
-            </Grid>
-
+    return <Grid container>
+        <Grid md={1}>
+            <SideMenu panels={panels} onChange={value => setTab(value)}/>
         </Grid>
-    </Container>
+        <Grid md mt={2}>
+            <Container maxWidth="xl">
+                <Tabs tab={tab} series_loading={loading} series_logo={series.logo} series_name={series.name} races={races} races_loading={races_loading}/>
+            </Container>
+        </Grid>
+    </Grid>
+}
+
+type TabProps = {
+    tab: number
+    series_loading: boolean,
+    series_logo: string,
+    series_name: string,
+    races: Record<string, unknown>[]
+    races_loading: boolean
+}
+
+function Tabs(props: TabProps) {
+    console.log(props.tab)
+    switch (props.tab) {
+        case 0: {
+            return <Info loading={props.series_loading} logo={props.series_logo} name={props.series_name}/>
+        }
+        case 1: {
+            return <Races results={props.races} loading={props.races_loading}/>
+        }
+        default: {
+            return <></>
+        }
+    }
 }

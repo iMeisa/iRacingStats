@@ -317,11 +317,23 @@ func (d *DB) Series(id int, active bool) []models.Series {
 	return seriess
 }
 
+func (d *DB) SeriesSessions(id int) []models.Session {
+	return d.sessions(fmt.Sprintf(" series_id = %d ", id))
+}
+
 func (d *DB) Sessions() []models.Session {
+	return d.sessions("")
+}
+
+func (d *DB) sessions(where string) []models.Session {
 	ctx, cancel := getContext()
 	defer cancel()
 
-	statement := `
+	if len(where) > 1 {
+		where = " AND " + where
+	}
+
+	statement := fmt.Sprintf(`
 		SELECT session_id,
 			   series_logo,
 			   series_short_name,
@@ -337,10 +349,10 @@ func (d *DB) Sessions() []models.Session {
 		join seasons se using (season_id)
 		join series sr using (series_id)
 		join tracks t using (track_id)
-		where end_time > ((select max(end_time) from subsessions)::integer - 86400)
+		where end_time > ((select max(end_time) from subsessions)::integer - 86400) %s
 		group by session_id, series_logo, series_short_name, track_name, config_name, sr.min_license_level, sr.series_id
 		order by session_id desc
-	`
+	`, where)
 
 	//d.LatestSubsessionTime()-int(24*time.Hour/time.Second)
 

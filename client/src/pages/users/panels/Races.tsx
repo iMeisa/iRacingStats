@@ -84,7 +84,7 @@ const columns: GridColDef[] = [
         renderCell: params => UnixToDateTime(params.value)
     },
     // { field: 'track', headerName: 'Track', flex: 1, minWidth: 200 },
-    { field: 'incidents', headerName: 'Incidents', flex: 1, minWidth: 50 },
+    { field: 'incidents', headerName: 'Inc', flex: 1, minWidth: 50 },
     {
         field: 'dnf',
         headerName: 'DNF',

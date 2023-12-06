@@ -47,18 +47,24 @@ export default function User() {
     }, [users, results]);
 
     return <>
-        {/*{user.id} {user.display_name} {String(loading)}*/}
-        <Grid container>
+        {/*Desktop*/}
+        <Grid container display={{ xs: 'none', sm: 'none', md: 'flex' }}>
             <Grid md={1}>
                 <UserMenu onChange={value => setTab(value)}/>
             </Grid>
             <Grid md>
                 <Container maxWidth="xl">
-                    <UserMenu mobile onChange={value => setTab(value)}/>
                     <Tabs tab={tab} user={user} loading={loading} results={results} results_loading={results_loading}/>
                 </Container>
             </Grid>
         </Grid>
+
+        {/*Mobile*/}
+        <Container sx={{display: {sm: 'block', md:'none'}}}>
+            <UserMenu mobile onChange={value => setTab(value)}/>
+            <Tabs tab={tab} user={user} loading={loading} results={results} results_loading={results_loading}/>
+        </Container>
+
         <Box height={'2em'} display={{xs: 'block', md: 'none'}}/>
     </>
 }

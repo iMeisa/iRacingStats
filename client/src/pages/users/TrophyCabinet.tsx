@@ -138,7 +138,7 @@ function CabinetRows(props: {trophies: SeriesTrophies[], mobile: boolean}) {
                 <TableCell align="right">{row.bronzes}</TableCell>
             </TableRow>
         )) :
-            <TableCell colSpan={4} align="center">No Trophies Yet</TableCell>
+            <TableCell colSpan={ props.mobile ? 4 : 5 } align="center">No Trophies Yet</TableCell>
         }
     </>
 }

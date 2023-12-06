@@ -44,7 +44,7 @@ export default function UserMenu(props: {onChange: (value: number) => void, mobi
                 variant="scrollable"
                 value={value}
                 onChange={(_, newValue) => handleChange(newValue)}
-                aria-label="Vertical tabs example"
+                aria-label="Vertical tabs"
                 // sx={{ borderRight: 1, borderColor: 'divider' }}
             >
                 {panels.map((value, index) =>

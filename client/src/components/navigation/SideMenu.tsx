@@ -12,9 +12,13 @@ function a11yProps(index: number) {
     };
 }
 
-const panels = ['Info', 'Races']
+type SideMenuProps = {
+    panels: string[],
+    onChange: (value: number) => void,
+    mobile?: boolean
+}
 
-export default function UserMenu(props: {onChange: (value: number) => void, mobile?: boolean}) {
+export default function SideMenu(props: SideMenuProps) {
     const [value, setValue] = useState(0);
 
     const handleChange = (newValue: number) => {
@@ -30,7 +34,7 @@ export default function UserMenu(props: {onChange: (value: number) => void, mobi
                 value={value}
                 onChange={(event) => handleChange(event.target.value as number)}
             >
-                { panels.map((value, index) =>
+                { props.panels.map((value, index) =>
                     <MenuItem value={index}>{value}</MenuItem>)
                 }
             </Select>
@@ -47,7 +51,7 @@ export default function UserMenu(props: {onChange: (value: number) => void, mobi
                 aria-label="Vertical tabs"
                 // sx={{ borderRight: 1, borderColor: 'divider' }}
             >
-                {panels.map((value, index) =>
+                {props.panels.map((value, index) =>
                     <Tab label={value} {...a11yProps(index)}/>
                 )}
             </Tabs>

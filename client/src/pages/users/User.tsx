@@ -5,10 +5,12 @@ import Container from "@mui/material/Container";
 import "./User.css"
 import UserInfo, {InfoProps} from "./panels/Info.tsx";
 import {User as UserModel, defaultUser} from "./UserTypes.ts";
-import UserMenu from "./UserMenu.tsx";
+import SideMenu from "../../components/navigation/SideMenu.tsx";
 import Box from "@mui/material/Box";
 import Races from "./panels/Races.tsx";
 import Grid from "@mui/material/Unstable_Grid2";
+
+const panels = ['Info', 'Races']
 
 export default function User() {
     const {id} = useParams()
@@ -50,7 +52,7 @@ export default function User() {
         {/*Desktop*/}
         <Grid container display={{ xs: 'none', sm: 'none', md: 'flex' }}>
             <Grid md={1}>
-                <UserMenu onChange={value => setTab(value)}/>
+                <SideMenu panels={panels} onChange={value => setTab(value)}/>
             </Grid>
             <Grid md>
                 <Container maxWidth="xl">
@@ -61,7 +63,7 @@ export default function User() {
 
         {/*Mobile*/}
         <Container sx={{display: {sm: 'block', md:'none'}}}>
-            <UserMenu mobile onChange={value => setTab(value)}/>
+            <SideMenu panels={panels} mobile onChange={value => setTab(value)}/>
             <Tabs tab={tab} user={user} loading={loading} results={results} results_loading={results_loading}/>
         </Container>
 

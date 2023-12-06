@@ -25,8 +25,9 @@ export default function Series() {
     useEffect(() => {
         if (seriess.length < 1) return
         setSeries(seriess[0])
-        console.log(series)
-    }, [seriess]);
+        console.log('series: ', series)
+        console.log('races: ', races)
+    }, [seriess, races]);
 
     return <Grid container>
         <Grid md={1}>

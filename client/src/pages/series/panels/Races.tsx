@@ -1,44 +1,58 @@
 import {DataGrid, GridColDef, GridRenderCellParams} from "@mui/x-data-grid";
 import {Link} from "react-router-dom";
-import SeriesLogo from "../../../components/images/SeriesLogo.tsx";
 import {Tooltip} from "@mui/material";
-import {UnixToDateTime} from "../../../functions/datetime/UnixToDate.ts";
+import {UnixToDateTime, UnixToTime} from "../../../functions/datetime/UnixToDate.ts";
+import Button from "@mui/material/Button";
+import FormatListNumberedIcon from "@mui/icons-material/FormatListNumbered";
+import TimeAgo from "react-timeago";
 
 const columns: GridColDef[] = [
     {
-        field: 'series_logo',
-        headerName: 'Series',
-        width: 75,
-        renderCell: (params: GridRenderCellParams<any, string>) =>
-            <Link to={`/series/${params.row.series_id}`}>
-                <SeriesLogo link={params.value} />
-            </Link>,
-        sortable: false,
+        field: 'time_ago',
+        headerName: '',
+        width: 175,
         headerAlign: 'center',
+        align: 'center',
+        renderCell: params => <TimeAgo date={UnixToDateTime(params.row.end_time)}/>
     },
     {
-        field: 'series_short_name',
+        field: 'id',
         headerName: '',
         headerAlign: 'center',
-        minWidth: 350,
         flex: 1,
+        minWidth: 100,
         renderCell: (params: GridRenderCellParams<any, string>) =>
             <Tooltip title="Subsession Results">
                 <Link
-                    style={{ textDecoration: 'underline', fontStyle: 'italic', color: 'inherit', fontWeight: 'bold'}}
-                    to={`/subsession/${params.row.subsession_id}`}
+                    to={`/sessions/${params.value}`}
                 >
-                    {params.value}
+                    <Button variant="contained" size="small" startIcon={<FormatListNumberedIcon/>} >
+                        Splits
+                    </Button>
                 </Link>
             </Tooltip>
     },
     {
-        field: 'end_time',
-        headerName: 'End Time',
+        field: 'subsession_count',
+        headerName: 'Splits',
+        headerAlign: 'center',
+        align: 'center',
+    },
+    {
+        field: 'start_time',
+        headerName: 'Start Time',
         width: 175,
         headerAlign: 'center',
         align: 'center',
         renderCell: params => UnixToDateTime(params.value)
+    },
+    {
+        field: 'end_time',
+        headerName: 'End Time',
+        width: 100,
+        headerAlign: 'center',
+        align: 'center',
+        renderCell: params => UnixToTime(params.value)
     },
     {
         field: 'track',
@@ -52,6 +66,7 @@ export default function Races(props: {results: Record<string, unknown>[], loadin
     return <DataGrid
         sx={{
             maxHeight: '75vh',
+            minHeight: '100px',
         }}
         // autoHeight
         columns={columns}

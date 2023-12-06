@@ -97,6 +97,7 @@ type Session struct {
 	SeriesLogo      string `json:"series_logo"`
 	SeriesShortName string `json:"series_short_name"`
 	SubsessionCount int    `json:"subsession_count"`
+	StartTime       int    `json:"start_time"`
 	EndTime         int    `json:"end_time"`
 	Track           string `json:"track"`
 	CategoryId      int    `json:"category_id"`

@@ -318,25 +318,30 @@ func (d *DB) Series(id int, active bool) []models.Series {
 }
 
 func (d *DB) SeriesSessions(id int) []models.Session {
-	return d.sessions(fmt.Sprintf(" series_id = %d ", id))
+	return d.sessions(fmt.Sprintf(" series_id = %d ", id), false, 100)
 }
 
 func (d *DB) Sessions() []models.Session {
-	return d.sessions("")
+	return d.sessions("", true, 1000)
 }
 
-func (d *DB) sessions(where string) []models.Session {
+func (d *DB) sessions(where string, recent bool, limit int) []models.Session {
 	ctx, cancel := getContext()
 	defer cancel()
 
-	if len(where) > 1 {
+	if recent && len(where) > 1 {
 		where = " AND " + where
+	}
+
+	if recent {
+		where = " end_time > ((select max(end_time) from subsessions)::integer - 86400)" + where
 	}
 
 	statement := fmt.Sprintf(`
 		SELECT session_id,
 			   series_logo,
 			   series_short_name,
+			   start_time,
 			   max(end_time) as end_time,
 			   count(session_id),
 			   track_name,
@@ -349,10 +354,11 @@ func (d *DB) sessions(where string) []models.Session {
 		join seasons se using (season_id)
 		join series sr using (series_id)
 		join tracks t using (track_id)
-		where end_time > ((select max(end_time) from subsessions)::integer - 86400) %s
+		where %s
 		group by session_id, series_logo, series_short_name, track_name, config_name, sr.min_license_level, sr.series_id
 		order by session_id desc
-	`, where)
+		LIMIT %d
+	`, where, limit)
 
 	//d.LatestSubsessionTime()-int(24*time.Hour/time.Second)
 
@@ -373,6 +379,7 @@ func (d *DB) sessions(where string) []models.Session {
 			&session.SessionId,
 			&session.SeriesLogo,
 			&session.SeriesShortName,
+			&session.StartTime,
 			&session.EndTime,
 			&session.SubsessionCount,
 			&trackName,

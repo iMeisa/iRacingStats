@@ -4,7 +4,7 @@ import {Tooltip} from "@mui/material";
 import {UnixToDateTime, UnixToTime} from "../../../functions/datetime/UnixToDate.ts";
 import Button from "@mui/material/Button";
 import FormatListNumberedIcon from "@mui/icons-material/FormatListNumbered";
-import TimeAgo from "react-timeago";
+import TimeAgo from "@elbotho/timeago-react";
 
 const columns: GridColDef[] = [
     {
@@ -13,7 +13,7 @@ const columns: GridColDef[] = [
         width: 175,
         headerAlign: 'center',
         align: 'center',
-        renderCell: params => <TimeAgo date={UnixToDateTime(params.row.end_time)}/>
+        renderCell: params => <TimeAgo datetime={UnixToDateTime(params.row.end_time)}/>
     },
     {
         field: 'id',

@@ -21,6 +21,14 @@
     border-color: #94ea79;
 }
 
+.driving-stats {
+    border-color: #cb9ce8;
+}
+
 .trophies {
     border-color: #e59302;
+}
+
+.MuiAccordion-root {
+    margin: 0.5em 0
 }

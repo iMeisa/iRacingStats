@@ -66,6 +66,15 @@ export default function UserInfo(props: InfoProps) {
                         <RaceStats results={props.results} loading={props.results_loading}/>
                     </Paper>
 
+                    <Paper className={"stat-border driving-stats"} sx={{ p: 1 }}>
+
+                        <Typography variant="subtitle1" pb={0.5} fontWeight="bold">
+                            Driving Stats
+                        </Typography>
+
+                        <DrivingStats results={props.results} loading={props.results_loading}/>
+                    </Paper>
+
                 </Stack>
             </Grid>
 
@@ -115,6 +124,20 @@ export default function UserInfo(props: InfoProps) {
 
                 <AccordionDetails>
                     <RaceStats results={props.results} loading={props.results_loading}/>
+                </AccordionDetails>
+            </Accordion>
+
+            <Accordion className={"stat-border driving-stats"} expanded={expanded === 'driving-stats'} onChange={handleChange('driving-stats')}>
+                <AccordionSummary
+                    expandIcon={<ExpandMoreIcon/>}
+                    aria-controls="panel1a-content"
+                    id="panel1a-header"
+                >
+                    <Typography> Driving Stats </Typography>
+                </AccordionSummary>
+
+                <AccordionDetails>
+                    <DrivingStats results={props.results} loading={props.results_loading}/>
                 </AccordionDetails>
             </Accordion>
 
@@ -237,6 +260,47 @@ function RaceStats(props: {results: Record<string, unknown>[], loading: boolean}
             <StatCard elevation={3} name="Race Time" value={race_time} tooltip={"Total time spent driving in races"}/>
             <StatCard elevation={3} name="Finish %" value={finish_percentage} tooltip={"Percentage of races finished"}/>
             <StatCard elevation={3} name="Inc. Avg" value={incident_avg} tooltip={"Incident Average"}/>
+        </Grid>
+    )
+}
+
+function DrivingStats(props: {results: Record<string, unknown>[], loading: boolean}) {
+
+    if (props.loading) return <CircularProgress size="2em"/>
+    let laps = 0
+
+    let cars_driven: number[] = []
+    let tracks_driven: number[] = []
+    let series_driven: number[] = []
+    let mi_driven = 0
+    let combos_driven: string[] = []
+
+    props.results.map(result => {
+        laps += result['laps_complete'] as number
+
+        cars_driven.push(result['car_id'] as number)
+        tracks_driven.push(result['track_id'] as number)
+        series_driven.push(result['series_id'] as number)
+        mi_driven += (result['track_config_length'] as number) * (result['laps_complete'] as number)
+        combos_driven.push(`${result['car_id']}-${result['track_id']}`)
+    })
+
+    // Get all unique ids
+    cars_driven = [...new Set(cars_driven)]
+    tracks_driven = [...new Set(tracks_driven)]
+    series_driven = [...new Set(series_driven)]
+    combos_driven = [...new Set(combos_driven)]
+
+    const km_driven = mi_driven * 1.609
+
+    return (
+        <Grid container spacing={1}>
+            <StatCard elevation={5} name="Cars Driven" value={cars_driven.length}/>
+            <StatCard elevation={3} name="Tracks Driven" value={tracks_driven.length}/>
+            <StatCard elevation={3} name="Series' Driven" value={series_driven.length}/>
+            <StatCard elevation={3} name="Distance Driven" value={`${km_driven.toFixed(2)} km`} tooltip={`${mi_driven.toFixed(2)} mi`}/>
+            <StatCard elevation={3} name="Laps Driven" value={laps}/>
+            <StatCard elevation={3} name="Combos Driven" value={combos_driven.length} tooltip="Car and track combinations"/>
         </Grid>
     )
 }

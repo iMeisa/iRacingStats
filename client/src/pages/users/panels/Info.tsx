@@ -22,6 +22,7 @@ import ElapsedTime from "../../../functions/datetime/ElapsedTime.ts";
 import Percentage from "../../../functions/strings/Percentage.ts";
 import StatCard from "../../../components/data/StatCard.tsx";
 import {SyntheticEvent, useState} from "react";
+import FormatCompactNumber from "../../../functions/numbers/FormatCompactNumber.ts";
 
 export type InfoProps = {
     user: User,
@@ -272,7 +273,7 @@ function DrivingStats(props: {results: Record<string, unknown>[], loading: boole
     let cars_driven: number[] = []
     let tracks_driven: number[] = []
     let series_driven: number[] = []
-    let mi_driven = 0
+    let mi_driven = 128347
     let combos_driven: string[] = []
 
     props.results.map(result => {
@@ -291,14 +292,14 @@ function DrivingStats(props: {results: Record<string, unknown>[], loading: boole
     series_driven = [...new Set(series_driven)]
     combos_driven = [...new Set(combos_driven)]
 
-    const km_driven = mi_driven * 1.609
+    const km_driven = FormatCompactNumber(Math.ceil(mi_driven * 1.609))
 
     return (
         <Grid container spacing={1}>
             <StatCard elevation={5} name="Cars Driven" value={cars_driven.length}/>
             <StatCard elevation={3} name="Tracks Driven" value={tracks_driven.length}/>
             <StatCard elevation={3} name="Series' Driven" value={series_driven.length}/>
-            <StatCard elevation={3} name="Distance Driven" value={`${km_driven.toFixed(2)} km`} tooltip={`${mi_driven.toFixed(2)} mi`}/>
+            <StatCard elevation={3} name="Distance Driven" value={`${km_driven} km`} tooltip={`${FormatCompactNumber(mi_driven)} mi`}/>
             <StatCard elevation={3} name="Laps Driven" value={laps}/>
             <StatCard elevation={3} name="Combos Driven" value={combos_driven.length} tooltip="Car and track combinations"/>
         </Grid>

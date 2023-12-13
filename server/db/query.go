@@ -69,7 +69,7 @@ func (d *DB) DriverResults(id int) []JsonMap {
 				   (
 				      SELECT count(*)
 				      FROM results r2
-				      WHERE r2.subsession_id = r.subsession_id
+				      WHERE simsession_number=0 AND r2.subsession_id = r.subsession_id
 				   ) as field_size
 			FROM results r
 			JOIN subsessions USING (subsession_id)

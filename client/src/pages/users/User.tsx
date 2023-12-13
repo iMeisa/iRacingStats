@@ -26,6 +26,9 @@ export default function User() {
 
     const [results, results_loading] = useFetch(`/api/driver_results?id=${id}`,
         (obj) => {
+
+            obj['valid_race'] = obj['field_size'] as number >= 4
+
             obj['id'] = obj['result_id']
             obj['dnf'] = obj['reason_out_id'] !== 0
 

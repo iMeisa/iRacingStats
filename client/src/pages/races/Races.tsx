@@ -65,7 +65,7 @@ export default function Races() {
     // Column defaults
     columns.map((col) => {
         col.hideSortIcons = true
-        col.sortable = false
+        // col.sortable = false
         // col.headerClassName = 'data-header'
     })
 

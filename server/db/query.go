@@ -65,12 +65,17 @@ func (d *DB) DriverResults(id int) []JsonMap {
 	statement := `
 		SELECT row_to_json(t)
 		FROM (
-			SELECT * 
-			FROM results
+			SELECT *,
+				   (
+				      SELECT count(*)
+				      FROM results r2
+				      WHERE r2.subsession_id = r.subsession_id
+				   ) as field_size
+			FROM results r
 			JOIN subsessions USING (subsession_id)
 			JOIN sessions USING (session_id)
 			JOIN seasons USING (season_id)
-			JOIN series USING (series_id)
+			JOIN series s USING (series_id)
 			JOIN customers USING (cust_id)
 			JOIN cars USING (car_id)
 			JOIN tracks USING (track_id)

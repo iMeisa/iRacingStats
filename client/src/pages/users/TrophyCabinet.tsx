@@ -20,6 +20,8 @@ function FilterPodiums(results: Record<string, unknown>[]): [SeriesTrophies[], S
 
     results.map((result: Record<string, unknown>) => {
 
+        if (!(result['valid_race'] as boolean)) return
+
         const series_id = result['series_id'] as number
         const position = result['finish_position_in_class'] as number
 

@@ -519,7 +519,23 @@ func (d *DB) User(id int) []models.User {
 
 	// User
 	statement := `
-		SELECT cust_id, display_name, member_since, c.club_id, club_name
+		SELECT cust_id, 
+			   display_name, 
+			   member_since, 
+			   c.club_id, 
+			   club_name,
+			   oval_license_level,
+			   oval_sub_level,
+			   oval_irating,
+			   road_license_level,
+			   road_sub_level,
+			   road_irating,
+			   dirtoval_license_level,
+			   dirtoval_sub_level,
+			   dirtoval_irating,
+			   dirtroad_license_level,
+			   dirtroad_sub_level,
+			   dirtroad_irating
 		FROM customers c
 		JOIN clubs cl USING (club_id)
 		WHERE cust_id = $1
@@ -529,74 +545,28 @@ func (d *DB) User(id int) []models.User {
 
 	var users []models.User
 	var user models.User
-	err := row.Scan(&user.Id, &user.Name, &user.MemberSince, &user.ClubId, &user.ClubName)
+	err := row.Scan(
+		&user.Id,
+		&user.Name,
+		&user.MemberSince,
+		&user.ClubId,
+		&user.ClubName,
+		&user.Licenses.Oval.Level,
+		&user.Licenses.Oval.SubLevel,
+		&user.Licenses.Oval.IRating,
+		&user.Licenses.Road.Level,
+		&user.Licenses.Road.SubLevel,
+		&user.Licenses.Road.IRating,
+		&user.Licenses.DirtOval.Level,
+		&user.Licenses.DirtOval.SubLevel,
+		&user.Licenses.DirtOval.IRating,
+		&user.Licenses.DirtRoad.Level,
+		&user.Licenses.DirtRoad.SubLevel,
+		&user.Licenses.DirtRoad.IRating,
+	)
 	if err != nil {
 		log.Println("error scanning users:", err)
 	}
-
-	// Licenses
-	statement = `
-		SELECT license_category_id, 
-			   new_license_level, 
-			   new_sub_level, 
-			   newi_rating,
-			   event_strength_of_field,
-			   finish_position_in_class,
-	   		   (SELECT count(*) FROM results WHERE subsession_id = s.subsession_id AND simsession_number = 0) AS drivers
-		FROM results r
-		JOIN subsessions s USING (subsession_id)
-		JOIN sessions s2 USING (session_id)
-		WHERE cust_id = $1 AND simsession_number = 0 AND subsession_id IN (
-			SELECT max(subsession_id)
-			FROM results r 
-			JOIN subsessions s USING (subsession_id)
-			JOIN sessions s2 USING (session_id)
-			WHERE cust_id = $1
-			GROUP BY license_category_id
-		)
-		GROUP BY license_category_id, new_license_level, new_sub_level, newi_rating, event_strength_of_field, finish_position_in_class, s.subsession_id 
-	`
-
-	rows, err := d.SQL.QueryContext(ctx, statement, id)
-	if err != nil {
-		log.Println("error querying user licenses: ", err)
-	}
-
-	var licenses models.UserLicenses
-	for rows.Next() {
-		var category int
-		var license models.License
-
-		var sof float32
-		var pos float32
-		var fieldSize float32
-
-		err = rows.Scan(&category, &license.Level, &license.SubLevel, &license.IRating, &sof, &pos, &fieldSize)
-		if err != nil {
-			log.Println("error scanning license: ", err)
-		}
-
-		// iRating estimation
-		if license.IRating < 0 {
-			pos++
-			var halfField = fieldSize / 2
-			license.IRating = int(sof + ((halfField - pos) / halfField * 100))
-		}
-
-		switch category {
-		case 1:
-			licenses.Oval = license
-		case 2:
-			licenses.Road = license
-		case 3:
-			licenses.DirtOval = license
-		case 4:
-			licenses.DirtRoad = license
-		}
-
-	}
-
-	user.Licenses = licenses
 
 	users = append(users, user)
 

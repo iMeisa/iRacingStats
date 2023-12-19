@@ -273,7 +273,7 @@ function DrivingStats(props: {results: Record<string, unknown>[], loading: boole
     let cars_driven: number[] = []
     let tracks_driven: number[] = []
     let series_driven: number[] = []
-    let mi_driven = 128347
+    let mi_driven = 0
     let combos_driven: string[] = []
 
     props.results.map(result => {

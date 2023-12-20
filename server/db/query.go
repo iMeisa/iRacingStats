@@ -63,20 +63,22 @@ func (d *DB) DriverResults(id int) []JsonMap {
 
 	// SQL query
 	statement := `
-		SELECT row_to_json(t)
+		SELECT row_to_json(t2)
 		FROM (
 			SELECT *
-			FROM results r
-			JOIN subsessions USING (subsession_id)
-			JOIN sessions USING (session_id)
-			JOIN seasons USING (season_id)
-			JOIN series s USING (series_id)
+			FROM (
+				SELECT *
+				FROM results r
+				WHERE cust_id = $1 AND simsession_number=0
+			) AS t
+			JOIN subsessions using (subsession_id)
+			JOIN sessions using (session_id)
+			JOIN seasons using (season_id)
+			JOIN series USING (series_id)
 			JOIN customers USING (cust_id)
 			JOIN cars USING (car_id)
 			JOIN tracks USING (track_id)
-			WHERE cust_id=$1 AND simsession_number=0
-			ORDER BY subsession_id DESC
-		) t
+		) t2
 	`
 
 	rows, err := d.SQL.QueryContext(ctx, statement, id)

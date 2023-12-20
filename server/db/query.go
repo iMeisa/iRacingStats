@@ -65,12 +65,7 @@ func (d *DB) DriverResults(id int) []JsonMap {
 	statement := `
 		SELECT row_to_json(t)
 		FROM (
-			SELECT *,
-				   (
-				      SELECT count(*)
-				      FROM results r2
-				      WHERE simsession_number=0 AND r2.subsession_id = r.subsession_id
-				   ) as field_size
+			SELECT *
 			FROM results r
 			JOIN subsessions USING (subsession_id)
 			JOIN sessions USING (session_id)
@@ -348,7 +343,7 @@ func (d *DB) sessions(where string, recent bool, limit int) []models.Session {
 			   series_short_name,
 			   start_time,
 			   max(end_time) as end_time,
-			   count(session_id),
+			   count(*),
 			   track_name,
 			   config_name,
 			   s.license_category_id,
@@ -419,7 +414,7 @@ func (d *DB) Subsessions(sessionId int) []models.Subsession {
 			   event_strength_of_field,
 			   series_logo,
 			   series_short_name,
-			   count(subsession_id) AS field_size,
+			   field_size,
 			   event_average_lap,
 			   num_lead_changes,
 			   num_cautions, 

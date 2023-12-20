@@ -334,7 +334,8 @@ func (d *DB) sessions(where string, recent bool, limit int) []models.Session {
 	}
 
 	if recent {
-		where = " end_time > ((select max(end_time) from subsessions)::integer - 86400)" + where
+		endTime := d.LatestSubsessionTime() - 86400
+		where = fmt.Sprintf(" end_time > %d", endTime) + where
 	}
 
 	statement := fmt.Sprintf(`

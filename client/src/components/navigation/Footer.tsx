@@ -2,10 +2,10 @@
 // import discord from "../../assets/discord.svg"
 
 import AppBar from "@mui/material/AppBar";
-import Link from "@mui/material/Link";
+// import Link from "@mui/material/Link";
 import Toolbar from "@mui/material/Toolbar";
-import Button from "@mui/material/Button";
-import GitHubIcon from '@mui/icons-material/GitHub';
+// import Button from "@mui/material/Button";
+// import GitHubIcon from '@mui/icons-material/GitHub';
 
 export default function Footer() {
 

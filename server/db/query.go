@@ -49,8 +49,8 @@ func (d *DB) UserCacheUpdated(custId int) (bool, int) {
 
 	row := d.SQL.QueryRow(statement, custId)
 
-	var maxSubsession int
-	var latestSubsession int
+	maxSubsession := 0
+	latestSubsession := 1
 	err := row.Scan(&maxSubsession, &latestSubsession)
 	if err != nil {
 		log.Println("error scanning if user cache is updated: ", err)

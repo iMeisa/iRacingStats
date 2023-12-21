@@ -26,7 +26,14 @@ func (d *DB) UpdateResultsCache(custId int) int {
 			new_ttrating, multiplier, license_change_oval, license_change_road, incidents, max_pct_fuel_fill, 
 			weight_penalty_kg, league_points, league_agg_points, car_id, aggregate_champ_points, ai
 		) 
-		SELECT *
+		SELECT result_id, subsession_id, simsession_number, cust_id, team_id, finish_position, 
+			finish_position_in_class, laps_lead, laps_complete, opt_laps_complete, interval, class_interval, 
+			average_lap, best_lap_num, best_lap_time, best_nlaps_num, best_nlaps_time, best_qual_lap_at, 
+			best_qual_lap_num, best_qual_lap_time, reason_out_id, champ_points, drop_race, club_points, position, 
+			qual_lap_time, starting_position, starting_position_in_class, car_class_id, division, old_license_level, 
+			old_sub_level, old_cpi, oldi_rating, old_ttrating, new_license_level, new_sub_level, new_cpi, newi_rating, 
+			new_ttrating, multiplier, license_change_oval, license_change_road, incidents, max_pct_fuel_fill, 
+			weight_penalty_kg, league_points, league_agg_points, car_id, aggregate_champ_points, ai
 		FROM results
 		WHERE simsession_number = 0
 		AND cust_id = $1

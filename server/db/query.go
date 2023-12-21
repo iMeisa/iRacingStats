@@ -66,22 +66,39 @@ func (d *DB) DriverResults(id int) []JsonMap {
 
 	// SQL query
 	statement := `
-		SELECT row_to_json(t2)
+		SELECT row_to_json(t)
 		FROM (
-			SELECT *
-			FROM (
-				SELECT *
-				FROM results_cache r
-				WHERE cust_id = $1 AND simsession_number=0
-			) AS t
-			JOIN subsessions USING (subsession_id)
-			JOIN sessions USING (session_id)
-			JOIN seasons USING (season_id)
-			JOIN series USING (series_id)
-			JOIN customers USING (cust_id)
-			JOIN cars USING (car_id)
-			JOIN tracks USING (track_id)
-		) t2
+			SELECT r.result_id,
+				   r.subsession_id,
+				   r.finish_position_in_class,
+				   r.laps_lead,
+				   r.average_lap,
+				   r.laps_complete,
+				   r.car_id,
+				   s.license_category_id,
+				   ss.event_strength_of_field,
+				   ss.event_laps_complete,
+				   ss.end_time,
+				   ss.field_size,
+				   sr.series_id,
+				   sr.series_short_name,
+				   sr.series_logo,
+				   sr.min_license_level,
+				   r.incidents,
+				   r.reason_out_id,
+				   t.track_id,
+				   t.track_name,
+				   t.config_name,
+				   t.track_config_length
+			FROM results_cache r
+			JOIN subsessions ss USING (subsession_id)
+			JOIN sessions s USING (session_id)
+			JOIN seasons se USING (season_id)
+			JOIN series sr USING (series_id)
+			JOIN tracks t USING (track_id)
+			WHERE cust_id = $1 AND simsession_number=0
+			ORDER BY subsession_id DESC
+		) t
 	`
 
 	rows, err := d.SQL.QueryContext(ctx, statement, id)

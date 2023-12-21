@@ -236,13 +236,13 @@ function RaceStats(props: {results: Record<string, unknown>[], loading: boolean}
 
     const race_count = props.results.length
     let total_time = 0
-    let laps = 0
+    let podiums = 0
     let laps_lead = 0
     let races_finished = 0
     let incidents = 0
 
     props.results.map(result => {
-        laps += result['laps_complete'] as number
+        if (result['valid_race'] && (result['finish_position_in_class'] as number) < 3) podiums++
         total_time += (result['laps_complete'] as number) * (result['average_lap'] as number)
         laps_lead += result['laps_lead'] as number
         if (result['reason_out_id'] === 0) races_finished++
@@ -256,7 +256,7 @@ function RaceStats(props: {results: Record<string, unknown>[], loading: boolean}
     return (
         <Grid container spacing={1}>
             <StatCard elevation={5} name="Races" value={race_count}/>
-            <StatCard elevation={3} name="Laps" value={laps}/>
+            <StatCard elevation={3} name="Podiums" value={podiums}/>
             <StatCard elevation={3} name="Laps Lead" value={laps_lead}/>
             <StatCard elevation={3} name="Race Time" value={race_time} tooltip={"Total time spent driving in races"}/>
             <StatCard elevation={3} name="Finish %" value={finish_percentage} tooltip={"Percentage of races finished"}/>

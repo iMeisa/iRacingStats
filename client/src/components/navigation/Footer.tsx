@@ -26,23 +26,36 @@ export default function Footer() {
             <Toolbar style={{ display: 'flex', justifyContent: 'center' }}>
 
 
-                <Link href="https://github.com/iMeisa/iRacingStats"
-                      color="inherit"
-                      target="_blank"
-                >
-                    <Button color="inherit">
-                        <GitHubIcon/>
-                    </Button>
-                </Link>
+                {/*<Link href="https://github.com/iMeisa/iRacingStats"*/}
+                {/*      color="inherit"*/}
+                {/*      target="_blank"*/}
+                {/*>*/}
+                {/*    <Button color="inherit">*/}
+                {/*        <GitHubIcon/>*/}
+                {/*    </Button>*/}
+                {/*</Link>*/}
 
-                <Link href="https://github.com/iMeisa/iRacingStats/commits/master"
-                      color="inherit"
-                      target="_blank"
-                >
-                    <Button color="inherit">
-                        Changelog
-                    </Button>
-                </Link>
+                {/*<Link href="https://github.com/iMeisa/iRacingStats/commits/master"*/}
+                {/*      color="inherit"*/}
+                {/*      target="_blank"*/}
+                {/*>*/}
+                {/*    <Button color="inherit">*/}
+                {/*        Changelog*/}
+                {/*    </Button>*/}
+                {/*</Link>*/}
+
+                {/*"height: 60px !important;width: 217px !important;"*/}
+
+                <a href="https://www.buymeacoffee.com/fuelvine" target="_blank">
+                    <img
+                        src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png"
+                        alt="Buy Me A Coffee"
+                        style={{
+                            height: "60px",
+                            width: "217px"
+                        }}
+                    />
+                </a>
 
                 {/*<Button color="inherit">*/}
                 {/*    <img src={discord} alt={discord} height={24}/>*/}

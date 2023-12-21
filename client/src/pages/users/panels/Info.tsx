@@ -296,7 +296,7 @@ function DrivingStats(props: {results: Record<string, unknown>[], loading: boole
 
     return (
         <Grid container spacing={1}>
-            <StatCard elevation={5} name="Cars Driven" value={cars_driven.length}/>
+            <StatCard elevation={3} name="Cars Driven" value={cars_driven.length}/>
             <StatCard elevation={3} name="Tracks Driven" value={tracks_driven.length}/>
             <StatCard elevation={3} name="Series' Driven" value={series_driven.length}/>
             <StatCard elevation={3} name="Distance Driven" value={`${km_driven} km`} tooltip={`${FormatCompactNumber(mi_driven)} mi`}/>

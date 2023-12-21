@@ -15,6 +15,12 @@ func (d *DB) AddPageVisit(page string) {
 
 // UpdateResultsCache updates the cache for given customer and returns rows affected
 func (d *DB) UpdateResultsCache(custId int) int {
+
+	updated, subsessionId := d.UserCacheUpdated(custId)
+	if updated {
+		return 0
+	}
+
 	statement := `
 		INSERT INTO results_cache (
 			result_id, subsession_id, simsession_number, cust_id, team_id, finish_position, 
@@ -37,10 +43,10 @@ func (d *DB) UpdateResultsCache(custId int) int {
 		FROM results
 		WHERE simsession_number = 0
 		AND cust_id = $1
-		AND result_id NOT IN ( SELECT result_id FROM results_cache WHERE cust_id = $1 )
+		AND subsession_id > $2
 	`
 
-	exec, err := d.SQL.Exec(statement, custId)
+	exec, err := d.SQL.Exec(statement, custId, subsessionId)
 	if err != nil {
 		log.Println("error updating results cache: ", err)
 	}

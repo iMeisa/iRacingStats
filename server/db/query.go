@@ -58,6 +58,9 @@ func (d *DB) DataRange() map[string]int {
 }
 
 func (d *DB) DriverResults(id int) []JsonMap {
+
+	d.UpdateResultsCache(id)
+
 	ctx, cancel := getContext()
 	defer cancel()
 
@@ -68,12 +71,12 @@ func (d *DB) DriverResults(id int) []JsonMap {
 			SELECT *
 			FROM (
 				SELECT *
-				FROM results r
+				FROM results_cache r
 				WHERE cust_id = $1 AND simsession_number=0
 			) AS t
-			JOIN subsessions using (subsession_id)
-			JOIN sessions using (session_id)
-			JOIN seasons using (season_id)
+			JOIN subsessions USING (subsession_id)
+			JOIN sessions USING (session_id)
+			JOIN seasons USING (season_id)
 			JOIN series USING (series_id)
 			JOIN customers USING (cust_id)
 			JOIN cars USING (car_id)
@@ -82,6 +85,8 @@ func (d *DB) DriverResults(id int) []JsonMap {
 	`
 
 	rows, err := d.SQL.QueryContext(ctx, statement, id)
+
+	go d.UpdateResultsCacheReadTime(id)
 
 	// Create a JSON array
 	var results []JsonMap

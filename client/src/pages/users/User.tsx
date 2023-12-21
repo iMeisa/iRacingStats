@@ -79,7 +79,7 @@ interface TabProps extends InfoProps {
 }
 
 function Tabs(props: TabProps) {
-    console.log(props.tab)
+    // console.log(props.tab)
     switch (props.tab) {
         case 0: {
             return <UserInfo user={props.user} loading={props.loading} results={props.results} results_loading={props.results_loading}/>

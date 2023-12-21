@@ -113,6 +113,11 @@ export default function Races(props: {results: Record<string, unknown>[], loadin
         columns={columns}
         rows={props.results}
         disableColumnMenu
+        initialState={{
+            sorting: {
+                sortModel: [{field: 'end_time', sort: 'desc'}],
+            }
+        }}
         pageSizeOptions={[]}
     />
 }

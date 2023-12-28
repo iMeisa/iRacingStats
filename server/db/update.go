@@ -3,12 +3,18 @@ package db
 import (
 	"fmt"
 	"log"
+	"os"
 	"time"
 )
 
 var visits = make(map[string]int)
 
 func (d *DB) AddPageVisit(page string) {
+
+	if os.Getenv("ENV") == "dev" {
+		return
+	}
+
 	visits[fmt.Sprintf("%s", page)]++
 	//log.Println(visits)
 }

@@ -11,6 +11,7 @@ var visits = make(map[string]int)
 
 func (d *DB) AddPageVisit(page string) {
 
+	fmt.Println(os.Getenv("ENV"))
 	if os.Getenv("ENV") == "dev" {
 		return
 	}

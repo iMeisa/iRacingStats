@@ -61,6 +61,7 @@ func (a *Api) Get(ctx *fiber.Ctx) error {
 		query, _ = a.DB.Query(tableName, ctx.Queries())
 	}
 
+	a.DB.AddPageVisit("/api")
 	return ctx.JSON(query)
 }
 

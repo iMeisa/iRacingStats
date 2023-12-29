@@ -125,20 +125,13 @@ const columns: GridColDef[] = [
     },
     {
         flex: 1,
-        minWidth: 125,
+        minWidth: 150,
         field: 'distance_mi',
-        headerName: 'Distance (mi)',
+        headerName: 'Distance',
         headerAlign: 'center',
         align: 'center',
-    },
-    {
-        flex: 1,
-        minWidth: 125,
-        field: 'distance_km',
-        headerName: 'Distance (km)',
-        headerAlign: 'center',
-        align: 'center',
-        renderCell: params => FormatCompactNumber(params.value)
+        renderCell: params =>
+            `${FormatCompactNumber(params.row.distance_km)} km (${FormatCompactNumber(params.row.distance_mi)} mi)`
     },
     {
         width: 50,
@@ -146,7 +139,6 @@ const columns: GridColDef[] = [
         headerName: 'ID',
         headerAlign: 'right',
         align: 'right',
-        renderCell: params => FormatCompactNumber(params.value)
     },
 
 ];

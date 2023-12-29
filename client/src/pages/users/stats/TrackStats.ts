@@ -77,7 +77,7 @@ export default function TrackStats(results: Record<string, unknown>[]): Record<s
         // Laps Lead
         tracks[track_id].laps_lead += result['laps_lead'] as number
         // Distance Driven
-        tracks[track_id].distance_mi += result['track_config_length'] as number * laps_complete
+        tracks[track_id].distance_mi += Math.round(result['track_config_length'] as number * laps_complete)
         tracks[track_id].distance_km = Math.round(tracks[track_id].distance_mi * 1.609)
 
     }

@@ -3,6 +3,7 @@ import {LinearProgress} from "@mui/material";
 import TrackLogo from "../../../components/images/TrackLogo.tsx";
 import CategoryLogo from "../../../functions/img/CategoryLogo.tsx";
 import ElapsedTime from "../../../functions/datetime/ElapsedTime.ts";
+import FormatCompactNumber from "../../../functions/numbers/FormatCompactNumber.ts";
 // import LapTime from "../../../functions/datetime/LapTime.ts";
 // import CategoryLogo from "../../../functions/img/CategoryLogo.tsx";
 
@@ -123,12 +124,31 @@ const columns: GridColDef[] = [
             (params.value / params.row.races).toFixed(2)
     },
     {
+        flex: 1,
+        minWidth: 125,
+        field: 'distance_mi',
+        headerName: 'Distance (mi)',
+        headerAlign: 'center',
+        align: 'center',
+    },
+    {
+        flex: 1,
+        minWidth: 125,
+        field: 'distance_km',
+        headerName: 'Distance (km)',
+        headerAlign: 'center',
+        align: 'center',
+        renderCell: params => FormatCompactNumber(params.value)
+    },
+    {
         width: 50,
         field: 'id',
         headerName: 'ID',
         headerAlign: 'right',
         align: 'right',
+        renderCell: params => FormatCompactNumber(params.value)
     },
+
 ];
 
 export default function UserTracks(props: {stats: Record<string, unknown>[], loading: boolean}) {

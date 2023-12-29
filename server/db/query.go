@@ -96,6 +96,7 @@ func (d *DB) DriverResults(id int) []JsonMap {
 				   r.finish_position_in_class,
 				   r.laps_lead,
 				   r.average_lap,
+				   r.best_lap_time,
 				   r.laps_complete,
 				   r.car_id,
 				   s.license_category_id,
@@ -112,7 +113,8 @@ func (d *DB) DriverResults(id int) []JsonMap {
 				   t.track_id,
 				   t.track_name,
 				   t.config_name,
-				   t.track_config_length
+				   t.track_config_length,
+				   t.logo as track_logo
 			FROM results_cache r
 			JOIN subsessions ss USING (subsession_id)
 			JOIN sessions s USING (session_id)

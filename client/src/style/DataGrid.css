@@ -26,8 +26,8 @@
 }
 
 /* --- Desktop Only --- */
-@media (min-width: 900px) {
-    .MuiDataGrid-virtualScroller:not(:has(.MuiDataGrid-virtualScrollerContent--overflowed)) {
-        overflow-x: hidden !important;
-    }
-}
+/*@media (min-width: 900px) {*/
+/*    .MuiDataGrid-virtualScroller:not(:has(.MuiDataGrid-virtualScrollerContent--overflowed)) {*/
+/*        overflow-x: hidden !important;*/
+/*    }*/
+/*}*/

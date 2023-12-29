@@ -7,10 +7,12 @@ import UserInfo, {InfoProps} from "./panels/Info.tsx";
 import {User as UserModel, defaultUser} from "./UserTypes.ts";
 import SideMenu from "../../components/navigation/SideMenu.tsx";
 import Box from "@mui/material/Box";
-import Races from "./panels/Races.tsx";
+import UserRaces from "./panels/Races.tsx";
 import Grid from "@mui/material/Unstable_Grid2";
+import UserTracks from "./panels/Tracks.tsx";
+import TrackStats from "./stats/TrackStats.ts";
 
-const panels = ['Info', 'Races']
+const panels = ['Info', 'Races', 'Tracks']
 
 export default function User() {
     const {id} = useParams()
@@ -41,11 +43,14 @@ export default function User() {
         }
     )
 
+    const [trackStats, setTrackStats] = useState([] as Record<string, unknown>[])
+
     const [tab, setTab] = useState(0)
 
     useEffect(() => {
 
         if (users.length > 0) setUser(users[0])
+        if (!results_loading) setTrackStats(TrackStats(results))
 
         console.log("users: ", users)
         console.log("results: ", results)
@@ -59,7 +64,14 @@ export default function User() {
             </Grid>
             <Grid md>
                 <Container maxWidth="xl">
-                    <Tabs tab={tab} user={user} loading={loading} results={results} results_loading={results_loading}/>
+                    <Tabs
+                        tab={tab}
+                        user={user}
+                        loading={loading}
+                        results={results}
+                        results_loading={results_loading}
+                        trackStats={trackStats}
+                    />
                 </Container>
             </Grid>
         </Grid>
@@ -67,7 +79,14 @@ export default function User() {
         {/*Mobile*/}
         <Container sx={{display: {sm: 'block', md:'none'}}}>
             <SideMenu panels={panels} mobile onChange={value => setTab(value)}/>
-            <Tabs tab={tab} user={user} loading={loading} results={results} results_loading={results_loading}/>
+            <Tabs
+                tab={tab}
+                user={user}
+                loading={loading}
+                results={results}
+                results_loading={results_loading}
+                trackStats={trackStats}
+            />
         </Container>
 
         <Box height={'2em'} display={{xs: 'block', md: 'none'}}/>
@@ -76,6 +95,7 @@ export default function User() {
 
 interface TabProps extends InfoProps {
     tab: number,
+    trackStats: Record<string, unknown>[],
 }
 
 function Tabs(props: TabProps) {
@@ -85,7 +105,10 @@ function Tabs(props: TabProps) {
             return <UserInfo user={props.user} loading={props.loading} results={props.results} results_loading={props.results_loading}/>
         }
         case 1: {
-            return <Races results={props.results} loading={props.results_loading} />
+            return <UserRaces results={props.results} loading={props.results_loading} />
+        }
+        case 2: {
+            return <UserTracks stats={props.trackStats} loading={props.results_loading} />
         }
         default: {
             return <></>

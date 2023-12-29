@@ -100,7 +100,7 @@ const columns: GridColDef[] = [
     }
 ];
 
-export default function Races(props: {results: Record<string, unknown>[], loading: boolean}) {
+export default function UserRaces(props: {results: Record<string, unknown>[], loading: boolean}) {
     return <DataGrid
         slots={{
             loadingOverlay: LinearProgress,

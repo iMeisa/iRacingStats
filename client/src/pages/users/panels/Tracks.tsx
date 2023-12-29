@@ -145,6 +145,10 @@ const columns: GridColDef[] = [
 
 export default function UserTracks(props: {stats: Record<string, unknown>[], loading: boolean}) {
 
+    columns.map((c) => {
+        c.hideSortIcons = true
+    })
+
     return <DataGrid
         slots={{
             loadingOverlay: LinearProgress,

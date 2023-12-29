@@ -62,7 +62,6 @@ function FilterPodiums(results: Record<string, unknown>[]): [SeriesTrophies[], S
 
     // console.log("trophies: ", trophies)
 
-    trophies.sort((a,b) => (a.golds < b.golds) ? 1 : ((b.golds < a.golds) ? -1 : 0));
     return [SortTrophies(trophies), totals]
 }
 

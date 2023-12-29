@@ -84,12 +84,14 @@ export default function TrackStats(results: Record<string, unknown>[]): Record<s
 
     console.log("tracks:", tracks)
 
-    let stats: Record<string, unknown>[] = []
+    let stats: statsType[] = []
     for (const i in tracks) {
         const track = tracks[i]
         stats.push(track)
     }
 
+    // @ts-ignore
+    stats.sort((a,b) => (a.races < b.races) ? 1 : ((b.races < a.races) ? -1 : 0));
     console.log("stats:", stats)
 
     return stats

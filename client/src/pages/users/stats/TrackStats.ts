@@ -12,6 +12,7 @@ type statsType = {
     best_avg: number,
     lap_record: number,
     incidents: number,
+    inc_avg: number,
     finish_total: number,  // Divide this by number of races to get average finish position
     laps: number,
     laps_lead: number,
@@ -33,6 +34,7 @@ export default function TrackStats(results: Record<string, unknown>[]): Record<s
         const best_lap = result['best_lap_time'] as number
         const incidents = result['incidents'] as number
         const finish_pos = result['finish_position_in_class'] as number
+        const valid_result = result['valid_race'] as boolean
 
         // Initial declaration
         if (!( track_id in tracks )) {
@@ -48,6 +50,7 @@ export default function TrackStats(results: Record<string, unknown>[]): Record<s
                 best_avg: -1,
                 lap_record: -1,
                 incidents: 0,
+                inc_avg: 0,
                 finish_total: 0,  // Divide this by number of races to get average finish position
                 laps: 0,
                 laps_lead: 0,
@@ -59,9 +62,9 @@ export default function TrackStats(results: Record<string, unknown>[]): Record<s
         // Races
         tracks[track_id].races++
         // Wins
-        if ( finish_pos == 0 ) tracks[track_id].wins++
+        if ( finish_pos == 0 && valid_result ) tracks[track_id].wins++
         // Podiums
-        if ( finish_pos < 3) tracks[track_id].podiums++
+        if ( finish_pos < 3 && valid_result ) tracks[track_id].podiums++
         // Race Time
         tracks[track_id].race_time += laps_complete * average_lap
         // Average Lap
@@ -78,7 +81,6 @@ export default function TrackStats(results: Record<string, unknown>[]): Record<s
         tracks[track_id].laps_lead += result['laps_lead'] as number
         // Distance Driven
         tracks[track_id].distance_mi += Math.round(result['track_config_length'] as number * laps_complete)
-        tracks[track_id].distance_km = Math.round(tracks[track_id].distance_mi * 1.609)
 
     }
 
@@ -87,6 +89,11 @@ export default function TrackStats(results: Record<string, unknown>[]): Record<s
     let stats: statsType[] = []
     for (const i in tracks) {
         const track = tracks[i]
+        // Add km distance
+        track.distance_km = Math.round(track.distance_mi * 1.609)
+
+        // Incident average
+        track.inc_avg = track.incidents / track.races
         stats.push(track)
     }
 

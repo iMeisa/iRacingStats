@@ -106,12 +106,11 @@ const columns: GridColDef[] = [
     {
         flex: 1,
         minWidth: 100,
-        field: 'incidents',
+        field: 'inc_avg',
         headerName: 'Inc Avg',
         headerAlign: 'center',
         align: 'center',
-        renderCell: params =>
-            (params.value / params.row.races).toFixed(2)
+        renderCell: params => params.value.toFixed(2)
     },
     {
         flex: 1,

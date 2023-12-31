@@ -110,6 +110,8 @@ func (d *DB) DriverResults(id int) []JsonMap {
 				   sr.min_license_level,
 				   r.incidents,
 				   r.reason_out_id,
+				   c.car_name,
+				   c.logo as car_logo,
 				   t.track_id,
 				   t.track_name,
 				   t.config_name,
@@ -120,6 +122,7 @@ func (d *DB) DriverResults(id int) []JsonMap {
 			JOIN sessions s USING (session_id)
 			JOIN seasons se USING (season_id)
 			JOIN series sr USING (series_id)
+			JOIN cars c USING (car_id)
 			JOIN tracks t USING (track_id)
 			WHERE cust_id = $1 AND simsession_number=0
 			ORDER BY subsession_id DESC

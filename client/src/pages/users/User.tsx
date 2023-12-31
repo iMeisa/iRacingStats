@@ -11,8 +11,10 @@ import UserRaces from "./panels/Races.tsx";
 import Grid from "@mui/material/Unstable_Grid2";
 import UserTracks from "./panels/Tracks.tsx";
 import TrackStats from "./stats/TrackStats.ts";
+import CarStats from "./stats/CarStats.ts";
+import UserCars from "./panels/Cars.tsx";
 
-const panels = ['Info', 'Races', 'Tracks']
+const panels = ['Info', 'Races', 'Tracks', 'Cars']
 
 export default function User() {
     const {id} = useParams()
@@ -44,13 +46,17 @@ export default function User() {
     )
 
     const [trackStats, setTrackStats] = useState([] as Record<string, unknown>[])
+    const [carStats, setCarStats] = useState([] as Record<string, unknown>[])
 
     const [tab, setTab] = useState(0)
 
     useEffect(() => {
 
         if (users.length > 0) setUser(users[0])
-        if (!results_loading) setTrackStats(TrackStats(results))
+        if (!results_loading) {
+            setTrackStats(TrackStats(results))
+            setCarStats(CarStats(results))
+        }
 
         console.log("users: ", users)
         console.log("results: ", results)
@@ -71,6 +77,7 @@ export default function User() {
                         results={results}
                         results_loading={results_loading}
                         trackStats={trackStats}
+                        carStats={carStats}
                     />
                 </Container>
             </Grid>
@@ -86,6 +93,7 @@ export default function User() {
                 results={results}
                 results_loading={results_loading}
                 trackStats={trackStats}
+                carStats={carStats}
             />
         </Container>
 
@@ -96,6 +104,7 @@ export default function User() {
 interface TabProps extends InfoProps {
     tab: number,
     trackStats: Record<string, unknown>[],
+    carStats: Record<string, unknown>[],
 }
 
 function Tabs(props: TabProps) {
@@ -109,6 +118,9 @@ function Tabs(props: TabProps) {
         }
         case 2: {
             return <UserTracks stats={props.trackStats} loading={props.results_loading} />
+        }
+        case 3: {
+            return <UserCars stats={props.carStats} loading={props.results_loading} />
         }
         default: {
             return <></>

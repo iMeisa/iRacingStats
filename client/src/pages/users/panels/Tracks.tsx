@@ -1,11 +1,9 @@
-import {DataGrid, GridColDef, GridRenderCellParams} from "@mui/x-data-grid";
-import {LinearProgress} from "@mui/material";
+import { GridColDef, GridRenderCellParams } from "@mui/x-data-grid";
 import TrackLogo from "../../../components/images/TrackLogo.tsx";
 import CategoryLogo from "../../../functions/img/CategoryLogo.tsx";
 import ElapsedTime from "../../../functions/datetime/ElapsedTime.ts";
 import FormatCompactNumber from "../../../functions/numbers/FormatCompactNumber.ts";
-// import LapTime from "../../../functions/datetime/LapTime.ts";
-// import CategoryLogo from "../../../functions/img/CategoryLogo.tsx";
+import StatsGrid from "../../../components/data/DataGrid.tsx";
 
 const columns: GridColDef[] = [
     {
@@ -16,6 +14,7 @@ const columns: GridColDef[] = [
             <TrackLogo link={params.value} />,
         sortable: false,
         headerAlign: 'center',
+        filterable: false,
     },
     {
         width: 50,
@@ -23,13 +22,14 @@ const columns: GridColDef[] = [
         headerName: '',
         sortable: false,
         align: 'center',
+        filterable: false,
         renderCell: params =>
             CategoryLogo(params.value, 0)
 
     },
     {
         flex: 1,
-        minWidth: 300,
+        minWidth: 400,
         field: 'track_name',
         headerName: '',
     },
@@ -40,6 +40,7 @@ const columns: GridColDef[] = [
         headerName: 'Races',
         headerAlign: 'center',
         align: 'center',
+        type: 'number',
     },
     {
         flex: 1,
@@ -48,6 +49,7 @@ const columns: GridColDef[] = [
         headerName: 'Wins',
         headerAlign: 'center',
         align: 'center',
+        type: 'number',
     },
     {
         flex: 1,
@@ -56,6 +58,7 @@ const columns: GridColDef[] = [
         headerName: 'Podiums',
         headerAlign: 'center',
         align: 'center',
+        type: 'number',
     },
     {
         flex: 1,
@@ -64,6 +67,7 @@ const columns: GridColDef[] = [
         headerName: 'Race Time',
         headerAlign: 'center',
         align: 'center',
+        filterable: false,
         renderCell: params =>
             ElapsedTime(params.value / 10)
     },
@@ -74,6 +78,7 @@ const columns: GridColDef[] = [
         headerName: 'Laps',
         headerAlign: 'center',
         align: 'center',
+        type: 'number',
     },
     {
         flex: 1,
@@ -82,6 +87,7 @@ const columns: GridColDef[] = [
         headerName: 'Laps Lead',
         headerAlign: 'center',
         align: 'center',
+        type: 'number',
     },
     // {
     //     flex: 1,
@@ -110,6 +116,8 @@ const columns: GridColDef[] = [
         headerName: 'Inc Avg',
         headerAlign: 'center',
         align: 'center',
+        type: 'number',
+        filterable: false,
         renderCell: params => params.value.toFixed(2)
     },
     {
@@ -119,6 +127,7 @@ const columns: GridColDef[] = [
         headerName: 'Avg Finish',
         headerAlign: 'center',
         align: 'center',
+        filterable: false,
         renderCell: params =>
             (params.value / params.row.races).toFixed(2)
     },
@@ -129,6 +138,7 @@ const columns: GridColDef[] = [
         headerName: 'Distance',
         headerAlign: 'center',
         align: 'center',
+        filterable: false,
         renderCell: params =>
             `${FormatCompactNumber(params.row.distance_km)} km (${FormatCompactNumber(params.row.distance_mi)} mi)`
     },
@@ -138,6 +148,7 @@ const columns: GridColDef[] = [
         headerName: 'ID',
         headerAlign: 'right',
         align: 'right',
+        type: 'number',
     },
 
 ];
@@ -148,23 +159,8 @@ export default function UserTracks(props: {stats: Record<string, unknown>[], loa
         c.hideSortIcons = true
     })
 
-    return <DataGrid
-        slots={{
-            loadingOverlay: LinearProgress,
-        }}
-        loading={props.loading}
-        sx={{
-            maxHeight: '75vh',
-        }}
-        // autoHeight
+    return <StatsGrid
         columns={columns}
         rows={props.stats}
-        disableColumnMenu
-        initialState={{
-            sorting: {
-                sortModel: [{field: 'end_time', sort: 'desc'}],
-            }
-        }}
-        pageSizeOptions={[]}
     />
 }

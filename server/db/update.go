@@ -50,6 +50,7 @@ func (d *DB) UpdateResultsCache(custId int) int {
 		WHERE simsession_number = 0
 		AND cust_id = $1
 		AND subsession_id > $2
+		ON CONFLICT (result_id) DO NOTHING
 	`
 
 	exec, err := d.SQL.Exec(statement, custId, subsessionId)

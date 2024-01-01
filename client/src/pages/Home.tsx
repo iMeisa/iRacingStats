@@ -2,17 +2,16 @@ import {useEffect, useState} from "react";
 import {UnixToDate, UnixToDateTime} from "../functions/datetime/UnixToDate.ts";
 import CurrentUrl from "../variables/Url.ts";
 import Typography from "@mui/material/Typography";
-import {CircularProgress, Paper} from "@mui/material";
-import Odometer from 'react-odometerjs';
 import '../style/Odometer.css'
-import Sleep from "../functions/datetime/Sleep.ts";
+import SubsessionCounter from "../components/data/SubsessionCounter.tsx";
+import Grid from "@mui/material/Unstable_Grid2";
+import Container from "@mui/material/Container";
+import PageCard from "../components/navigation/PageCard.tsx";
+import {Divider} from "@mui/material";
 
 export default function Home() {
     const [minTime, setMinTime] = useState(0)
     const [maxTime, setMaxTime] = useState(0)
-
-    const [subsessionCount, setSubsessionCount] = useState(0)
-    const [loadingCount, setLoadingCount] = useState(true)
 
     useEffect(() => {
         const url = `${CurrentUrl()}/api/data_range`
@@ -24,32 +23,59 @@ export default function Home() {
             })
     }, []);
 
-    useEffect(() => {
-        const interval = setInterval(() => {
-            fetch(`${CurrentUrl()}/api/count?table=subsessions`)
-                .then(r => r.json())
-                .then(data => {
-                    setLoadingCount(false)
-                    Sleep(0.01).then(() => setSubsessionCount(data[0]['count']))
-                })
-        }, 4000)
-
-        return () => clearInterval(interval)
-    });
-
     return (
         <>
-            <Typography variant="h3" fontWeight={600} mt={3}>iRacing Stats</Typography>
+            <Typography variant="h3" fontWeight={600} mt={3}>iRStats</Typography>
+            <Typography variant="subtitle1" mb={3}>Home of iRacing statistics</Typography>
 
-            <Paper elevation={5} style={{ width: '12em', padding: '0.25rem 2rem 1rem 2rem', margin: '2em auto' }}>
-                <h3>Subsessions</h3>
-                { loadingCount ? (
-                    <CircularProgress size={'1em'}/>
-                ) : (
-                    <Odometer value={subsessionCount} duration={5000} format="(,ddd)"/>
-                )}
-            </Paper>
-            <p>{UnixToDate(minTime)} - {UnixToDateTime(maxTime)}</p>
+            <Container>
+                <Grid container spacing={2}>
+                    <Grid xs={12} sm={6} md={6}>
+                        <PageCard
+                            title="Races"
+                            description="See races that just finished"
+                            link="/races"
+                        />
+                    </Grid>
+                    <Grid xs={12} sm={6} md={6}>
+                        <PageCard
+                            title="Series"
+                            description="See series participation and more"
+                            link="/series"
+                            wip
+                        />
+                    </Grid>
+                    <Grid xs={12} sm={6} md={4}>
+                        <PageCard
+                            title="Cars"
+                            description="Find stats for your favorite cars"
+                            link="/cars"
+                            wip
+                        />
+                    </Grid>
+                    <Grid xs={12} sm={6} md={4}>
+                        <PageCard
+                            title="Tracks"
+                            description="Your favorite tracks also have stats"
+                            link="/tracks"
+                            wip
+                        />
+                    </Grid>
+                    <Grid xs={12} sm={12} md={4}>
+                        <PageCard
+                            title="Users"
+                            description="Statistics about you and your friends"
+                            link="/users"
+                        />
+                    </Grid>
+                </Grid>
+
+                <Divider  sx={{ my: '2em', mx: '15px' }}/>
+                <Typography variant="h5" >Data Range:</Typography>
+                <p>{UnixToDate(minTime)} - {UnixToDateTime(maxTime)}</p>
+                <SubsessionCounter/>
+
+            </Container>
         </>
     )
 }

@@ -11,6 +11,7 @@ import {Card, CardActions, CardHeader, Divider} from "@mui/material";
 import {Link} from "react-router-dom";
 import DiscordIcon from "../assets/discord.svg";
 import Button from "@mui/material/Button";
+import Box from "@mui/material/Box";
 
 export default function Home() {
     const [minTime, setMinTime] = useState(0)
@@ -98,6 +99,7 @@ export default function Home() {
                 </Grid>
 
             </Container>
+            <Box my={5}/>
         </>
     )
 }

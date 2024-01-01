@@ -7,7 +7,10 @@ import SubsessionCounter from "../components/data/SubsessionCounter.tsx";
 import Grid from "@mui/material/Unstable_Grid2";
 import Container from "@mui/material/Container";
 import PageCard from "../components/navigation/PageCard.tsx";
-import {Divider} from "@mui/material";
+import {Card, CardActions, CardHeader, Divider} from "@mui/material";
+import {Link} from "react-router-dom";
+import DiscordIcon from "../assets/discord.svg";
+import Button from "@mui/material/Button";
 
 export default function Home() {
     const [minTime, setMinTime] = useState(0)
@@ -25,7 +28,7 @@ export default function Home() {
 
     return (
         <>
-            <Typography variant="h3" fontWeight={600} mt={3}>iRStats</Typography>
+            <Typography variant="h3" fontWeight={600} mt={3}>iRStats (Beta)</Typography>
             <Typography variant="subtitle1" mb={3}>Home of iRacing statistics</Typography>
 
             <Container>
@@ -71,9 +74,28 @@ export default function Home() {
                 </Grid>
 
                 <Divider  sx={{ my: '2em', mx: '15px' }}/>
-                <Typography variant="h5" >Data Range:</Typography>
-                <p>{UnixToDate(minTime)} - {UnixToDateTime(maxTime)}</p>
-                <SubsessionCounter/>
+
+                <Grid container>
+                    <Grid xs={12} sm={8}>
+                        <Typography variant="h5" >Data Range:</Typography>
+                        <p>{UnixToDate(minTime)} - {UnixToDateTime(maxTime)}</p>
+                        <SubsessionCounter/>
+                    </Grid>
+                    <Grid xs={12} sm={4}>
+                        <Card>
+                            <CardHeader title="Be a part of the project"/>
+                            <img
+                                alt="discord server"
+                                src={DiscordIcon}
+                            />
+                            <CardActions sx={{ display: 'flex', justifyContent: 'center' }} >
+                                <Link to={"https://discord.gg/N7zVpSa2uJ"} target="_blank">
+                                    <Button variant="contained">Join</Button>
+                                </Link>
+                            </CardActions>
+                        </Card>
+                    </Grid>
+                </Grid>
 
             </Container>
         </>

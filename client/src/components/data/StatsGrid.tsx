@@ -1,6 +1,5 @@
-import {DataGrid, DataGridProps } from "@mui/x-data-grid";
+import {DataGrid, DataGridProps, GridToolbar} from "@mui/x-data-grid";
 import {LinearProgress} from "@mui/material";
-import StatsGridToolbar from "./StatsGridToolbar.tsx";
 
 export default function StatsGrid(props: DataGridProps) {
     return (
@@ -8,7 +7,7 @@ export default function StatsGrid(props: DataGridProps) {
             {...props}
             slots={{
                 loadingOverlay: LinearProgress,
-                toolbar: StatsGridToolbar,
+                toolbar: GridToolbar,
             }}
             loading={props.loading}
             sx={{

@@ -2,7 +2,7 @@ import { GridColDef, GridRenderCellParams} from "@mui/x-data-grid";
 import ElapsedTime from "../../../functions/datetime/ElapsedTime.ts";
 import FormatCompactNumber from "../../../functions/numbers/FormatCompactNumber.ts";
 import CarLogo from "../../../components/images/CarLogo.tsx";
-import StatsGrid from "../../../components/data/DataGrid.tsx";
+import StatsGrid from "../../../components/data/StatsGrid.tsx";
 
 const columns: GridColDef[] = [
     {

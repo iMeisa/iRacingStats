@@ -30,7 +30,7 @@ func (d *DB) UpdateResultsCache(custId int) int {
 	subsessionConstraint := ""
 	if subsessionId != 0 {
 		subsessionConstraint = fmt.Sprintf(
-			" AND subsession_id > %d AND subsession_id < %d",
+			" AND subsession_id NOT BETWEEN %d AND %d",
 			subsessionId, minSubsessionId,
 		)
 	}

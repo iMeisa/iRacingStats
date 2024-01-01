@@ -22,12 +22,20 @@ func (d *DB) AddPageVisit(page string) {
 // UpdateResultsCache updates the cache for given customer and returns rows affected
 func (d *DB) UpdateResultsCache(custId int) int {
 
-	updated, subsessionId := d.UserCacheUpdated(custId)
+	updated, subsessionId, minSubsessionId := d.UserCacheUpdated(custId)
 	if updated {
 		return 0
 	}
 
-	statement := `
+	subsessionConstraint := ""
+	if subsessionId != 0 {
+		subsessionConstraint = fmt.Sprintf(
+			" AND subsession_id > %d AND subsession_id < %d",
+			subsessionId, minSubsessionId,
+		)
+	}
+
+	statement := fmt.Sprintf(`
 		INSERT INTO results_cache (
 			result_id, subsession_id, simsession_number, cust_id, team_id, finish_position, 
 			finish_position_in_class, laps_lead, laps_complete, opt_laps_complete, interval, class_interval, 
@@ -49,11 +57,11 @@ func (d *DB) UpdateResultsCache(custId int) int {
 		FROM results
 		WHERE simsession_number = 0
 		AND cust_id = $1
-		AND subsession_id > $2
+		%s
 		ON CONFLICT (result_id) DO NOTHING
-	`
+	`, subsessionConstraint)
 
-	exec, err := d.SQL.Exec(statement, custId, subsessionId)
+	exec, err := d.SQL.Exec(statement, custId)
 	if err != nil {
 		log.Println("error updating results cache: ", err)
 	}

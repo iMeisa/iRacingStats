@@ -37,9 +37,10 @@ func (d *DB) LatestSubsessionTime() int {
 }
 
 // UserCacheUpdated returns boolean if user cache is up-to-date and user latest subsession
-func (d *DB) UserCacheUpdated(custId int) (bool, int) {
+func (d *DB) UserCacheUpdated(custId int) (bool, int, int) {
 	statement := `
 		SELECT max(subsession_id),
+			   min(subsession_id),
 			   c.latest_subsession
 		FROM results_cache rc 
 		JOIN customers c USING (cust_id)
@@ -50,13 +51,14 @@ func (d *DB) UserCacheUpdated(custId int) (bool, int) {
 	row := d.SQL.QueryRow(statement, custId)
 
 	maxSubsession := 0
+	minSubsession := 0
 	latestSubsession := 1
-	err := row.Scan(&maxSubsession, &latestSubsession)
+	err := row.Scan(&maxSubsession, &minSubsession, &latestSubsession)
 	if err != nil {
 		log.Println("error scanning if user cache is updated: ", err)
 	}
 
-	return maxSubsession == latestSubsession, maxSubsession
+	return maxSubsession == latestSubsession, maxSubsession, minSubsession
 }
 
 func (d *DB) DataRange() map[string]int {

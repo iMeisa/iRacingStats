@@ -1,9 +1,5 @@
-import {useEffect, useState} from "react";
-import {UnixToDate, UnixToDateTime} from "../functions/datetime/UnixToDate.ts";
-import CurrentUrl from "../variables/Url.ts";
 import Typography from "@mui/material/Typography";
 import '../style/Odometer.css'
-import SubsessionCounter from "../components/data/SubsessionCounter.tsx";
 import Grid from "@mui/material/Unstable_Grid2";
 import Container from "@mui/material/Container";
 import PageCard from "../components/navigation/PageCard.tsx";
@@ -14,18 +10,6 @@ import Button from "@mui/material/Button";
 import Box from "@mui/material/Box";
 
 export default function Home() {
-    const [minTime, setMinTime] = useState(0)
-    const [maxTime, setMaxTime] = useState(0)
-
-    useEffect(() => {
-        const url = `${CurrentUrl()}/api/data_range`
-        fetch(url)
-            .then((response) => response.json())
-            .then((data: Record<string, number>) => {
-                setMinTime(data['min'])
-                setMaxTime(data['max'])
-            })
-    }, []);
 
     return (
         <>
@@ -77,11 +61,7 @@ export default function Home() {
                 <Divider  sx={{ my: '2em', mx: '15px' }}/>
 
                 <Grid container>
-                    <Grid xs={12} sm={8}>
-                        <Typography variant="h5" >Data Range:</Typography>
-                        <p>{UnixToDate(minTime)} - {UnixToDateTime(maxTime)}</p>
-                        <SubsessionCounter/>
-                    </Grid>
+                    <Grid xs={0} sm={4}/>
                     <Grid xs={12} sm={4}>
                         <Card>
                             <CardHeader title="Be a part of the project"/>
@@ -96,6 +76,7 @@ export default function Home() {
                             </CardActions>
                         </Card>
                     </Grid>
+                    <Grid xs={0} sm={4}/>
                 </Grid>
 
             </Container>

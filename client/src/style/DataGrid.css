@@ -20,7 +20,7 @@
 /* --- Mobile --- */
 @media (max-width : 900px) {
     .MuiDataGrid-root {
-        margin: 1em 1% 10em 1%;
+        /*margin: 1em 1% 10em 1%;*/
         max-height: 65vh;
     }
 }

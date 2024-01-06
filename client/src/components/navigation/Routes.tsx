@@ -4,8 +4,8 @@ import {Route, Routes as RouterRoutes} from "react-router-dom";
 import Races from "../../pages/races/Races.tsx";
 import Session from "../../pages/races/Session.tsx";
 import Subsession from "../../pages/races/subsession/Subsession.tsx";
-import Series from "../../pages/series/Series.tsx"
-import SeriesList from "../../pages/series/SeriesList.tsx"
+import SingleSeries from "../../pages/series/singleSeries/SingleSeries.tsx"
+import SeriesList from "../../pages/series/seriesList/SeriesList.tsx"
 import Cars from "../../pages/cars/Cars.tsx";
 import Tracks from "../../pages/tracks/Tracks.tsx";
 import Users from "../../pages/users/Users.tsx";
@@ -18,7 +18,7 @@ export default function Routes() {
             <Route path="/cars" element={<Cars />} />
             <Route path="/races" element={<Races />} />
             <Route path="/series" element={<SeriesList />} />
-            <Route path="/series/:id" element={<Series />} />
+            <Route path="/series/:id" element={<SingleSeries />} />
             <Route path="/sessions/:id" element={<Session />} />
             <Route path="/subsession/:id" element={<Subsession />} />
             <Route path="/tracks" element={<Tracks />} />

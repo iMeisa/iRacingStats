@@ -1,17 +1,9 @@
-import {
-    DataGrid,
-    GridColDef,
-    GridRenderCellParams,
-} from "@mui/x-data-grid";
-import useFetch from "../../hooks/useFetch.ts";
-import {LinearProgress, Tooltip} from "@mui/material";
-import ToTitle from "../../functions/strings/Title.ts";
-import CategoryLogo from "../../functions/img/CategoryLogo.tsx";
-import "./SeriesList.css"
-import SeriesLogo from "../../components/images/SeriesLogo.tsx";
 import Container from "@mui/material/Container";
+import {DataGrid, GridColDef, GridRenderCellParams} from "@mui/x-data-grid";
 import {Link} from "react-router-dom";
-import useIsMobile from "../../hooks/useIsMobile.ts";
+import SeriesLogo from "../../../../components/images/SeriesLogo.tsx";
+import {LinearProgress, Tooltip} from "@mui/material";
+import CategoryLogo from "../../../../functions/img/CategoryLogo.tsx";
 
 const columns: GridColDef[] = [
     {
@@ -56,31 +48,22 @@ const columns: GridColDef[] = [
     { field: 'id', headerName: 'ID', headerAlign: 'center', align: 'center', flex: 0},
 ];
 
-export default function SeriesList() {
+type SeriesTableProps = {
+    series: Record<string, unknown>[],
+    loading: boolean
+}
 
-    const [rows, loading] =
-        useFetch('/api/series', obj => {
-            obj['category'] = ToTitle(obj['category'] as string)
-            // obj['sr_change'] = Number(Number(obj['sr_change']).toFixed(2))
-            return obj
-        })
-
-    const isMobile = useIsMobile()
-
-    // TODO: Fetch sr change separately
-
+export default function SeriesTable(props: SeriesTableProps) {
     return <>
-        <h2>Series List</h2>
         <Container maxWidth="xl">
             <DataGrid
                 // autoHeight
                 slots={{
                     loadingOverlay: LinearProgress,
                 }}
-                loading={loading}
+                loading={props.loading}
                 columns={columns}
-                rows={rows}
-                disableColumnMenu={isMobile}
+                rows={props.series}
                 initialState={{
 
                     pagination: {

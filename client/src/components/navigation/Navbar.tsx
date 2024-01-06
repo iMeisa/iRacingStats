@@ -13,7 +13,7 @@ import DirectionsCarFilledIcon from '@mui/icons-material/DirectionsCarFilled';
 import PeopleIcon from '@mui/icons-material/People';
 import {Link} from 'react-router-dom'
 import './Navbar.css'
-import {Drawer, List, ListItem, ListItemButton, ListItemText} from "@mui/material";
+import {Drawer, List, ListItem, ListItemButton, ListItemText } from "@mui/material";
 import {useState} from "react";
 import CategoryLogo from "../../functions/img/CategoryLogo.tsx";
 
@@ -88,7 +88,7 @@ function ResponsiveAppBar() {
                         }}
                     >
                         {pages.map((page) => (
-                            <Link to={pageLink(page)}>
+                            <Link key={page} to={pageLink(page)}>
                                 <Button
                                     className={'nav-item'}
                                     key={page}
@@ -135,7 +135,7 @@ function ResponsiveAppBar() {
                         >
                             <List>
                                 {pages.map((page) => (
-                                    <Link to={pageLink(page)} style={{ color: 'inherit' }}>
+                                    <Link key={page} to={pageLink(page)} style={{ color: 'inherit' }}>
                                         <ListItem disablePadding>
                                             <ListItemButton onClick={handleCloseNavMenu}>
                                                 {pageIcons(page)}

@@ -52,7 +52,7 @@ export default function SideMenu(props: SideMenuProps) {
                 // sx={{ borderRight: 1, borderColor: 'divider' }}
             >
                 {props.panels.map((value, index) =>
-                    <Tab label={value} {...a11yProps(index)}/>
+                    <Tab key={value} label={value} {...a11yProps(index)}/>
                 )}
             </Tabs>
         </Box>

@@ -27,7 +27,7 @@ export default function Home() {
                     </Grid>
                     <Grid xs={12} sm={6} md={6}>
                         <PageCard
-                            title="Series"
+                            title="SingleSeries"
                             description="See series participation and more"
                             link="/series"
                             wip

@@ -6,7 +6,7 @@ import SideMenu from "../../../components/navigation/SideMenu.tsx";
 import {useState} from "react";
 import Grid from "@mui/material/Unstable_Grid2";
 import SeriesTable from "./panels/SeriesTable.tsx";
-import SeriesParticipation from "./panels/SeriesParticipation.tsx";
+import SeriesParticipation, {SeriesPop} from "./panels/SeriesParticipation.tsx";
 
 
 const panels = ['Popularity', 'List']
@@ -17,6 +17,12 @@ export default function SeriesList() {
         useFetch('/api/series', obj => {
             obj['category'] = ToTitle(obj['category'] as string)
             // obj['sr_change'] = Number(Number(obj['sr_change']).toFixed(2))
+            return obj
+        })
+
+    const [seriesPop, popLoading] =
+        useFetch<SeriesPop>('/api/series_popularity', obj => {
+            obj['category'] = ToTitle(obj['category'] as string)
             return obj
         })
 
@@ -34,7 +40,13 @@ export default function SeriesList() {
             <Grid md xs={12}>
                 <SideMenu mobile panels={panels} onChange={value => setTab(value)}/>
                 <Container maxWidth="xl">
-                    <Tabs tab={tab} series={rows} loading={loading}/>
+                    <Tabs
+                        tab={tab}
+                        seriesPopularity={seriesPop}
+                        seriesPopLoading={popLoading}
+                        series={rows}
+                        loading={loading}
+                    />
                 </Container>
             </Grid>
         </Grid>
@@ -44,6 +56,8 @@ export default function SeriesList() {
 
 interface TabProps {
     tab: number,
+    seriesPopularity: SeriesPop[],
+    seriesPopLoading: boolean,
     series: Record<string, unknown>[],
     loading: boolean,
 }
@@ -52,7 +66,7 @@ function Tabs(props: TabProps) {
     // console.log(props.tab)
     switch (props.tab) {
         case 0: {
-            return <SeriesParticipation series={props.series} />
+            return <SeriesParticipation series={props.seriesPopularity} />
         }
         case 1: {
             return <SeriesTable series={props.series} loading={props.loading} />

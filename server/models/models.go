@@ -89,6 +89,9 @@ type Series struct {
 	SeriesCopy      string  `json:"copy"`
 	SmallImage      string  `json:"small_image"`
 	SrChange        float32 `json:"sr_change"`
+	SessionCount    int     `json:"session_count"`
+	SubsessionCount int     `json:"subsession_count"`
+	TotalEntryCount int     `json:"total_entry_count"`
 }
 
 type Session struct {

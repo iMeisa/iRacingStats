@@ -1,6 +1,7 @@
 package db
 
 import (
+	"database/sql"
 	"encoding/json"
 	"errors"
 	"fmt"
@@ -363,6 +364,67 @@ func (d *DB) Series(id int, active bool) []models.Series {
 		if err != nil {
 			log.Println("error scanning session rows: ", err)
 			return nil
+		}
+
+		seriess = append(seriess, series)
+	}
+
+	return seriess
+}
+
+func (d *DB) SeriesPopularity() []models.Series {
+	ctx, cancel := getContext()
+	defer cancel()
+
+	statement := `
+		SELECT sp.series_id,
+			   s.series_short_name,
+			   s.license_category_id,
+			   lc.license_category,
+			   s.min_license_level,
+			   sp.session_count,
+			   sp.subsession_count,
+			   sp.total_entry_count
+		FROM series_popularity sp
+		JOIN series s USING (series_id)
+		JOIN license_categories lc USING (license_category_id)
+	`
+
+	rows, err := d.SQL.QueryContext(ctx, statement)
+	if err != nil {
+		log.Println("error querying series_popularity: ", err)
+	}
+
+	var seriess []models.Series
+	for rows.Next() {
+		var series models.Series
+		var sessionCount sql.NullInt32
+		var subsessionCount sql.NullInt32
+		var totalEntryCount sql.NullInt32
+
+		err = rows.Scan(
+			&series.Id,
+			&series.Name,
+			&series.CategoryId,
+			&series.Category,
+			&series.MinLicenseLevel,
+			&sessionCount,
+			&subsessionCount,
+			&totalEntryCount,
+		)
+
+		if sessionCount.Valid {
+			series.SessionCount = int(sessionCount.Int32)
+		}
+		if subsessionCount.Valid {
+			series.SubsessionCount = int(subsessionCount.Int32)
+		}
+		if totalEntryCount.Valid {
+			series.TotalEntryCount = int(totalEntryCount.Int32)
+		}
+
+		if err != nil {
+			log.Println("error scanning from series_popularity: ", err)
 		}
 
 		seriess = append(seriess, series)

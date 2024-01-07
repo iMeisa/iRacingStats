@@ -39,6 +39,9 @@ func (a *Api) Get(ctx *fiber.Ctx) error {
 	case "series":
 		query = a.DB.Series(ctx.QueryInt("id"), ctx.QueryBool("active"))
 
+	case "series_popularity":
+		query = a.DB.SeriesPopularity()
+
 	case "series_sessions":
 		query = a.DB.SeriesSessions(ctx.QueryInt("id"))
 

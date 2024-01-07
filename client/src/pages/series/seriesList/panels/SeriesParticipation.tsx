@@ -1,6 +1,6 @@
 import {BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, Cell} from 'recharts';
 import Box from "@mui/material/Box";
-import {LicenseColor} from "../../../../functions/img/LicenseColor.ts";
+import {LicenseColor, LicenseTertiaryColor} from "../../../../functions/img/LicenseColor.ts";
 
 const dataHeight = 75
 
@@ -15,7 +15,7 @@ export default function SeriesParticipation(props: {series: Record<string, unkno
                 <YAxis width={150} type="category" dataKey="name"/>
                 <Bar dataKey="id" fill="#8884d8" layout="vertical">
                     {data.map((entry, index) =>
-                        <Cell key={`cell-${index}`} fill={LicenseColor(entry['category_id'] as number)}/>
+                        <Cell key={`cell-${index}`} fill={LicenseTertiaryColor(entry['min_license_level'] as number)}/>
                     )}
                 </Bar>
                 <Tooltip/>

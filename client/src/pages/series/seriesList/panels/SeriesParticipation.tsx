@@ -1,6 +1,6 @@
 import {BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, Cell} from 'recharts';
 import Box from "@mui/material/Box";
-import {LicenseColor, LicenseTertiaryColor} from "../../../../functions/img/LicenseColor.ts";
+import {LicenseTertiaryColor} from "../../../../functions/img/LicenseColor.ts";
 
 const dataHeight = 75
 

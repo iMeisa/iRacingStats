@@ -379,6 +379,7 @@ func (d *DB) SeriesPopularity() []models.Series {
 	statement := `
 		SELECT sp.series_id,
 			   s.series_short_name,
+			   s.series_logo,
 			   s.license_category_id,
 			   lc.license_category,
 			   s.min_license_level,
@@ -405,6 +406,7 @@ func (d *DB) SeriesPopularity() []models.Series {
 		err = rows.Scan(
 			&series.Id,
 			&series.Name,
+			&series.Logo,
 			&series.CategoryId,
 			&series.Category,
 			&series.MinLicenseLevel,

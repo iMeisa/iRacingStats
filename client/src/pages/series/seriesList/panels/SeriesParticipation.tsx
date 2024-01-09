@@ -62,7 +62,7 @@ export default function SeriesParticipation(props: {series: SeriesPop[]}) {
             <BarChart data={data} layout="vertical">
                 <XAxis type="number" hide={true}/>
                 <YAxis
-                    width={150}
+                    width={100}
                     type="category"
                     dataKey="id"
                     // hide={true}
@@ -87,13 +87,6 @@ export default function SeriesParticipation(props: {series: SeriesPop[]}) {
                         >
                         </Cell>
                     )}
-                    {/*<LabelList*/}
-                    {/*    dataKey="id"*/}
-                    {/*    content={renderCustomizedLabel}*/}
-                    {/*    position="right"*/}
-                    {/*    formatter={(id: number) => customLabel(id, dataById)}*/}
-                    {/*    stroke="none"*/}
-                    {/*/>*/}
                 </Bar>
                 <Tooltip />
             </BarChart>

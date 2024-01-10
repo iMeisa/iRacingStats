@@ -11,6 +11,13 @@ import (
 	"slices"
 )
 
+func fullTrackName(trackName, configName string) string {
+	if configName == "" {
+		return trackName
+	}
+	return trackName + " - " + configName
+}
+
 // stringToJsonMap unmarshals string JSON into a JsonMap
 func stringToJsonMap(jsonString string) (JsonMap, errortrace.ErrorTrace) {
 	var jsonMap JsonMap
@@ -385,10 +392,14 @@ func (d *DB) SeriesPopularity() []models.Series {
 			   s.min_license_level,
 			   sp.session_count,
 			   sp.subsession_count,
-			   sp.total_entry_count
+			   sp.total_entry_count,
+			   t.track_name,
+			   t.config_name
 		FROM series_popularity sp
 		JOIN series s USING (series_id)
 		JOIN license_categories lc USING (license_category_id)
+		JOIN race_weeks rc ON rc.season_id = sp.season_id AND rc.race_week_num = sp.race_week_num
+		JOIN tracks t USING (track_id)
 	`
 
 	rows, err := d.SQL.QueryContext(ctx, statement)
@@ -402,6 +413,8 @@ func (d *DB) SeriesPopularity() []models.Series {
 		var sessionCount sql.NullInt32
 		var subsessionCount sql.NullInt32
 		var totalEntryCount sql.NullInt32
+		var trackName string
+		var configName string
 
 		err = rows.Scan(
 			&series.Id,
@@ -413,7 +426,13 @@ func (d *DB) SeriesPopularity() []models.Series {
 			&sessionCount,
 			&subsessionCount,
 			&totalEntryCount,
+			&trackName,
+			&configName,
 		)
+
+		if err != nil {
+			log.Println("error scanning from series_popularity: ", err)
+		}
 
 		if sessionCount.Valid {
 			series.SessionCount = int(sessionCount.Int32)
@@ -425,9 +444,7 @@ func (d *DB) SeriesPopularity() []models.Series {
 			series.TotalEntryCount = int(totalEntryCount.Int32)
 		}
 
-		if err != nil {
-			log.Println("error scanning from series_popularity: ", err)
-		}
+		series.Track = fullTrackName(trackName, configName)
 
 		seriess = append(seriess, series)
 	}

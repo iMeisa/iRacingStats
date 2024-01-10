@@ -5,6 +5,7 @@ import useMediaQuery from "@mui/material/useMediaQuery";
 import {Paper} from "@mui/material";
 import Typography from "@mui/material/Typography";
 import {useState} from "react";
+import Grid from "@mui/material/Unstable_Grid2";
 
 export type SeriesPop = {
     id: number,
@@ -16,6 +17,7 @@ export type SeriesPop = {
     session_count: number,
     subsession_count: number,
     total_entry_count: number,
+    track: string,
 }
 
 const dataHeight = 75
@@ -65,12 +67,27 @@ function CustomTooltip(props: { tooltipData: any, dataById: Record<number, Serie
         elevation={6}
     >
         <Typography variant="subtitle1" fontWeight="bold">{series.name}</Typography>
-        <Typography variant="body1">
-            Splits Avg: {(series.subsession_count / series.session_count).toFixed(2)}
-        </Typography>
-        <Typography variant="body1">
-            Entry Avg: {(series.total_entry_count / series.session_count).toFixed(2)}
-        </Typography>
+        <Typography variant="subtitle1" fontWeight="bold">{series.track}</Typography>
+
+        <Grid container width="10em" mx="auto" mt={1}>
+            <Grid xs={6} justifyContent="flex-end">
+                <Typography variant="body1" >
+                    Splits Avg:
+                </Typography>
+                <Typography variant="body1">
+                    Entry Avg:
+                </Typography>
+            </Grid>
+
+            <Grid xs={6}>
+                <Typography variant="body1" fontWeight="bold">
+                    <strong>{(series.subsession_count / series.session_count).toFixed(2)}</strong>
+                </Typography>
+                <Typography variant="body1" fontWeight="bold">
+                    <strong>{(series.total_entry_count / series.session_count).toFixed(2)}</strong>
+                </Typography>
+            </Grid>
+        </Grid>
 
     </Paper>
 }

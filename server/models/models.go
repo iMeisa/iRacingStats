@@ -92,6 +92,7 @@ type Series struct {
 	SessionCount    int     `json:"session_count"`
 	SubsessionCount int     `json:"subsession_count"`
 	TotalEntryCount int     `json:"total_entry_count"`
+	Track           string  `json:"track"`
 }
 
 type Session struct {

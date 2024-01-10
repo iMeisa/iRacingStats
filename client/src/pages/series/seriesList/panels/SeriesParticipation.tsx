@@ -2,6 +2,8 @@ import {BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, Cell } from '
 import Box from "@mui/material/Box";
 import {LicenseColor, LicenseSecondaryColor, LicenseTertiaryColor} from "../../../../functions/img/LicenseColor.ts";
 import useMediaQuery from "@mui/material/useMediaQuery";
+import {Paper} from "@mui/material";
+import Typography from "@mui/material/Typography";
 
 export type SeriesPop = {
     id: number,
@@ -46,7 +48,31 @@ const seriesLogo = (props: any, dataById: Record<number, SeriesPop>) => {
             />
         </g>
     )
+}
 
+function CustomTooltip(props: { tooltipData: any, dataById: Record<number, SeriesPop>}) {
+    console.log(props.tooltipData)
+    const { label } = props.tooltipData
+
+    const series = props.dataById[label as number]
+
+    return series === undefined ?
+        <Paper>null</Paper> :
+        <Paper
+        sx={{
+            p: 3,
+        }}
+        elevation={6}
+    >
+        <Typography variant="subtitle1" fontWeight="bold">{series.name}</Typography>
+        <Typography variant="body1">
+            Splits Avg: {(series.subsession_count / series.session_count).toFixed(2)}
+        </Typography>
+        <Typography variant="body1">
+            Entry Avg: {(series.total_entry_count / series.session_count).toFixed(2)}
+        </Typography>
+
+    </Paper>
 }
 
 export default function SeriesParticipation(props: {series: SeriesPop[]}) {
@@ -88,7 +114,10 @@ export default function SeriesParticipation(props: {series: SeriesPop[]}) {
                         </Cell>
                     )}
                 </Bar>
-                <Tooltip />
+                <Tooltip content={
+                    (props) =>
+                        <CustomTooltip tooltipData={props} dataById={dataById}/>}
+                />
             </BarChart>
         </ResponsiveContainer>
         <Box my={10}/>

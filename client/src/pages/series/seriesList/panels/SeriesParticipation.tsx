@@ -4,6 +4,7 @@ import {LicenseColor, LicenseSecondaryColor, LicenseTertiaryColor} from "../../.
 import useMediaQuery from "@mui/material/useMediaQuery";
 import {Paper} from "@mui/material";
 import Typography from "@mui/material/Typography";
+import {useState} from "react";
 
 export type SeriesPop = {
     id: number,
@@ -51,7 +52,6 @@ const seriesLogo = (props: any, dataById: Record<number, SeriesPop>) => {
 }
 
 function CustomTooltip(props: { tooltipData: any, dataById: Record<number, SeriesPop>}) {
-    console.log(props.tooltipData)
     const { label } = props.tooltipData
 
     const series = props.dataById[label as number]
@@ -78,6 +78,8 @@ function CustomTooltip(props: { tooltipData: any, dataById: Record<number, Serie
 export default function SeriesParticipation(props: {series: SeriesPop[]}) {
     const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)');
 
+    const [focusBar, setFocusBar] = useState(null)
+
     const data = props.series
     const dataById = sortedData(data)
     data.sort((a,b) =>
@@ -88,7 +90,7 @@ export default function SeriesParticipation(props: {series: SeriesPop[]}) {
             <BarChart data={data} layout="vertical">
                 <XAxis type="number" hide={true}/>
                 <YAxis
-                    width={100}
+                    width={105}
                     type="category"
                     dataKey="id"
                     // hide={true}
@@ -100,23 +102,38 @@ export default function SeriesParticipation(props: {series: SeriesPop[]}) {
                     fill="#8884d8"
                     layout="vertical"
                     radius={[0, 10, 10, 0]}
+                    onMouseMove={(state) => {
+                        setFocusBar(state.id)
+                    }}
+                    onMouseLeave={() => setFocusBar(null)}
                 >
                     {data.map((entry, index) =>
                         <Cell
                             key={`cell-${index}`}
                             fill={
-                                prefersDarkMode ?
-                                    LicenseColor(entry.min_license_level) :
-                                    LicenseSecondaryColor(entry.min_license_level)
+                                focusBar === entry.id ?
+                                    prefersDarkMode ?
+                                        LicenseSecondaryColor(entry.min_license_level) :
+                                        LicenseColor(entry.min_license_level)
+                                    :
+                                    prefersDarkMode ?
+                                        LicenseColor(entry.min_license_level) :
+                                        LicenseSecondaryColor(entry.min_license_level)
                             }
                             stroke={LicenseTertiaryColor(entry.min_license_level)}
                         >
                         </Cell>
                     )}
                 </Bar>
-                <Tooltip content={
-                    (props) =>
-                        <CustomTooltip tooltipData={props} dataById={dataById}/>}
+                <Tooltip
+                    content={
+                        (props) =>
+                            <CustomTooltip tooltipData={props} dataById={dataById}/>
+                    }
+                    cursor={{
+                        fill: 'grey',
+                        fillOpacity: 0.05,
+                    }}
                 />
             </BarChart>
         </ResponsiveContainer>

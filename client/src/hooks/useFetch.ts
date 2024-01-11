@@ -18,7 +18,6 @@ export default function useFetch<Type = Record<string, unknown>>(endpoint: strin
         fetch(url)
             .then((response) => response.json())
             .then((data: Type[]) => {
-                console.log(data)
 
                 // Data formatting here
                 data.map(dataFunc)

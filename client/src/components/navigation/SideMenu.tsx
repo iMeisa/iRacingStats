@@ -1,4 +1,3 @@
-
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import Box from '@mui/material/Box';
@@ -13,18 +12,21 @@ function a11yProps(index: number) {
 }
 
 type SideMenuProps = {
+    initialTab: number,
     panels: string[],
     onChange: (value: number) => void,
     mobile?: boolean
 }
 
 export default function SideMenu(props: SideMenuProps) {
-    const [value, setValue] = useState(0);
+
+    const [value, setValue] = useState(props.initialTab);
 
     const handleChange = (newValue: number) => {
         setValue(newValue);
         props.onChange(newValue)
     };
+
     return props.mobile ?
         <Box
             sx={{ mt: 1, bgcolor: 'background.paper', display: {xs: 'block', md:'none'}}}
@@ -35,7 +37,7 @@ export default function SideMenu(props: SideMenuProps) {
                 onChange={(event) => handleChange(event.target.value as number)}
             >
                 { props.panels.map((value, index) =>
-                    <MenuItem value={index}>{value}</MenuItem>)
+                    <MenuItem key={value} value={index}>{value}</MenuItem>)
                 }
             </Select>
         </Box>

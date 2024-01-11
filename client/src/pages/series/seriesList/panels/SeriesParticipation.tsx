@@ -6,6 +6,7 @@ import {Paper} from "@mui/material";
 import Typography from "@mui/material/Typography";
 import {useState} from "react";
 import Grid from "@mui/material/Unstable_Grid2";
+import UnderConstructionChip from "../../../../components/info/UnderConstructionChip.tsx";
 
 export type SeriesPop = {
     id: number,
@@ -103,6 +104,7 @@ export default function SeriesParticipation(props: {series: SeriesPop[]}) {
         (a.total_entry_count < b.total_entry_count) ? 1 : ((b.total_entry_count < a.total_entry_count) ? -1 : 0));
 
     return <>
+        <UnderConstructionChip/>
         <ResponsiveContainer width="99%" height={data.length * dataHeight}>
             <BarChart data={data} layout="vertical">
                 <XAxis type="number" hide={true}/>

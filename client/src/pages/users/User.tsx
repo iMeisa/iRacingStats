@@ -13,8 +13,9 @@ import UserTracks from "./panels/Tracks.tsx";
 import TrackStats from "./stats/TrackStats.ts";
 import CarStats from "./stats/CarStats.ts";
 import UserCars from "./panels/Cars.tsx";
+import useTabState from "../../hooks/useTabState.ts";
 
-const panels = ['Info', 'Races', 'Tracks', 'Cars']
+const panels = ['info', 'races', 'tracks', 'cars']
 
 export default function User() {
     const {id} = useParams()
@@ -48,7 +49,7 @@ export default function User() {
     const [trackStats, setTrackStats] = useState([] as Record<string, unknown>[])
     const [carStats, setCarStats] = useState([] as Record<string, unknown>[])
 
-    const [tab, setTab] = useState(0)
+    const [tab, setTab] = useTabState(panels)
 
     useEffect(() => {
 
@@ -66,7 +67,7 @@ export default function User() {
         {/*Desktop*/}
         <Grid container display={{ xs: 'none', sm: 'none', md: 'flex' }}>
             <Grid md={1}>
-                <SideMenu panels={panels} onChange={value => setTab(value)}/>
+                <SideMenu initialTab={tab} panels={panels} onChange={value => setTab(value)}/>
             </Grid>
             <Grid md>
                 <Container maxWidth="xl">
@@ -85,7 +86,7 @@ export default function User() {
 
         {/*Mobile*/}
         <Container sx={{display: {sm: 'block', md:'none'}}}>
-            <SideMenu panels={panels} mobile onChange={value => setTab(value)}/>
+            <SideMenu initialTab={tab} panels={panels} mobile onChange={value => setTab(value)}/>
             <Tabs
                 tab={tab}
                 user={user}

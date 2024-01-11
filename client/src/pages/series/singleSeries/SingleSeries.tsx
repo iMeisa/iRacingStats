@@ -7,8 +7,9 @@ import SideMenu from "../../../components/navigation/SideMenu.tsx";
 import Info from "./panels/Info.tsx";
 import Races from "./panels/Races.tsx";
 import Container from "@mui/material/Container";
+import useTabState from "../../../hooks/useTabState.ts";
 
-const panels = ['Info', 'Races']
+const panels = ['info', 'races']
 
 export default function SingleSeries() {
 
@@ -18,7 +19,7 @@ export default function SingleSeries() {
 
     const [series, setSeries] = useState(SeriesDefault)
 
-    const [tab, setTab] = useState(0)
+    const [tab, setTab] = useTabState(panels)
 
     const [races, races_loading] = useFetch(`/api/series_sessions?id=${id}`)
 
@@ -31,10 +32,11 @@ export default function SingleSeries() {
 
     return <Grid container>
         <Grid md={1}>
-            <SideMenu panels={panels} onChange={value => setTab(value)}/>
+            <SideMenu initialTab={tab} panels={panels} onChange={value => setTab(value)}/>
         </Grid>
         <Grid md mt={2}>
             <Container maxWidth="xl">
+                <SideMenu initialTab={tab} mobile panels={panels} onChange={value => setTab(value)}/>
                 <Tabs tab={tab} series_loading={loading} series_logo={series.logo} series_name={series.name} races={races} races_loading={races_loading}/>
             </Container>
         </Grid>

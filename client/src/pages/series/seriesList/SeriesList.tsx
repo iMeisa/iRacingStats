@@ -3,15 +3,17 @@ import ToTitle from "../../../functions/strings/Title.ts";
 import "./SeriesList.css"
 import Container from "@mui/material/Container";
 import SideMenu from "../../../components/navigation/SideMenu.tsx";
-import {useState} from "react";
 import Grid from "@mui/material/Unstable_Grid2";
 import SeriesTable from "./panels/SeriesTable.tsx";
 import SeriesParticipation, {SeriesPop} from "./panels/SeriesParticipation.tsx";
+import useTabState from "../../../hooks/useTabState.ts";
 
 
-const panels = ['Popularity', 'List']
+const panels = ['popularity', 'list']
 
 export default function SeriesList() {
+
+    const [tab, setTab] = useTabState(panels)
 
     const [rows, loading] =
         useFetch('/api/series', obj => {
@@ -26,7 +28,6 @@ export default function SeriesList() {
             return obj
         })
 
-    const [tab, setTab] = useState(0)
     // const isMobile = useIsMobile()
 
     // TODO: Fetch sr change separately
@@ -34,11 +35,11 @@ export default function SeriesList() {
     return <>
         <Grid container>
             <Grid md={1}>
-                <SideMenu panels={panels} onChange={value => setTab(value)}/>
+                <SideMenu initialTab={tab} panels={panels} onChange={value => setTab(value)}/>
             </Grid>
 
-            <Grid md xs={12}>
-                <SideMenu mobile panels={panels} onChange={value => setTab(value)}/>
+            <Grid md xs={12} mt={2}>
+                <SideMenu initialTab={tab} mobile panels={panels} onChange={value => setTab(value)}/>
                 <Container maxWidth="xl">
                     <Tabs
                         tab={tab}
@@ -63,7 +64,6 @@ interface TabProps {
 }
 
 function Tabs(props: TabProps) {
-    // console.log(props.tab)
     switch (props.tab) {
         case 0: {
             return <SeriesParticipation series={props.seriesPopularity} />

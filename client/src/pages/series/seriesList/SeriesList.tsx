@@ -38,9 +38,9 @@ export default function SeriesList() {
                 <SideMenu initialTab={tab} panels={panels} onChange={value => setTab(value)}/>
             </Grid>
 
-            <Grid md xs={12} mt={2}>
+            <Grid md xs={12} >
                 <SideMenu initialTab={tab} mobile panels={panels} onChange={value => setTab(value)}/>
-                <Container maxWidth="xl">
+                <Container maxWidth="xl" sx={{ mt: 1 }}>
                     <Tabs
                         tab={tab}
                         seriesPopularity={seriesPop}

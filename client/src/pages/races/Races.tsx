@@ -1,13 +1,14 @@
 import {useEffect, useState} from "react";
-
-import {DataGrid, GridColDef, GridRenderCellParams,} from '@mui/x-data-grid';
+import {GridColDef, GridRenderCellParams,} from '@mui/x-data-grid';
 import './Races.css'
-import {LinearProgress, Tooltip} from "@mui/material";
+import {Tooltip} from "@mui/material";
 import CurrentUrl from "../../variables/Url.ts";
 import {Link} from "react-router-dom";
 import CategoryLogo from "../../functions/img/CategoryLogo.tsx";
 import SeriesLogo from "../../components/images/SeriesLogo.tsx";
 import Container from "@mui/material/Container";
+import StatsGrid from "../../components/data/StatsGrid.tsx";
+import Typography from "@mui/material/Typography";
 
 const columns: GridColDef[] = [
     {
@@ -19,6 +20,7 @@ const columns: GridColDef[] = [
                 <SeriesLogo link={params.value} />
             </Link>,
         sortable: false,
+        filterable: false,
         headerAlign: 'center',
     },
     {
@@ -26,6 +28,7 @@ const columns: GridColDef[] = [
         field: 'category_id',
         headerName: '',
         sortable: false,
+        filterable: false,
         align: 'center',
         renderCell: params =>
             CategoryLogo(params.value, params.row.min_license_level)
@@ -47,9 +50,23 @@ const columns: GridColDef[] = [
                 </Link>
             </Tooltip>
     },
-    { field: 'subsession_count', headerName: 'Splits', width: 70, align: 'center', headerAlign: 'center' },
-    { field: 'end_time', headerName: '', hideable: true },
-    { field: 'end_time_formatted', headerName: 'End Time', width: 115, headerAlign: 'center', align: 'center' },
+    {
+        field: 'subsession_count',
+        headerName: 'Splits',
+        width: 70,
+        align: 'center',
+        headerAlign: 'center',
+        type: 'number'
+    },
+    { field: 'end_time', headerName: '', hideable: true, filterable: false },
+    {
+        field: 'end_time_formatted',
+        headerName: 'End Time',
+        width: 115,
+        headerAlign: 'center',
+        align: 'center',
+        filterable: false
+    },
     { field: 'track', headerName: 'Track', flex: 1, minWidth: 200 },
 ];
 
@@ -98,20 +115,12 @@ export default function Races() {
 
     return (
         <>
-            <h2>Races</h2>
+            <Typography variant="h5" fontWeight="bold" mt={1}>Races</Typography>
             <p style={{color: 'darkgray'}}>Last 24 Hours</p>
-            {/*<h1>💀</h1>*/}
-            {/*<h1 className={"fuelvine-ad"}>DOWNLOAD FUELVINE NOW!!!!!!!!!!!!!!!!!!!!!!</h1>*/}
 
             <Container maxWidth="xl">
-                <DataGrid
-                    // autoHeight
-                    slots={{
-                        loadingOverlay: LinearProgress,
-                    }}
+                <StatsGrid
                     loading={loading}
-                    sx={{color: 'inherit'}}
-                    disableColumnMenu={true}
                     rows={rows}
                     columns={columns}
                     initialState={{

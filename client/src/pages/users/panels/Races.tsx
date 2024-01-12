@@ -1,11 +1,12 @@
-import {DataGrid, GridColDef, GridRenderCellParams} from "@mui/x-data-grid";
+import {GridColDef, GridRenderCellParams} from "@mui/x-data-grid";
 import {Link} from "react-router-dom";
 import SeriesLogo from "../../../components/images/SeriesLogo.tsx";
 import CategoryLogo from "../../../functions/img/CategoryLogo.tsx";
-import {LinearProgress, Tooltip} from "@mui/material";
+import {Tooltip} from "@mui/material";
 import EmojiEventsIcon from '@mui/icons-material/EmojiEvents';
 import { amber, grey, deepOrange } from '@mui/material/colors'
 import {UnixToDateTime} from "../../../functions/datetime/UnixToDate.ts";
+import StatsGrid from "../../../components/data/StatsGrid.tsx";
 
 const columns: GridColDef[] = [
     {
@@ -29,7 +30,8 @@ const columns: GridColDef[] = [
                     return params.value + 1
                 }
             }
-        }
+        },
+        type: 'number',
     },
     {
         field: 'series_logo',
@@ -40,6 +42,7 @@ const columns: GridColDef[] = [
                 <SeriesLogo link={params.value} />
             </Link>,
         sortable: false,
+        filterable: false,
         headerAlign: 'center',
     },
     {
@@ -48,6 +51,7 @@ const columns: GridColDef[] = [
         headerName: '',
         sortable: false,
         align: 'center',
+        filterable: false,
         renderCell: params =>
             CategoryLogo(params.value, params.row.min_license_level)
 
@@ -58,6 +62,7 @@ const columns: GridColDef[] = [
         headerAlign: 'center',
         minWidth: 350,
         flex: 1,
+        type: 'string',
         renderCell: (params: GridRenderCellParams<any, string>) =>
             <Tooltip title="Subsession Results">
                 <Link
@@ -73,7 +78,8 @@ const columns: GridColDef[] = [
         headerName: 'SOF',
         width: 75,
         headerAlign: 'center',
-        align: 'center'
+        align: 'center',
+        type: 'number',
     },
     {
         field: 'end_time',
@@ -81,10 +87,11 @@ const columns: GridColDef[] = [
         width: 175,
         headerAlign: 'center',
         align: 'center',
+        filterable: false,
         renderCell: params => UnixToDateTime(params.value)
     },
     // { field: 'track', headerName: 'Track', flex: 1, minWidth: 200 },
-    { field: 'incidents', headerName: 'Inc', flex: 1, minWidth: 50 },
+    { field: 'incidents', headerName: 'Inc', flex: 1, minWidth: 50, type: 'number' },
     {
         field: 'dnf',
         headerName: 'DNF',
@@ -97,27 +104,18 @@ const columns: GridColDef[] = [
         headerName: 'Track',
         flex: 1,
         minWidth: 300,
+        type: 'string',
     }
 ];
 
 export default function UserRaces(props: {results: Record<string, unknown>[], loading: boolean}) {
-    return <DataGrid
-        slots={{
-            loadingOverlay: LinearProgress,
-        }}
-        loading={props.loading}
-        sx={{
-            maxHeight: '75vh',
-        }}
-        // autoHeight
+    return <StatsGrid
         columns={columns}
         rows={props.results}
-        disableColumnMenu
         initialState={{
             sorting: {
                 sortModel: [{field: 'end_time', sort: 'desc'}],
             }
         }}
-        pageSizeOptions={[]}
     />
 }

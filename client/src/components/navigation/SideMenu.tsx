@@ -3,6 +3,7 @@ import Tab from '@mui/material/Tab';
 import Box from '@mui/material/Box';
 import {useState} from "react";
 import {MenuItem, Select} from "@mui/material";
+import Title from '../../functions/strings/Title';
 
 function a11yProps(index: number) {
     return {
@@ -37,7 +38,7 @@ export default function SideMenu(props: SideMenuProps) {
                 onChange={(event) => handleChange(event.target.value as number)}
             >
                 { props.panels.map((value, index) =>
-                    <MenuItem key={value} value={index}>{value}</MenuItem>)
+                    <MenuItem key={value} value={index}>{Title(value)}</MenuItem>)
                 }
             </Select>
         </Box>

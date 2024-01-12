@@ -5,6 +5,7 @@ import TabPanel from '@mui/lab/TabPanel';
 import {TabContext, TabList} from "@mui/lab";
 import CarTable from "./CarTable.tsx";
 import Container from "@mui/material/Container";
+import UnderConstructionChip from "../../components/info/UnderConstructionChip.tsx";
 
 // function a11yProps(index: number) {
 //     return {
@@ -36,7 +37,7 @@ export default function Cars() {
                     <TabPanel value="1">
                         <CarTable/>
                     </TabPanel>
-                    <TabPanel value="2">car classes</TabPanel>
+                    <TabPanel value="2" aria-disabled><UnderConstructionChip/></TabPanel>
                 </TabContext>
             </Container>
             {/*</Box>*/}

@@ -1,20 +1,21 @@
 import useFetch from "../../hooks/useFetch.ts";
 import {useEffect} from "react";
 import Container from "@mui/material/Container";
-import {DataGrid, GridColDef, GridRenderCellParams} from "@mui/x-data-grid";
-import {LinearProgress} from "@mui/material";
+import {GridColDef, GridRenderCellParams} from "@mui/x-data-grid";
 import TrackLogo from "../../components/images/TrackLogo.tsx";
 import CategoryLogo from "../../functions/img/CategoryLogo.tsx";
+import StatsGrid from "../../components/data/StatsGrid.tsx";
 
 
 const columns: GridColDef[] = [
-    { field: 'id', headerName: 'ID', headerAlign: 'center', align: 'right', width: 50},
+    { field: 'id', headerName: 'ID', headerAlign: 'center', align: 'right', width: 50, type: 'number'},
     {
         field: 'logo',
         headerName: '',
         width: 75,
         renderCell: (params: GridRenderCellParams<any, string>) => <TrackLogo link={params.value as string}/>,
         sortable: false,
+        filterable: false,
         headerAlign: 'center',
         align: 'right'
     },
@@ -23,6 +24,7 @@ const columns: GridColDef[] = [
         field: 'license_category_id',
         headerName: '',
         sortable: false,
+        filterable: false,
         align: 'center',
         renderCell: params =>
             CategoryLogo(params.value, 0)
@@ -48,15 +50,10 @@ export default function Tracks() {
 
         <Container maxWidth="xl">
             <h2>Tracks</h2>
-            <DataGrid
-
-                slots={{
-                    loadingOverlay: LinearProgress,
-                }}
+            <StatsGrid
                 loading={loading}
                 rows={tracks}
                 columns={columns}
-                disableColumnMenu={true}
                 initialState={{
                     pagination: {
                         paginationModel: { page: 0, pageSize: 10 },

@@ -1,7 +1,7 @@
-import {DataGrid, GridColDef, GridRenderCellParams} from "@mui/x-data-grid";
-import {LinearProgress} from "@mui/material";
+import {GridColDef, GridRenderCellParams} from "@mui/x-data-grid";
 import useFetch from "../../hooks/useFetch.ts";
 import CarLogo from "../../components/images/CarLogo.tsx";
+import StatsGrid from "../../components/data/StatsGrid.tsx";
 
 const columns: GridColDef[] = [
     {
@@ -10,6 +10,7 @@ const columns: GridColDef[] = [
         width: 75,
         renderCell: (params: GridRenderCellParams<any, string>) => <CarLogo link={params.value as string}/>,
         sortable: false,
+        filterable: false,
         headerAlign: 'center',
         align: 'right'
     },
@@ -44,10 +45,7 @@ export default function CarTable() {
                 return obj
             })
 
-    return <DataGrid
-        slots={{
-            loadingOverlay: LinearProgress,
-        }}
+    return <StatsGrid
         loading={loading}
         rows={rows}
         columns={columns}

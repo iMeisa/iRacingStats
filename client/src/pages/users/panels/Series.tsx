@@ -1,17 +1,15 @@
 import { GridColDef, GridRenderCellParams } from "@mui/x-data-grid";
-import TrackLogo from "../../../components/images/TrackLogo.tsx";
 import CategoryLogo from "../../../functions/img/CategoryLogo.tsx";
-import ElapsedTime from "../../../functions/datetime/ElapsedTime.ts";
-import FormatCompactNumber from "../../../functions/numbers/FormatCompactNumber.ts";
 import StatsGrid from "../../../components/data/StatsGrid.tsx";
+import SeriesLogo from "../../../components/images/SeriesLogo.tsx";
 
 const columns: GridColDef[] = [
     {
-        field: 'track_logo',
+        field: 'series_logo',
         headerName: 'Track',
         width: 76,
         renderCell: (params: GridRenderCellParams<any, string>) =>
-            <TrackLogo link={params.value} />,
+            <SeriesLogo link={params.value} />,
         sortable: false,
         headerAlign: 'center',
         filterable: false,
@@ -30,7 +28,7 @@ const columns: GridColDef[] = [
     {
         flex: 1,
         minWidth: 400,
-        field: 'track_name',
+        field: 'series_name',
         headerName: '',
     },
     {
@@ -62,17 +60,6 @@ const columns: GridColDef[] = [
     },
     {
         flex: 1,
-        minWidth: 100,
-        field: 'race_time',
-        headerName: 'Race Time',
-        headerAlign: 'center',
-        align: 'center',
-        filterable: false,
-        renderCell: params =>
-            ElapsedTime(params.value / 10)
-    },
-    {
-        flex: 1,
         minWidth: 60,
         field: 'laps',
         headerName: 'Laps',
@@ -89,26 +76,6 @@ const columns: GridColDef[] = [
         align: 'center',
         type: 'number',
     },
-    // {
-    //     flex: 1,
-    //     minWidth: 125,
-    //     field: 'best_avg',
-    //     headerName: 'Best Avg Lap',
-    //     headerAlign: 'center',
-    //     align: 'center',
-    //     renderCell: params =>
-    //         LapTime(params.value)
-    // },
-    // {
-    //     flex: 1,
-    //     minWidth: 100,
-    //     field: 'lap_record',
-    //     headerName: 'Lap Record',
-    //     headerAlign: 'center',
-    //     align: 'center',
-    //     renderCell: params =>
-    //         LapTime(params.value)
-    // },
     {
         flex: 1,
         minWidth: 100,
@@ -132,17 +99,6 @@ const columns: GridColDef[] = [
             (params.value / params.row.races).toFixed(2)
     },
     {
-        flex: 1,
-        minWidth: 150,
-        field: 'distance_mi',
-        headerName: 'Distance',
-        headerAlign: 'center',
-        align: 'center',
-        filterable: false,
-        renderCell: params =>
-            `${FormatCompactNumber(params.row.distance_km)} km (${FormatCompactNumber(params.row.distance_mi)} mi)`
-    },
-    {
         width: 50,
         field: 'id',
         headerName: 'ID',
@@ -153,7 +109,7 @@ const columns: GridColDef[] = [
 
 ];
 
-export default function UserTracks(props: {stats: Record<string, unknown>[], loading: boolean}) {
+export default function UserSeries(props: {stats: Record<string, unknown>[], loading: boolean}) {
 
     columns.map((c) => {
         c.hideSortIcons = true

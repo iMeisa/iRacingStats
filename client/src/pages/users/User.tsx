@@ -14,8 +14,10 @@ import TrackStats from "./stats/TrackStats.ts";
 import CarStats from "./stats/CarStats.ts";
 import UserCars from "./panels/Cars.tsx";
 import useTabState from "../../hooks/useTabState.ts";
+import SeriesStats from "./stats/SeriesStats.ts";
+import UserSeries from "./panels/Series.tsx";
 
-const panels = ['info', 'races', 'tracks', 'cars']
+const panels = ['info', 'series', 'races', 'tracks', 'cars']
 
 export default function User() {
     const {id} = useParams()
@@ -48,6 +50,7 @@ export default function User() {
 
     const [trackStats, setTrackStats] = useState([] as Record<string, unknown>[])
     const [carStats, setCarStats] = useState([] as Record<string, unknown>[])
+    const [seriesStats, setSeriesStats] = useState([] as Record<string, unknown>[])
 
     const [tab, setTab] = useTabState(panels)
 
@@ -57,6 +60,7 @@ export default function User() {
         if (!results_loading) {
             setTrackStats(TrackStats(results))
             setCarStats(CarStats(results))
+            setSeriesStats(SeriesStats(results))
         }
 
         console.log("users: ", users)
@@ -79,6 +83,7 @@ export default function User() {
                         results_loading={results_loading}
                         trackStats={trackStats}
                         carStats={carStats}
+                        seriesStats={seriesStats}
                     />
                 </Container>
             </Grid>
@@ -95,6 +100,7 @@ export default function User() {
                 results_loading={results_loading}
                 trackStats={trackStats}
                 carStats={carStats}
+                seriesStats={seriesStats}
             />
         </Container>
 
@@ -106,6 +112,7 @@ interface TabProps extends InfoProps {
     tab: number,
     trackStats: Record<string, unknown>[],
     carStats: Record<string, unknown>[],
+    seriesStats: Record<string, unknown>[],
 }
 
 function Tabs(props: TabProps) {
@@ -115,12 +122,15 @@ function Tabs(props: TabProps) {
             return <UserInfo user={props.user} loading={props.loading} results={props.results} results_loading={props.results_loading}/>
         }
         case 1: {
-            return <UserRaces results={props.results} loading={props.results_loading} />
+            return <UserSeries stats={props.seriesStats} loading={props.results_loading}/>
         }
         case 2: {
-            return <UserTracks stats={props.trackStats} loading={props.results_loading} />
+            return <UserRaces results={props.results} loading={props.results_loading} />
         }
         case 3: {
+            return <UserTracks stats={props.trackStats} loading={props.results_loading} />
+        }
+        case 4: {
             return <UserCars stats={props.carStats} loading={props.results_loading} />
         }
         default: {

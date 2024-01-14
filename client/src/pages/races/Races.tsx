@@ -7,7 +7,7 @@ import {Link} from "react-router-dom";
 import CategoryLogo from "../../functions/img/CategoryLogo.tsx";
 import SeriesLogo from "../../components/images/SeriesLogo.tsx";
 import Container from "@mui/material/Container";
-import StatsGrid from "../../components/data/StatsGrid.tsx";
+import StatsGrid from "../../components/data/grid/StatsGrid.tsx";
 import Typography from "@mui/material/Typography";
 
 const columns: GridColDef[] = [

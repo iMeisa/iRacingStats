@@ -1,6 +1,6 @@
 import { GridColDef, GridRenderCellParams } from "@mui/x-data-grid";
 import CategoryLogo from "../../../functions/img/CategoryLogo.tsx";
-import StatsGrid from "../../../components/data/StatsGrid.tsx";
+import StatsGrid from "../../../components/data/grid/StatsGrid.tsx";
 import SeriesLogo from "../../../components/images/SeriesLogo.tsx";
 
 const columns: GridColDef[] = [

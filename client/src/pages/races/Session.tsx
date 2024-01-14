@@ -1,12 +1,13 @@
 import {Link, useParams} from "react-router-dom";
-import {DataGrid, GridColDef} from "@mui/x-data-grid";
+import {GridColDef} from "@mui/x-data-grid";
 import {useEffect, useState} from "react";
-import {LinearProgress, Skeleton} from "@mui/material";
+import {Skeleton} from "@mui/material";
 import CurrentUrl from "../../variables/Url.ts";
 import "./Session.css"
 import Button from "@mui/material/Button";
 import FormatListNumberedIcon from '@mui/icons-material/FormatListNumbered';
 import Container from "@mui/material/Container";
+import StatsGrid from "../../components/data/grid/StatsGrid.tsx";
 
 function sortSubsessions(subsessions: Record<string, unknown>[]): Record<string, unknown>[] {
     subsessions.sort((a,b) => (b.event_strength_of_field as number) - (a.event_strength_of_field as number))
@@ -15,40 +16,82 @@ function sortSubsessions(subsessions: Record<string, unknown>[]): Record<string,
 
 
 const columns: GridColDef[] = [
-    // {
-    //     field: 'series_logo',
-    //     headerName: '',
-    //     minWidth: 75,
-    //     renderCell: (params: GridRenderCellParams<any, string>) =>
-    //         <img src={"https://images-static.iracing.com/img/logos/series/"+params.value}  alt="logo" minWidth={60}/>,
-    //     sortable: false,
-    // },
     {
         field: 'results',
         headerName: '',
         headerAlign: 'center',
         align: 'center',
         width: 125,
+        filterable: false,
         renderCell: (params) =>
             <Link to={`/subsession/${params.row.id}`}>
                 <Button variant="contained" size="small" startIcon={<FormatListNumberedIcon/>} >Results</Button>
             </Link>
     },
-    { field: 'split', headerName: '', headerAlign: 'center', align: 'center', width: 20 },
-    { field: 'strength_of_field', headerName: 'SOF', flex: 1, headerAlign: 'center', align: 'center', minWidth: 70},
-    { field: 'field_size', headerName: 'Field Size', flex: 1, headerAlign: 'center', align: 'center', minWidth: 100 },
-    { field: 'average_lap', headerName: 'Average Lap', flex: 1, headerAlign: 'center', align: 'center', minWidth: 125 },
-    { field: 'lead_changes', headerName: 'Lead Changes', flex: 1, headerAlign: 'center', align: 'center', minWidth: 125 },
-    { field: 'cautions', headerName: 'Cautions', flex: 1, headerAlign: 'center', align: 'center', minWidth: 90, hideable: true },
+    {
+        field: 'split',
+        headerName: '',
+        headerAlign: 'center',
+        align: 'center',
+        type: 'number',
+        width: 20
+    },
+    {
+        field: 'strength_of_field',
+        headerName: 'SOF',
+        flex: 1,
+        headerAlign: 'center',
+        align: 'center',
+        type: 'number',
+        minWidth: 70
+    },
+    {
+        field: 'field_size',
+        headerName: 'Field Size',
+        flex: 1,
+        headerAlign: 'center',
+        align: 'center',
+        type: 'number',
+        minWidth: 100
+    },
+    {
+        field: 'average_lap',
+        headerName: 'Average Lap',
+        flex: 1,
+        headerAlign: 'center',
+        align: 'center',
+        filterable: false,
+        minWidth: 125
+    },
+    {
+        field: 'lead_changes',
+        headerName: 'Lead Changes',
+        flex: 1,
+        headerAlign: 'center',
+        align: 'center',
+        type: 'number',
+        minWidth: 125
+    },
+    {
+        field: 'cautions',
+        headerName: 'Cautions',
+        flex: 1,
+        headerAlign: 'center',
+        align: 'center',
+        minWidth: 90,
+        type: 'number',
+        hideable: true
+    },
     {
         field: 'verified',
         headerName: '',
         headerAlign: 'center',
         align: 'center',
         width: 20,
+        filterable: false,
         type: 'boolean',
     },
-    { field: 'id', headerName: 'ID', headerAlign: 'center', align: 'right'},
+    { field: 'id', headerName: 'ID', headerAlign: 'center', align: 'right', type: 'number'},
 ];
 
 export default function Session() {
@@ -122,16 +165,10 @@ export default function Session() {
                 </div>
 
                 <Container maxWidth="xl">
-                    <DataGrid
-
-                        slots={{
-                            loadingOverlay: LinearProgress,
-                        }}
-                        autoHeight
+                    <StatsGrid
                         loading={loading}
                         rows={rows}
                         columns={columns}
-                        disableColumnMenu={true}
                         initialState={{
                             pagination: {
                                 paginationModel: { page: 0, pageSize: 10 },

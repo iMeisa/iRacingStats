@@ -12,9 +12,9 @@ export default function StatsGrid(props: DataGridProps) {
             }}
             loading={props.loading}
             sx={{
+                minHeight: '100px',
                 maxHeight: '75vh',
             }}
-            // autoHeight
             disableColumnMenu
             pageSizeOptions={[]}
 

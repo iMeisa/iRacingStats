@@ -1,7 +1,7 @@
 import {GridColDef, GridRenderCellParams} from "@mui/x-data-grid";
 import useFetch from "../../hooks/useFetch.ts";
 import CarLogo from "../../components/images/CarLogo.tsx";
-import StatsGrid from "../../components/data/StatsGrid.tsx";
+import StatsGrid from "../../components/data/grid/StatsGrid.tsx";
 
 const columns: GridColDef[] = [
     {

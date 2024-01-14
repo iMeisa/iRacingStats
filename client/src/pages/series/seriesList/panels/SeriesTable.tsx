@@ -3,7 +3,7 @@ import {Link} from "react-router-dom";
 import SeriesLogo from "../../../../components/images/SeriesLogo.tsx";
 import {Tooltip} from "@mui/material";
 import CategoryLogo from "../../../../functions/img/CategoryLogo.tsx";
-import StatsGrid from "../../../../components/data/StatsGrid.tsx";
+import StatsGrid from "../../../../components/data/grid/StatsGrid.tsx";
 
 const columns: GridColDef[] = [
     {

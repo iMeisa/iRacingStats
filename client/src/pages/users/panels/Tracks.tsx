@@ -3,7 +3,7 @@ import TrackLogo from "../../../components/images/TrackLogo.tsx";
 import CategoryLogo from "../../../functions/img/CategoryLogo.tsx";
 import ElapsedTime from "../../../functions/datetime/ElapsedTime.ts";
 import FormatCompactNumber from "../../../functions/numbers/FormatCompactNumber.ts";
-import StatsGrid from "../../../components/data/StatsGrid.tsx";
+import StatsGrid from "../../../components/data/grid/StatsGrid.tsx";
 
 const columns: GridColDef[] = [
     {

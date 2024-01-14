@@ -4,21 +4,30 @@ import useFetch from "../../../hooks/useFetch.ts";
 import {SyntheticEvent, useEffect, useState} from "react";
 import {Subsession as SubsessionModel} from "../../../models/Subsession.ts";
 import LapTime from "../../../functions/datetime/LapTime.ts";
-import {DataGrid, GridColDef, GridRenderCellParams} from "@mui/x-data-grid";
-import {Accordion, AccordionDetails, AccordionSummary, LinearProgress, Tooltip} from "@mui/material";
+import {GridColDef, GridRenderCellParams} from "@mui/x-data-grid";
+import {Accordion, AccordionDetails, AccordionSummary, Tooltip} from "@mui/material";
 import SubsessionInfo from "./SubsessionInfo.tsx";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import CarLogo from "../../../components/images/CarLogo.tsx";
 import RatingBadge from "../../../components/data/RatingBadge.tsx";
+import StatsGrid from "../../../components/data/grid/StatsGrid.tsx";
 
 const columns: GridColDef[] = [
-    { field: 'finish_position', headerName: '#', width: 10, headerAlign: 'right', align: 'right' },
+    {
+        field: 'finish_position',
+        headerName: 'Pos',
+        width: 10,
+        headerAlign: 'right',
+        align: 'right',
+        type: 'number'
+    },
     {
         field: 'rating',
         headerName: '',
         width: 200,
+        filterable: false,
         renderCell: params =>
             <RatingBadge
                 loading={false}
@@ -46,6 +55,7 @@ const columns: GridColDef[] = [
         field: 'mobile_rating',
         headerName: '',
         width: 140,
+        filterable: false,
         renderCell: params =>
             <RatingBadge
                 loading={false}
@@ -62,6 +72,7 @@ const columns: GridColDef[] = [
         headerAlign: 'center',
         align: 'right',
         width: 80,
+        filterable: false,
         renderCell: (params: GridRenderCellParams<any, string>) =>
             <Tooltip title={params.row.car_name} disableInteractive>
                 <span>
@@ -69,8 +80,22 @@ const columns: GridColDef[] = [
                 </span>
             </Tooltip>,
     },
-    { field: 'average_lap', headerName: 'Avg Lap', flex: 1, minWidth: 125 },
-    { field: 'best_lap_time', headerName: 'Best Lap', headerAlign: 'center', align: 'center', flex: 1, minWidth: 125 },
+    {
+        field: 'average_lap',
+        headerName: 'Avg Lap',
+        flex: 1,
+        filterable: false,
+        minWidth: 125
+    },
+    {
+        field: 'best_lap_time',
+        headerName: 'Best Lap',
+        headerAlign: 'center',
+        align: 'center',
+        flex: 1,
+        filterable: false,
+        minWidth: 125
+    },
 ];
 
 export default function Subsession() {
@@ -131,18 +156,10 @@ export default function Subsession() {
             <Box sx={{ display: { xs: 'none', md: 'block' } }}>
                 <SubsessionInfo subsession={subsession}/>
 
-                <DataGrid
-
-                    slots={{
-                        loadingOverlay: LinearProgress,
-                    }}
+                <StatsGrid
                     loading={loading}
-
                     columns={columns}
                     rows={results}
-
-                    pageSizeOptions={[100]}
-
                     initialState={{
                         columns: {
                             columnVisibilityModel: {
@@ -150,7 +167,6 @@ export default function Subsession() {
                             }
                         }
                     }}
-
                 />
             </Box>
 
@@ -180,18 +196,12 @@ export default function Subsession() {
                     </AccordionSummary>
 
                     <AccordionDetails>
-                        <DataGrid
-                            slots={{
-                                loadingOverlay: LinearProgress,
-                            }}
+                        <StatsGrid
                             loading={loading}
                             sx={{ margin: 0 }}
                             columns={columns}
                             rows={results}
-                            pageSizeOptions={[100]}
                             hideFooter
-                            disableColumnMenu
-
                             initialState={{
                                 columns: {
                                     columnVisibilityModel: {

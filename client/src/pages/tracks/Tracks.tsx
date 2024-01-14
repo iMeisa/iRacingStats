@@ -4,7 +4,7 @@ import Container from "@mui/material/Container";
 import {GridColDef, GridRenderCellParams} from "@mui/x-data-grid";
 import TrackLogo from "../../components/images/TrackLogo.tsx";
 import CategoryLogo from "../../functions/img/CategoryLogo.tsx";
-import StatsGrid from "../../components/data/StatsGrid.tsx";
+import StatsGrid from "../../components/data/grid/StatsGrid.tsx";
 
 
 const columns: GridColDef[] = [

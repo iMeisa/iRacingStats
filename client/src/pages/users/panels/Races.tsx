@@ -6,7 +6,7 @@ import {Tooltip} from "@mui/material";
 import EmojiEventsIcon from '@mui/icons-material/EmojiEvents';
 import { amber, grey, deepOrange } from '@mui/material/colors'
 import {UnixToDateTime} from "../../../functions/datetime/UnixToDate.ts";
-import StatsGrid from "../../../components/data/StatsGrid.tsx";
+import StatsGrid from "../../../components/data/grid/StatsGrid.tsx";
 
 const columns: GridColDef[] = [
     {

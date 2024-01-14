@@ -106,7 +106,7 @@ export default function TrophyCabinet(props: {loading: boolean, results: Record<
             <TableBody>
 
                 { props.loading ? (
-                        <TableCell colSpan={4} align="center">
+                        <TableCell colSpan={isMobile ? 4 : 5} align="center">
                             <CircularProgress/>
                         </TableCell>
                 ) : (

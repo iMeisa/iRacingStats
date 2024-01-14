@@ -13,6 +13,7 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import CarLogo from "../../../components/images/CarLogo.tsx";
 import RatingBadge from "../../../components/data/RatingBadge.tsx";
 import StatsGrid from "../../../components/data/grid/StatsGrid.tsx";
+import PositionTrophy from "../../../components/images/PositionTrophy.tsx";
 
 const columns: GridColDef[] = [
     {
@@ -21,6 +22,7 @@ const columns: GridColDef[] = [
         width: 10,
         headerAlign: 'right',
         align: 'right',
+        renderCell: params => <PositionTrophy position={params.value}/>,
         type: 'number'
     },
     {
@@ -136,7 +138,6 @@ export default function Subsession() {
     const [results, loading] = useFetch(`/api/subsession_results?id=${id}`,
         (obj) => {
             obj['id'] = obj['result_id']
-            obj['finish_position'] = obj['finish_position'] as number + 1
             obj['average_lap'] = LapTime(obj['average_lap'] as number)
             obj['best_lap_time'] = LapTime(obj['best_lap_time'] as number)
             return obj

@@ -3,10 +3,9 @@ import {Link} from "react-router-dom";
 import SeriesLogo from "../../../components/images/SeriesLogo.tsx";
 import CategoryLogo from "../../../functions/img/CategoryLogo.tsx";
 import {Tooltip} from "@mui/material";
-import EmojiEventsIcon from '@mui/icons-material/EmojiEvents';
-import { amber, grey, deepOrange } from '@mui/material/colors'
 import {UnixToDateTime} from "../../../functions/datetime/UnixToDate.ts";
 import StatsGrid from "../../../components/data/grid/StatsGrid.tsx";
+import PositionTrophy from "../../../components/images/PositionTrophy.tsx";
 
 const columns: GridColDef[] = [
     {
@@ -15,22 +14,7 @@ const columns: GridColDef[] = [
         width: 50,
         headerAlign: 'center',
         align: 'center',
-        renderCell: params => {
-            switch (params.value) {
-                case 0: {
-                    return <EmojiEventsIcon sx={{ color: amber[500] }}/>
-                }
-                case 1: {
-                    return <EmojiEventsIcon sx={{ color: grey[500] }}/>
-                }
-                case 2: {
-                    return <EmojiEventsIcon sx={{ color: deepOrange[900] }}/>
-                }
-                default: {
-                    return params.value + 1
-                }
-            }
-        },
+        renderCell: params => <PositionTrophy position={params.value}/>,
         type: 'number',
     },
     {
@@ -112,6 +96,7 @@ export default function UserRaces(props: {results: Record<string, unknown>[], lo
     return <StatsGrid
         columns={columns}
         rows={props.results}
+        loading={props.loading}
         initialState={{
             sorting: {
                 sortModel: [{field: 'end_time', sort: 'desc'}],

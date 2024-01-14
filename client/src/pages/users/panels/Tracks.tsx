@@ -89,26 +89,6 @@ const columns: GridColDef[] = [
         align: 'center',
         type: 'number',
     },
-    // {
-    //     flex: 1,
-    //     minWidth: 125,
-    //     field: 'best_avg',
-    //     headerName: 'Best Avg Lap',
-    //     headerAlign: 'center',
-    //     align: 'center',
-    //     renderCell: params =>
-    //         LapTime(params.value)
-    // },
-    // {
-    //     flex: 1,
-    //     minWidth: 100,
-    //     field: 'lap_record',
-    //     headerName: 'Lap Record',
-    //     headerAlign: 'center',
-    //     align: 'center',
-    //     renderCell: params =>
-    //         LapTime(params.value)
-    // },
     {
         flex: 1,
         minWidth: 100,
@@ -162,5 +142,6 @@ export default function UserTracks(props: {stats: Record<string, unknown>[], loa
     return <StatsGrid
         columns={columns}
         rows={props.stats}
+        loading={props.loading}
     />
 }

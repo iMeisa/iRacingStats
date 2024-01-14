@@ -119,5 +119,6 @@ export default function UserCars(props: {stats: Record<string, unknown>[], loadi
     return <StatsGrid
         columns={columns}
         rows={props.stats}
+        loading={props.loading}
     />
 }

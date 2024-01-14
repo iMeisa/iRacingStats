@@ -117,5 +117,6 @@ export default function UserSeries(props: {stats: Record<string, unknown>[], loa
     return <StatsGrid
         columns={columns}
         rows={props.stats}
+        loading={props.loading}
     />
 }

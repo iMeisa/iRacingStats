@@ -124,10 +124,6 @@ export default function Races() {
                     rows={rows}
                     columns={columns}
                     initialState={{
-                        pagination: {
-                            paginationModel: { page: 0, pageSize: 10 },
-                        },
-
                         sorting: {
                             sortModel: [{field: 'end_time', sort: 'desc'}],
                         },
@@ -138,7 +134,6 @@ export default function Races() {
                             }
                         }
                     }}
-                    pageSizeOptions={[10]}
                 />
             </Container>
         </>

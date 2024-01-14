@@ -100,15 +100,10 @@ export default function Users() {
                         rows={rows}
                         columns={columns}
                         initialState={{
-                            pagination: {
-                                paginationModel: { page: 0, pageSize: 10 },
-                            },
-
                             sorting: {
                                 sortModel: [{field: 'display_name', sort: 'asc'}],
                             },
                         }}
-                        pageSizeOptions={[10]}
 
                         onCellClick={
                             (
@@ -117,7 +112,6 @@ export default function Users() {
                                 __
                             ) => <Link to={`/user/${params.id}`}/>
                         }
-
                     />
 
                 </Container>

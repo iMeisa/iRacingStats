@@ -62,11 +62,6 @@ export default function SeriesTable(props: SeriesTableProps) {
         columns={columns}
         rows={props.series}
         initialState={{
-
-            pagination: {
-                paginationModel: { page: 0, pageSize: 10 },
-            },
-
             sorting: {
                 sortModel: [{field: 'id', sort: 'asc'}],
             },
@@ -77,8 +72,6 @@ export default function SeriesTable(props: SeriesTableProps) {
                 }
             },
         }}
-
-        pageSizeOptions={[10]}
 
         // onPaginationModelChange={handlePaginationData}
     />

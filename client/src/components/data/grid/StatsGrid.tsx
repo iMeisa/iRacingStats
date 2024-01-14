@@ -25,11 +25,13 @@ export default function StatsGrid(props: DataGridProps) {
                 // rows={rows}
                 loading={props.loading}
                 sx={{
+                    height: '10000px',
                     '--DataGrid-overlayHeight': '50px',
-                    maxHeight: '72vh',
+                    maxHeight: '70vh',
                 }}
                 disableColumnMenu
-                pageSizeOptions={[]}
+
+                pageSizeOptions={[10, 25, 50, 100]}
 
             />
         </Box>

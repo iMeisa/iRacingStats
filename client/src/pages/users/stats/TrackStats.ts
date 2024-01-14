@@ -14,6 +14,7 @@ type statsType = {
     incidents: number,
     inc_avg: number,
     finish_total: number,  // Divide this by number of races to get average finish position
+    finish_avg: number,
     laps: number,
     laps_lead: number,
     distance_mi: number,
@@ -52,6 +53,7 @@ export default function TrackStats(results: Record<string, unknown>[]): Record<s
                 incidents: 0,
                 inc_avg: 0,
                 finish_total: 0,  // Divide this by number of races to get average finish position
+                finish_avg: 0,
                 laps: 0,
                 laps_lead: 0,
                 distance_mi: 0,
@@ -94,6 +96,10 @@ export default function TrackStats(results: Record<string, unknown>[]): Record<s
 
         // Incident average
         track.inc_avg = track.incidents / track.races
+
+        // Finish average
+        track.finish_avg = track.finish_total / track.races
+
         stats.push(track)
     }
 

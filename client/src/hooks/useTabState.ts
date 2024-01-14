@@ -21,6 +21,6 @@ export default function useTabState(panels: string[]): [number, Function] {
         setSearchParams(params => {
             params.set("tab", panels[newTab])
             return params
-        })
+        }, {replace: true})
     }]
 }

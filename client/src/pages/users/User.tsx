@@ -39,6 +39,9 @@ export default function User() {
             obj['id'] = obj['result_id']
             obj['dnf'] = obj['reason_out_id'] !== 0
 
+            obj['sr_change'] = ((obj['new_sub_level'] as number) - (obj['old_sub_level'] as number)) / 100
+            obj['ir_change'] = (obj['newi_rating'] as number) - (obj['oldi_rating'] as number)
+
             let track = obj['track_name']
             const track_config = obj['config_name']
             if (track_config !== '') track += " - " + track_config
@@ -65,7 +68,7 @@ export default function User() {
 
         console.log("users: ", users)
         console.log("results: ", results)
-    }, [users, results]);
+    }, [users, results, results_loading]);
 
     return <>
         {/*Desktop*/}

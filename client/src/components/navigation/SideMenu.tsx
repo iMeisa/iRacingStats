@@ -44,6 +44,7 @@ export default function SideMenu(props: SideMenuProps) {
         </Box>
         :
         <Box
+            mt={1}
             sx={{ bgcolor: 'background.paper', display: {xs: 'none', md:'flex'}}}
         >
             <Tabs

@@ -75,7 +75,7 @@ const columns: GridColDef[] = [
         headerAlign: 'center',
         type: 'number',
         renderCell: params =>
-            <ColoredValue value={params.value} positiveIsGood={true}/>
+            <ColoredValue value={params.value} decimals={2} positiveIsGood={true}/>
     },
     {
         field: 'ir_change',

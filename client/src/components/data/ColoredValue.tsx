@@ -2,6 +2,7 @@ import useMediaQuery from "@mui/material/useMediaQuery";
 
 type ColoredValueProps = {
     positiveIsGood: boolean,
+    decimals?: number,
     value: number,
 }
 
@@ -38,6 +39,6 @@ export default function ColoredValue(props: ColoredValueProps) {
         }}
     >
         {props.value > 0 ? '+' : ''}
-        {props.value}
+        {props.value.toFixed(props.decimals as number)}
     </div>
 }

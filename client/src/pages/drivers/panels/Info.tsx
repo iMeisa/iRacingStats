@@ -15,7 +15,7 @@ import DataRange from "../../../functions/datetime/DataRange.ts";
 import InfoIcon from "@mui/icons-material/Info";
 import TrophyCabinet from "../TrophyCabinet.tsx";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import {DriverInfo, DriverLicenses} from "../../../models/DriverTypes.ts";
+import {DriverSummary, DriverLicenses, DriverData} from "../../../models/DriverTypes.ts";
 import ClubLogo from "../../../components/images/ClubLogo.tsx";
 import RatingBadge from "../../../components/data/RatingBadge.tsx";
 import ElapsedTime from "../../../functions/datetime/ElapsedTime.ts";
@@ -25,10 +25,10 @@ import {SyntheticEvent, useState} from "react";
 import FormatCompactNumber from "../../../functions/numbers/FormatCompactNumber.ts";
 
 export type InfoProps = {
-    user: DriverInfo,
+    user: DriverSummary,
     loading: boolean,
-    results: Record<string, unknown>[],
-    results_loading: boolean,
+    driver_data: DriverData,
+    data_loading: boolean,
 }
 
 export default function UserInfo(props: InfoProps) {
@@ -64,7 +64,7 @@ export default function UserInfo(props: InfoProps) {
                             Race Stats
                         </Typography>
 
-                        <RaceStats results={props.results} loading={props.results_loading}/>
+                        <RaceStats results={props.driver_data.results} loading={props.data_loading}/>
                     </Paper>
 
                     <Paper className={"stat-border driving-stats"} sx={{ p: 1 }}>
@@ -73,7 +73,7 @@ export default function UserInfo(props: InfoProps) {
                             Driving Stats
                         </Typography>
 
-                        <DrivingStats results={props.results} loading={props.results_loading}/>
+                        <DrivingStats results={props.driver_data.results} loading={props.data_loading}/>
                     </Paper>
 
                 </Stack>
@@ -92,7 +92,7 @@ export default function UserInfo(props: InfoProps) {
                     </Tooltip>
                 </Stack>
                 <Box className={"stat-border trophies"} >
-                    <TrophyCabinet loading={props.results_loading} results={props.results}/>
+                    <TrophyCabinet loading={props.data_loading} driverData={props.driver_data}/>
                 </Box>
             </Grid>
         </Grid>
@@ -124,7 +124,7 @@ export default function UserInfo(props: InfoProps) {
                 </AccordionSummary>
 
                 <AccordionDetails>
-                    <RaceStats results={props.results} loading={props.results_loading}/>
+                    <RaceStats results={props.driver_data.results} loading={props.data_loading}/>
                 </AccordionDetails>
             </Accordion>
 
@@ -138,7 +138,7 @@ export default function UserInfo(props: InfoProps) {
                 </AccordionSummary>
 
                 <AccordionDetails>
-                    <DrivingStats results={props.results} loading={props.results_loading}/>
+                    <DrivingStats results={props.driver_data.results} loading={props.data_loading}/>
                 </AccordionDetails>
             </Accordion>
 
@@ -153,7 +153,7 @@ export default function UserInfo(props: InfoProps) {
 
                 <AccordionDetails>
                     <Box m={-1.5}>
-                        <TrophyCabinet loading={props.results_loading} results={props.results} />
+                        <TrophyCabinet loading={props.data_loading} driverData={props.driver_data} />
                     </Box>
                 </AccordionDetails>
             </Accordion>
@@ -162,7 +162,7 @@ export default function UserInfo(props: InfoProps) {
     </>
 }
 
-function InfoCard(props: {user: DriverInfo, loading: boolean}) {
+function InfoCard(props: {user: DriverSummary, loading: boolean}) {
     return <Paper elevation={3} sx={{ p: 1 }}>
         <Stack
             direction={{ xs: "column", md: "row" }}
@@ -177,7 +177,7 @@ function InfoCard(props: {user: DriverInfo, loading: boolean}) {
     </Paper>
 }
 
-function Info(props: {user: DriverInfo, loading: boolean}) {
+function Info(props: {user: DriverSummary, loading: boolean}) {
     return props.loading ? <>
         <Skeleton/>
         <Skeleton/>

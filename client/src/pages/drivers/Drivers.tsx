@@ -80,7 +80,7 @@ export default function Drivers() {
                 <Container maxWidth="sm" sx={{mt: 5}}>
                     <TextField
                         fullWidth
-                        label="Search user(s)"
+                        label="Search driver(s)"
                         type="search"
                         value={name}
                         onChange={event => setSearchParams(prev => {

@@ -3,19 +3,19 @@ import {useParams} from "react-router-dom";
 import {useEffect, useState} from "react";
 import Container from "@mui/material/Container";
 import "./Driver.css"
-import UserInfo, {InfoProps} from "./panels/Info.tsx";
-import {DriverInfo, defaultUser, DriverData} from "../../models/DriverTypes.ts";
+import DriverInfo, {InfoProps} from "./panels/Info.tsx";
+import {DriverSummary, DefaultDriverSummary, DriverData, DefaultDriverData} from "../../models/DriverTypes.ts";
 import SideMenu from "../../components/navigation/SideMenu.tsx";
 import Box from "@mui/material/Box";
-import UserRaces from "./panels/Races.tsx";
+import DriverRaces from "./panels/Races.tsx";
 import Grid from "@mui/material/Unstable_Grid2";
-import UserTracks from "./panels/Tracks.tsx";
+import DriverTracks from "./panels/Tracks.tsx";
 import TrackStats from "./stats/TrackStats.ts";
 import CarStats from "./stats/CarStats.ts";
-import UserCars from "./panels/Cars.tsx";
+import DriverCars from "./panels/Cars.tsx";
 import useTabState from "../../hooks/useTabState.ts";
 import SeriesStats from "./stats/SeriesStats.ts";
-import UserSeries from "./panels/Series.tsx";
+import DriverSeries from "./panels/Series.tsx";
 import useFetchObject from "../../hooks/useFetchObject.ts";
 
 const panels = ['info', 'series', 'races', 'tracks', 'cars']
@@ -23,17 +23,17 @@ const panels = ['info', 'series', 'races', 'tracks', 'cars']
 export default function Driver() {
     const {id} = useParams()
 
-    const [user, setUser] = useState(defaultUser)
+    const [user, setUser] = useState(DefaultDriverSummary)
 
-    const [users, loading] = useFetchArray<DriverInfo>(`/api/user?cust_id=${id}`,
+    const [users, loading] = useFetchArray<DriverSummary>(`/api/driver?cust_id=${id}`,
         (obj) => {
             // obj['id'] = obj['cust_id']
             return obj
         }
     )
 
-    const [results, results_loading] = useFetchObject<DriverData>(`/api/driver_results?id=${id}`,
-        (obj) => {
+    const [driver_data, data_loading] = useFetchObject<DriverData>(DefaultDriverData, `/api/driver_data?id=${id}`,
+        // (obj) => {
 
             // obj['valid_race'] = (obj['field_size'] as number) >= 4 && (obj['event_laps_complete'] as number) >= 2
             //
@@ -48,8 +48,8 @@ export default function Driver() {
             // if (track_config !== '') track += " - " + track_config
             // obj['track'] = track
 
-            return obj
-        }
+            // return obj
+        // }
     )
 
     const [trackStats, setTrackStats] = useState([] as Record<string, unknown>[])
@@ -61,15 +61,15 @@ export default function Driver() {
     useEffect(() => {
 
         if (users.length > 0) setUser(users[0])
-        if (!results_loading) {
-            setTrackStats(TrackStats(results))
-            setCarStats(CarStats(results))
-            setSeriesStats(SeriesStats(results))
+        if (!data_loading) {
+            setTrackStats(TrackStats(driver_data.results))
+            setCarStats(CarStats(driver_data.results))
+            setSeriesStats(SeriesStats(driver_data.results))
         }
 
         console.log("users: ", users)
-        console.log("results: ", results)
-    }, [users, results, results_loading]);
+        console.log("results: ", driver_data)
+    }, [users, driver_data, data_loading]);
 
     return <>
         {/*Desktop*/}
@@ -83,8 +83,8 @@ export default function Driver() {
                         tab={tab}
                         user={user}
                         loading={loading}
-                        results={results}
-                        results_loading={results_loading}
+                        driver_data={driver_data}
+                        data_loading={data_loading}
                         trackStats={trackStats}
                         carStats={carStats}
                         seriesStats={seriesStats}
@@ -100,8 +100,8 @@ export default function Driver() {
                 tab={tab}
                 user={user}
                 loading={loading}
-                results={results}
-                results_loading={results_loading}
+                driver_data={driver_data}
+                data_loading={data_loading}
                 trackStats={trackStats}
                 carStats={carStats}
                 seriesStats={seriesStats}
@@ -123,19 +123,19 @@ function Tabs(props: TabProps) {
     // console.log(props.tab)
     switch (props.tab) {
         case 0: {
-            return <UserInfo user={props.user} loading={props.loading} results={props.results} results_loading={props.results_loading}/>
+            return <DriverInfo user={props.user} loading={props.loading} driver_data={props.driver_data} data_loading={props.data_loading}/>
         }
         case 1: {
-            return <UserSeries stats={props.seriesStats} loading={props.results_loading}/>
+            return <DriverSeries stats={props.seriesStats} loading={props.data_loading}/>
         }
         case 2: {
-            return <UserRaces results={props.results} loading={props.results_loading} />
+            return <DriverRaces results={props.driver_data.results} loading={props.data_loading} />
         }
         case 3: {
-            return <UserTracks stats={props.trackStats} loading={props.results_loading} />
+            return <DriverTracks stats={props.trackStats} loading={props.data_loading} />
         }
         case 4: {
-            return <UserCars stats={props.carStats} loading={props.results_loading} />
+            return <DriverCars stats={props.carStats} loading={props.data_loading} />
         }
         default: {
             return <></>

@@ -129,7 +129,7 @@ func (d *DB) DriverResults(id int) []models.Result {
 -- 				   sr.series_logo,
 -- 				   sr.min_license_level,
 				   r.incidents,
-				   r.reason_out_id,
+				   r.reason_out_id
 -- 				   c.car_name,
 -- 				   c.logo as car_logo,
 -- 				   t.track_id,
@@ -155,7 +155,7 @@ func (d *DB) DriverResults(id int) []models.Result {
 	// Create a JSON array
 	var results []models.Result
 	for rows.Next() {
-		var result models.Result
+		result := models.Result{}
 
 		err = rows.Scan(
 			&result.ResultId,

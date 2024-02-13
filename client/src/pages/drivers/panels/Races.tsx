@@ -7,6 +7,7 @@ import {UnixToDateTime} from "../../../functions/datetime/UnixToDate.ts";
 import StatsGrid from "../../../components/data/grid/StatsGrid.tsx";
 import PositionTrophy from "../../../components/images/PositionTrophy.tsx";
 import ColoredValue from "../../../components/data/ColoredValue.tsx";
+import {Result} from "../../../models/Result.ts";
 
 const columns: GridColDef[] = [
     {
@@ -122,7 +123,7 @@ const columns: GridColDef[] = [
     }
 ];
 
-export default function UserRaces(props: {results: Record<string, unknown>[], loading: boolean}) {
+export default function UserRaces(props: {results: Result[], loading: boolean}) {
     return <StatsGrid
         columns={columns}
         rows={props.results}

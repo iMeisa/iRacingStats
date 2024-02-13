@@ -2,6 +2,8 @@ import {CircularProgress, Paper, Table, TableBody, TableCell, TableContainer, Ta
 import {Link} from "react-router-dom";
 import SeriesLogo from "../../components/images/SeriesLogo.tsx";
 import useIsMobile from "../../hooks/useIsMobile.ts";
+import {Result} from "../../models/Result.ts";
+import {DriverData} from "../../models/DriverTypes.ts";
 
 type SeriesTrophies = {
     id: number,
@@ -12,13 +14,13 @@ type SeriesTrophies = {
     bronzes: number,
 }
 
-function FilterPodiums(results: Record<string, unknown>[]): [SeriesTrophies[], SeriesTrophies] {
+function FilterPodiums(results: Result[]): [SeriesTrophies[], SeriesTrophies] {
     let trophies: SeriesTrophies[] = []
     let totals: SeriesTrophies = { id: 0, series: '', logo: '', golds: 0, silvers: 0, bronzes: 0 }
 
     let podiums: Record<number, SeriesTrophies> = {}
 
-    results.map((result: Record<string, unknown>) => {
+    results.map((result: Result) => {
 
         if (!(result['valid_race'] as boolean)) return
 
@@ -72,11 +74,11 @@ function SortTrophies(trophies: SeriesTrophies[]): SeriesTrophies[] {
     return trophies
 }
 
-export default function TrophyCabinet(props: {loading: boolean, results: Record<string, unknown>[]}) {
+export default function TrophyCabinet(props: {loading: boolean, driverData: DriverData}) {
 
     // console.log('trophy cabinet')
 
-    const [trophies, totals] = FilterPodiums(props.results)
+    const [trophies, totals] = FilterPodiums(props.driverData.results)
 
     const isMobile = useIsMobile()
 

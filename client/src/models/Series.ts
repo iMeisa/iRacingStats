@@ -14,6 +14,11 @@ export type Series = {
     large_image: string,
     copy: string,
     small_image: string,
+    sr_change: number,
+    session_count: number,
+    subsession_count: number,
+    total_entry_count: number,
+    track: string,
 }
 
 export const SeriesDefault: Series = {
@@ -32,4 +37,9 @@ export const SeriesDefault: Series = {
     large_image: '',
     copy: '',
     small_image: '',
+    sr_change: 0,
+    session_count: 0,
+    subsession_count: 0,
+    total_entry_count: 0,
+    track: '',
 }

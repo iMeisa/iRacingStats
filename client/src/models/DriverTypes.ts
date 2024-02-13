@@ -1,4 +1,7 @@
-import { Car } from "./Car.ts"
+import {Car} from "./Car.ts";
+import {Series} from "./Series.ts";
+import {DefaultResult, Result} from "./Result.ts";
+import {Track} from "./Track.ts";
 
 type License = {
     level: number,
@@ -20,7 +23,7 @@ export type DriverData = {
     tracks: Track[]
 }
 
-export type DriverInfo = {
+export type DriverSummary = {
     id: number,
     name: string,
     member_since: number,
@@ -38,7 +41,14 @@ const DefaultLicense: License = {
     irating: 1350,
 }
 
-export const defaultUser: DriverInfo = {
+export const DefaultDriverData: DriverData = {
+    cars: [],
+    results: [DefaultResult],
+    series: [],
+    tracks: [],
+}
+
+export const DefaultDriverSummary: DriverSummary = {
     id: 0,
     name: '',
     member_since: 0,

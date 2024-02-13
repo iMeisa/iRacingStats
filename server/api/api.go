@@ -33,6 +33,9 @@ func (a *Api) Get(ctx *fiber.Ctx) error {
 	case "data_range":
 		query = a.DB.DataRange()
 
+	case "driver":
+		query = a.DB.DriverInfo(ctx.QueryInt("cust_id"))
+
 	case "driver_data":
 		query = a.DB.DriverData(ctx.QueryInt("id"))
 
@@ -53,9 +56,6 @@ func (a *Api) Get(ctx *fiber.Ctx) error {
 
 	case "subsession_results":
 		query = a.DB.SubsessionResults(ctx.QueryInt("id"))
-
-	case "driver":
-		query = a.DB.DriverInfo(ctx.QueryInt("cust_id"))
 
 	case "visit":
 		a.DB.AddPageVisit(ctx.Query("page"))

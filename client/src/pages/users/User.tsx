@@ -1,4 +1,4 @@
-import useFetch from "../../hooks/useFetch.ts";
+import useFetchArray from "../../hooks/useFetchArray.ts";
 import {useParams} from "react-router-dom";
 import {useEffect, useState} from "react";
 import Container from "@mui/material/Container";
@@ -16,6 +16,7 @@ import UserCars from "./panels/Cars.tsx";
 import useTabState from "../../hooks/useTabState.ts";
 import SeriesStats from "./stats/SeriesStats.ts";
 import UserSeries from "./panels/Series.tsx";
+import useFetchObject from "../../hooks/useFetchObject.ts";
 
 const panels = ['info', 'series', 'races', 'tracks', 'cars']
 
@@ -24,14 +25,14 @@ export default function User() {
 
     const [user, setUser] = useState(defaultUser)
 
-    const [users, loading] = useFetch<UserModel>(`/api/user?cust_id=${id}`,
+    const [users, loading] = useFetchArray<UserModel>(`/api/user?cust_id=${id}`,
         (obj) => {
             // obj['id'] = obj['cust_id']
             return obj
         }
     )
 
-    const [results, results_loading] = useFetch(`/api/driver_results?id=${id}`,
+    const [results, results_loading] = useFetchObject<DriverModel>(`/api/driver_results?id=${id}`,
         (obj) => {
 
             obj['valid_race'] = (obj['field_size'] as number) >= 4 && (obj['event_laps_complete'] as number) >= 2

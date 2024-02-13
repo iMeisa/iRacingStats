@@ -1,4 +1,4 @@
-import useFetch from "../../hooks/useFetch.ts";
+import useFetchArray from "../../hooks/useFetchArray.ts";
 import {useEffect} from "react";
 import Container from "@mui/material/Container";
 import {GridColDef, GridRenderCellParams} from "@mui/x-data-grid";
@@ -36,7 +36,7 @@ const columns: GridColDef[] = [
 
 export default function Tracks() {
 
-    const [tracks, loading] = useFetch('/api/tracks?rows=500&retired=false',
+    const [tracks, loading] = useFetchArray('/api/tracks?rows=500&retired=false',
             obj => {
         obj['id'] = obj['track_id']
         return obj

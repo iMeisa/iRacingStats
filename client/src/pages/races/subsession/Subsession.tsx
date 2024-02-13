@@ -1,6 +1,6 @@
 import {Link, useParams} from "react-router-dom";
 import Container from "@mui/material/Container";
-import useFetch from "../../../hooks/useFetch.ts";
+import useFetchArray from "../../../hooks/useFetchArray.ts";
 import {SyntheticEvent, useEffect, useState} from "react";
 import {Subsession as SubsessionModel} from "../../../models/Subsession.ts";
 import LapTime from "../../../functions/datetime/LapTime.ts";
@@ -70,7 +70,7 @@ const columns: GridColDef[] = [
     },
     {
         field: 'logo',
-        headerName: 'Car',
+        headerName: 'Car.ts',
         headerAlign: 'center',
         align: 'right',
         width: 80,
@@ -104,7 +104,7 @@ export default function Subsession() {
 
     const {id} = useParams()
 
-    const [subsessions, _] = useFetch<SubsessionModel>(`/api/subsessions?subsession_id=${id}`)
+    const [subsessions, _] = useFetchArray<SubsessionModel>(`/api/subsessions?subsession_id=${id}`)
     const [subsession, setSubsession] =
         useState<SubsessionModel>({
             end_time: 0,
@@ -135,7 +135,7 @@ export default function Subsession() {
             setExpanded(isExpanded ? panel : false);
         };
 
-    const [results, loading] = useFetch(`/api/subsession_results?id=${id}`,
+    const [results, loading] = useFetchArray(`/api/subsession_results?id=${id}`,
         (obj) => {
             obj['id'] = obj['result_id']
             obj['average_lap'] = LapTime(obj['average_lap'] as number)

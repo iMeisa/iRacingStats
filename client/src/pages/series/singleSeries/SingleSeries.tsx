@@ -1,5 +1,5 @@
 import {useParams} from "react-router-dom";
-import useFetch from "../../../hooks/useFetch.ts";
+import useFetchArray from "../../../hooks/useFetchArray.ts";
 import {useEffect, useState} from "react";
 import {Series as SeriesModel, SeriesDefault} from "../../../types/Types.ts";
 import Grid from "@mui/material/Unstable_Grid2";
@@ -15,13 +15,13 @@ export default function SingleSeries() {
 
     const {id} = useParams()
 
-    const [seriess, loading] = useFetch<SeriesModel>(`/api/series?id=${id}`)
+    const [seriess, loading] = useFetchArray<SeriesModel>(`/api/series?id=${id}`)
 
     const [series, setSeries] = useState(SeriesDefault)
 
     const [tab, setTab] = useTabState(panels)
 
-    const [races, races_loading] = useFetch(`/api/series_sessions?id=${id}`)
+    const [races, races_loading] = useFetchArray(`/api/series_sessions?id=${id}`)
 
     useEffect(() => {
         if (seriess.length < 1) return

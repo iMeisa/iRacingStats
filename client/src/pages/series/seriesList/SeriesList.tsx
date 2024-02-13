@@ -1,4 +1,4 @@
-import useFetch from "../../../hooks/useFetch.ts";
+import useFetchArray from "../../../hooks/useFetchArray.ts";
 import ToTitle from "../../../functions/strings/Title.ts";
 import "./SeriesList.css"
 import Container from "@mui/material/Container";
@@ -16,14 +16,14 @@ export default function SeriesList() {
     const [tab, setTab] = useTabState(panels)
 
     const [rows, loading] =
-        useFetch('/api/series', obj => {
+        useFetchArray('/api/series', obj => {
             obj['category'] = ToTitle(obj['category'] as string)
             // obj['sr_change'] = Number(Number(obj['sr_change']).toFixed(2))
             return obj
         })
 
     const [seriesPop, popLoading] =
-        useFetch<SeriesPop>('/api/series_popularity', obj => {
+        useFetchArray<SeriesPop>('/api/series_popularity', obj => {
             obj['category'] = ToTitle(obj['category'] as string)
             return obj
         })

@@ -1,10 +1,10 @@
 import {useEffect, useState} from "react";
 import CurrentUrl from "../variables/Url.ts";
 
-export default function useFetch<Type = Record<string, unknown>>(endpoint: string, dataFunc: (obj: Type) => Type = obj => obj): [Type[], boolean] {
+export default function useFetchObject<Type = Record<string, unknown>>(endpoint: string, dataFormat: (obj: Type) => Type = obj => obj): [Type, boolean] {
 
-    const emptyRows: Type[] = []
-    const [rows, setRows] = useState(emptyRows);
+    const emptyObject: Type = {} as Type
+    const [rows, setRows] = useState(emptyObject);
 
     const [loading, setLoading] = useState(true)
 
@@ -17,10 +17,10 @@ export default function useFetch<Type = Record<string, unknown>>(endpoint: strin
         // console.log(url)
         fetch(url)
             .then((response) => response.json())
-            .then((data: Type[]) => {
+            .then((data: Type) => {
 
                 // Data formatting here
-                data.map(dataFunc)
+                dataFormat(data)
 
                 setRows(data)
                 setLoading(false)

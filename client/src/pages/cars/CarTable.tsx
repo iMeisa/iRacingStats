@@ -1,5 +1,5 @@
 import {GridColDef, GridRenderCellParams} from "@mui/x-data-grid";
-import useFetch from "../../hooks/useFetch.ts";
+import useFetchArray from "../../hooks/useFetchArray.ts";
 import CarLogo from "../../components/images/CarLogo.tsx";
 import StatsGrid from "../../components/data/grid/StatsGrid.tsx";
 
@@ -16,7 +16,7 @@ const columns: GridColDef[] = [
     },
     {
         field: 'car_name',
-        headerName: 'Car Name',
+        headerName: 'Car.ts Name',
         flex: 1,
         minWidth: 200,
     },
@@ -38,7 +38,7 @@ const columns: GridColDef[] = [
 export default function CarTable() {
 
     const [rows, loading] =
-        useFetch('/api/cars?rows=500',
+        useFetchArray('/api/cars?rows=500',
             (obj: Record<string, unknown>): Record<string, unknown> => {
                 obj['id'] = obj['car_id']
 

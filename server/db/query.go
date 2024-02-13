@@ -90,7 +90,15 @@ func (d *DB) DataRange() map[string]int {
 	return dataRange
 }
 
-func (d *DB) DriverResults(id int) []JsonMap {
+func (d *DB) DriverData(id int) models.DriverData {
+
+	var driverData models.DriverData
+	driverData.Results = d.DriverResults(id)
+
+	return driverData
+}
+
+func (d *DB) DriverResults(id int) []models.Result {
 
 	d.UpdateResultsCache(id)
 
@@ -99,8 +107,6 @@ func (d *DB) DriverResults(id int) []JsonMap {
 
 	// SQL query
 	statement := `
-		SELECT row_to_json(t)
-		FROM (
 			SELECT r.result_id,
 				   r.subsession_id,
 				   r.finish_position_in_class,
@@ -113,24 +119,24 @@ func (d *DB) DriverResults(id int) []JsonMap {
 				   r.new_sub_level,
 				   r.oldi_rating,
 				   r.newi_rating,
-				   s.license_category_id,
-				   ss.event_strength_of_field,
-				   ss.event_laps_complete,
-				   ss.end_time,
-				   ss.field_size,
-				   sr.series_id,
-				   sr.series_short_name,
-				   sr.series_logo,
-				   sr.min_license_level,
+-- 				   s.license_category_id,
+-- 				   ss.event_strength_of_field,
+-- 				   ss.event_laps_complete,
+-- 				   ss.end_time,
+-- 				   ss.field_size,
+-- 				   sr.series_id,
+-- 				   sr.series_short_name,
+-- 				   sr.series_logo,
+-- 				   sr.min_license_level,
 				   r.incidents,
 				   r.reason_out_id,
-				   c.car_name,
-				   c.logo as car_logo,
-				   t.track_id,
-				   t.track_name,
-				   t.config_name,
-				   t.track_config_length,
-				   t.logo as track_logo
+-- 				   c.car_name,
+-- 				   c.logo as car_logo,
+-- 				   t.track_id,
+-- 				   t.track_name,
+-- 				   t.config_name,
+-- 				   t.track_config_length,
+-- 				   t.logo as track_logo
 			FROM results_cache r
 			JOIN subsessions ss USING (subsession_id)
 			JOIN sessions s USING (session_id)
@@ -140,7 +146,6 @@ func (d *DB) DriverResults(id int) []JsonMap {
 			JOIN tracks t USING (track_id)
 			WHERE cust_id = $1 AND simsession_number=0
 			ORDER BY subsession_id DESC
-		) t
 	`
 
 	rows, err := d.SQL.QueryContext(ctx, statement, id)
@@ -148,20 +153,33 @@ func (d *DB) DriverResults(id int) []JsonMap {
 	go d.UpdateResultsCacheReadTime(id)
 
 	// Create a JSON array
-	var results []JsonMap
+	var results []models.Result
 	for rows.Next() {
-		var result string
+		var result models.Result
 
-		err = rows.Scan(&result)
+		err = rows.Scan(
+			&result.ResultId,
+			&result.SubsessionId,
+			&result.FinishPositionInClass,
+			&result.LapsLead,
+			&result.AverageLap,
+			&result.BestLapTime,
+			&result.LapsComplete,
+			&result.CarId,
+			&result.OldSubLevel,
+			&result.NewSubLevel,
+			&result.OldiRating,
+			&result.NewiRating,
+			&result.Incidents,
+			&result.ReasonOutId,
+		)
+
 		if err != nil {
-			return nil
+			log.Println("error scanning driver_results: ", err)
+			continue
 		}
 
-		resultJson, trace := stringToJsonMap(result)
-		if trace.HasError() {
-			return nil
-		}
-		results = append(results, resultJson)
+		results = append(results, result)
 	}
 
 	return results

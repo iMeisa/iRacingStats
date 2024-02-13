@@ -54,8 +54,8 @@ func (a *Api) Get(ctx *fiber.Ctx) error {
 	case "subsession_results":
 		query = a.DB.SubsessionResults(ctx.QueryInt("id"))
 
-	case "user":
-		query = a.DB.User(ctx.QueryInt("cust_id"))
+	case "driver":
+		query = a.DB.DriverInfo(ctx.QueryInt("cust_id"))
 
 	case "visit":
 		a.DB.AddPageVisit(ctx.Query("page"))

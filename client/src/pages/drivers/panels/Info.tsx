@@ -15,7 +15,7 @@ import DataRange from "../../../functions/datetime/DataRange.ts";
 import InfoIcon from "@mui/icons-material/Info";
 import TrophyCabinet from "../TrophyCabinet.tsx";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import {User, UserLicenses} from "../UserTypes.ts";
+import {DriverInfo, DriverLicenses} from "../../../models/DriverTypes.ts";
 import ClubLogo from "../../../components/images/ClubLogo.tsx";
 import RatingBadge from "../../../components/data/RatingBadge.tsx";
 import ElapsedTime from "../../../functions/datetime/ElapsedTime.ts";
@@ -25,7 +25,7 @@ import {SyntheticEvent, useState} from "react";
 import FormatCompactNumber from "../../../functions/numbers/FormatCompactNumber.ts";
 
 export type InfoProps = {
-    user: User,
+    user: DriverInfo,
     loading: boolean,
     results: Record<string, unknown>[],
     results_loading: boolean,
@@ -162,7 +162,7 @@ export default function UserInfo(props: InfoProps) {
     </>
 }
 
-function InfoCard(props: {user: User, loading: boolean}) {
+function InfoCard(props: {user: DriverInfo, loading: boolean}) {
     return <Paper elevation={3} sx={{ p: 1 }}>
         <Stack
             direction={{ xs: "column", md: "row" }}
@@ -177,7 +177,7 @@ function InfoCard(props: {user: User, loading: boolean}) {
     </Paper>
 }
 
-function Info(props: {user: User, loading: boolean}) {
+function Info(props: {user: DriverInfo, loading: boolean}) {
     return props.loading ? <>
         <Skeleton/>
         <Skeleton/>
@@ -193,7 +193,7 @@ function Info(props: {user: User, loading: boolean}) {
     </>
 }
 
-function Licenses(props: {loading: boolean, licenses: UserLicenses}) {
+function Licenses(props: {loading: boolean, licenses: DriverLicenses}) {
     return <Stack direction="row" justifyContent="center" sx={{ my: 'auto' }}>
         <Stack>
             <RatingBadge

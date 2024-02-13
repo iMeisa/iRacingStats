@@ -21,7 +21,7 @@ const columns: GridColDef[] = [
 ];
 
 
-export default function Users() {
+export default function Drivers() {
 
     const emptyRows: Record<string, unknown>[] = []
     const [rows, setRows] = useState(emptyRows);

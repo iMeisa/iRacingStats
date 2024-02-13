@@ -50,7 +50,7 @@ export default function Home() {
                     </Grid>
                     <Grid xs={12} sm={12} md={4}>
                         <PageCard
-                            title="Users"
+                            title="Drivers"
                             description="Statistics about you and your friends"
                             link="/users"
                         />

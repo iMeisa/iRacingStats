@@ -2,9 +2,9 @@ import useFetchArray from "../../hooks/useFetchArray.ts";
 import {useParams} from "react-router-dom";
 import {useEffect, useState} from "react";
 import Container from "@mui/material/Container";
-import "./User.css"
+import "./Driver.css"
 import UserInfo, {InfoProps} from "./panels/Info.tsx";
-import {User as UserModel, defaultUser} from "./UserTypes.ts";
+import {DriverInfo, defaultUser, DriverData} from "../../models/DriverTypes.ts";
 import SideMenu from "../../components/navigation/SideMenu.tsx";
 import Box from "@mui/material/Box";
 import UserRaces from "./panels/Races.tsx";
@@ -20,33 +20,33 @@ import useFetchObject from "../../hooks/useFetchObject.ts";
 
 const panels = ['info', 'series', 'races', 'tracks', 'cars']
 
-export default function User() {
+export default function Driver() {
     const {id} = useParams()
 
     const [user, setUser] = useState(defaultUser)
 
-    const [users, loading] = useFetchArray<UserModel>(`/api/user?cust_id=${id}`,
+    const [users, loading] = useFetchArray<DriverInfo>(`/api/user?cust_id=${id}`,
         (obj) => {
             // obj['id'] = obj['cust_id']
             return obj
         }
     )
 
-    const [results, results_loading] = useFetchObject<DriverModel>(`/api/driver_results?id=${id}`,
+    const [results, results_loading] = useFetchObject<DriverData>(`/api/driver_results?id=${id}`,
         (obj) => {
 
-            obj['valid_race'] = (obj['field_size'] as number) >= 4 && (obj['event_laps_complete'] as number) >= 2
-
-            obj['id'] = obj['result_id']
-            obj['dnf'] = obj['reason_out_id'] !== 0
-
-            obj['sr_change'] = ((obj['new_sub_level'] as number) - (obj['old_sub_level'] as number)) / 100
-            obj['ir_change'] = (obj['newi_rating'] as number) - (obj['oldi_rating'] as number)
-
-            let track = obj['track_name']
-            const track_config = obj['config_name']
-            if (track_config !== '') track += " - " + track_config
-            obj['track'] = track
+            // obj['valid_race'] = (obj['field_size'] as number) >= 4 && (obj['event_laps_complete'] as number) >= 2
+            //
+            // obj['id'] = obj['result_id']
+            // obj['dnf'] = obj['reason_out_id'] !== 0
+            //
+            // obj['sr_change'] = ((obj['new_sub_level'] as number) - (obj['old_sub_level'] as number)) / 100
+            // obj['ir_change'] = (obj['newi_rating'] as number) - (obj['oldi_rating'] as number)
+            //
+            // let track = obj['track_name']
+            // const track_config = obj['config_name']
+            // if (track_config !== '') track += " - " + track_config
+            // obj['track'] = track
 
             return obj
         }

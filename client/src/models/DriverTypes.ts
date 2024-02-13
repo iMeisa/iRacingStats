@@ -1,8 +1,4 @@
-const DefaultLicense: License = {
-    level: 2,
-    sub_level: 250,
-    irating: 1350,
-}
+import { Car } from "./Car.ts"
 
 type License = {
     level: number,
@@ -10,23 +6,39 @@ type License = {
     irating: number,
 }
 
-export type UserLicenses = {
+export type DriverLicenses = {
     oval: License,
     road: License,
     dirt_oval: License,
     dirt_road: License,
 }
 
-export type User = {
+export type DriverData = {
+    cars: Car[]
+    results: Result[]
+    series: Series[]
+    tracks: Track[]
+}
+
+export type DriverInfo = {
     id: number,
     name: string,
     member_since: number,
     club_id: number,
     club_name: string,
-    licenses: UserLicenses
+    licenses: DriverLicenses
 }
 
-export const defaultUser: User = {
+
+// Defaults
+
+const DefaultLicense: License = {
+    level: 2,
+    sub_level: 250,
+    irating: 1350,
+}
+
+export const defaultUser: DriverInfo = {
     id: 0,
     name: '',
     member_since: 0,

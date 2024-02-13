@@ -666,11 +666,11 @@ func (d *DB) Users(name string) []map[string]any {
 	return customers
 }
 
-func (d *DB) User(id int) []models.User {
+func (d *DB) DriverInfo(id int) []models.User {
 	ctx, cancel := getContext()
 	defer cancel()
 
-	// User
+	// Driver
 	statement := `
 		SELECT cust_id, 
 			   display_name, 

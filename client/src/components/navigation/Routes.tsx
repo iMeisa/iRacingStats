@@ -8,8 +8,8 @@ import SingleSeries from "../../pages/series/singleSeries/SingleSeries.tsx"
 import SeriesList from "../../pages/series/seriesList/SeriesList.tsx"
 import Cars from "../../pages/cars/Cars.tsx";
 import Tracks from "../../pages/tracks/Tracks.tsx";
-import Users from "../../pages/users/Users.tsx";
-import User from "../../pages/users/User.tsx";
+import Drivers from "../../pages/drivers/Drivers.tsx";
+import Driver from "../../pages/drivers/Driver.tsx";
 
 export default function Routes() {
     return (
@@ -22,8 +22,8 @@ export default function Routes() {
             <Route path="/sessions/:id" element={<Session />} />
             <Route path="/subsession/:id" element={<Subsession />} />
             <Route path="/tracks" element={<Tracks />} />
-            <Route path="/users" element={<Users />} />
-            <Route path="/user/:id" element={<User />} />
+            <Route path="/users" element={<Drivers />} />
+            <Route path="/user/:id" element={<Driver />} />
             {/*<Route path="/about" element={<About />} />*/}
         </RouterRoutes>
     )

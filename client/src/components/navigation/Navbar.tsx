@@ -17,7 +17,7 @@ import {Drawer, List, ListItem, ListItemButton, ListItemText } from "@mui/materi
 import {useState} from "react";
 import CategoryLogo from "../../functions/img/CategoryLogo.tsx";
 
-const pages = ['Races', 'Series', 'Cars', 'Tracks', 'Users'];
+const pages = ['Races', 'Series', 'Cars', 'Tracks', 'Drivers'];
 
 function pageLink(pageName: string) {
     return `/${pageName.toLowerCase()}`
@@ -35,7 +35,7 @@ const pageIcons = (page: string) => {
             return <div style={{ width: '24px', height: '16px', display: 'flex', justifyContent: 'center' }}>
                 {CategoryLogo(1, 0, 16)}
             </div>
-        case 'Users':
+        case 'Drivers':
             return <PeopleIcon/>
         default:
             return <></>

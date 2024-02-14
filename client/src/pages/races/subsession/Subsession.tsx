@@ -50,7 +50,7 @@ const columns: GridColDef[] = [
         renderCell: params =>
             <Link
                 style={{ textDecoration: 'underline', fontStyle: 'italic', color: 'inherit', fontWeight: 'bold'}}
-                to={`/user/${params.row.cust_id}`}
+                to={`/driver/${params.row.cust_id}`}
             >{params.value}</Link>
     },
     {

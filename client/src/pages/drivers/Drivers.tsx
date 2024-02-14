@@ -15,7 +15,7 @@ const columns: GridColDef[] = [
         renderCell: params =>
             <Link
                 style={{ color: 'inherit' }}
-                to={`/user/${params.row.id}`}
+                to={`/driver/${params.row.id}`}
             >{params.value}</Link>
     }
 ];

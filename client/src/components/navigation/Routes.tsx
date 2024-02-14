@@ -22,8 +22,8 @@ export default function Routes() {
             <Route path="/sessions/:id" element={<Session />} />
             <Route path="/subsession/:id" element={<Subsession />} />
             <Route path="/tracks" element={<Tracks />} />
-            <Route path="/users" element={<Drivers />} />
-            <Route path="/user/:id" element={<Driver />} />
+            <Route path="/drivers" element={<Drivers />} />
+            <Route path="/driver/:id" element={<Driver />} />
             {/*<Route path="/about" element={<About />} />*/}
         </RouterRoutes>
     )

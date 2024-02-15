@@ -2,6 +2,7 @@ package db
 
 import (
 	"fmt"
+	"github.com/iMeisa/iRacingStats/server/models"
 	"log"
 	"os"
 	"time"
@@ -19,59 +20,42 @@ func (d *DB) AddPageVisit(page string) {
 	//log.Println(visits)
 }
 
-// UpdateResultsCache updates the cache for given customer and returns rows affected
-func (d *DB) UpdateResultsCache(custId int) int {
+// cacheDriverResults updated the driver results cache
+func (d *DB) cacheDriverResults(data []models.Result, custId int) {
 
-	updated, subsessionId, minSubsessionId := d.UserCacheUpdated(custId)
-	if updated {
-		return 0
+	// Get min and max subsessions
+	maxSubsession := data[0].SubsessionId
+	minSubsession := data[0].SubsessionId
+	for _, result := range data {
+		subsessionId := result.SubsessionId
+
+		if subsessionId > maxSubsession {
+			maxSubsession = subsessionId
+		}
+
+		if subsessionId < minSubsession {
+			minSubsession = subsessionId
+		}
 	}
 
-	subsessionConstraint := ""
-	if subsessionId != 0 {
-		subsessionConstraint = fmt.Sprintf(
-			" AND subsession_id NOT BETWEEN %d AND %d",
-			subsessionId, minSubsessionId,
-		)
-	}
+	statement := `
+		INSERT INTO driver_results_cache 
+		(cust_id, latest_subsession, earliest_subsession, data, has_update)
+		VALUES ($1, $2, $3, $4, false)
+		ON CONFLICT (cust_id)
+		DO UPDATE
+		SET
+			latest_subsession = $2,
+			earliest_subsession = $3,
+			data = $4,
+			has_update = false
+	`
 
-	statement := fmt.Sprintf(`
-		INSERT INTO results_cache (
-			result_id, subsession_id, simsession_number, cust_id, team_id, finish_position, 
-			finish_position_in_class, laps_lead, laps_complete, opt_laps_complete, interval, class_interval, 
-			average_lap, best_lap_num, best_lap_time, best_nlaps_num, best_nlaps_time, best_qual_lap_at, 
-			best_qual_lap_num, best_qual_lap_time, reason_out_id, champ_points, drop_race, club_points, position, 
-			qual_lap_time, starting_position, starting_position_in_class, car_class_id, division, old_license_level, 
-			old_sub_level, old_cpi, oldi_rating, old_ttrating, new_license_level, new_sub_level, new_cpi, newi_rating, 
-			new_ttrating, multiplier, license_change_oval, license_change_road, incidents, max_pct_fuel_fill, 
-			weight_penalty_kg, league_points, league_agg_points, car_id, aggregate_champ_points, ai
-		) 
-		SELECT result_id, subsession_id, simsession_number, cust_id, team_id, finish_position, 
-			finish_position_in_class, laps_lead, laps_complete, opt_laps_complete, interval, class_interval, 
-			average_lap, best_lap_num, best_lap_time, best_nlaps_num, best_nlaps_time, best_qual_lap_at, 
-			best_qual_lap_num, best_qual_lap_time, reason_out_id, champ_points, drop_race, club_points, position, 
-			qual_lap_time, starting_position, starting_position_in_class, car_class_id, division, old_license_level, 
-			old_sub_level, old_cpi, oldi_rating, old_ttrating, new_license_level, new_sub_level, new_cpi, newi_rating, 
-			new_ttrating, multiplier, license_change_oval, license_change_road, incidents, max_pct_fuel_fill, 
-			weight_penalty_kg, league_points, league_agg_points, car_id, aggregate_champ_points, ai
-		FROM results
-		WHERE simsession_number = 0
-		AND cust_id = $1
-		%s
-		ON CONFLICT (result_id) DO NOTHING
-	`, subsessionConstraint)
-
-	exec, err := d.SQL.Exec(statement, custId)
+	_, err := d.SQL.Exec(statement, custId, maxSubsession, minSubsession, data)
 	if err != nil {
-		log.Println("error updating results cache: ", err)
+		log.Println("error caching driver data: ", err)
 	}
 
-	rowsAffected, err := exec.RowsAffected()
-	if err != nil {
-		log.Println("error getting rows affected from results cache: ", err)
-	}
-
-	return int(rowsAffected)
 }
 
 // UpdateResultsCacheReadTime updates the cache last_read column to current time

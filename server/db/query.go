@@ -44,29 +44,41 @@ func (d *DB) LatestSubsessionTime() int {
 	return latestTime
 }
 
-// UserCacheUpdated returns boolean if user cache is up-to-date and user latest subsession
-func (d *DB) UserCacheUpdated(custId int) (bool, int, int) {
+// driverCache returns cached data for driver
+// returns Result model slice, if cache needs to be updated, latest subsession, earliest subsession
+func (d *DB) driverCache(custId int) ([]models.Result, bool, int, int) {
+
 	statement := `
-		SELECT max(subsession_id),
-			   min(subsession_id),
-			   c.latest_subsession
-		FROM results_cache rc 
-		JOIN customers c USING (cust_id)
+		SELECT data,
+			   latest_subsession,
+			   earliest_subsession,
+			   has_update
+		FROM driver_results_cache
 		WHERE cust_id = $1
-		GROUP BY c.latest_subsession 
 	`
 
 	row := d.SQL.QueryRow(statement, custId)
 
+	var data []models.Result
+	var rawData []byte
+
 	maxSubsession := 0
 	minSubsession := 0
-	latestSubsession := 1
-	err := row.Scan(&maxSubsession, &minSubsession, &latestSubsession)
+	hasUpdate := false
+	err := row.Scan(&rawData, &maxSubsession, &minSubsession, &hasUpdate)
 	if err != nil {
 		log.Println("error scanning if user cache is updated: ", err)
+		return nil, true, 0, 0
 	}
 
-	return maxSubsession == latestSubsession, maxSubsession, minSubsession
+	err = json.Unmarshal(rawData, &data)
+	if err != nil {
+		log.Println("error unmarshalling cached driver data: ", err)
+		return nil, true, 0, 0
+	}
+
+	return data, hasUpdate, maxSubsession, minSubsession
+
 }
 
 func (d *DB) DataRange() map[string]int {
@@ -100,87 +112,13 @@ func (d *DB) DriverData(id int) models.DriverData {
 
 func (d *DB) DriverResults(id int) []models.Result {
 
-	d.UpdateResultsCache(id)
+	results, hasUpdate, maxSubsession, minSubsession := d.driverCache(id)
 
-	ctx, cancel := getContext()
-	defer cancel()
-
-	// SQL query
-	statement := `
-			SELECT r.result_id,
-				   r.subsession_id,
-				   r.finish_position_in_class,
-				   r.laps_lead,
-				   r.average_lap,
-				   r.best_lap_time,
-				   r.laps_complete,
-				   r.car_id,
-				   r.old_sub_level,
-				   r.new_sub_level,
-				   r.oldi_rating,
-				   r.newi_rating,
--- 				   s.license_category_id,
--- 				   ss.event_strength_of_field,
--- 				   ss.event_laps_complete,
--- 				   ss.end_time,
--- 				   ss.field_size,
--- 				   sr.series_id,
--- 				   sr.series_short_name,
--- 				   sr.series_logo,
--- 				   sr.min_license_level,
-				   r.incidents,
-				   r.reason_out_id
--- 				   c.car_name,
--- 				   c.logo as car_logo,
--- 				   t.track_id,
--- 				   t.track_name,
--- 				   t.config_name,
--- 				   t.track_config_length,
--- 				   t.logo as track_logo
-			FROM results_cache r
-			JOIN subsessions ss USING (subsession_id)
-			JOIN sessions s USING (session_id)
-			JOIN seasons se USING (season_id)
-			JOIN series sr USING (series_id)
-			JOIN cars c USING (car_id)
-			JOIN tracks t USING (track_id)
-			WHERE cust_id = $1 AND simsession_number=0
-			ORDER BY subsession_id DESC
-	`
-
-	rows, err := d.SQL.QueryContext(ctx, statement, id)
-
-	go d.UpdateResultsCacheReadTime(id)
-
-	// Create a JSON array
-	var results []models.Result
-	for rows.Next() {
-		result := models.Result{}
-
-		err = rows.Scan(
-			&result.ResultId,
-			&result.SubsessionId,
-			&result.FinishPositionInClass,
-			&result.LapsLead,
-			&result.AverageLap,
-			&result.BestLapTime,
-			&result.LapsComplete,
-			&result.CarId,
-			&result.OldSubLevel,
-			&result.NewSubLevel,
-			&result.OldiRating,
-			&result.NewiRating,
-			&result.Incidents,
-			&result.ReasonOutId,
-		)
-
-		if err != nil {
-			log.Println("error scanning driver_results: ", err)
-			continue
-		}
-
-		results = append(results, result)
+	if hasUpdate {
+		results = append(results, d.uncachedDriverResults(id, maxSubsession, minSubsession)...)
 	}
+
+	go d.cacheDriverResults(results, id)
 
 	return results
 }
@@ -724,4 +662,95 @@ func (d *DB) DriverInfo(id int) []models.User {
 	users = append(users, user)
 
 	return users
+}
+
+// uncachedDriverResults updates the cache for given customer and returns rows affected
+func (d *DB) uncachedDriverResults(custId, maxSubsession, minSubsession int) []models.Result {
+
+	subsessionConstraint := ""
+	if maxSubsession != 0 {
+		subsessionConstraint = fmt.Sprintf(
+			" AND subsession_id NOT BETWEEN %d AND %d",
+			maxSubsession, minSubsession,
+		)
+	}
+
+	statement := `
+		SELECT r.result_id,
+						r.subsession_id,
+						r.finish_position_in_class,
+						r.laps_lead,
+						r.average_lap,
+						r.best_lap_time,
+						r.laps_complete,
+						r.car_id,
+						r.old_sub_level,
+						r.new_sub_level,
+						r.oldi_rating,
+						r.newi_rating,
+	-- 				   s.license_category_id,
+	-- 				   ss.event_strength_of_field,
+	-- 				   ss.event_laps_complete,
+	-- 				   ss.end_time,
+	-- 				   ss.field_size,
+	-- 				   sr.series_id,
+	-- 				   sr.series_short_name,
+	-- 				   sr.series_logo,
+	-- 				   sr.min_license_level,
+						r.incidents,
+						r.reason_out_id
+	-- 				   c.car_name,
+	-- 				   c.logo as car_logo,
+	-- 				   t.track_id,
+	-- 				   t.track_name,
+	-- 				   t.config_name,
+	-- 				   t.track_config_length,
+	-- 				   t.logo as track_logo
+				FROM results r
+	-- 			JOIN subsessions ss USING (subsession_id)
+	-- 			JOIN sessions s USING (session_id)
+	-- 			JOIN seasons se USING (season_id)
+	-- 			JOIN series sr USING (series_id)
+	-- 			JOIN cars c USING (car_id)
+	-- 			JOIN tracks t USING (track_id)
+				WHERE cust_id = $1 AND simsession_number=0
+	-- 			ORDER BY subsession_id DESC
+	` + subsessionConstraint
+
+	rows, err := d.SQL.Query(statement, custId)
+	if err != nil {
+		log.Println("error updating results cache: ", err)
+	}
+
+	// Create a JSON array
+	var results []models.Result
+	for rows.Next() {
+		result := models.Result{}
+
+		err = rows.Scan(
+			&result.ResultId,
+			&result.SubsessionId,
+			&result.FinishPositionInClass,
+			&result.LapsLead,
+			&result.AverageLap,
+			&result.BestLapTime,
+			&result.LapsComplete,
+			&result.CarId,
+			&result.OldSubLevel,
+			&result.NewSubLevel,
+			&result.OldiRating,
+			&result.NewiRating,
+			&result.Incidents,
+			&result.ReasonOutId,
+		)
+
+		if err != nil {
+			log.Println("error scanning driver_results: ", err)
+			continue
+		}
+
+		results = append(results, result)
+	}
+
+	return results
 }

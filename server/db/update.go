@@ -21,7 +21,7 @@ func (d *DB) AddPageVisit(page string) {
 }
 
 // cacheDriverResults updated the driver results cache
-func (d *DB) cacheDriverResults(data []models.Result, custId int) {
+func (d *DB) cacheDriverResults(data []models.DriverRace, custId int) {
 
 	// Get min and max subsessions
 	maxSubsession := data[0].SubsessionId

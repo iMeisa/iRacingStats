@@ -46,7 +46,7 @@ func (d *DB) LatestSubsessionTime() int {
 
 // driverCache returns cached data for driver
 // returns Result model slice, if cache needs to be updated, latest subsession, earliest subsession
-func (d *DB) driverCache(custId int) ([]models.Result, bool, int, int) {
+func (d *DB) driverCache(custId int) ([]models.DriverRace, bool, int, int) {
 
 	statement := `
 		SELECT data,
@@ -59,7 +59,7 @@ func (d *DB) driverCache(custId int) ([]models.Result, bool, int, int) {
 
 	row := d.SQL.QueryRow(statement, custId)
 
-	var data []models.Result
+	var data []models.DriverRace
 	var rawData []byte
 
 	maxSubsession := 0
@@ -105,17 +105,17 @@ func (d *DB) DataRange() map[string]int {
 func (d *DB) DriverData(id int) models.DriverData {
 
 	var driverData models.DriverData
-	driverData.Results = d.DriverResults(id)
+	driverData.Races = d.DriverRaces(id)
 
 	return driverData
 }
 
-func (d *DB) DriverResults(id int) []models.Result {
+func (d *DB) DriverRaces(id int) []models.DriverRace {
 
 	results, hasUpdate, maxSubsession, minSubsession := d.driverCache(id)
 
 	if hasUpdate {
-		results = append(results, d.uncachedDriverResults(id, maxSubsession, minSubsession)...)
+		results = append(results, d.uncachedDriverRaces(id, maxSubsession, minSubsession)...)
 	}
 
 	go d.cacheDriverResults(results, id)
@@ -664,8 +664,8 @@ func (d *DB) DriverInfo(id int) []models.User {
 	return users
 }
 
-// uncachedDriverResults updates the cache for given customer and returns rows affected
-func (d *DB) uncachedDriverResults(custId, maxSubsession, minSubsession int) []models.Result {
+// uncachedDriverRaces updates the cache for given customer and returns rows affected
+func (d *DB) uncachedDriverRaces(custId, maxSubsession, minSubsession int) []models.DriverRace {
 
 	subsessionConstraint := ""
 	if maxSubsession != 0 {
@@ -677,28 +677,23 @@ func (d *DB) uncachedDriverResults(custId, maxSubsession, minSubsession int) []m
 
 	statement := `
 		SELECT r.result_id,
-						r.subsession_id,
-						r.finish_position_in_class,
-						r.laps_lead,
-						r.average_lap,
-						r.best_lap_time,
-						r.laps_complete,
-						r.car_id,
-						r.old_sub_level,
-						r.new_sub_level,
-						r.oldi_rating,
-						r.newi_rating,
-	-- 				   s.license_category_id,
-	-- 				   ss.event_strength_of_field,
-	-- 				   ss.event_laps_complete,
-	-- 				   ss.end_time,
-	-- 				   ss.field_size,
+			   r.subsession_id,
+			   r.finish_position_in_class,
+			   r.laps_lead,
+			   r.average_lap,
+			   r.best_lap_time,
+			   r.laps_complete,
+			   r.car_id,
+			   r.old_sub_level,
+			   r.new_sub_level,
+			   r.oldi_rating,
+			   r.newi_rating,
 	-- 				   sr.series_id,
 	-- 				   sr.series_short_name,
 	-- 				   sr.series_logo,
 	-- 				   sr.min_license_level,
-						r.incidents,
-						r.reason_out_id
+			   r.incidents,
+			   r.reason_out_id,
 	-- 				   c.car_name,
 	-- 				   c.logo as car_logo,
 	-- 				   t.track_id,
@@ -706,14 +701,21 @@ func (d *DB) uncachedDriverResults(custId, maxSubsession, minSubsession int) []m
 	-- 				   t.config_name,
 	-- 				   t.track_config_length,
 	-- 				   t.logo as track_logo
-				FROM results r
-	-- 			JOIN subsessions ss USING (subsession_id)
-	-- 			JOIN sessions s USING (session_id)
+			   s.license_category_id,
+			   s.season_id,
+			   s.start_time,
+			   ss.event_strength_of_field,
+			   ss.event_laps_complete,
+			   ss.end_time,
+			   ss.field_size
+			FROM results r
+			JOIN subsessions ss USING (subsession_id)
+			JOIN sessions s USING (session_id)
 	-- 			JOIN seasons se USING (season_id)
 	-- 			JOIN series sr USING (series_id)
 	-- 			JOIN cars c USING (car_id)
 	-- 			JOIN tracks t USING (track_id)
-				WHERE cust_id = $1 AND simsession_number=0
+			WHERE cust_id = $1 AND simsession_number=0
 	-- 			ORDER BY subsession_id DESC
 	` + subsessionConstraint
 
@@ -723,25 +725,32 @@ func (d *DB) uncachedDriverResults(custId, maxSubsession, minSubsession int) []m
 	}
 
 	// Create a JSON array
-	var results []models.Result
+	var driverRaces []models.DriverRace
 	for rows.Next() {
-		result := models.Result{}
+		var driverRace models.DriverRace
 
 		err = rows.Scan(
-			&result.ResultId,
-			&result.SubsessionId,
-			&result.FinishPositionInClass,
-			&result.LapsLead,
-			&result.AverageLap,
-			&result.BestLapTime,
-			&result.LapsComplete,
-			&result.CarId,
-			&result.OldSubLevel,
-			&result.NewSubLevel,
-			&result.OldiRating,
-			&result.NewiRating,
-			&result.Incidents,
-			&result.ReasonOutId,
+			&driverRace.Result.ResultId,
+			&driverRace.Result.SubsessionId,
+			&driverRace.Result.FinishPositionInClass,
+			&driverRace.Result.LapsLead,
+			&driverRace.Result.AverageLap,
+			&driverRace.Result.BestLapTime,
+			&driverRace.Result.LapsComplete,
+			&driverRace.Result.CarId,
+			&driverRace.Result.OldSubLevel,
+			&driverRace.Result.NewSubLevel,
+			&driverRace.Result.OldiRating,
+			&driverRace.Result.NewiRating,
+			&driverRace.Result.Incidents,
+			&driverRace.Result.ReasonOutId,
+			&driverRace.Session.CategoryId,
+			&driverRace.Session.SeasonId,
+			&driverRace.Session.StartTime,
+			&driverRace.Subsession.StrengthOfField,
+			&driverRace.Subsession.LapsComplete,
+			&driverRace.Subsession.EndTime,
+			&driverRace.Subsession.FieldSize,
 		)
 
 		if err != nil {
@@ -749,8 +758,8 @@ func (d *DB) uncachedDriverResults(custId, maxSubsession, minSubsession int) []m
 			continue
 		}
 
-		results = append(results, result)
+		driverRaces = append(driverRaces, driverRace)
 	}
 
-	return results
+	return driverRaces
 }

@@ -50,6 +50,12 @@ type Car struct {
 	GalleryImages           string              `json:"gallery_images,omitempty"`
 }
 
+type DriverRace struct {
+	Session    `json:"session"`
+	Subsession `json:"subsession"`
+	Result     `json:"result"`
+}
+
 type License struct {
 	Level    int `json:"level"`
 	SubLevel int `json:"sub_level"`
@@ -146,31 +152,34 @@ type Series struct {
 }
 
 type Session struct {
-	SessionId       int    `json:"id"`
-	SeriesId        int    `json:"series_id"`
-	SeriesLogo      string `json:"series_logo"`
-	SeriesShortName string `json:"series_short_name"`
-	SubsessionCount int    `json:"subsession_count"`
-	StartTime       int    `json:"start_time"`
-	EndTime         int    `json:"end_time"`
-	Track           string `json:"track"`
-	CategoryId      int    `json:"category_id"`
-	MinLicenseLevel int    `json:"min_license_level"`
+	SessionId       int    `json:"id,omitempty"`
+	SeasonId        int    `json:"season_id,omitempty"`
+	SeriesId        int    `json:"series_id,omitempty"`
+	SeriesLogo      string `json:"series_logo,omitempty"`
+	SeriesShortName string `json:"series_short_name,omitempty"`
+	SubsessionCount int    `json:"subsession_count,omitempty"`
+	StartTime       int    `json:"start_time,omitempty"`
+	EndTime         int    `json:"end_time,omitempty"`
+	Track           string `json:"track,omitempty"`
+	CategoryId      int    `json:"category_id,omitempty"`
+	MinLicenseLevel int    `json:"min_license_level,omitempty"`
 }
 
 type Subsession struct {
-	AverageLap      int    `json:"average_lap"`
-	Cautions        int    `json:"cautions"`
-	CautionType     int    `json:"caution_type"`
-	FieldSize       int    `json:"field_size"`
-	HasCautions     bool   `json:"has_cautions"`
-	Id              int    `json:"id"`
-	LeadChanges     int    `json:"lead_changes"`
-	SeriesLogo      string `json:"series_logo"`
-	SeriesName      string `json:"series_name"`
-	StrengthOfField int    `json:"strength_of_field"`
-	Verified        bool   `json:"verified"`
-	SeriesId        int    `json:"series_id"`
+	AverageLap      int    `json:"average_lap,omitempty"`
+	Cautions        int    `json:"cautions,omitempty"`
+	CautionType     int    `json:"caution_type,omitempty"`
+	EndTime         int    `json:"end_time,omitempty"`
+	FieldSize       int    `json:"field_size,omitempty"`
+	HasCautions     bool   `json:"has_cautions,omitempty"`
+	Id              int    `json:"id,omitempty"`
+	LapsComplete    int    `json:"laps_complete,omitempty"`
+	LeadChanges     int    `json:"lead_changes,omitempty"`
+	SeriesLogo      string `json:"series_logo,omitempty"`
+	SeriesName      string `json:"series_name,omitempty"`
+	StrengthOfField int    `json:"strength_of_field,omitempty"`
+	Verified        bool   `json:"verified,omitempty"`
+	SeriesId        int    `json:"series_id,omitempty"`
 }
 
 type Track struct {
@@ -252,8 +261,8 @@ type User struct {
 }
 
 type DriverData struct {
-	Cars    []Car    `json:"cars"`
-	Results []Result `json:"results"`
-	Series  []Series `json:"series"`
-	Tracks  []Track  `json:"tracks"`
+	Cars   []Car        `json:"cars"`
+	Races  []DriverRace `json:"races"`
+	Series []Series     `json:"series"`
+	Tracks []Track      `json:"tracks"`
 }

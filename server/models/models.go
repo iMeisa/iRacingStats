@@ -51,9 +51,83 @@ type Car struct {
 }
 
 type DriverRace struct {
-	Session    `json:"session"`
-	Subsession `json:"subsession"`
-	Result     `json:"result"`
+	ResultId                int       `json:"id,omitempty"`
+	SubsessionId            int       `json:"subsession_id,omitempty"`
+	CustId                  int       `json:"cust_id,omitempty"`
+	TeamId                  int       `json:"team_id,omitempty"`
+	DisplayName             string    `json:"display_name,omitempty"`
+	TeamDisplayName         string    `json:"team_display_name,omitempty"`
+	FinishPosition          int       `json:"finish_position,omitempty"`
+	FinishPositionInClass   int       `json:"finish_position_in_class,omitempty"`
+	LapsLead                int       `json:"laps_lead,omitempty"`
+	LapsComplete            int       `json:"laps_complete,omitempty"`
+	OptLapsComplete         int       `json:"opt_laps_complete,omitempty"`
+	Interval                int       `json:"interval,omitempty"`
+	ClassInterval           int       `json:"class_interval,omitempty"`
+	AverageLap              int       `json:"average_lap,omitempty"`
+	BestLapNum              int       `json:"best_lap_num,omitempty"`
+	BestLapTime             int       `json:"best_lap_time,omitempty"`
+	BestNlapsNum            int       `json:"best_nlaps_num,omitempty"`
+	BestNlapsTime           int       `json:"best_nlaps_time,omitempty"`
+	BestQualLapAt           time.Time `json:"best_qual_lap_at,omitempty"`
+	BestQualLapNum          int       `json:"best_qual_lap_num,omitempty"`
+	BestQualLapTime         int       `json:"best_qual_lap_time,omitempty"`
+	ReasonOutId             int       `json:"reason_out_id,omitempty"`
+	ReasonOut               string    `json:"reason_out,omitempty"`
+	ChampPoints             int       `json:"champ_points,omitempty"`
+	DropRace                bool      `json:"drop_race,omitempty"`
+	ClubPoints              int       `json:"club_points,omitempty"`
+	Position                int       `json:"position,omitempty"`
+	QualLapTime             int       `json:"qual_lap_time,omitempty"`
+	StartingPosition        int       `json:"starting_position,omitempty"`
+	StartingPositionInClass int       `json:"starting_position_in_class,omitempty"`
+	CarClassId              int       `json:"car_class_id,omitempty"`
+	ClubId                  int       `json:"club_id,omitempty"`
+	ClubName                string    `json:"club_name,omitempty"`
+	ClubShortName           string    `json:"club_short_name,omitempty"`
+	Division                int       `json:"division,omitempty"`
+	OldLicenseLevel         int       `json:"old_license_level,omitempty"`
+	OldSubLevel             int       `json:"old_sub_level,omitempty"`
+	OldCpi                  float32   `json:"old_cpi,omitempty"`
+	OldiRating              int       `json:"oldi_rating,omitempty"`
+	OldTtrating             int       `json:"old_ttrating,omitempty"`
+	NewLicenseLevel         int       `json:"new_license_level,omitempty"`
+	NewSubLevel             int       `json:"new_sub_level,omitempty"`
+	NewCpi                  float32   `json:"new_cpi,omitempty"`
+	NewiRating              int       `json:"newi_rating,omitempty"`
+	NewTtrating             int       `json:"new_ttrating,omitempty"`
+	Multiplier              int       `json:"multiplier,omitempty"`
+	LicenseChangeOval       int       `json:"license_change_oval,omitempty"`
+	LicenseChangeRoad       int       `json:"license_change_road,omitempty"`
+	Incidents               int       `json:"incidents,omitempty"`
+	MaxPctFuelFill          int       `json:"max_pct_fuel_fill,omitempty"`
+	WeightPenaltyKg         int       `json:"weight_penalty_kg,omitempty"`
+	LeaguePoints            int       `json:"league_points,omitempty"`
+	LeagueAggPoints         int       `json:"league_agg_points,omitempty"`
+	CarId                   int       `json:"car_id,omitempty"`
+	AggregateChampPoints    int       `json:"aggregate_champ_points,omitempty"`
+	EventAverageLap         int       `json:"event_average_lap,omitempty"`
+	Cautions                int       `json:"cautions,omitempty"`
+	CautionType             int       `json:"caution_type,omitempty"`
+	EndTime                 int       `json:"end_time,omitempty"`
+	FieldSize               int       `json:"field_size,omitempty"`
+	HasCautions             bool      `json:"has_cautions,omitempty"`
+	EventLapsComplete       int       `json:"event_laps_complete,omitempty"`
+	LeadChanges             int       `json:"lead_changes,omitempty"`
+	SeriesLogo              string    `json:"series_logo,omitempty"`
+	SeriesName              string    `json:"series_name,omitempty"`
+	StrengthOfField         int       `json:"event_strength_of_field,omitempty"`
+	Verified                bool      `json:"verified,omitempty"`
+	SeriesId                int       `json:"series_id,omitempty"`
+	Ai                      bool      `json:"ai,omitempty"`
+	SessionId               int       `json:"session_id,omitempty"`
+	SeasonId                int       `json:"season_id,omitempty"`
+	SeriesShortName         string    `json:"series_short_name,omitempty"`
+	SubsessionCount         int       `json:"subsession_count,omitempty"`
+	StartTime               int       `json:"start_time,omitempty"`
+	Track                   string    `json:"track,omitempty"`
+	CategoryId              int       `json:"category_id,omitempty"`
+	MinLicenseLevel         int       `json:"min_license_level,omitempty"`
 }
 
 type License struct {
@@ -152,7 +226,8 @@ type Series struct {
 }
 
 type Session struct {
-	SessionId       int    `json:"id,omitempty"`
+	Id              int    `json:"id,omitempty"`
+	SessionId       int    `json:"session_id,omitempty"`
 	SeasonId        int    `json:"season_id,omitempty"`
 	SeriesId        int    `json:"series_id,omitempty"`
 	SeriesLogo      string `json:"series_logo,omitempty"`
@@ -166,18 +241,19 @@ type Session struct {
 }
 
 type Subsession struct {
-	AverageLap      int    `json:"average_lap,omitempty"`
+	AverageLap      int    `json:"event_average_lap,omitempty"`
 	Cautions        int    `json:"cautions,omitempty"`
 	CautionType     int    `json:"caution_type,omitempty"`
 	EndTime         int    `json:"end_time,omitempty"`
 	FieldSize       int    `json:"field_size,omitempty"`
 	HasCautions     bool   `json:"has_cautions,omitempty"`
 	Id              int    `json:"id,omitempty"`
-	LapsComplete    int    `json:"laps_complete,omitempty"`
+	SubsessionId    int    `json:"subsession_id,omitempty"`
+	LapsComplete    int    `json:"event_laps_complete,omitempty"`
 	LeadChanges     int    `json:"lead_changes,omitempty"`
 	SeriesLogo      string `json:"series_logo,omitempty"`
 	SeriesName      string `json:"series_name,omitempty"`
-	StrengthOfField int    `json:"strength_of_field,omitempty"`
+	StrengthOfField int    `json:"event_strength_of_field,omitempty"`
 	Verified        bool   `json:"verified,omitempty"`
 	SeriesId        int    `json:"series_id,omitempty"`
 }

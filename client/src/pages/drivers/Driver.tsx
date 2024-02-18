@@ -4,7 +4,7 @@ import {useEffect, useState} from "react";
 import Container from "@mui/material/Container";
 import "./Driver.css"
 import DriverInfo, {InfoProps} from "./panels/Info.tsx";
-import {DriverSummary, DefaultDriverSummary, DriverData, DefaultDriverData} from "../../models/DriverTypes.ts";
+import {DriverSummary, DefaultDriverSummary, DriverData, DefaultDriverData} from "../../models/driver/Driver.ts";
 import SideMenu from "../../components/navigation/SideMenu.tsx";
 import Box from "@mui/material/Box";
 import DriverRaces from "./panels/Races.tsx";
@@ -62,9 +62,9 @@ export default function Driver() {
 
         if (users.length > 0) setUser(users[0])
         if (!data_loading) {
-            setTrackStats(TrackStats(driver_data.results))
-            setCarStats(CarStats(driver_data.results))
-            setSeriesStats(SeriesStats(driver_data.results))
+            setTrackStats(TrackStats(driver_data.races))
+            setCarStats(CarStats(driver_data.races))
+            setSeriesStats(SeriesStats(driver_data.races))
         }
 
         console.log("users: ", users)
@@ -129,7 +129,7 @@ function Tabs(props: TabProps) {
             return <DriverSeries stats={props.seriesStats} loading={props.data_loading}/>
         }
         case 2: {
-            return <DriverRaces results={props.driver_data.results} loading={props.data_loading} />
+            return <DriverRaces results={props.driver_data.races} loading={props.data_loading} />
         }
         case 3: {
             return <DriverTracks stats={props.trackStats} loading={props.data_loading} />

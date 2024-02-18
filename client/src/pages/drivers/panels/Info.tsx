@@ -15,7 +15,7 @@ import DataRange from "../../../functions/datetime/DataRange.ts";
 import InfoIcon from "@mui/icons-material/Info";
 import TrophyCabinet from "../TrophyCabinet.tsx";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import {DriverSummary, DriverLicenses, DriverData} from "../../../models/DriverTypes.ts";
+import {DriverSummary, DriverData} from "../../../models/driver/Driver.ts";
 import ClubLogo from "../../../components/images/ClubLogo.tsx";
 import RatingBadge from "../../../components/data/RatingBadge.tsx";
 import ElapsedTime from "../../../functions/datetime/ElapsedTime.ts";
@@ -23,6 +23,7 @@ import Percentage from "../../../functions/strings/Percentage.ts";
 import StatCard from "../../../components/data/StatCard.tsx";
 import {SyntheticEvent, useState} from "react";
 import FormatCompactNumber from "../../../functions/numbers/FormatCompactNumber.ts";
+import {DriverLicenses} from "../../../models/driver/License.ts";
 
 export type InfoProps = {
     user: DriverSummary,
@@ -31,7 +32,7 @@ export type InfoProps = {
     data_loading: boolean,
 }
 
-export default function UserInfo(props: InfoProps) {
+export default function DriverInfo(props: InfoProps) {
 
 
     const [expanded, setExpanded] = useState<string | false>('info');
@@ -40,7 +41,6 @@ export default function UserInfo(props: InfoProps) {
         (panel: string) => (_event: SyntheticEvent, isExpanded: boolean) => {
             setExpanded(isExpanded ? panel : false);
         };
-
 
     return <>
 
@@ -64,7 +64,7 @@ export default function UserInfo(props: InfoProps) {
                             Race Stats
                         </Typography>
 
-                        <RaceStats results={props.driver_data.results} loading={props.data_loading}/>
+                        <RaceStats results={props.driver_data.races} loading={props.data_loading}/>
                     </Paper>
 
                     <Paper className={"stat-border driving-stats"} sx={{ p: 1 }}>
@@ -73,7 +73,7 @@ export default function UserInfo(props: InfoProps) {
                             Driving Stats
                         </Typography>
 
-                        <DrivingStats results={props.driver_data.results} loading={props.data_loading}/>
+                        <DrivingStats results={props.driver_data.races} loading={props.data_loading}/>
                     </Paper>
 
                 </Stack>
@@ -124,7 +124,7 @@ export default function UserInfo(props: InfoProps) {
                 </AccordionSummary>
 
                 <AccordionDetails>
-                    <RaceStats results={props.driver_data.results} loading={props.data_loading}/>
+                    <RaceStats results={props.driver_data.races} loading={props.data_loading}/>
                 </AccordionDetails>
             </Accordion>
 
@@ -138,7 +138,7 @@ export default function UserInfo(props: InfoProps) {
                 </AccordionSummary>
 
                 <AccordionDetails>
-                    <DrivingStats results={props.driver_data.results} loading={props.data_loading}/>
+                    <DrivingStats results={props.driver_data.races} loading={props.data_loading}/>
                 </AccordionDetails>
             </Accordion>
 

@@ -3,7 +3,7 @@ import {Link} from "react-router-dom";
 import SeriesLogo from "../../components/images/SeriesLogo.tsx";
 import useIsMobile from "../../hooks/useIsMobile.ts";
 import {Result} from "../../models/Result.ts";
-import {DriverData} from "../../models/DriverTypes.ts";
+import {DriverData} from "../../models/driver/Driver.ts";
 
 type SeriesTrophies = {
     id: number,
@@ -78,7 +78,7 @@ export default function TrophyCabinet(props: {loading: boolean, driverData: Driv
 
     // console.log('trophy cabinet')
 
-    const [trophies, totals] = FilterPodiums(props.driverData.results)
+    const [trophies, totals] = FilterPodiums(props.driverData.races)
 
     const isMobile = useIsMobile()
 

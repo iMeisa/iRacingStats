@@ -1,4 +1,5 @@
 export type Subsession = {
+    id: number,
     end_time: number,
     event_average_lap: number,
     event_laps_complete: number,
@@ -13,4 +14,22 @@ export type Subsession = {
     session_id: number,
     subsession_id: number,
     verified: boolean,
+}
+
+export const DefaultSubsession = {
+    id: 0,
+    end_time: 0,
+    event_average_lap: 0,
+    event_laps_complete: 0,
+    event_strength_of_field: 0,
+    heat_info_id: 0,
+    num_caution_laps: 0,
+    num_cautions: 0,
+    num_laps_for_qual_average: 0,
+    num_laps_for_solo_average: 0,
+    num_lead_changes: 0,
+    private_session_id: 0,
+    session_id: 0,
+    subsession_id: 0,
+    verified: false,
 }

@@ -1,24 +1,12 @@
-import {Car} from "./Car.ts";
-import {Series} from "./Series.ts";
-import {DefaultResult, Result} from "./Result.ts";
-import {Track} from "./Track.ts";
-
-type License = {
-    level: number,
-    sub_level: number,
-    irating: number,
-}
-
-export type DriverLicenses = {
-    oval: License,
-    road: License,
-    dirt_oval: License,
-    dirt_road: License,
-}
+import {Car} from "../Car.ts";
+import {Series} from "../Series.ts";
+import {Track} from "../Track.ts";
+import {DefaultDriverRace, DriverRace} from "./Result.ts";
+import {DefaultLicense, DriverLicenses} from "./License.ts";
 
 export type DriverData = {
     cars: Car[]
-    results: Result[]
+    races: DriverRace[]
     series: Series[]
     tracks: Track[]
 }
@@ -32,18 +20,10 @@ export type DriverSummary = {
     licenses: DriverLicenses
 }
 
-
 // Defaults
-
-const DefaultLicense: License = {
-    level: 2,
-    sub_level: 250,
-    irating: 1350,
-}
-
 export const DefaultDriverData: DriverData = {
     cars: [],
-    results: [DefaultResult],
+    races: [DefaultDriverRace],
     series: [],
     tracks: [],
 }

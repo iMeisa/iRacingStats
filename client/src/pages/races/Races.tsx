@@ -1,14 +1,15 @@
-import {useEffect, useState} from "react";
 import {GridColDef, GridRenderCellParams,} from '@mui/x-data-grid';
 import './Races.css'
 import {Tooltip} from "@mui/material";
-import CurrentUrl from "../../variables/Url.ts";
 import {Link} from "react-router-dom";
 import CategoryLogo from "../../functions/img/CategoryLogo.tsx";
 import SeriesLogo from "../../components/images/SeriesLogo.tsx";
 import Container from "@mui/material/Container";
 import StatsGrid from "../../components/data/grid/StatsGrid.tsx";
 import Typography from "@mui/material/Typography";
+import {UnixToTime} from "../../functions/datetime/UnixToDate.ts";
+import useFetchArray from "../../hooks/useFetchArray.ts";
+import {Session} from "../../models/Session.ts";
 
 const columns: GridColDef[] = [
     {
@@ -58,14 +59,21 @@ const columns: GridColDef[] = [
         headerAlign: 'center',
         type: 'number'
     },
-    { field: 'end_time', headerName: '', hideable: true, filterable: false },
     {
-        field: 'end_time_formatted',
-        headerName: 'End Time',
-        width: 115,
+        field: 'start_time',
+        headerName: 'Start Time',
         headerAlign: 'center',
-        align: 'center',
-        filterable: false
+        hideable: true,
+        filterable: false,
+        renderCell: params => UnixToTime(params.value)
+    },
+    {
+        field: 'end_time',
+        headerName: 'End Time',
+        headerAlign: 'center',
+        hideable: true,
+        filterable: false,
+        renderCell: params => UnixToTime(params.value)
     },
     { field: 'track', headerName: 'Track', flex: 1, minWidth: 200 },
 ];
@@ -74,44 +82,12 @@ const columns: GridColDef[] = [
 
 export default function Races() {
 
-    const emptyRows: Record<string, unknown>[] = []
-    const [rows, setRows] = useState(emptyRows);
-
-    const [loading, setLoading] = useState(true)
+    const [rows, loading] = useFetchArray<Session>('/api/sessions');
 
     // Column defaults
     columns.map((col) => {
         col.hideSortIcons = true
-        // col.sortable = false
-        // col.headerClassName = 'data-header'
     })
-
-    // Fetch sessions
-    useEffect(() => {
-
-        setLoading(true)
-        const url = `${CurrentUrl()}/api/sessions`
-        // console.log(url)
-        fetch(url)
-            .then((response) => response.json())
-            .then((data: Record<string, unknown>[]) => {
-                console.log(data)
-
-                // Data formatting here
-                data.map(function (obj: Record<string, unknown>): Record<string, unknown> {
-
-                    // Format time to JS datetime
-                    const start_date = new Date( obj['end_time'] as number * 1000 )
-                    obj['end_time_formatted'] = start_date.toLocaleTimeString()
-
-                    return obj
-                })
-
-                setRows(data)
-
-                setLoading(false)
-            })
-    }, [])
 
     return (
         <>
@@ -127,12 +103,6 @@ export default function Races() {
                         sorting: {
                             sortModel: [{field: 'end_time', sort: 'desc'}],
                         },
-
-                        columns: {
-                            columnVisibilityModel: {
-                                end_time: false
-                            }
-                        }
                     }}
                 />
             </Container>

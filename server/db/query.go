@@ -495,6 +495,7 @@ func (d *DB) sessions(where string, recent bool, limit int) []models.Session {
 			session.Track += " - " + trackConfig
 		}
 
+		session.Id = session.SessionId
 		sessions = append(sessions, session)
 	}
 

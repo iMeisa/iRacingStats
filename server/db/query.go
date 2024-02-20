@@ -44,6 +44,51 @@ func (d *DB) LatestSubsessionTime() int {
 	return latestTime
 }
 
+// ContentCache queries cache and hash of tables
+func (d *DB) ContentCache(contentName string) models.ContentCache {
+	ctx, cancel := getContext()
+	defer cancel()
+
+	statement := `
+		SELECT content_type, data, hash
+		FROM content_cache
+		WHERE content_type = $1
+	`
+
+	row := d.SQL.QueryRowContext(ctx, statement, contentName)
+
+	var cache models.ContentCache
+	err := row.Scan(&cache.ContentName, &cache.Data, &cache.Hash)
+	if err != nil {
+		log.Println("error scanning content_cache: ", err)
+		return models.ContentCache{}
+	}
+
+	return cache
+}
+
+// ContentCacheHash return hash of content cache
+func (d *DB) ContentCacheHash(contentName string) string {
+	ctx, cancel := getContext()
+	defer cancel()
+
+	statement := `
+		SELECT hash
+		FROM content_cache
+		WHERE content_type = $1
+	`
+
+	row := d.SQL.QueryRowContext(ctx, statement, contentName)
+
+	var hash string
+	err := row.Scan(&hash)
+	if err != nil {
+		log.Println("error scanning content_cache hash: ", err)
+	}
+
+	return hash
+}
+
 // driverCache returns cached data for driver
 // returns Result model slice, if cache needs to be updated, latest subsession, earliest subsession
 func (d *DB) driverCache(custId int) ([]models.DriverRace, bool, int, int) {

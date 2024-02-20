@@ -50,6 +50,12 @@ type Car struct {
 	GalleryImages           string              `json:"gallery_images,omitempty"`
 }
 
+type ContentCache struct {
+	ContentName string `json:"content_name"`
+	Data        string `json:"data"`
+	Hash        string `json:"hash"`
+}
+
 type DriverRace struct {
 	ResultId                int       `json:"id,omitempty"`
 	SubsessionId            int       `json:"subsession_id,omitempty"`

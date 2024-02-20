@@ -10,6 +10,7 @@ import Typography from "@mui/material/Typography";
 import {UnixToTime} from "../../functions/datetime/UnixToDate.ts";
 import useFetchArray from "../../hooks/useFetchArray.ts";
 import {Session} from "../../models/Session.ts";
+import ContentCache from "../../hooks/ContentCache.ts";
 
 const columns: GridColDef[] = [
     {
@@ -83,6 +84,9 @@ const columns: GridColDef[] = [
 export default function Races() {
 
     const [rows, loading] = useFetchArray<Session>('/api/sessions');
+    const series = ContentCache('series')
+
+    console.log(series)
 
     // Column defaults
     columns.map((col) => {

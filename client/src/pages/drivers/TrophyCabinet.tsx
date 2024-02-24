@@ -4,6 +4,7 @@ import SeriesLogo from "../../components/images/SeriesLogo.tsx";
 import useIsMobile from "../../hooks/useIsMobile.ts";
 import {Result} from "../../models/Result.ts";
 import {DriverData} from "../../models/driver/Driver.ts";
+import {DriverRace} from "../../models/driver/Race.ts";
 
 type SeriesTrophies = {
     id: number,
@@ -74,11 +75,11 @@ function SortTrophies(trophies: SeriesTrophies[]): SeriesTrophies[] {
     return trophies
 }
 
-export default function TrophyCabinet(props: {loading: boolean, driverData: DriverData}) {
+export default function TrophyCabinet(props: {loading: boolean, driverRaces: DriverRace[]}) {
 
     // console.log('trophy cabinet')
 
-    const [trophies, totals] = FilterPodiums(props.driverData.races)
+    const [trophies, totals] = FilterPodiums(props.driverRaces)
 
     const isMobile = useIsMobile()
 

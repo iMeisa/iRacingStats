@@ -1,7 +1,7 @@
 import {Car} from "../Car.ts";
 import {Series} from "../Series.ts";
 import {Track} from "../Track.ts";
-import {DefaultDriverRace, DriverRace} from "./Result.ts";
+import {DefaultDriverRace, DriverRace} from "./Race.ts";
 import {DefaultLicense, DriverLicenses} from "./License.ts";
 
 export type DriverData = {

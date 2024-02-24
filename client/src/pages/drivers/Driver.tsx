@@ -4,7 +4,7 @@ import {useEffect, useState} from "react";
 import Container from "@mui/material/Container";
 import "./Driver.css"
 import DriverInfo, {InfoProps} from "./panels/Info.tsx";
-import {DriverSummary, DefaultDriverSummary, DriverData, DefaultDriverData} from "../../models/driver/Driver.ts";
+import {DriverSummary, DefaultDriverSummary} from "../../models/driver/Driver.ts";
 import SideMenu from "../../components/navigation/SideMenu.tsx";
 import Box from "@mui/material/Box";
 import DriverRaces from "./panels/Races.tsx";
@@ -16,7 +16,7 @@ import DriverCars from "./panels/Cars.tsx";
 import useTabState from "../../hooks/useTabState.ts";
 import SeriesStats from "./stats/SeriesStats.ts";
 import DriverSeries from "./panels/Series.tsx";
-import useFetchObject from "../../hooks/useFetchObject.ts";
+import {DriverRace} from "../../models/driver/Race.ts";
 
 const panels = ['info', 'series', 'races', 'tracks', 'cars']
 
@@ -25,14 +25,9 @@ export default function Driver() {
 
     const [user, setUser] = useState(DefaultDriverSummary)
 
-    const [users, loading] = useFetchArray<DriverSummary>(`/api/driver?cust_id=${id}`,
-        (obj) => {
-            // obj['id'] = obj['cust_id']
-            return obj
-        }
-    )
+    const [users, loading] = useFetchArray<DriverSummary>(`/api/driver?cust_id=${id}`)
 
-    const [driver_data, data_loading] = useFetchObject<DriverData>(DefaultDriverData, `/api/driver_data?id=${id}`,
+    const [driver_races, races_loading] = useFetchArray<DriverRace>(`/api/driver_races?id=${id}`,
         // (obj) => {
 
             // obj['valid_race'] = (obj['field_size'] as number) >= 4 && (obj['event_laps_complete'] as number) >= 2
@@ -61,15 +56,15 @@ export default function Driver() {
     useEffect(() => {
 
         if (users.length > 0) setUser(users[0])
-        if (!data_loading) {
-            setTrackStats(TrackStats(driver_data.races))
-            setCarStats(CarStats(driver_data.races))
-            setSeriesStats(SeriesStats(driver_data.races))
+        if (!races_loading) {
+            setTrackStats(TrackStats(driver_races))
+            setCarStats(CarStats(driver_races))
+            setSeriesStats(SeriesStats(driver_races))
         }
 
         console.log("users: ", users)
-        console.log("results: ", driver_data)
-    }, [users, driver_data, data_loading]);
+        console.log("results: ", driver_races)
+    }, [users, driver_races, races_loading]);
 
     return <>
         {/*Desktop*/}
@@ -83,8 +78,8 @@ export default function Driver() {
                         tab={tab}
                         user={user}
                         loading={loading}
-                        driver_data={driver_data}
-                        data_loading={data_loading}
+                        driver_races={driver_races}
+                        data_loading={races_loading}
                         trackStats={trackStats}
                         carStats={carStats}
                         seriesStats={seriesStats}
@@ -100,8 +95,8 @@ export default function Driver() {
                 tab={tab}
                 user={user}
                 loading={loading}
-                driver_data={driver_data}
-                data_loading={data_loading}
+                driver_races={driver_races}
+                data_loading={races_loading}
                 trackStats={trackStats}
                 carStats={carStats}
                 seriesStats={seriesStats}
@@ -123,13 +118,13 @@ function Tabs(props: TabProps) {
     // console.log(props.tab)
     switch (props.tab) {
         case 0: {
-            return <DriverInfo user={props.user} loading={props.loading} driver_data={props.driver_data} data_loading={props.data_loading}/>
+            return <DriverInfo user={props.user} loading={props.loading} driver_races={props.driver_races} data_loading={props.data_loading}/>
         }
         case 1: {
             return <DriverSeries stats={props.seriesStats} loading={props.data_loading}/>
         }
         case 2: {
-            return <DriverRaces results={props.driver_data.races} loading={props.data_loading} />
+            return <DriverRaces results={props.driver_races} loading={props.data_loading} />
         }
         case 3: {
             return <DriverTracks stats={props.trackStats} loading={props.data_loading} />

@@ -15,7 +15,7 @@ import DataRange from "../../../functions/datetime/DataRange.ts";
 import InfoIcon from "@mui/icons-material/Info";
 import TrophyCabinet from "../TrophyCabinet.tsx";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import {DriverSummary, DriverData} from "../../../models/driver/Driver.ts";
+import {DriverSummary} from "../../../models/driver/Driver.ts";
 import ClubLogo from "../../../components/images/ClubLogo.tsx";
 import RatingBadge from "../../../components/data/RatingBadge.tsx";
 import ElapsedTime from "../../../functions/datetime/ElapsedTime.ts";
@@ -24,11 +24,12 @@ import StatCard from "../../../components/data/StatCard.tsx";
 import {SyntheticEvent, useState} from "react";
 import FormatCompactNumber from "../../../functions/numbers/FormatCompactNumber.ts";
 import {DriverLicenses} from "../../../models/driver/License.ts";
+import {DriverRace} from "../../../models/driver/Race.ts";
 
 export type InfoProps = {
     user: DriverSummary,
     loading: boolean,
-    driver_data: DriverData,
+    driver_races: DriverRace[],
     data_loading: boolean,
 }
 
@@ -64,7 +65,7 @@ export default function DriverInfo(props: InfoProps) {
                             Race Stats
                         </Typography>
 
-                        <RaceStats results={props.driver_data.races} loading={props.data_loading}/>
+                        <RaceStats results={props.driver_races} loading={props.data_loading}/>
                     </Paper>
 
                     <Paper className={"stat-border driving-stats"} sx={{ p: 1 }}>
@@ -73,7 +74,7 @@ export default function DriverInfo(props: InfoProps) {
                             Driving Stats
                         </Typography>
 
-                        <DrivingStats results={props.driver_data.races} loading={props.data_loading}/>
+                        <DrivingStats results={props.driver_races} loading={props.data_loading}/>
                     </Paper>
 
                 </Stack>
@@ -92,7 +93,7 @@ export default function DriverInfo(props: InfoProps) {
                     </Tooltip>
                 </Stack>
                 <Box className={"stat-border trophies"} >
-                    <TrophyCabinet loading={props.data_loading} driverData={props.driver_data}/>
+                    <TrophyCabinet loading={props.data_loading} driverRaces={props.driver_races}/>
                 </Box>
             </Grid>
         </Grid>
@@ -124,7 +125,7 @@ export default function DriverInfo(props: InfoProps) {
                 </AccordionSummary>
 
                 <AccordionDetails>
-                    <RaceStats results={props.driver_data.races} loading={props.data_loading}/>
+                    <RaceStats results={props.driver_races} loading={props.data_loading}/>
                 </AccordionDetails>
             </Accordion>
 
@@ -138,7 +139,7 @@ export default function DriverInfo(props: InfoProps) {
                 </AccordionSummary>
 
                 <AccordionDetails>
-                    <DrivingStats results={props.driver_data.races} loading={props.data_loading}/>
+                    <DrivingStats results={props.driver_races} loading={props.data_loading}/>
                 </AccordionDetails>
             </Accordion>
 
@@ -153,7 +154,7 @@ export default function DriverInfo(props: InfoProps) {
 
                 <AccordionDetails>
                     <Box m={-1.5}>
-                        <TrophyCabinet loading={props.data_loading} driverData={props.driver_data} />
+                        <TrophyCabinet loading={props.data_loading} driverRaces={props.driver_races} />
                     </Box>
                 </AccordionDetails>
             </Accordion>

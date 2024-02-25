@@ -67,26 +67,33 @@ func (d *DB) ContentCache(contentName string) models.ContentCache {
 	return cache
 }
 
-// ContentCacheHash return hash of content cache
-func (d *DB) ContentCacheHash(contentName string) string {
+// CacheHashes return hashes of content cache
+func (d *DB) CacheHashes() []models.ContentCache {
 	ctx, cancel := getContext()
 	defer cancel()
 
 	statement := `
-		SELECT hash
+		SELECT content_type, hash
 		FROM content_cache
-		WHERE content_type = $1
 	`
 
-	row := d.SQL.QueryRowContext(ctx, statement, contentName)
-
-	var hash string
-	err := row.Scan(&hash)
+	rows, err := d.SQL.QueryContext(ctx, statement)
 	if err != nil {
-		log.Println("error scanning content_cache hash: ", err)
+		log.Println("error querying hashes: ", err)
 	}
 
-	return hash
+	var hashes []models.ContentCache
+	for rows.Next() {
+		var cache models.ContentCache
+		err = rows.Scan(&cache.ContentName, &cache.Hash)
+		if err != nil {
+			log.Println("error scanning content_cache hash: ", err)
+		}
+
+		hashes = append(hashes, cache)
+	}
+
+	return hashes
 }
 
 // driverCache returns cached data for driver
@@ -650,7 +657,7 @@ func (d *DB) Users(name string) []map[string]any {
 	return customers
 }
 
-func (d *DB) DriverInfo(id int) []models.User {
+func (d *DB) DriverInfo(id int) models.User {
 	ctx, cancel := getContext()
 	defer cancel()
 
@@ -680,7 +687,6 @@ func (d *DB) DriverInfo(id int) []models.User {
 
 	row := d.SQL.QueryRowContext(ctx, statement, id)
 
-	var users []models.User
 	var user models.User
 	err := row.Scan(
 		&user.Id,
@@ -705,9 +711,7 @@ func (d *DB) DriverInfo(id int) []models.User {
 		log.Println("error scanning users:", err)
 	}
 
-	users = append(users, user)
-
-	return users
+	return user
 }
 
 // uncachedDriverRaces updates the cache for given customer and returns rows affected
@@ -750,6 +754,7 @@ func (d *DB) uncachedDriverRaces(custId, maxSubsession, minSubsession int) []mod
 			   s.license_category_id,
 			   s.season_id,
 			   s.start_time,
+			   se.series_id,
 			   ss.event_strength_of_field,
 			   ss.event_laps_complete,
 			   ss.end_time,
@@ -757,8 +762,8 @@ func (d *DB) uncachedDriverRaces(custId, maxSubsession, minSubsession int) []mod
 			FROM results r
 			JOIN subsessions ss USING (subsession_id)
 			JOIN sessions s USING (session_id)
-	-- 			JOIN seasons se USING (season_id)
-	-- 			JOIN series sr USING (series_id)
+			JOIN seasons se USING (season_id)
+-- 			JOIN series sr USING (series_id)
 	-- 			JOIN cars c USING (car_id)
 	-- 			JOIN tracks t USING (track_id)
 			WHERE cust_id = $1 AND simsession_number=0
@@ -793,6 +798,7 @@ func (d *DB) uncachedDriverRaces(custId, maxSubsession, minSubsession int) []mod
 			&driverRace.CategoryId,
 			&driverRace.SeasonId,
 			&driverRace.StartTime,
+			&driverRace.SeriesId,
 			&driverRace.StrengthOfField,
 			&driverRace.LapsComplete,
 			&driverRace.EndTime,

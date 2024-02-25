@@ -1,14 +1,12 @@
 export type ContentCacheModel = {
-    content_type: string,
-    data: Record<string, unknown>[],
-    dataById: Record<number, Record<string, unknown>>
+    content_name: string,
+    data: string,
     hash: string,
 }
 
-export const DefaultContentCacheModel = {
-    content_type: '',
-    data: [{'': ''}],
-    dataById: {0: {'':''}},
+export const DefaultContentCacheModel: ContentCacheModel = {
+    content_name: '',
+    data: '',
     hash: '',
 }
 

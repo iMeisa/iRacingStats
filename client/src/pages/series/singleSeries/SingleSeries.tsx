@@ -1,7 +1,7 @@
 import {useParams} from "react-router-dom";
 import useFetchArray from "../../../hooks/useFetchArray.ts";
 import {useEffect, useState} from "react";
-import {Series as SeriesModel, SeriesDefault} from "../../../models/Series.ts";
+import {Series as SeriesModel, DefaultSeries} from "../../../models/Series.ts";
 import Grid from "@mui/material/Unstable_Grid2";
 import SideMenu from "../../../components/navigation/SideMenu.tsx";
 import Info from "./panels/Info.tsx";
@@ -17,7 +17,7 @@ export default function SingleSeries() {
 
     const [seriess, loading] = useFetchArray<SeriesModel>(`/api/series?id=${id}`)
 
-    const [series, setSeries] = useState(SeriesDefault)
+    const [series, setSeries] = useState(DefaultSeries)
 
     const [tab, setTab] = useTabState(panels)
 

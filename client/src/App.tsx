@@ -8,9 +8,25 @@ import CssBaseline from '@mui/material/CssBaseline';
 import Routes from './components/navigation/Routes.tsx';
 import Footer from "./components/navigation/Footer.tsx";
 import usePageHit from "./hooks/usePageHit.ts"
+import UpdateContentCache from "./cache/UpdateContentCache.ts";
+import {useEffect, useRef, useState} from "react";
+import LoadingScreen from "./components/loading/LoadingScreen.tsx";
 
 
 function App() {
+
+    const [loading, setLoading] = useState(true)
+
+    // On first render
+    const isFirstRender = useRef<any>(true)
+    useEffect(() => {
+        if (isFirstRender.current) isFirstRender.current = false
+        else return
+
+        // Anything on first render here
+        UpdateContentCache().then(() => setLoading(false))
+
+    }, []);
 
     const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)');
 
@@ -28,12 +44,18 @@ function App() {
 
     return (
         <>
-            <ThemeProvider theme={theme}>
-                <ResponsiveAppBar />
-                <CssBaseline />
-                <Routes />
-                <Footer />
-            </ThemeProvider>
+            {
+                loading ?
+                    <LoadingScreen/>
+                    :
+                    <ThemeProvider theme={theme}>
+                        <ResponsiveAppBar />
+                        <CssBaseline />
+                        <Routes />
+                        <Footer />
+                    </ThemeProvider>
+
+            }
         </>
     )
 }

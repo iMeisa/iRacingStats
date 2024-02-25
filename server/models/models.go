@@ -52,7 +52,7 @@ type Car struct {
 
 type ContentCache struct {
 	ContentName string `json:"content_name"`
-	Data        string `json:"data"`
+	Data        string `json:"data,omitempty"`
 	Hash        string `json:"hash"`
 }
 

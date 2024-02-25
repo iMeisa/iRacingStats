@@ -27,9 +27,8 @@ func (a *Api) Get(ctx *fiber.Ctx) error {
 	case "content_cache":
 		query = a.DB.ContentCache(ctx.Query("content_name"))
 
-	case "content_cache_hash":
-		hash := a.DB.ContentCacheHash(ctx.Query("content_name"))
-		return ctx.SendString(hash)
+	case "cache_hashes":
+		query = a.DB.CacheHashes()
 
 	case "count":
 		query = a.DB.QueryCount(ctx.Query("table"))

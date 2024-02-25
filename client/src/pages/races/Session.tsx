@@ -37,7 +37,7 @@ const columns: GridColDef[] = [
         width: 20
     },
     {
-        field: 'strength_of_field',
+        field: 'event_strength_of_field',
         headerName: 'SOF',
         flex: 1,
         headerAlign: 'center',
@@ -124,7 +124,7 @@ export default function Session() {
 
                     // Tenths of milliseconds to elapsed time
                     const date = new Date(0)
-                    date.setMilliseconds(obj['average_lap'] as number / 10)
+                    date.setMilliseconds(obj['event_average_lap'] as number / 10)
                     obj['average_lap'] = date.toISOString().substring(14, 23)
 
                     return obj

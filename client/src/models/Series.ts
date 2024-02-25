@@ -21,7 +21,7 @@ export type Series = {
     track: string,
 }
 
-export const SeriesDefault: Series = {
+export const DefaultSeries: Series = {
     id: 0,
     name: '',
     logo: '',

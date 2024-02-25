@@ -2,8 +2,6 @@ import {CircularProgress, Paper, Table, TableBody, TableCell, TableContainer, Ta
 import {Link} from "react-router-dom";
 import SeriesLogo from "../../components/images/SeriesLogo.tsx";
 import useIsMobile from "../../hooks/useIsMobile.ts";
-import {Result} from "../../models/Result.ts";
-import {DriverData} from "../../models/driver/Driver.ts";
 import {DriverRace} from "../../models/driver/Race.ts";
 
 type SeriesTrophies = {
@@ -15,15 +13,15 @@ type SeriesTrophies = {
     bronzes: number,
 }
 
-function FilterPodiums(results: Result[]): [SeriesTrophies[], SeriesTrophies] {
+function FilterPodiums(results: DriverRace[]): [SeriesTrophies[], SeriesTrophies] {
     let trophies: SeriesTrophies[] = []
     let totals: SeriesTrophies = { id: 0, series: '', logo: '', golds: 0, silvers: 0, bronzes: 0 }
 
     let podiums: Record<number, SeriesTrophies> = {}
 
-    results.map((result: Result) => {
+    results.map((result: DriverRace) => {
 
-        if (!(result['valid_race'] as boolean)) return
+        if (!result.valid_race) return
 
         const series_id = result['series_id'] as number
         const position = result['finish_position_in_class'] as number

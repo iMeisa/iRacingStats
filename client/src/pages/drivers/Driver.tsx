@@ -16,35 +16,39 @@ import DriverCars from "./panels/Cars.tsx";
 import useTabState from "../../hooks/useTabState.ts";
 import SeriesStats from "./stats/SeriesStats.ts";
 import DriverSeries from "./panels/Series.tsx";
-import {DriverRace} from "../../models/driver/Race.ts";
+import {DefaultDriverRace, DriverRace} from "../../models/driver/Race.ts";
+import useFetchObject from "../../hooks/useFetchObject.ts";
+import FillDriverRaceData from "../../functions/driver/FillDriverRaceData.ts";
 
 const panels = ['info', 'series', 'races', 'tracks', 'cars']
 
 export default function Driver() {
     const {id} = useParams()
 
-    const [user, setUser] = useState(DefaultDriverSummary)
+    console.log('default', DefaultDriverRace)
 
-    const [users, loading] = useFetchArray<DriverSummary>(`/api/driver?cust_id=${id}`)
+    const [user, loading] = useFetchObject<DriverSummary>(DefaultDriverSummary, `/api/driver?cust_id=${id}`)
 
-    const [driver_races, races_loading] = useFetchArray<DriverRace>(`/api/driver_races?id=${id}`,
-        // (obj) => {
+    let [driver_races, races_loading] = useFetchArray<DriverRace>(`/api/driver_races?id=${id}`,
+        (race) => {
 
-            // obj['valid_race'] = (obj['field_size'] as number) >= 4 && (obj['event_laps_complete'] as number) >= 2
-            //
-            // obj['id'] = obj['result_id']
-            // obj['dnf'] = obj['reason_out_id'] !== 0
-            //
-            // obj['sr_change'] = ((obj['new_sub_level'] as number) - (obj['old_sub_level'] as number)) / 100
-            // obj['ir_change'] = (obj['newi_rating'] as number) - (obj['oldi_rating'] as number)
-            //
-            // let track = obj['track_name']
-            // const track_config = obj['config_name']
+            // race.car_id = 1
+
+            race.valid_race = race.field_size >= 4 && race.event_laps_complete >= 2
+
+            // race['id'] = race['result_id']
+            race.dnf = race.reason_out_id !== 0
+
+            race.sr_change = (race.new_sub_level - race.old_sub_level) / 100
+            race.ir_change = race.newi_rating - race.oldi_rating
+
+            // let track = race['track_name']
+            // const track_config = race['config_name']
             // if (track_config !== '') track += " - " + track_config
-            // obj['track'] = track
+            // race['track'] = track
 
-            // return obj
-        // }
+            return race
+        }
     )
 
     const [trackStats, setTrackStats] = useState([] as Record<string, unknown>[])
@@ -55,16 +59,16 @@ export default function Driver() {
 
     useEffect(() => {
 
-        if (users.length > 0) setUser(users[0])
         if (!races_loading) {
             setTrackStats(TrackStats(driver_races))
             setCarStats(CarStats(driver_races))
             setSeriesStats(SeriesStats(driver_races))
         }
 
-        console.log("users: ", users)
+        console.log("user: ", user)
         console.log("results: ", driver_races)
-    }, [users, driver_races, races_loading]);
+        // driver_races = FillDriverRaceData(driver_races)
+    }, [user, driver_races, races_loading]);
 
     return <>
         {/*Desktop*/}

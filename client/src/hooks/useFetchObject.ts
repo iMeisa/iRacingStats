@@ -21,8 +21,7 @@ export default function useFetchObject<Type = Record<string, unknown>>(typeDefau
                 // Data formatting here
                 dataFormat(data)
 
-                // Spreading the data to overwrite defaults for no empty data
-                setObject({...typeDefault, ...data})
+                setObject(data)
                 setLoading(false)
             })
     }, [])

@@ -1,0 +1,17 @@
+img {
+    animation-duration: 2s;
+    animation-iteration-count: infinite;
+}
+.bounce {
+    animation-name: bounce;
+    animation-timing-function: cubic-bezier(0.575, 0.285, 0.32, 1.275)
+}
+@keyframes bounce {
+    0%   { transform: scale(1,1)      translateY(0); }
+    10%  { transform: scale(1.1,.9)   translateY(20px); }
+    30%  { transform: scale(.9,1.1)   translateY(-100px); }
+    50%  { transform: scale(1.05,.95) translateY(10px); }
+    57%  { transform: scale(1,1)      translateY(-7px); }
+    64%  { transform: scale(1,1)      translateY(0); }
+    100% { transform: scale(1,1)      translateY(0); }
+}

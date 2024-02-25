@@ -1,7 +1,9 @@
 export type Series = {
     id: number,
     name: string,
+    series_short_name: string,
     logo: string,
+    series_logo: string,
     category_id: number,
     category: string,
     active: boolean,
@@ -24,7 +26,9 @@ export type Series = {
 export const DefaultSeries: Series = {
     id: 0,
     name: '',
+    series_short_name: '',
     logo: '',
+    series_logo: '',
     category_id: 0,
     category: '',
     active: false,

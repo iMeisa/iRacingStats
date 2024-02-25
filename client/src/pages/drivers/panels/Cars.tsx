@@ -7,7 +7,7 @@ import StatsGrid from "../../../components/data/grid/StatsGrid.tsx";
 const columns: GridColDef[] = [
     {
         field: 'car_logo',
-        headerName: 'Car.ts',
+        headerName: 'Car',
         width: 75,
         renderCell: (params: GridRenderCellParams<any, string>) =>
             <CarLogo link={params.value} />,

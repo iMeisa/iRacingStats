@@ -6,11 +6,13 @@ import {Car, DefaultCar} from "../Car.ts";
 import {DefaultTrack, Track} from "../Track.ts";
 
 export type DriverRace = Result & Subsession & Session & Series & Car & Track & {
+    car_logo: string,
+    series_logo: string,
+    track_logo: string,
     valid_race: boolean,
     dnf: boolean,
     sr_change: number,
     ir_change: number,
-
 }
 
 export const DefaultDriverRace: DriverRace = {
@@ -20,6 +22,9 @@ export const DefaultDriverRace: DriverRace = {
     ...DefaultSeries,
     ...DefaultCar,
     ...DefaultTrack,
+    car_logo: '',
+    series_logo: '',
+    track_logo: '',
     valid_race: false,
     dnf: false,
     sr_change: 0,

@@ -1,4 +1,3 @@
-import useFetchArray from "../../hooks/useFetchArray.ts";
 import {useParams} from "react-router-dom";
 import {useEffect, useState} from "react";
 import Container from "@mui/material/Container";
@@ -16,40 +15,17 @@ import DriverCars from "./panels/Cars.tsx";
 import useTabState from "../../hooks/useTabState.ts";
 import SeriesStats from "./stats/SeriesStats.ts";
 import DriverSeries from "./panels/Series.tsx";
-import {DefaultDriverRace, DriverRace} from "../../models/driver/Race.ts";
 import useFetchObject from "../../hooks/useFetchObject.ts";
-import FillDriverRaceData from "../../functions/driver/FillDriverRaceData.ts";
+import FetchDriverRaces from "./FetchDriverRaces.ts";
 
 const panels = ['info', 'series', 'races', 'tracks', 'cars']
 
 export default function Driver() {
     const {id} = useParams()
 
-    console.log('default', DefaultDriverRace)
+    const [user, user_loading] = useFetchObject<DriverSummary>(DefaultDriverSummary, `/api/driver?cust_id=${id}`)
 
-    const [user, loading] = useFetchObject<DriverSummary>(DefaultDriverSummary, `/api/driver?cust_id=${id}`)
-
-    let [driver_races, races_loading] = useFetchArray<DriverRace>(`/api/driver_races?id=${id}`,
-        (race) => {
-
-            // race.car_id = 1
-
-            race.valid_race = race.field_size >= 4 && race.event_laps_complete >= 2
-
-            // race['id'] = race['result_id']
-            race.dnf = race.reason_out_id !== 0
-
-            race.sr_change = (race.new_sub_level - race.old_sub_level) / 100
-            race.ir_change = race.newi_rating - race.oldi_rating
-
-            // let track = race['track_name']
-            // const track_config = race['config_name']
-            // if (track_config !== '') track += " - " + track_config
-            // race['track'] = track
-
-            return race
-        }
-    )
+    const [driver_races, races_loading] = FetchDriverRaces(id)
 
     const [trackStats, setTrackStats] = useState([] as Record<string, unknown>[])
     const [carStats, setCarStats] = useState([] as Record<string, unknown>[])
@@ -67,7 +43,6 @@ export default function Driver() {
 
         console.log("user: ", user)
         console.log("results: ", driver_races)
-        // driver_races = FillDriverRaceData(driver_races)
     }, [user, driver_races, races_loading]);
 
     return <>
@@ -81,7 +56,7 @@ export default function Driver() {
                     <Tabs
                         tab={tab}
                         user={user}
-                        loading={loading}
+                        loading={user_loading}
                         driver_races={driver_races}
                         data_loading={races_loading}
                         trackStats={trackStats}
@@ -98,7 +73,7 @@ export default function Driver() {
             <Tabs
                 tab={tab}
                 user={user}
-                loading={loading}
+                loading={user_loading}
                 driver_races={driver_races}
                 data_loading={races_loading}
                 trackStats={trackStats}

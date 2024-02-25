@@ -7,7 +7,7 @@ import {UnixToDateTime} from "../../../functions/datetime/UnixToDate.ts";
 import StatsGrid from "../../../components/data/grid/StatsGrid.tsx";
 import PositionTrophy from "../../../components/images/PositionTrophy.tsx";
 import ColoredValue from "../../../components/data/ColoredValue.tsx";
-import {Result} from "../../../models/Result.ts";
+import {DriverRace} from "../../../models/driver/Race.ts";
 
 const columns: GridColDef[] = [
     {
@@ -33,7 +33,7 @@ const columns: GridColDef[] = [
     },
     {
         width: 50,
-        field: 'license_category_id',
+        field: 'category_id',
         headerName: '',
         sortable: false,
         align: 'center',
@@ -123,7 +123,7 @@ const columns: GridColDef[] = [
     }
 ];
 
-export default function UserRaces(props: {results: Result[], loading: boolean}) {
+export default function UserRaces(props: {results: DriverRace[], loading: boolean}) {
     return <StatsGrid
         columns={columns}
         rows={props.results}

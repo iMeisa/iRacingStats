@@ -18,7 +18,7 @@ const columns: GridColDef[] = [
     },
     {
         width: 50,
-        field: 'license_category_id',
+        field: 'category_id',
         headerName: '',
         sortable: false,
         align: 'center',

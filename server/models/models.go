@@ -132,6 +132,7 @@ type DriverRace struct {
 	SubsessionCount         int       `json:"subsession_count,omitempty"`
 	StartTime               int       `json:"start_time,omitempty"`
 	Track                   string    `json:"track,omitempty"`
+	TrackId                 int       `json:"track_id,omitempty"`
 	CategoryId              int       `json:"category_id,omitempty"`
 	MinLicenseLevel         int       `json:"min_license_level,omitempty"`
 }

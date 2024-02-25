@@ -7,7 +7,6 @@ export default async function UpdateContentCache() {
     const caches: ContentCacheModel[] =
         await fetch(`${CurrentUrl()}/api/cache_hashes`)
             .then(response => response.json())
-    console.log(caches)
 
     let cachesToUpdate: string[] = []
     for (const cache of caches) {

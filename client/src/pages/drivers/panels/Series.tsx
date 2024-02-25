@@ -6,7 +6,7 @@ import SeriesLogo from "../../../components/images/SeriesLogo.tsx";
 const columns: GridColDef[] = [
     {
         field: 'series_logo',
-        headerName: 'Track',
+        headerName: 'Series',
         width: 76,
         renderCell: (params: GridRenderCellParams<any, string>) =>
             <SeriesLogo link={params.value} />,
@@ -16,7 +16,7 @@ const columns: GridColDef[] = [
     },
     {
         width: 50,
-        field: 'license_category_id',
+        field: 'category_id',
         headerName: '',
         sortable: false,
         align: 'center',

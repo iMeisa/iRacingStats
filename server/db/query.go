@@ -758,7 +758,8 @@ func (d *DB) uncachedDriverRaces(custId, maxSubsession, minSubsession int) []mod
 			   ss.event_strength_of_field,
 			   ss.event_laps_complete,
 			   ss.end_time,
-			   ss.field_size
+			   ss.field_size,
+			   s.track_id
 			FROM results r
 			JOIN subsessions ss USING (subsession_id)
 			JOIN sessions s USING (session_id)
@@ -803,6 +804,7 @@ func (d *DB) uncachedDriverRaces(custId, maxSubsession, minSubsession int) []mod
 			&driverRace.LapsComplete,
 			&driverRace.EndTime,
 			&driverRace.FieldSize,
+			&driverRace.TrackId,
 		)
 
 		if err != nil {

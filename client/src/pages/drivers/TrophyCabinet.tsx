@@ -13,26 +13,26 @@ type SeriesTrophies = {
     bronzes: number,
 }
 
-function FilterPodiums(results: DriverRace[]): [SeriesTrophies[], SeriesTrophies] {
+function FilterPodiums(races: DriverRace[]): [SeriesTrophies[], SeriesTrophies] {
     let trophies: SeriesTrophies[] = []
     let totals: SeriesTrophies = { id: 0, series: '', logo: '', golds: 0, silvers: 0, bronzes: 0 }
 
     let podiums: Record<number, SeriesTrophies> = {}
 
-    results.map((result: DriverRace) => {
+    races.map((race: DriverRace) => {
 
-        if (!result.valid_race) return
+        if (!race.valid_race) return
 
-        const series_id = result['series_id'] as number
-        const position = result['finish_position_in_class'] as number
+        const series_id = race.series_id
+        const position = race.finish_position_in_class
 
         if (position > 2) return
 
         if (!(series_id in podiums)) {
             podiums[series_id] = {
                 id: series_id,
-                series: result['series_short_name'] as string,
-                logo: result['series_logo'] as string,
+                series: race.series_short_name,
+                logo: race.series_logo,
                 golds: 0,
                 silvers: 0,
                 bronzes: 0,

@@ -1,4 +1,5 @@
 import MinNonZero from "../../../functions/numbers/MinNonZero.ts";
+import {DriverRace} from "../../../models/driver/Race.ts";
 
 type statsType = {
     id: number,
@@ -21,29 +22,30 @@ type statsType = {
     distance_km: number,
 }
 
-export default function TrackStats(results: Record<string, unknown>[]): Record<string, unknown>[] {
+export default function TrackStats(races: DriverRace[], loading: boolean): Record<string, unknown>[] {
 
+    if (loading) return []
 
     let tracks: Record<number, statsType> = {}
 
-    for (const i in results) {
-        const result = results[i]
-        const track_id = result['track_id'] as number
+    for (const i in races) {
+        const race = races[i]
+        const track_id = race.track_id
 
-        const average_lap = result['average_lap'] as number
-        const laps_complete = result['laps_complete'] as number
-        const best_lap = result['best_lap_time'] as number
-        const incidents = result['incidents'] as number
-        const finish_pos = result['finish_position_in_class'] as number
-        const valid_result = result['valid_race'] as boolean
+        const average_lap = race.average_lap
+        const laps_complete = race.laps_complete
+        const best_lap = race.best_lap_time
+        const incidents = race.incidents
+        const finish_pos = race.finish_position_in_class
+        const valid_result = race.valid_race
 
         // Initial declaration
         if (!( track_id in tracks )) {
             tracks[track_id] = {
                 id: track_id,
-                track_name: result["track"] as string,
-                track_logo: result["track_logo"] as string,
-                license_category_id: result["license_category_id"] as number,
+                track_name: race.track,
+                track_logo: race.track_logo,
+                license_category_id: race.category_id,
                 races: 0,
                 wins: 0,
                 podiums: 0,
@@ -80,9 +82,9 @@ export default function TrackStats(results: Record<string, unknown>[]): Record<s
         // Laps
         tracks[track_id].laps += laps_complete
         // Laps Lead
-        tracks[track_id].laps_lead += result['laps_lead'] as number
+        tracks[track_id].laps_lead += race.laps_lead
         // Distance Driven
-        tracks[track_id].distance_mi += Math.round(result['track_config_length'] as number * laps_complete)
+        tracks[track_id].distance_mi += Math.round(race.track_config_length * laps_complete)
 
     }
 

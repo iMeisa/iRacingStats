@@ -1,3 +1,5 @@
+import {DriverRace} from "../../../models/driver/Race.ts";
+
 type statsType = {
     id: number,
     car_name: string,
@@ -14,27 +16,28 @@ type statsType = {
     distance_km: number,
 }
 
-export default function CarStats(results: Record<string, unknown>[]): Record<string, unknown>[] {
+export default function CarStats(races: DriverRace[], loading: boolean): Record<string, unknown>[] {
 
+    if (loading) return []
 
     let cars: Record<number, statsType> = {}
 
-    for (const i in results) {
-        const result = results[i]
-        const car_id = result['car_id'] as number
+    for (const i in races) {
+        const race = races[i]
+        const car_id = race.car_id
 
-        const average_lap = result['average_lap'] as number
-        const laps_complete = result['laps_complete'] as number
-        const incidents = result['incidents'] as number
-        const finish_pos = result['finish_position_in_class'] as number
-        const valid_result = result['valid_race'] as boolean
+        const average_lap = race.average_lap
+        const laps_complete = race.laps_complete
+        const incidents = race.incidents
+        const finish_pos = race.finish_position_in_class
+        const valid_result = race.valid_race
 
         // Initial declaration
         if (!( car_id in cars )) {
             cars[car_id] = {
                 id: car_id,
-                car_name: result["car_name"] as string,
-                car_logo: result["car_logo"] as string,
+                car_name: race.car_name,
+                car_logo: race.car_logo,
                 races: 0,
                 wins: 0,
                 podiums: 0,
@@ -61,9 +64,9 @@ export default function CarStats(results: Record<string, unknown>[]): Record<str
         // Laps
         cars[car_id].laps += laps_complete
         // Laps Lead
-        cars[car_id].laps_lead += result['laps_lead'] as number
+        cars[car_id].laps_lead += race.laps_lead
         // Distance Driven
-        cars[car_id].distance_mi += Math.round(result['track_config_length'] as number * laps_complete)
+        cars[car_id].distance_mi += Math.round(race.track_config_length * laps_complete)
 
     }
 

@@ -1,5 +1,5 @@
 import {useParams} from "react-router-dom";
-import {useEffect, useState} from "react";
+import {useEffect} from "react";
 import Container from "@mui/material/Container";
 import "./Driver.css"
 import DriverInfo, {InfoProps} from "./panels/Info.tsx";
@@ -27,19 +27,13 @@ export default function Driver() {
 
     const [driver_races, races_loading] = FetchDriverRaces(id)
 
-    const [trackStats, setTrackStats] = useState([] as Record<string, unknown>[])
-    const [carStats, setCarStats] = useState([] as Record<string, unknown>[])
-    const [seriesStats, setSeriesStats] = useState([] as Record<string, unknown>[])
+    const carStats = CarStats(driver_races, races_loading)
+    const seriesStats = SeriesStats(driver_races, races_loading)
+    const trackStats = TrackStats(driver_races, races_loading)
 
     const [tab, setTab] = useTabState(panels)
 
     useEffect(() => {
-
-        if (!races_loading) {
-            setTrackStats(TrackStats(driver_races))
-            setCarStats(CarStats(driver_races))
-            setSeriesStats(SeriesStats(driver_races))
-        }
 
         console.log("user: ", user)
         console.log("results: ", driver_races)

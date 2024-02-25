@@ -1,3 +1,5 @@
+import {DriverRace} from "../../../models/driver/Race.ts";
+import {SeriesById} from "../../../cache/CachesById.ts";
 
 type statsType = {
     id: number,
@@ -15,26 +17,30 @@ type statsType = {
     laps_lead: number,
 }
 
-export default function SeriesStats(results: Record<string, unknown>[]): Record<string, unknown>[] {
+export default function SeriesStats(races: DriverRace[], loading: boolean): Record<string, unknown>[] {
+
+    if (loading) return []
+
+    const seriesById = SeriesById()
 
     let series: Record<number, statsType> = {}
 
-    for (const i in results) {
-        const result = results[i]
-        const series_id = result['series_id'] as number
+    for (const i in races) {
+        const race = races[i]
+        const series_id = race.series_id
 
-        const laps_complete = result['laps_complete'] as number
-        const incidents = result['incidents'] as number
-        const finish_pos = result['finish_position_in_class'] as number
-        const valid_result = result['valid_race'] as boolean
+        const laps_complete = race.laps_complete
+        const incidents = race.incidents
+        const finish_pos = race.finish_position_in_class
+        const valid_result = race.valid_race
 
         // Initial declaration
         if (!( series_id in series )) {
             series[series_id] = {
                 id: series_id,
-                series_name: result["series_short_name"] as string,
-                series_logo: result["series_logo"] as string,
-                license_category_id: result["license_category_id"] as number,
+                series_name: seriesById[series_id].series_short_name,
+                series_logo: seriesById[series_id].series_logo,
+                license_category_id: seriesById[series_id].license_category_id,
                 races: 0,
                 wins: 0,
                 podiums: 0,
@@ -60,7 +66,7 @@ export default function SeriesStats(results: Record<string, unknown>[]): Record<
         // Laps
         series[series_id].laps += laps_complete
         // Laps Lead
-        series[series_id].laps_lead += result['laps_lead'] as number
+        series[series_id].laps_lead += race.laps_lead
 
     }
 
@@ -79,7 +85,7 @@ export default function SeriesStats(results: Record<string, unknown>[]): Record<
 
     // @ts-ignore
     stats.sort((a,b) => (a.races < b.races) ? 1 : ((b.races < a.races) ? -1 : 0));
-    console.log("stats:", stats)
+    console.log("series stats:", stats)
 
     return stats
 }

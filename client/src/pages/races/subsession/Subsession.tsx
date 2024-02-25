@@ -2,7 +2,7 @@ import {Link, useParams} from "react-router-dom";
 import Container from "@mui/material/Container";
 import useFetchArray from "../../../hooks/useFetchArray.ts";
 import {SyntheticEvent, useEffect, useState} from "react";
-import {Subsession as SubsessionModel} from "../../../models/Subsession.ts";
+import {DefaultSubsession, Subsession as SubsessionModel} from "../../../models/Subsession.ts";
 import LapTime from "../../../functions/datetime/LapTime.ts";
 import {GridColDef, GridRenderCellParams} from "@mui/x-data-grid";
 import {Accordion, AccordionDetails, AccordionSummary, Tooltip} from "@mui/material";
@@ -106,22 +106,7 @@ export default function Subsession() {
 
     const [subsessions, _] = useFetchArray<SubsessionModel>(`/api/subsessions?subsession_id=${id}`)
     const [subsession, setSubsession] =
-        useState<SubsessionModel>({
-            end_time: 0,
-            event_average_lap: 0,
-            event_laps_complete: 0,
-            event_strength_of_field: 0,
-            heat_info_id: 0,
-            num_caution_laps: 0,
-            num_cautions: 0,
-            num_laps_for_qual_average: 0,
-            num_laps_for_solo_average: 0,
-            num_lead_changes: 0,
-            private_session_id: 0,
-            session_id: 0,
-            subsession_id: 0,
-            verified: false,
-        })
+        useState<SubsessionModel>(DefaultSubsession)
 
     useEffect(() => {
         if (subsessions.length > 0) setSubsession(subsessions[0])

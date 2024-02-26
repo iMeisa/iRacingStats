@@ -11,6 +11,7 @@ function fillDefaults(races: DriverRace[]): DriverRace[] {
         race.laps_lead = replace(race.laps_lead, ddr.laps_lead)
         race.finish_position_in_class = replace(race.finish_position_in_class, ddr.finish_position_in_class)
         race.incidents = replace(race.incidents, ddr.incidents)
+        race.reason_out_id = replace(race.reason_out_id, ddr.reason_out_id)
 
     })
 

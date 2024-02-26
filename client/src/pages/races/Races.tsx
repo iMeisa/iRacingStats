@@ -63,6 +63,7 @@ const columns: GridColDef[] = [
         field: 'start_time',
         headerName: 'Start Time',
         headerAlign: 'center',
+        align: 'center',
         hideable: true,
         filterable: false,
         renderCell: params => UnixToTime(params.value)
@@ -71,6 +72,7 @@ const columns: GridColDef[] = [
         field: 'end_time',
         headerName: 'End Time',
         headerAlign: 'center',
+        align: 'center',
         hideable: true,
         filterable: false,
         renderCell: params => UnixToTime(params.value)

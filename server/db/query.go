@@ -717,11 +717,12 @@ func (d *DB) DriverInfo(id int) models.User {
 // uncachedDriverRaces updates the cache for given customer and returns rows affected
 func (d *DB) uncachedDriverRaces(custId, maxSubsession, minSubsession int) []models.DriverRace {
 
+	// Constrain search if cache already exists
 	subsessionConstraint := ""
 	if maxSubsession != 0 {
 		subsessionConstraint = fmt.Sprintf(
 			" AND subsession_id NOT BETWEEN %d AND %d",
-			maxSubsession, minSubsession,
+			minSubsession, maxSubsession,
 		)
 	}
 

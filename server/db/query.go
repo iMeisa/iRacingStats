@@ -802,7 +802,7 @@ func (d *DB) uncachedDriverRaces(custId, maxSubsession, minSubsession int) []mod
 			&driverRace.StartTime,
 			&driverRace.SeriesId,
 			&driverRace.StrengthOfField,
-			&driverRace.LapsComplete,
+			&driverRace.EventLapsComplete,
 			&driverRace.EndTime,
 			&driverRace.FieldSize,
 			&driverRace.TrackId,

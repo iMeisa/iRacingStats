@@ -101,6 +101,7 @@ export default function TrackStats(races: DriverRace[], loading: boolean): Recor
 
         // Finish average
         track.finish_avg = track.finish_total / track.races
+        track.finish_avg++  // Offsets finish by 1 to be accurate
 
         stats.push(track)
     }

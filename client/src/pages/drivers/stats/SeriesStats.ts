@@ -79,6 +79,7 @@ export default function SeriesStats(races: DriverRace[], loading: boolean): Reco
 
         // Finish average
         singleSeries.finish_avg = singleSeries.finish_total / singleSeries.races
+        singleSeries.finish_avg++  // Offsets finish by 1 to be accurate
 
         stats.push(singleSeries)
     }

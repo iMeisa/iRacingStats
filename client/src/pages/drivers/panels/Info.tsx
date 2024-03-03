@@ -231,7 +231,7 @@ function Licenses(props: {loading: boolean, licenses: DriverLicenses}) {
     </Stack>
 }
 
-function RaceStats(props: {results: Record<string, unknown>[], loading: boolean}) {
+function RaceStats(props: {results: DriverRace[], loading: boolean}) {
 
     if (props.loading) return <CircularProgress size="2em"/>
 
@@ -243,11 +243,11 @@ function RaceStats(props: {results: Record<string, unknown>[], loading: boolean}
     let incidents = 0
 
     props.results.map(result => {
-        if (result['valid_race'] && (result['finish_position_in_class'] as number) < 3) podiums++
-        total_time += (result['laps_complete'] as number) * (result['average_lap'] as number)
-        laps_lead += result['laps_lead'] as number
-        if (result['reason_out_id'] === 0) races_finished++
-        incidents += result['incidents'] as number
+        if (result.valid_race && result.finish_position_in_class < 3) podiums++
+        total_time += result.laps_complete * result.average_lap
+        laps_lead += result.laps_lead
+        if (result.reason_out_id === 0) races_finished++
+        incidents += result.incidents
     })
 
     const race_time = ElapsedTime(total_time / 10)
@@ -266,7 +266,7 @@ function RaceStats(props: {results: Record<string, unknown>[], loading: boolean}
     )
 }
 
-function DrivingStats(props: {results: Record<string, unknown>[], loading: boolean}) {
+function DrivingStats(props: {results: DriverRace[], loading: boolean}) {
 
     if (props.loading) return <CircularProgress size="2em"/>
     let laps = 0
@@ -278,13 +278,13 @@ function DrivingStats(props: {results: Record<string, unknown>[], loading: boole
     let combos_driven: string[] = []
 
     props.results.map(result => {
-        laps += result['laps_complete'] as number
+        laps += result.laps_complete
 
-        cars_driven.push(result['car_id'] as number)
-        tracks_driven.push(result['track_id'] as number)
-        series_driven.push(result['series_id'] as number)
-        mi_driven += (result['track_config_length'] as number) * (result['laps_complete'] as number)
-        combos_driven.push(`${result['car_id']}-${result['track_id']}`)
+        cars_driven.push(result.car_id)
+        tracks_driven.push(result.track_id)
+        series_driven.push(result.series_id)
+        mi_driven += result.track_config_length * result.laps_complete
+        combos_driven.push(`${result.car_id}-${result.track_id}`)
     })
 
     // Get all unique ids

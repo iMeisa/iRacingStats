@@ -36,7 +36,7 @@ export default function CategoryLogo(id: number, licenseLevel: number = 0, size:
     return <>
         <svg
             xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 24 24"
+            viewBox={ id === 2 ? "0 0 16 16" : "0 0 24 24" }
             height={size}
         >
             <path fillRule="evenodd" clipRule="evenodd" fill={licenseColor} d={path}></path>

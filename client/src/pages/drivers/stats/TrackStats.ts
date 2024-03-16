@@ -1,5 +1,6 @@
 import MinNonZero from "../../../functions/numbers/MinNonZero.ts";
 import {DriverRace} from "../../../models/driver/Race.ts";
+import {TracksById} from "../../../cache/CachesById.ts";
 
 type statsType = {
     id: number,
@@ -26,6 +27,8 @@ export default function TrackStats(races: DriverRace[], loading: boolean): Recor
 
     if (loading) return []
 
+    let tracksById = TracksById()
+
     let tracks: Record<number, statsType> = {}
 
     for (const i in races) {
@@ -44,8 +47,8 @@ export default function TrackStats(races: DriverRace[], loading: boolean): Recor
             tracks[track_id] = {
                 id: track_id,
                 track_name: race.track,
-                track_logo: race.track_logo,
-                license_category_id: race.category_id,
+                track_logo: tracksById[track_id].logo,
+                license_category_id: tracksById[track_id].license_category_id,
                 races: 0,
                 wins: 0,
                 podiums: 0,

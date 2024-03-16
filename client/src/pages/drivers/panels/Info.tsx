@@ -6,7 +6,6 @@ import {
     Box, CircularProgress,
     Divider,
     Paper,
-    Skeleton,
     Stack,
     Tooltip
 } from "@mui/material";
@@ -16,7 +15,6 @@ import InfoIcon from "@mui/icons-material/Info";
 import TrophyCabinet from "../TrophyCabinet.tsx";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import {DriverSummary} from "../../../models/driver/Driver.ts";
-import ClubLogo from "../../../components/images/ClubLogo.tsx";
 import ElapsedTime from "../../../functions/datetime/ElapsedTime.ts";
 import Percentage from "../../../functions/strings/Percentage.ts";
 import StatCard from "../../../components/data/StatCard.tsx";

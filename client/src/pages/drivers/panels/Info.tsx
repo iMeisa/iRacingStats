@@ -107,11 +107,11 @@ export default function DriverInfo(props: InfoProps) {
                     aria-controls="panel1a-content"
                     id="panel1a-header"
                 >
-                    <Typography> Driver </Typography>
+                    <Typography> Licenses </Typography>
                 </AccordionSummary>
 
                 <AccordionDetails>
-                    <InfoCard user={props.user} loading={props.loading}/>
+                    <DriverLicenses loading={props.loading} licenses={props.user.licenses}/>
                 </AccordionDetails>
             </Accordion>
 
@@ -172,7 +172,6 @@ function InfoCard(props: {user: DriverSummary, loading: boolean}) {
                 my: 'auto'
             }}
         >
-            <Info user={props.user} loading={props.loading} />
             <DriverLicenses loading={props.loading} licenses={props.user.licenses}/>
         </Stack>
     </Paper>

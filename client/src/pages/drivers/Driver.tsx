@@ -65,8 +65,8 @@ export default function Driver() {
 
         {/*Mobile*/}
         <Container sx={{display: {sm: 'block', md:'none'}}}>
-            <SideMenu initialTab={tab} panels={panels} mobile onChange={value => setTab(value)}/>
             <DriverName name={user.name}/>
+            <SideMenu initialTab={tab} panels={panels} mobile onChange={value => setTab(value)}/>
             <Tabs
                 tab={tab}
                 user={user}

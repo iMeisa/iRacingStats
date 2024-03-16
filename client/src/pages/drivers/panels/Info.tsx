@@ -163,35 +163,35 @@ export default function DriverInfo(props: InfoProps) {
     </>
 }
 
-function InfoCard(props: {user: DriverSummary, loading: boolean}) {
-    return <Paper elevation={3} sx={{ p: 1 }}>
-        <Stack
-            direction={{ xs: "column", md: "row" }}
-            justifyContent="space-evenly"
-            sx={{
-                my: 'auto'
-            }}
-        >
-            <DriverLicenses loading={props.loading} licenses={props.user.licenses}/>
-        </Stack>
-    </Paper>
-}
-
-function Info(props: {user: DriverSummary, loading: boolean}) {
-    return props.loading ? <>
-        <Skeleton/>
-        <Skeleton/>
-    </> : <>
-        <Stack sx={{ mb: { xs: 1, md: 'auto' } }}>
-            <Typography variant="h6" component="h1" fontWeight="bold">
-                {props.user.name}
-            </Typography>
-            <Grid>
-                <ClubLogo id={props.user.club_id} clubName={props.user.club_name}/>
-            </Grid>
-        </Stack>
-    </>
-}
+// function InfoCard(props: {user: DriverSummary, loading: boolean}) {
+//     return <Paper elevation={3} sx={{ p: 1 }}>
+//         <Stack
+//             direction={{ xs: "column", md: "row" }}
+//             justifyContent="space-evenly"
+//             sx={{
+//                 my: 'auto'
+//             }}
+//         >
+//             <DriverLicenses loading={props.loading} licenses={props.user.licenses}/>
+//         </Stack>
+//     </Paper>
+// }
+//
+// function Info(props: {user: DriverSummary, loading: boolean}) {
+//     return props.loading ? <>
+//         <Skeleton/>
+//         <Skeleton/>
+//     </> : <>
+//         <Stack sx={{ mb: { xs: 1, md: 'auto' } }}>
+//             <Typography variant="h6" component="h1" fontWeight="bold">
+//                 {props.user.name}
+//             </Typography>
+//             <Grid>
+//                 <ClubLogo id={props.user.club_id} clubName={props.user.club_name}/>
+//             </Grid>
+//         </Stack>
+//     </>
+// }
 
 function RaceStats(props: {results: DriverRace[], loading: boolean}) {
 

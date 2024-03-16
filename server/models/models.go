@@ -138,9 +138,10 @@ type DriverRace struct {
 }
 
 type License struct {
-	Level    int `json:"level"`
-	SubLevel int `json:"sub_level"`
-	IRating  int `json:"irating"`
+	CategoryId int `json:"license_category_id"`
+	Level      int `json:"level"`
+	SubLevel   int `json:"sub_level"`
+	IRating    int `json:"irating"`
 }
 
 type UserLicenses struct {
@@ -335,12 +336,12 @@ type Track struct {
 }
 
 type User struct {
-	Id          int          `json:"id"`
-	Name        string       `json:"name"`
-	MemberSince int          `json:"member_since"`
-	ClubId      int          `json:"club_id"`
-	ClubName    string       `json:"club_name"`
-	Licenses    UserLicenses `json:"licenses"`
+	Id          int             `json:"id"`
+	Name        string          `json:"name"`
+	MemberSince int             `json:"member_since"`
+	ClubId      int             `json:"club_id"`
+	ClubName    string          `json:"club_name"`
+	Licenses    map[int]License `json:"licenses"`
 }
 
 type DriverData struct {

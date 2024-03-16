@@ -2,7 +2,7 @@ import {Car} from "../Car.ts";
 import {Series} from "../Series.ts";
 import {Track} from "../Track.ts";
 import {DefaultDriverRace, DriverRace} from "./Race.ts";
-import {DefaultLicense, DriverLicenses} from "./License.ts";
+import {DefaultLicense, License} from "./License.ts";
 
 export type DriverData = {
     cars: Car[]
@@ -17,7 +17,7 @@ export type DriverSummary = {
     member_since: number,
     club_id: number,
     club_name: string,
-    licenses: DriverLicenses
+    licenses: Record<number, License>
 }
 
 // Defaults
@@ -35,9 +35,10 @@ export const DefaultDriverSummary: DriverSummary = {
     club_id: 0,
     club_name: '',
     licenses: {
-        oval: DefaultLicense,
-        road: DefaultLicense,
-        dirt_oval: DefaultLicense,
-        dirt_road: DefaultLicense,
+        1: DefaultLicense,
+        3: DefaultLicense,
+        4: DefaultLicense,
+        5: DefaultLicense,
+        6: DefaultLicense,
     }
 }

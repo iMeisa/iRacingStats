@@ -17,14 +17,13 @@ import TrophyCabinet from "../TrophyCabinet.tsx";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import {DriverSummary} from "../../../models/driver/Driver.ts";
 import ClubLogo from "../../../components/images/ClubLogo.tsx";
-import RatingBadge from "../../../components/data/RatingBadge.tsx";
 import ElapsedTime from "../../../functions/datetime/ElapsedTime.ts";
 import Percentage from "../../../functions/strings/Percentage.ts";
 import StatCard from "../../../components/data/StatCard.tsx";
 import {SyntheticEvent, useState} from "react";
 import FormatCompactNumber from "../../../functions/numbers/FormatCompactNumber.ts";
-import {DriverLicenses} from "../../../models/driver/License.ts";
 import {DriverRace} from "../../../models/driver/Race.ts";
+import DriverLicenses from "./info/DriverLicenses.tsx";
 
 export type InfoProps = {
     user: DriverSummary,
@@ -53,10 +52,11 @@ export default function DriverInfo(props: InfoProps) {
                     <Paper className={"stat-border info"} sx={{ p: 1 }}>
 
                         <Typography variant="subtitle1" pb={0.5} fontWeight="bold">
-                            Driver
+                            Licenses
                         </Typography>
 
-                        <InfoCard user={props.user} loading={props.loading}/>
+                        {/*<InfoCard user={props.user} loading={props.loading}/>*/}
+                        <DriverLicenses loading={props.loading} licenses={props.user.licenses}/>
                     </Paper>
 
                     <Paper className={"stat-border race-stats"} sx={{ p: 1 }}>
@@ -173,7 +173,7 @@ function InfoCard(props: {user: DriverSummary, loading: boolean}) {
             }}
         >
             <Info user={props.user} loading={props.loading} />
-            <Licenses loading={props.loading} licenses={props.user.licenses}/>
+            <DriverLicenses loading={props.loading} licenses={props.user.licenses}/>
         </Stack>
     </Paper>
 }
@@ -192,43 +192,6 @@ function Info(props: {user: DriverSummary, loading: boolean}) {
             </Grid>
         </Stack>
     </>
-}
-
-function Licenses(props: {loading: boolean, licenses: DriverLicenses}) {
-    return <Stack direction="row" justifyContent="center" sx={{ my: 'auto' }}>
-        <Stack>
-            <RatingBadge
-                loading={props.loading}
-                category={1}
-                license={props.licenses.oval.level}
-                safety_rating={props.licenses.oval.sub_level}
-                irating={props.licenses.oval.irating}
-            />
-            <RatingBadge
-                loading={props.loading}
-                category={3}
-                license={props.licenses.dirt_oval.level}
-                safety_rating={props.licenses.dirt_oval.sub_level}
-                irating={props.licenses.dirt_oval.irating}
-            />
-        </Stack>
-        <Stack>
-            <RatingBadge
-                loading={props.loading}
-                category={2}
-                license={props.licenses.road.level}
-                safety_rating={props.licenses.road.sub_level}
-                irating={props.licenses.road.irating}
-            />
-            <RatingBadge
-                loading={props.loading}
-                category={4}
-                license={props.licenses.dirt_road.level}
-                safety_rating={props.licenses.dirt_road.sub_level}
-                irating={props.licenses.dirt_road.irating}
-            />
-        </Stack>
-    </Stack>
 }
 
 function RaceStats(props: {results: DriverRace[], loading: boolean}) {

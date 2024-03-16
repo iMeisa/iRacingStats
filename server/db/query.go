@@ -667,19 +667,7 @@ func (d *DB) DriverInfo(id int) models.User {
 			   display_name, 
 			   member_since, 
 			   c.club_id, 
-			   club_name,
-			   oval_license_level,
-			   oval_sub_level,
-			   oval_irating,
-			   road_license_level,
-			   road_sub_level,
-			   road_irating,
-			   dirtoval_license_level,
-			   dirtoval_sub_level,
-			   dirtoval_irating,
-			   dirtroad_license_level,
-			   dirtroad_sub_level,
-			   dirtroad_irating
+			   club_name
 		FROM customers c
 		JOIN clubs cl USING (club_id)
 		WHERE cust_id = $1
@@ -694,24 +682,55 @@ func (d *DB) DriverInfo(id int) models.User {
 		&user.MemberSince,
 		&user.ClubId,
 		&user.ClubName,
-		&user.Licenses.Oval.Level,
-		&user.Licenses.Oval.SubLevel,
-		&user.Licenses.Oval.IRating,
-		&user.Licenses.Road.Level,
-		&user.Licenses.Road.SubLevel,
-		&user.Licenses.Road.IRating,
-		&user.Licenses.DirtOval.Level,
-		&user.Licenses.DirtOval.SubLevel,
-		&user.Licenses.DirtOval.IRating,
-		&user.Licenses.DirtRoad.Level,
-		&user.Licenses.DirtRoad.SubLevel,
-		&user.Licenses.DirtRoad.IRating,
 	)
 	if err != nil {
-		log.Println("error scanning users:", err)
+		log.Println("error scanning driver:", err)
 	}
 
+	user.Licenses = d.driverLicenses(id)
+
 	return user
+}
+
+func (d *DB) driverLicenses(id int) map[int]models.License {
+	ctx, cancel := getContext()
+	defer cancel()
+
+	statement := `
+		SELECT license_category_id,
+			   license_level,
+			   sub_level,
+			   irating
+		FROM customer_licenses
+		WHERE cust_id = $1
+	`
+
+	rows, err := d.SQL.QueryContext(ctx, statement, id)
+	if err != nil {
+		log.Println("error querying driver licenses: ", err)
+		return make(map[int]models.License)
+	}
+
+	licenses := make(map[int]models.License)
+	for rows.Next() {
+		var license models.License
+
+		err = rows.Scan(
+			&license.CategoryId,
+			&license.Level,
+			&license.SubLevel,
+			&license.IRating,
+		)
+
+		if err != nil {
+			log.Println("error scanning driver license: ", err)
+			continue
+		}
+
+		licenses[license.CategoryId] = license
+	}
+
+	return licenses
 }
 
 // uncachedDriverRaces updates the cache for given customer and returns rows affected

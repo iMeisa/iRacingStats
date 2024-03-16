@@ -17,6 +17,7 @@ import SeriesStats from "./stats/SeriesStats.ts";
 import DriverSeries from "./panels/Series.tsx";
 import useFetchObject from "../../hooks/useFetchObject.ts";
 import FetchDriverRaces from "./FetchDriverRaces.ts";
+import Typography from "@mui/material/Typography";
 
 const panels = ['info', 'series', 'races', 'tracks', 'cars']
 
@@ -47,6 +48,7 @@ export default function Driver() {
             </Grid>
             <Grid md>
                 <Container maxWidth="xl">
+                    <DriverName name={user.name}/>
                     <Tabs
                         tab={tab}
                         user={user}
@@ -64,6 +66,7 @@ export default function Driver() {
         {/*Mobile*/}
         <Container sx={{display: {sm: 'block', md:'none'}}}>
             <SideMenu initialTab={tab} panels={panels} mobile onChange={value => setTab(value)}/>
+            <DriverName name={user.name}/>
             <Tabs
                 tab={tab}
                 user={user}
@@ -109,4 +112,8 @@ function Tabs(props: TabProps) {
             return <></>
         }
     }
+}
+
+function DriverName(props: {name: string}) {
+    return <Typography mt={2} variant="h5" fontWeight="bold">{props.name}</Typography>
 }

@@ -18,6 +18,7 @@ import DriverSeries from "./panels/Series.tsx";
 import useFetchObject from "../../hooks/useFetchObject.ts";
 import FetchDriverRaces from "./FetchDriverRaces.ts";
 import Typography from "@mui/material/Typography";
+import AddRecentDriver from "../../storage/AddRecentDriver.ts";
 
 const panels = ['info', 'series', 'races', 'tracks', 'cars']
 
@@ -35,6 +36,8 @@ export default function Driver() {
     const [tab, setTab] = useTabState(panels)
 
     useEffect(() => {
+
+        if (!user_loading) AddRecentDriver(user)
 
         console.log("user: ", user)
         console.log("results: ", driver_races)

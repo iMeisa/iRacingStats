@@ -6,6 +6,7 @@ import CurrentUrl from "../../variables/Url.ts";
 import Container from "@mui/material/Container";
 import SearchIcon from '@mui/icons-material/Search';
 import IconButton from "@mui/material/IconButton";
+import RecentDrivers from "../../storage/RecentDrivers.ts";
 
 const columns: GridColDef[] = [
     {
@@ -25,8 +26,7 @@ const columns: GridColDef[] = [
 
 export default function Drivers() {
 
-    const emptyRows: Record<string, unknown>[] = []
-    const [rows, setRows] = useState(emptyRows);
+    const [rows, setRows] = useState(RecentDrivers());
 
     const [loading, setLoading] = useState(false)
 
@@ -50,7 +50,7 @@ export default function Drivers() {
         }, {replace: true})
 
         if (searchName === null || searchName === "" || searchName.length < 2) {
-            setRows(emptyRows)
+            setRows(RecentDrivers())
             setLoading(false)
             return
         }
@@ -64,7 +64,7 @@ export default function Drivers() {
                 console.log(data)
 
                 if (data === null) {
-                    setRows(emptyRows)
+                    setRows(RecentDrivers())
                     return
                 }
 
@@ -123,11 +123,11 @@ export default function Drivers() {
                         }}
                         rows={rows}
                         columns={columns}
-                        initialState={{
-                            sorting: {
-                                sortModel: [{field: 'display_name', sort: 'asc'}],
-                            },
-                        }}
+                        // initialState={{
+                        //     sorting: {
+                        //         sortModel: [{field: 'display_name', sort: 'asc'}],
+                        //     },
+                        // }}
 
                         onCellClick={
                             (

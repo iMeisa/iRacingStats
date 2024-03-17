@@ -1,9 +1,11 @@
-import {LinearProgress, TextField} from "@mui/material";
+import {Input, InputAdornment, LinearProgress} from "@mui/material";
 import {useEffect, useState} from "react";
 import {Link, useSearchParams} from "react-router-dom";
 import {DataGrid, GridColDef} from "@mui/x-data-grid";
 import CurrentUrl from "../../variables/Url.ts";
 import Container from "@mui/material/Container";
+import SearchIcon from '@mui/icons-material/Search';
+import IconButton from "@mui/material/IconButton";
 
 const columns: GridColDef[] = [
     {
@@ -30,12 +32,24 @@ export default function Drivers() {
 
     const [searchParams, setSearchParams] = useSearchParams({name: ""})
     const name = searchParams.get("name")
+    const [inputName, setInputName] = useState(name === null ? '' : name)
+    const [searchName, setSearchName] = useState(inputName)
+
+    const handleSubmit = () => {
+        if (inputName.length < 2) return
+
+        setSearchName(inputName)
+    }
 
     // Fetch on name change
     useEffect(() => {
 
-        console.log(name)
-        if (name === null || name === "" || name.length < 2) {
+        setSearchParams(prev => {
+            prev.set("name", searchName)
+            return prev
+        }, {replace: true})
+
+        if (searchName === null || searchName === "" || searchName.length < 2) {
             setRows(emptyRows)
             setLoading(false)
             return
@@ -43,29 +57,25 @@ export default function Drivers() {
         setLoading(true)
 
         // Continue after delay is done
-        const url = `${CurrentUrl()}/api/customers?display_name=${name.replace('+', ' ')}`
-        console.log(url)
-        const delayedFetch = setTimeout(() => {
-            fetch(url)
-                .then((response) => response.json())
-                .then((data: Record<string, unknown>[]) => {
-                    console.log(data)
+        const url = `${CurrentUrl()}/api/customers?display_name=${searchName.replace('+', ' ')}`
+        fetch(url)
+            .then((response) => response.json())
+            .then((data: Record<string, unknown>[]) => {
+                console.log(data)
 
-                    if (data === null) {
-                        setRows(emptyRows)
-                        return
-                    }
+                if (data === null) {
+                    setRows(emptyRows)
+                    return
+                }
 
-                    setRows(data)
-                })
-                .finally(() => {
-                    setLoading(false)
-                })
+                setRows(data)
+            })
+            .finally(() => {
+                setLoading(false)
+            })
 
-        }, 500)
 
-        return () => clearTimeout(delayedFetch)
-    }, [name]);
+    }, [searchName]);
 
 
     return (
@@ -78,15 +88,29 @@ export default function Drivers() {
                 }}
             >
                 <Container maxWidth="sm" sx={{mt: 5}}>
-                    <TextField
+                    <Input
                         fullWidth
-                        label="Search driver(s)"
+                        value={inputName}
                         type="search"
-                        value={name}
-                        onChange={event => setSearchParams(prev => {
-                            prev.set("name", event.target.value)
-                            return prev
-                        }, {replace: true})}
+                        endAdornment={
+                            <InputAdornment position="end">
+                                <IconButton
+                                    onClick={handleSubmit}
+                                    edge="end"
+                                >
+                                    <SearchIcon/>
+                                </IconButton>
+                            </InputAdornment>
+                        }
+                        onChange={event => {
+                            setInputName(event.target.value)
+                        }}
+
+                        onKeyDown={event => {
+                            if (event.key !== "Enter") return
+
+                            handleSubmit()
+                        }}
                     />
                     <DataGrid
                         slots={{

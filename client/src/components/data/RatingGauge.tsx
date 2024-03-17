@@ -11,7 +11,7 @@ type CircularRatingProps = {
     categoryId: number
     license: License
 }
-export default function CircularRating(props: CircularRatingProps) {
+export default function RatingGauge(props: CircularRatingProps) {
 
     let license = props.license === undefined ? DefaultLicense : props.license
 

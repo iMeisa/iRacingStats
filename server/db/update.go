@@ -40,8 +40,8 @@ func (d *DB) cacheDriverResults(data []models.DriverRace, custId int) {
 
 	statement := `
 		INSERT INTO driver_results_cache 
-		(cust_id, latest_subsession, earliest_subsession, data, has_update)
-		VALUES ($1, $2, $3, $4, false)
+		(cust_id, latest_subsession, earliest_subsession, data, has_update, result_count)
+		VALUES ($1, $2, $3, $4, false, $5)
 		ON CONFLICT (cust_id)
 		DO UPDATE
 		SET
@@ -51,7 +51,7 @@ func (d *DB) cacheDriverResults(data []models.DriverRace, custId int) {
 			has_update = false
 	`
 
-	_, err := d.SQL.Exec(statement, custId, maxSubsession, minSubsession, data)
+	_, err := d.SQL.Exec(statement, custId, maxSubsession, minSubsession, data, len(data))
 	if err != nil {
 		log.Println("error caching driver data: ", err)
 	}

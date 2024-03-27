@@ -1,0 +1,26 @@
+.rdg-cell {
+    padding-inline: 0;
+}
+
+.rdg img, svg {
+    /*height: 40px;*/
+    /*width: auto;*/
+    /*margin-left: auto;*/
+    /*margin-right: auto;*/
+    /*display: block;*/
+    /*background-color: white;*/
+}
+
+.filter {
+    line-height: 40px;
+    padding: 0;
+
+    > div {
+        padding-block: 0;
+        padding-inline: 8px;
+
+        &:first-child {
+            border-block-end: 1px solid var(--rdg-border-color);
+        }
+    }
+}

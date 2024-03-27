@@ -1,4 +1,3 @@
-import {GridColDef} from "@mui/x-data-grid";
 import {Link} from "react-router-dom";
 import SeriesLogo from "../../../components/images/SeriesLogo.tsx";
 import CategoryLogo from "../../../functions/img/CategoryLogo.tsx";
@@ -8,118 +7,120 @@ import StatsGrid from "../../../components/data/grid/StatsGrid.tsx";
 import PositionTrophy from "../../../components/images/PositionTrophy.tsx";
 import ColoredValue from "../../../components/data/ColoredValue.tsx";
 import {DriverRace} from "../../../models/driver/Race.ts";
+import {GridCol} from "../../../components/data/grid/models/GridCol.ts";
 
-const columns: GridColDef[] = [
+const columns: GridCol<any, any>[] = [
     {
-        field: 'finish_position_in_class',
-        headerName: 'Pos',
+        key: 'finish_position_in_class',
+        name: 'Pos',
         width: 50,
-        headerAlign: 'center',
-        align: 'center',
-        renderCell: params => <PositionTrophy position={params.value}/>,
-        type: 'number',
+        // headerAlign: 'center',
+        // align: 'center',
+        renderCell: params => <PositionTrophy position={params.row.finish_position_in_class}/>,
+        // type: 'number',
     },
     {
-        field: 'series_logo',
-        headerName: 'Series',
-        width: 75,
+        key: 'series_logo',
+        name: 'Series',
+        width: 100,
         renderCell: params =>
             <Link to={`/series/${params.row.series_id}`}>
-                <SeriesLogo link={params.value} />
+                <SeriesLogo link={params.row.series_logo} />
             </Link>,
-        sortable: false,
+        // sortable: false,
         filterable: false,
-        headerAlign: 'center',
+        // headerAlign: 'center',
     },
     {
-        width: 50,
-        field: 'category_id',
-        headerName: '',
-        sortable: false,
-        align: 'center',
-        filterable: false,
+        width: 75,
+        key: 'category_id',
+        name: 'License',
+        // sortable: false,
+        // align: 'center',
+        // filterable: false,
+        // resizable: true,
         renderCell: params =>
-            CategoryLogo(params.value, params.row.min_license_level)
+            CategoryLogo(params.row.category_id, params.row.min_license_level)
 
     },
     {
-        field: 'series_short_name',
-        headerName: '',
-        headerAlign: 'center',
+        key: 'series_short_name',
+        name: 'Series Name',
+        // headerAlign: 'center',
         minWidth: 350,
-        flex: 1,
-        type: 'string',
+        // flex: 1,
+        // type: 'string',
         renderCell: params =>
             <Tooltip title="Subsession Results">
                 <Link
                     style={{ textDecoration: 'underline', fontStyle: 'italic', color: 'inherit', fontWeight: 'bold'}}
                     to={`/subsession/${params.row.subsession_id}`}
                 >
-                    {params.value}
+                    {params.row.series_short_name}
                 </Link>
             </Tooltip>
     },
     {
-        field: 'event_strength_of_field',
-        headerName: 'SOF',
+        key: 'event_strength_of_field',
+        name: 'SOF',
         width: 75,
-        headerAlign: 'center',
-        align: 'center',
-        type: 'number',
+        // headerAlign: 'center',
+        // align: 'center',
+        // type: 'number',
     },
     {
-        field: 'sr_change',
-        headerName: 'SR',
-        flex: 1,
+        key: 'sr_change',
+        name: 'SR',
+        // flex: 1,
         minWidth: 75,
-        align: 'center',
-        headerAlign: 'center',
-        type: 'number',
+        // align: 'center',
+        // headerAlign: 'center',
+        // type: 'number',
         renderCell: params =>
-            <ColoredValue value={params.value} decimals={2} positiveIsGood={true}/>
+            <ColoredValue value={params.row.sr_change} decimals={2} positiveIsGood={true}/>
     },
     {
-        field: 'ir_change',
-        headerName: 'iRating',
-        flex: 1,
+        key: 'ir_change',
+        name: 'iRating',
+        // flex: 1,
         minWidth: 75,
-        align: 'center',
-        headerAlign: 'center',
-        type: 'number',
+        // align: 'center',
+        // headerAlign: 'center',
+        // type: 'number',
         renderCell: params =>
-            <ColoredValue value={params.value} positiveIsGood={true}/>
+            <ColoredValue value={params.row.ir_change} positiveIsGood={true}/>
     },
     {
-        field: 'end_time',
-        headerName: 'End Time',
+        key: 'end_time',
+        name: 'End Time',
         width: 175,
-        headerAlign: 'center',
-        align: 'center',
-        filterable: false,
-        renderCell: params => UnixToDateTime(params.value)
+        // headerAlign: 'center',
+        // align: 'center',
+        // filterable: false,
+        renderCell: params => UnixToDateTime(params.row.end_time)
     },
-    // { field: 'track', headerName: 'Track', flex: 1, minWidth: 200 },
+    // { key: 'track', name: 'Track', flex: 1, minWidth: 200 },
     {
-        field: 'incidents',
-        headerName: 'Inc',
-        flex: 1,
+        key: 'incidents',
+        name: 'Inc',
+        // flex: 1,
+        width: 50,
+        // type: 'number',
+        renderCell: params => `${params.row.incidents}x`
+    },
+    {
+        key: 'dnf',
+        name: 'DNF',
+        // flex: 1,
         minWidth: 50,
-        type: 'number',
-        renderCell: params => `${params.value}x`
+        // type: "boolean",
     },
     {
-        field: 'dnf',
-        headerName: 'DNF',
-        flex: 1,
-        minWidth: 50,
-        type: "boolean",
-    },
-    {
-        field: 'track',
-        headerName: 'Track',
-        flex: 1,
+        key: 'track',
+        name: 'Track',
+        // flex: 1,
         minWidth: 300,
-        type: 'string',
+        // type: 'string',
     }
 ];
 
@@ -127,11 +128,11 @@ export default function UserRaces(props: {results: DriverRace[], loading: boolea
     return <StatsGrid
         columns={columns}
         rows={props.results}
-        loading={props.loading}
-        initialState={{
-            sorting: {
-                sortModel: [{field: 'end_time', sort: 'desc'}],
-            }
-        }}
+        // loading={props.loading}
+        // initialState={{
+        //     sorting: {
+        //         sortModel: [{key: 'end_time', sort: 'desc'}],
+        //     }
+        // }}
     />
 }

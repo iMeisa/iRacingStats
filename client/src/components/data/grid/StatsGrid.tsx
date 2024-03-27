@@ -1,9 +1,20 @@
-import {DataGrid, DataGridProps, GridNoRowsOverlay} from "@mui/x-data-grid";
-import StatsGridToolbar from "./StatsGridToolbar.tsx";
+import 'react-data-grid/lib/styles.css'
+import './StatsGrid.css'
+import DataGrid from 'react-data-grid'
 import Box from "@mui/material/Box";
-// import {useEffect, useState} from "react";
+import React from "react";
+import FilterRenderer from "./FilterRenderer.tsx";
+import {StatsGridProps} from "./models/StatsGridProps.ts";
+import useWindowSize from "../../../hooks/useWindowSize.ts";
 
-export default function StatsGrid(props: DataGridProps) {
+function inputStopPropagation(event: React.KeyboardEvent<HTMLInputElement>) {
+    if (['ArrowLeft', 'ArrowRight'].includes(event.key)) {
+        event.stopPropagation();
+    }
+}
+
+export default function StatsGrid(props: StatsGridProps<any>) {
+    const [_width, height] = useWindowSize()
     // const emptyRow: GridRowsProp = [{
     //     id: 0,
     // }]
@@ -13,26 +24,49 @@ export default function StatsGrid(props: DataGridProps) {
     //     if( props.rows.length > 0 ) setRows(props.rows)
     // }, [props.rows]);
 
+    let newCols = props.columns.map(col => {
+        const filter: boolean = col.filterable !== false
+        col = {
+           ...col,
+           headerCellClass: filter ? col.headerCellClass + ' filter' : col.headerCellClass,
+           renderHeaderCell: p => filter ?
+               <FilterRenderer<Row> {...p}>
+                   {({ filters, ...rest }) => (
+                       <input
+                           {...rest}
+                           // className={filterClassname}
+                           // value={filters.task}
+                           // onChange={(e) =>
+                           //     setFilters({
+                           //         ...filters,
+                           //         task: e.target.value
+                           //     })
+                           // }
+                           onKeyDown={inputStopPropagation}
+                       />
+                   )}
+               </FilterRenderer>
+               :
+               col.name
+
+        }
+        return col
+    })
+
     return (
-        <Box sx={{ width: '100%' }}>
+
+        <Box mt={1} sx={{ width: '100%' }}>
             <DataGrid
+                style={{
+                    border: 'gray solid 1px',
+                    borderRadius: '10px',
+                    height: `${height * 0.7}px`
+                }}
+                rowHeight={40}
+                headerRowHeight={80}
+
                 {...props}
-                // autoHeight
-                slots={{
-                    noRowsOverlay: GridNoRowsOverlay,
-                    toolbar: StatsGridToolbar,
-                }}
-                // rows={rows}
-                loading={props.loading}
-                sx={{
-                    height: '10000px',
-                    '--DataGrid-overlayHeight': '50px',
-                    maxHeight: '70vh',
-                }}
-                disableColumnMenu
-
-                pageSizeOptions={[10, 25, 50, 100]}
-
+                columns={newCols}
             />
         </Box>
     )

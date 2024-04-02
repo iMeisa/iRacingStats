@@ -1,13 +1,25 @@
 .rdg-cell {
+    border-inline-end: 0;
     > svg {
-        height: var(--rdg-row-height);
-        margin-left: 1px;
+        /*height: var(--rdg-row-height);*/
+        /*margin-left: 1px;*/
     }
     > .MuiTypography-root {
         line-height: inherit;
         font-style: inherit;
         font-size: inherit;
         font-weight: inherit;
+    }
+}
+
+.rdg-row > .rdg-cell {
+    > a > img, > svg {
+        margin: 0;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        -ms-transform: translate(-50%, -50%);
+        transform: translate(-50%, -50%);
     }
 }
 
@@ -70,4 +82,8 @@
             border-block-end: 1px solid var(--rdg-border-color);
         }
     }
+}
+
+.align-left {
+    text-align: left;
 }

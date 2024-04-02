@@ -4,7 +4,6 @@ import useFetchArray from "../../../hooks/useFetchArray.ts";
 import {SyntheticEvent, useEffect, useState} from "react";
 import {DefaultSubsession, Subsession as SubsessionModel} from "../../../models/Subsession.ts";
 import LapTime from "../../../functions/datetime/LapTime.ts";
-import {GridColDef, GridRenderCellParams} from "@mui/x-data-grid";
 import {Accordion, AccordionDetails, AccordionSummary, Tooltip} from "@mui/material";
 import SubsessionInfo from "./SubsessionInfo.tsx";
 import Box from "@mui/material/Box";
@@ -14,20 +13,21 @@ import CarLogo from "../../../components/images/CarLogo.tsx";
 import RatingBadge from "../../../components/data/RatingBadge.tsx";
 import StatsGrid from "../../../components/data/grid/StatsGrid.tsx";
 import PositionTrophy from "../../../components/images/PositionTrophy.tsx";
+import {GridCol} from "../../../components/data/grid/models/GridCol.ts";
 
-const columns: GridColDef[] = [
+const columns: GridCol<any, any>[] = [
     {
-        field: 'finish_position',
-        headerName: 'Pos',
+        key: 'finish_position',
+        name: 'Pos',
         width: 10,
-        headerAlign: 'right',
+        // headerAlign: 'right',
         align: 'right',
-        renderCell: params => <PositionTrophy position={params.value}/>,
-        type: 'number'
+        renderCell: params => <PositionTrophy position={params.row.finish_position}/>,
+        // type: 'number'
     },
     {
-        field: 'rating',
-        headerName: '',
+        key: 'rating',
+        name: '',
         width: 200,
         filterable: false,
         renderCell: params =>
@@ -43,19 +43,19 @@ const columns: GridColDef[] = [
             />,
     },
     {
-        field: 'display_name',
-        headerName: 'Driver',
-        flex: 1,
+        key: 'display_name',
+        name: 'Driver',
+        // flex: 1,
         minWidth: 150,
         renderCell: params =>
             <Link
                 style={{ textDecoration: 'underline', fontStyle: 'italic', color: 'inherit', fontWeight: 'bold'}}
                 to={`/driver/${params.row.cust_id}`}
-            >{params.value}</Link>
+            >{params.row.display_name}</Link>
     },
     {
-        field: 'mobile_rating',
-        headerName: '',
+        key: 'mobile_rating',
+        name: '',
         width: 140,
         filterable: false,
         renderCell: params =>
@@ -69,32 +69,31 @@ const columns: GridColDef[] = [
             />,
     },
     {
-        field: 'logo',
-        headerName: 'Car.ts',
-        headerAlign: 'center',
+        key: 'logo',
+        name: 'Car',
         align: 'right',
         width: 80,
         filterable: false,
-        renderCell: (params: GridRenderCellParams<any, string>) =>
+        renderCell: params =>
             <Tooltip title={params.row.car_name} disableInteractive>
                 <span>
-                    <CarLogo link={params.value as string}/>
+                    <CarLogo link={params.row.logo}/>
                 </span>
             </Tooltip>,
     },
     {
-        field: 'average_lap',
-        headerName: 'Avg Lap',
-        flex: 1,
+        key: 'average_lap',
+        name: 'Avg Lap',
+        // flex: 1,
         filterable: false,
         minWidth: 125
     },
     {
-        field: 'best_lap_time',
-        headerName: 'Best Lap',
-        headerAlign: 'center',
+        key: 'best_lap_time',
+        name: 'Best Lap',
+        // headerAlign: 'center',
         align: 'center',
-        flex: 1,
+        // flex: 1,
         filterable: false,
         minWidth: 125
     },
@@ -132,27 +131,23 @@ export default function Subsession() {
         console.log(results)
     }, [results]);
 
-    // Column defaults
-    columns.map((col) => {
-        col.hideSortIcons = true
-    })
-
     return <>
         <Container maxWidth='xl'>
             <Box sx={{ display: { xs: 'none', md: 'block' } }}>
                 <SubsessionInfo subsession={subsession}/>
 
                 <StatsGrid
+                    height='60%'
                     loading={loading}
                     columns={columns}
                     rows={results}
-                    initialState={{
-                        columns: {
-                            columnVisibilityModel: {
-                                mobile_rating: false
-                            }
-                        }
-                    }}
+                    // initialState={{
+                    //     columns: {
+                    //         columnVisibilityModel: {
+                    //             mobile_rating: false
+                    //         }
+                    //     }
+                    // }}
                 />
             </Box>
 
@@ -184,17 +179,17 @@ export default function Subsession() {
                     <AccordionDetails>
                         <StatsGrid
                             loading={loading}
-                            sx={{ margin: 0 }}
+                            // sx={{ margin: 0 }}
                             columns={columns}
                             rows={results}
-                            hideFooter
-                            initialState={{
-                                columns: {
-                                    columnVisibilityModel: {
-                                        rating: false
-                                    }
-                                }
-                            }}
+                            // hideFooter
+                            // initialState={{
+                            //     columns: {
+                            //         columnVisibilityModel: {
+                            //             rating: false
+                            //         }
+                            //     }
+                            // }}
                         />
                     </AccordionDetails>
                 </Accordion>

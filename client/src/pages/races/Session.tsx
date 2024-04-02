@@ -1,5 +1,4 @@
 import {Link, useParams} from "react-router-dom";
-import {GridColDef} from "@mui/x-data-grid";
 import {useEffect, useState} from "react";
 import {Skeleton} from "@mui/material";
 import CurrentUrl from "../../variables/Url.ts";
@@ -8,6 +7,7 @@ import Button from "@mui/material/Button";
 import FormatListNumberedIcon from '@mui/icons-material/FormatListNumbered';
 import Container from "@mui/material/Container";
 import StatsGrid from "../../components/data/grid/StatsGrid.tsx";
+import {GridCol} from "../../components/data/grid/models/GridCol.ts";
 
 function sortSubsessions(subsessions: Record<string, unknown>[]): Record<string, unknown>[] {
     subsessions.sort((a,b) => (b.event_strength_of_field as number) - (a.event_strength_of_field as number))
@@ -15,11 +15,11 @@ function sortSubsessions(subsessions: Record<string, unknown>[]): Record<string,
 }
 
 
-const columns: GridColDef[] = [
+const columns: GridCol<any, any>[] = [
     {
-        field: 'results',
-        headerName: '',
-        headerAlign: 'center',
+        key: 'results',
+        name: '',
+        // headerAlign: 'center',
         align: 'center',
         width: 125,
         filterable: false,
@@ -29,69 +29,64 @@ const columns: GridColDef[] = [
             </Link>
     },
     {
-        field: 'split',
-        headerName: '',
-        headerAlign: 'center',
+        key: 'split',
+        name: '',
         align: 'center',
-        type: 'number',
+        // type: 'number',
         width: 20
     },
     {
-        field: 'event_strength_of_field',
-        headerName: 'SOF',
-        flex: 1,
-        headerAlign: 'center',
+        key: 'event_strength_of_field',
+        name: 'SOF',
+        // headerAlign: 'center',
         align: 'center',
-        type: 'number',
+        // type: 'number',
         minWidth: 70
     },
     {
-        field: 'field_size',
-        headerName: 'Field Size',
-        flex: 1,
-        headerAlign: 'center',
+        key: 'field_size',
+        name: 'Field Size',
+        // flex: 1,
+        // headerAlign: 'center',
         align: 'center',
-        type: 'number',
+        // type: 'number',
         minWidth: 100
     },
     {
-        field: 'average_lap',
-        headerName: 'Average Lap',
-        flex: 1,
-        headerAlign: 'center',
+        key: 'average_lap',
+        name: 'Average Lap',
+        // flex: 1,
+        // headerAlign: 'center',
         align: 'center',
         filterable: false,
         minWidth: 125
     },
     {
-        field: 'lead_changes',
-        headerName: 'Lead Changes',
-        flex: 1,
-        headerAlign: 'center',
+        key: 'lead_changes',
+        name: 'Lead Changes',
+        // flex: 1,
+        // headerAlign: 'center',
         align: 'center',
-        type: 'number',
+        // type: 'number',
         minWidth: 125
     },
     {
-        field: 'cautions',
-        headerName: 'Cautions',
-        flex: 1,
-        headerAlign: 'center',
+        key: 'cautions',
+        name: 'Cautions',
         align: 'center',
         minWidth: 90,
-        type: 'number',
-        hideable: true
+        // type: 'number',
+        // hideable: true
     },
     {
-        field: 'verified',
-        headerName: '',
-        headerAlign: 'center',
+        key: 'verified',
+        name: '',
         align: 'center',
         width: 20,
         filterable: false,
-        type: 'boolean',
+        // type: 'boolean',
     },
-    { field: 'id', headerName: 'ID', headerAlign: 'center', align: 'right', type: 'number'},
+    // { key: 'id', name: 'ID', align: 'right', type: 'number'},
 ];
 
 export default function Session() {

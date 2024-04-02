@@ -1,4 +1,3 @@
-import {GridColDef, GridRenderCellParams,} from '@mui/x-data-grid';
 import './Races.css'
 import {Tooltip} from "@mui/material";
 import {Link} from "react-router-dom";
@@ -10,74 +9,73 @@ import Typography from "@mui/material/Typography";
 import {UnixToTime} from "../../functions/datetime/UnixToDate.ts";
 import useFetchArray from "../../hooks/useFetchArray.ts";
 import {Session} from "../../models/Session.ts";
+import {GridCol} from "../../components/data/grid/models/GridCol.ts";
 
-const columns: GridColDef[] = [
+const columns: GridCol<any, any>[] = [
     {
-        field: 'series_logo',
-        headerName: 'Series',
+        key: 'series_logo',
+        name: 'Series',
         width: 75,
-        renderCell: (params: GridRenderCellParams<any, string>) =>
+        renderCell: params =>
             <Link to={`/series/${params.row.series_id}`}>
-                <SeriesLogo link={params.value} />
+                <SeriesLogo link={params.row.series_logo} />
             </Link>,
         sortable: false,
         filterable: false,
-        headerAlign: 'center',
+        // headerAlign: 'center',
     },
     {
         width: 50,
-        field: 'category_id',
-        headerName: '',
+        key: 'category_id',
+        name: '',
         sortable: false,
         filterable: false,
         align: 'center',
         renderCell: params =>
-            CategoryLogo(params.value, params.row.min_license_level)
+            CategoryLogo(params.row.category_id, params.row.min_license_level)
 
     },
     {
-        field: 'series_short_name',
-        headerName: '',
-        headerAlign: 'center',
+        key: 'series_short_name',
+        name: '',
         minWidth: 350,
-        flex: 1,
-        renderCell: (params: GridRenderCellParams<any, string>) =>
+        renderCell: params =>
             <Tooltip title="See splits">
                 <Link
                     style={{ textDecoration: 'underline', fontStyle: 'italic', color: 'inherit', fontWeight: 'bold'}}
                     to={`/sessions/${params.row.id}`}
                 >
-                        {params.value}
+                        {params.row.series_short_name}
                 </Link>
             </Tooltip>
     },
     {
-        field: 'subsession_count',
-        headerName: 'Splits',
+        key: 'subsession_count',
+        name: 'Splits',
         width: 70,
         align: 'center',
-        headerAlign: 'center',
-        type: 'number'
+        // type: 'number'
     },
     {
-        field: 'start_time',
-        headerName: 'Start Time',
-        headerAlign: 'center',
+        key: 'start_time',
+        name: 'Start Time',
         align: 'center',
-        hideable: true,
         filterable: false,
-        renderCell: params => UnixToTime(params.value)
+        renderCell: params => UnixToTime(params.row.start_time)
     },
     {
-        field: 'end_time',
-        headerName: 'End Time',
-        headerAlign: 'center',
+        key: 'end_time',
+        name: 'End Time',
         align: 'center',
-        hideable: true,
         filterable: false,
-        renderCell: params => UnixToTime(params.value)
+        renderCell: params => UnixToTime(params.row.end_time)
     },
-    { field: 'track', headerName: 'Track', flex: 1, minWidth: 200 },
+    {
+        key: 'track',
+        name: 'Track',
+        // flex: 1,
+        minWidth: 200
+    },
 ];
 
 
@@ -85,11 +83,6 @@ const columns: GridColDef[] = [
 export default function Races() {
 
     const [rows, loading] = useFetchArray<Session>('/api/sessions');
-
-    // Column defaults
-    columns.map((col) => {
-        col.hideSortIcons = true
-    })
 
     return (
         <>
@@ -101,11 +94,11 @@ export default function Races() {
                     loading={loading}
                     rows={rows}
                     columns={columns}
-                    initialState={{
-                        sorting: {
-                            sortModel: [{field: 'end_time', sort: 'desc'}],
-                        },
-                    }}
+                    // initialState={{
+                    //     sorting: {
+                    //         sortModel: [{key: 'end_time', sort: 'desc'}],
+                    //     },
+                    // }}
                 />
             </Container>
         </>

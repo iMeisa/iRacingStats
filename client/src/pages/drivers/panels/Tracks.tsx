@@ -1,122 +1,122 @@
-import { GridColDef, GridRenderCellParams } from "@mui/x-data-grid";
 import TrackLogo from "../../../components/images/TrackLogo.tsx";
 import CategoryLogo from "../../../functions/img/CategoryLogo.tsx";
 import ElapsedTime from "../../../functions/datetime/ElapsedTime.ts";
 import FormatCompactNumber from "../../../functions/numbers/FormatCompactNumber.ts";
 import StatsGrid from "../../../components/data/grid/StatsGrid.tsx";
+import {GridCol} from "../../../components/data/grid/models/GridCol.ts";
 
-const columns: GridColDef[] = [
+const columns: GridCol<any, any>[] = [
     {
-        field: 'track_logo',
-        headerName: 'Track',
+        key: 'track_logo',
+        name: 'Track',
         width: 76,
-        renderCell: (params: GridRenderCellParams<any, string>) =>
-            <TrackLogo link={params.value} />,
+        renderCell: params =>
+            <TrackLogo link={params.row.track_logo} />,
         sortable: false,
-        headerAlign: 'center',
+        // headerAlign: 'center',
         filterable: false,
     },
     {
         width: 50,
-        field: 'license_category_id',
-        headerName: '',
+        key: 'license_category_id',
+        name: '',
         sortable: false,
         align: 'center',
         filterable: false,
         renderCell: params =>
-            CategoryLogo(params.value, 0)
+            CategoryLogo(params.row.license_category_id, 0)
 
     },
     {
-        flex: 1,
+        // flex: 1,
         minWidth: 400,
-        field: 'track_name',
-        headerName: '',
+        key: 'track_name',
+        name: '',
     },
     {
-        flex: 1,
+        // flex: 1,
         minWidth: 75,
-        field: 'races',
-        headerName: 'Races',
-        headerAlign: 'center',
+        key: 'races',
+        name: 'Races',
+        // headerAlign: 'center',
         align: 'center',
-        type: 'number',
+        // type: 'number',
     },
     {
-        flex: 1,
+        // flex: 1,
         minWidth: 75,
-        field: 'wins',
-        headerName: 'Wins',
-        headerAlign: 'center',
+        key: 'wins',
+        name: 'Wins',
+        // headerAlign: 'center',
         align: 'center',
-        type: 'number',
+        // type: 'number',
     },
     {
-        flex: 1,
+        // flex: 1,
         minWidth: 80,
-        field: 'podiums',
-        headerName: 'Podiums',
-        headerAlign: 'center',
+        key: 'podiums',
+        name: 'Podiums',
+        // headerAlign: 'center',
         align: 'center',
-        type: 'number',
+        // type: 'number',
     },
     {
-        flex: 1,
+        // flex: 1,
         minWidth: 100,
-        field: 'race_time',
-        headerName: 'Race Time',
-        headerAlign: 'center',
+        key: 'race_time',
+        name: 'Race Time',
+        // headerAlign: 'center',
         align: 'center',
         filterable: false,
         renderCell: params =>
-            ElapsedTime(params.value / 10)
+            ElapsedTime(params.row.race_time / 10)
     },
     {
-        flex: 1,
+        // flex: 1,
         minWidth: 60,
-        field: 'laps',
-        headerName: 'Laps',
-        headerAlign: 'center',
+        key: 'laps',
+        name: 'Laps',
+        // headerAlign: 'center',
         align: 'center',
-        type: 'number',
+        // type: 'number',
     },
     {
-        flex: 1,
+        // flex: 1,
         minWidth: 100,
-        field: 'laps_lead',
-        headerName: 'Laps Lead',
-        headerAlign: 'center',
+        key: 'laps_lead',
+        name: 'Laps Lead',
+        // headerAlign: 'center',
         align: 'center',
-        type: 'number',
+        // type: 'number',
     },
     {
-        flex: 1,
+        // flex: 1,
         minWidth: 100,
-        field: 'inc_avg',
-        headerName: 'Inc Avg',
-        headerAlign: 'center',
+        key: 'inc_avg',
+        name: 'Inc Avg',
+        // headerAlign: 'center',
         align: 'center',
-        type: 'number',
+        // type: 'number',
         filterable: false,
-        renderCell: params => params.value.toFixed(2)
+        renderCell: params => params.row.inc_avg.toFixed(2)
     },
     {
-        flex: 1,
+        // flex: 1,
         minWidth: 100,
-        field: 'finish_avg',
-        headerName: 'Avg Finish',
-        headerAlign: 'center',
+        key: 'finish_avg',
+        name: 'Avg Finish',
+        // headerAlign: 'center',
         align: 'center',
         filterable: false,
         renderCell: params =>
-            params.value.toFixed(2)
+            params.row.finish_avg.toFixed(2)
     },
     {
-        flex: 1,
+        // flex: 1,
         minWidth: 150,
-        field: 'distance_mi',
-        headerName: 'Distance',
-        headerAlign: 'center',
+        key: 'distance_mi',
+        name: 'Distance',
+        // headerAlign: 'center',
         align: 'center',
         filterable: false,
         renderCell: params =>
@@ -124,21 +124,16 @@ const columns: GridColDef[] = [
     },
     {
         width: 50,
-        field: 'id',
-        headerName: 'ID',
-        headerAlign: 'right',
+        key: 'id',
+        name: 'ID',
+        // headerAlign: 'right',
         align: 'right',
-        type: 'number',
+        // type: 'number',
     },
 
 ];
 
 export default function UserTracks(props: {stats: Record<string, unknown>[], loading: boolean}) {
-
-    columns.map((c) => {
-        c.hideSortIcons = true
-    })
-
     return <StatsGrid
         columns={columns}
         rows={props.stats}

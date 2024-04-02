@@ -25,11 +25,15 @@ export default function StatsGrid(props: StatsGridProps<any>) {
 
         const filter: boolean = col.filterable !== false
         const sortable: boolean = col.sortable !== false
-        // const width: number | string | undefined = col.width === null ? defaultWidth : col.width
+
+        // Forces min width to allow for filter and sort buttons if enabled
+        const minWidth = (40 * Number(filter)) + (40 * Number(sortable))
 
         col = {
            ...col,
+           minWidth: minWidth,
            headerCellClass: col.headerCellClass + ` ${filter ? 'filter' : ''} ${sortable ? 'sortable' : ''}`,
+           cellClass: col.cellClass + ` align-${col.align}`,
            renderHeaderCell: _p =>
                <>
 
@@ -79,7 +83,7 @@ export default function StatsGrid(props: StatsGridProps<any>) {
                 style={{
                     // border: 'gray solid 1px',
                     // borderRadius: '10px',
-                    height: `${height * 0.7}px`
+                    height: props.height ? props.height : `${height * 0.7}px`
                 }}
                 rowHeight={40}
                 // headerRowHeight={80}

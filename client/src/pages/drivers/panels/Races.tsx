@@ -21,6 +21,19 @@ const columns: GridCol<any, any>[] = [
         // type: 'number',
     },
     {
+        width: 40,
+        key: 'category_id',
+        name: 'License Category',
+        hideName: true,
+        sortable: false,
+        // align: 'left',
+        // filterable: false,
+        // resizable: true,
+        renderCell: params =>
+            CategoryLogo(params.row.category_id, params.row.min_license_level, 30)
+
+    },
+    {
         key: 'series_logo',
         name: 'Series',
         width: 100,
@@ -33,22 +46,11 @@ const columns: GridCol<any, any>[] = [
         // headerAlign: 'center',
     },
     {
-        width: 58,
-        key: 'category_id',
-        name: 'License Category',
-        hideName: true,
-        sortable: false,
-        // align: 'center',
-        // filterable: false,
-        // resizable: true,
-        renderCell: params =>
-            CategoryLogo(params.row.category_id, params.row.min_license_level, 30)
-
-    },
-    {
         key: 'series_short_name',
         name: 'Series Name',
+        hideName: true,
         // headerAlign: 'center',
+        align: 'left',
         minWidth: 350,
         // flex: 1,
         // type: 'string',
@@ -85,7 +87,7 @@ const columns: GridCol<any, any>[] = [
         key: 'ir_change',
         name: 'iRating',
         // flex: 1,
-        width: 120,
+        width: 80,
         // align: 'center',
         // headerAlign: 'center',
         // type: 'number',

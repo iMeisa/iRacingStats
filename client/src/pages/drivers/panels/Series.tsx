@@ -1,119 +1,114 @@
-import { GridColDef, GridRenderCellParams } from "@mui/x-data-grid";
 import CategoryLogo from "../../../functions/img/CategoryLogo.tsx";
 import StatsGrid from "../../../components/data/grid/StatsGrid.tsx";
 import SeriesLogo from "../../../components/images/SeriesLogo.tsx";
+import {GridCol} from "../../../components/data/grid/models/GridCol.ts";
 
-const columns: GridColDef[] = [
+const columns: GridCol<any, any>[] = [
     {
-        field: 'series_logo',
-        headerName: 'Series',
+        key: 'series_logo',
+        name: 'Series',
         width: 76,
-        renderCell: (params: GridRenderCellParams<any, string>) =>
-            <SeriesLogo link={params.value} />,
+        renderCell: params =>
+            <SeriesLogo link={params.row.series_logo} />,
         sortable: false,
-        headerAlign: 'center',
+        // headerAlign: 'center',
         filterable: false,
     },
     {
         width: 50,
-        field: 'license_category_id',
-        headerName: '',
+        key: 'license_category_id',
+        name: '',
         sortable: false,
         align: 'center',
         filterable: false,
         renderCell: params =>
-            CategoryLogo(params.value, 0)
+            CategoryLogo(params.row.license_category_id, 0)
 
     },
     {
-        flex: 1,
-        minWidth: 400,
-        field: 'series_name',
-        headerName: '',
+        // flex: 1,
+        width: 400,
+        key: 'series_name',
+        name: '',
     },
     {
-        flex: 1,
+        // flex: 1,
         minWidth: 75,
-        field: 'races',
-        headerName: 'Races',
-        headerAlign: 'center',
+        key: 'races',
+        name: 'Races',
+        // headerAlign: 'center',
         align: 'center',
-        type: 'number',
+        // type: 'number',
     },
     {
-        flex: 1,
+        // flex: 1,
         minWidth: 75,
-        field: 'wins',
-        headerName: 'Wins',
-        headerAlign: 'center',
+        key: 'wins',
+        name: 'Wins',
+        // headerAlign: 'center',
         align: 'center',
-        type: 'number',
+        // type: 'number',
     },
     {
-        flex: 1,
+        // flex: 1,
         minWidth: 80,
-        field: 'podiums',
-        headerName: 'Podiums',
-        headerAlign: 'center',
+        key: 'podiums',
+        name: 'Podiums',
+        // headerAlign: 'center',
         align: 'center',
-        type: 'number',
+        // type: 'number',
     },
     {
-        flex: 1,
+        // flex: 1,
         minWidth: 60,
-        field: 'laps',
-        headerName: 'Laps',
-        headerAlign: 'center',
+        key: 'laps',
+        name: 'Laps',
+        // headerAlign: 'center',
         align: 'center',
-        type: 'number',
+        // type: 'number',
     },
     {
-        flex: 1,
+        // flex: 1,
         minWidth: 100,
-        field: 'laps_lead',
-        headerName: 'Laps Lead',
-        headerAlign: 'center',
+        key: 'laps_lead',
+        name: 'Laps Lead',
+        // headerAlign: 'center',
         align: 'center',
-        type: 'number',
+        // type: 'number',
     },
     {
-        flex: 1,
+        // flex: 1,
         minWidth: 100,
-        field: 'inc_avg',
-        headerName: 'Inc Avg',
-        headerAlign: 'center',
+        key: 'inc_avg',
+        name: 'Inc Avg',
+        // headerAlign: 'center',
         align: 'center',
-        type: 'number',
+        // type: 'number',
         filterable: false,
-        renderCell: params => params.value.toFixed(2)
+        renderCell: params => params.row.inc_avg.toFixed(2)
     },
     {
-        flex: 1,
+        // flex: 1,
         minWidth: 100,
-        field: 'finish_avg',
-        headerName: 'Avg Finish',
-        headerAlign: 'center',
+        key: 'finish_avg',
+        name: 'Avg Finish',
+        // headerAlign: 'center',
         align: 'center',
         filterable: false,
-        renderCell: params => params.value.toFixed(2)
+        renderCell: params => params.row.finish_avg.toFixed(2)
     },
     {
         width: 50,
-        field: 'id',
-        headerName: 'ID',
-        headerAlign: 'right',
+        key: 'id',
+        name: 'ID',
+        // headerAlign: 'right',
         align: 'right',
-        type: 'number',
+        // type: 'number',
     },
 
 ];
 
 export default function UserSeries(props: {stats: Record<string, unknown>[], loading: boolean}) {
-
-    columns.map((c) => {
-        c.hideSortIcons = true
-    })
-
     return <StatsGrid
         columns={columns}
         rows={props.stats}

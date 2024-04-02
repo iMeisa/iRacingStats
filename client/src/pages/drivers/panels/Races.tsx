@@ -13,7 +13,8 @@ const columns: GridCol<any, any>[] = [
     {
         key: 'finish_position_in_class',
         name: 'Pos',
-        width: 50,
+        // hideName: true,
+        width: 80,
         // headerAlign: 'center',
         // align: 'center',
         renderCell: params => <PositionTrophy position={params.row.finish_position_in_class}/>,
@@ -27,20 +28,21 @@ const columns: GridCol<any, any>[] = [
             <Link to={`/series/${params.row.series_id}`}>
                 <SeriesLogo link={params.row.series_logo} />
             </Link>,
-        // sortable: false,
+        sortable: false,
         filterable: false,
         // headerAlign: 'center',
     },
     {
-        width: 75,
+        width: 58,
         key: 'category_id',
-        name: 'License',
-        // sortable: false,
+        name: 'License Category',
+        hideName: true,
+        sortable: false,
         // align: 'center',
         // filterable: false,
         // resizable: true,
         renderCell: params =>
-            CategoryLogo(params.row.category_id, params.row.min_license_level)
+            CategoryLogo(params.row.category_id, params.row.min_license_level, 30)
 
     },
     {
@@ -63,7 +65,7 @@ const columns: GridCol<any, any>[] = [
     {
         key: 'event_strength_of_field',
         name: 'SOF',
-        width: 75,
+        width: 80,
         // headerAlign: 'center',
         // align: 'center',
         // type: 'number',
@@ -72,7 +74,7 @@ const columns: GridCol<any, any>[] = [
         key: 'sr_change',
         name: 'SR',
         // flex: 1,
-        minWidth: 75,
+        width: 80,
         // align: 'center',
         // headerAlign: 'center',
         // type: 'number',
@@ -83,7 +85,7 @@ const columns: GridCol<any, any>[] = [
         key: 'ir_change',
         name: 'iRating',
         // flex: 1,
-        minWidth: 75,
+        width: 120,
         // align: 'center',
         // headerAlign: 'center',
         // type: 'number',
@@ -96,7 +98,7 @@ const columns: GridCol<any, any>[] = [
         width: 175,
         // headerAlign: 'center',
         // align: 'center',
-        // filterable: false,
+        filterable: false,
         renderCell: params => UnixToDateTime(params.row.end_time)
     },
     // { key: 'track', name: 'Track', flex: 1, minWidth: 200 },
@@ -104,7 +106,7 @@ const columns: GridCol<any, any>[] = [
         key: 'incidents',
         name: 'Inc',
         // flex: 1,
-        width: 50,
+        width: 80,
         // type: 'number',
         renderCell: params => `${params.row.incidents}x`
     },
@@ -112,14 +114,14 @@ const columns: GridCol<any, any>[] = [
         key: 'dnf',
         name: 'DNF',
         // flex: 1,
-        minWidth: 50,
+        width: 80,
         // type: "boolean",
     },
     {
         key: 'track',
         name: 'Track',
         // flex: 1,
-        minWidth: 300,
+        width: 300,
         // type: 'string',
     }
 ];

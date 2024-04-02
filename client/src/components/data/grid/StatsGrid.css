@@ -1,23 +1,70 @@
 .rdg-cell {
-    padding-inline: 0;
+    > svg {
+        height: var(--rdg-row-height);
+        margin-left: 1px;
+    }
+    > .MuiTypography-root {
+        line-height: inherit;
+        font-style: inherit;
+        font-size: inherit;
+        font-weight: inherit;
+    }
 }
 
-.rdg img, svg {
-    /*height: 40px;*/
-    /*width: auto;*/
-    /*margin-left: auto;*/
-    /*margin-right: auto;*/
-    /*display: block;*/
-    /*background-color: white;*/
+.rdg-cell.filter, .rdg-cell.sortable {
+    display: grid;
+
+    > .MuiButtonGroup-root {
+        grid-column: 1;
+        grid-row: 1;
+        display: flex;
+        visibility: hidden;
+        opacity: 0;
+        transition: visibility 0.2s, opacity 0.2s linear;
+        margin: auto;
+
+        > .MuiIconButton-root {
+            margin: auto;
+        }
+    }
+
+    > .MuiTypography-root {
+        grid-column: 1;
+        grid-row: 1;
+
+        line-height: inherit;
+        font-style: inherit;
+        font-size: inherit;
+        font-weight: inherit;
+
+        visibility: visible;
+        opacity: 1;
+        transition: visibility 0.2s, opacity 0.2s linear;
+    }
 }
 
-.filter {
-    line-height: 40px;
+.rdg-cell.filter:hover, .rdg-cell.sortable:hover {
+    > .MuiButtonGroup-root {
+        visibility: visible;
+        opacity: 1;
+    }
+
+    > .MuiTypography-root {
+        /*display: none;*/
+        visibility: hidden;
+        opacity: 0;
+    }
+    /*font-size: 0;*/
+}
+
+.filter, .sortable {
+    /*line-height: 40px;*/
+    /*min-width: 80px;*/
     padding: 0;
 
     > div {
-        padding-block: 0;
-        padding-inline: 8px;
+        /*padding-block: 0;*/
+        /*padding-inline: 8px;*/
 
         &:first-child {
             border-block-end: 1px solid var(--rdg-border-color);

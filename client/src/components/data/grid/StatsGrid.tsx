@@ -83,7 +83,7 @@ export default function StatsGrid(props: StatsGridProps<any>) {
                 style={{
                     // border: 'gray solid 1px',
                     // borderRadius: '10px',
-                    height: props.height ? props.height : `${height * 0.7}px`
+                    height: props.height ? props.height : `${height * 0.70}px`
                 }}
                 rowHeight={40}
                 // headerRowHeight={80}

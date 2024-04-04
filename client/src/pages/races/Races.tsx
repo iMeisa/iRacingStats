@@ -10,6 +10,7 @@ import {UnixToTime} from "../../functions/datetime/UnixToDate.ts";
 import useFetchArray from "../../hooks/useFetchArray.ts";
 import {Session} from "../../models/Session.ts";
 import {GridCol} from "../../components/data/grid/models/GridCol.ts";
+import Box from "@mui/material/Box";
 
 const columns: GridCol<any, any>[] = [
     {
@@ -87,19 +88,16 @@ export default function Races() {
     return (
         <>
             <Typography variant="h5" fontWeight="bold" mt={1}>Races</Typography>
-            <p style={{color: 'darkgray'}}>Last 24 Hours</p>
+            <Typography variant="subtitle2" style={{color: 'darkgray'}}>Last 24 Hours</Typography>
 
             <Container maxWidth="xl">
-                <StatsGrid
-                    loading={loading}
-                    rows={rows}
-                    columns={columns}
-                    // initialState={{
-                    //     sorting: {
-                    //         sortModel: [{key: 'end_time', sort: 'desc'}],
-                    //     },
-                    // }}
-                />
+                <Box>
+                    <StatsGrid
+                        loading={loading}
+                        rows={rows}
+                        columns={columns}
+                    />
+                </Box>
             </Container>
         </>
     )

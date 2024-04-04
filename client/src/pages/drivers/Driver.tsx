@@ -19,6 +19,7 @@ import useFetchObject from "../../hooks/useFetchObject.ts";
 import FetchDriverRaces from "./FetchDriverRaces.ts";
 import Typography from "@mui/material/Typography";
 import AddRecentDriver from "../../storage/AddRecentDriver.ts";
+import DataRange from "../../components/data/DataRange.tsx";
 
 const panels = ['info', 'series', 'races', 'tracks', 'cars']
 
@@ -62,6 +63,7 @@ export default function Driver() {
                         carStats={carStats}
                         seriesStats={seriesStats}
                     />
+                    <DataRange/>
                 </Container>
             </Grid>
         </Grid>
@@ -80,6 +82,7 @@ export default function Driver() {
                 carStats={carStats}
                 seriesStats={seriesStats}
             />
+            <DataRange/>
         </Container>
 
         <Box height={'2em'} display={{xs: 'block', md: 'none'}}/>

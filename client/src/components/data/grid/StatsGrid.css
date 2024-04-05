@@ -1,9 +1,6 @@
 .rdg-cell {
     border-inline-end: 0;
-    > svg {
-        /*height: var(--rdg-row-height);*/
-        /*margin-left: 1px;*/
-    }
+
     > .MuiTypography-root {
         line-height: inherit;
         font-style: inherit;
@@ -29,6 +26,7 @@
     > .MuiButtonGroup-root {
         grid-column: 1;
         grid-row: 1;
+
         display: flex;
         visibility: hidden;
         opacity: 0;

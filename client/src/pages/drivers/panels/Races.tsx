@@ -18,7 +18,7 @@ const columns: GridCol<any, any>[] = [
         // headerAlign: 'center',
         // align: 'center',
         renderCell: params => <PositionTrophy position={params.row.finish_position_in_class}/>,
-        // type: 'number',
+        type: 'number',
     },
     {
         width: 40,
@@ -29,6 +29,7 @@ const columns: GridCol<any, any>[] = [
         // align: 'left',
         // filterable: false,
         // resizable: true,
+        type: 'singleSelect',
         renderCell: params =>
             CategoryLogo(params.row.category_id, params.row.min_license_level, 30)
 
@@ -51,9 +52,10 @@ const columns: GridCol<any, any>[] = [
         hideName: true,
         // headerAlign: 'center',
         align: 'left',
-        minWidth: 350,
+        minWidth: 300,
+        // width: 300,
         // flex: 1,
-        // type: 'string',
+        type: 'string',
         renderCell: params =>
             <Tooltip title="Subsession Results">
                 <Link
@@ -68,9 +70,10 @@ const columns: GridCol<any, any>[] = [
         key: 'event_strength_of_field',
         name: 'SOF',
         width: 80,
+        // filterable: false,
         // headerAlign: 'center',
         // align: 'center',
-        // type: 'number',
+        type: 'number',
     },
     {
         key: 'sr_change',
@@ -79,7 +82,7 @@ const columns: GridCol<any, any>[] = [
         width: 80,
         // align: 'center',
         // headerAlign: 'center',
-        // type: 'number',
+        type: 'number',
         renderCell: params =>
             <ColoredValue value={params.row.sr_change} decimals={2} positiveIsGood={true}/>
     },
@@ -90,7 +93,7 @@ const columns: GridCol<any, any>[] = [
         width: 80,
         // align: 'center',
         // headerAlign: 'center',
-        // type: 'number',
+        type: 'number',
         renderCell: params =>
             <ColoredValue value={params.row.ir_change} positiveIsGood={true}/>
     },
@@ -109,7 +112,7 @@ const columns: GridCol<any, any>[] = [
         name: 'Inc',
         // flex: 1,
         width: 80,
-        // type: 'number',
+        type: 'number',
         renderCell: params => `${params.row.incidents}x`
     },
     {
@@ -117,14 +120,14 @@ const columns: GridCol<any, any>[] = [
         name: 'DNF',
         // flex: 1,
         width: 80,
-        // type: "boolean",
+        type: "boolean",
     },
     {
         key: 'track',
         name: 'Track',
         // flex: 1,
-        width: 300,
-        // type: 'string',
+        width: 350,
+        type: 'string',
     }
 ];
 

@@ -1,7 +1,5 @@
 import PullCache from "./PullCache.ts";
 
-// TODO implement hash checking
-
 export default function ContentCache<Type = Record<string, unknown>[]>(contentName: string): Type[] {
     /**
      * Returns cached content

@@ -1,4 +1,6 @@
-interface Filter extends Omit<Row, 'id' | 'complete'> {
-    complete: number | undefined;
-    enabled: boolean;
+export type Filter = {
+    id: number,
+    col: string,
+    operator: string,
+    filterValue: string,
 }

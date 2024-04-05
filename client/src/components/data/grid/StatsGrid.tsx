@@ -4,64 +4,27 @@ import DataGrid from 'react-data-grid'
 import Box from "@mui/material/Box";
 import {StatsGridProps} from "./models/StatsGridProps.ts";
 import useWindowSize from "../../../hooks/useWindowSize.ts";
+import RenderColumns from "./RenderColumns.tsx";
 import IconButton from "@mui/material/IconButton";
-import FilterAltIcon from '@mui/icons-material/FilterAlt';
-import Typography from "@mui/material/Typography";
-import SwapVertIcon from '@mui/icons-material/SwapVert';
-import {ButtonGroup} from "@mui/material";
+import AddIcon from '@mui/icons-material/Add';
+import {useState} from "react";
+import FilterModal from "./FilterModal.tsx";
 
-// function inputStopPropagation(event: React.KeyboardEvent<HTMLInputElement>) {
-//     if (['ArrowLeft', 'ArrowRight'].includes(event.key)) {
-//         event.stopPropagation();
-//     }
-// }
-//
-// const defaultWidth = 100
+const filterHeight: string = '3em'
 
 export default function StatsGrid(props: StatsGridProps<any>) {
     const [_width, height] = useWindowSize()
+    const [open, setOpen] = useState(false)
 
-    let newCols = props.columns.map(col => {
+    const handleClickOpen = () => {
+        setOpen(true);
+    };
 
-        const filter: boolean = col.filterable !== false
-        const sortable: boolean = col.sortable !== false
+    const handleClose = () => {
+        setOpen(false);
+    };
 
-        // Forces min width to allow for filter and sort buttons if enabled
-        const minWidth = (40 * Number(filter)) + (40 * Number(sortable))
-
-        col = {
-           ...col,
-           minWidth: minWidth,
-           headerCellClass: col.headerCellClass + ` ${filter ? 'filter' : ''} ${sortable ? 'sortable' : ''}`,
-           cellClass: col.cellClass + ` align-${col.align}`,
-           renderHeaderCell: _p =>
-               <>
-
-                   <Typography variant="h6">
-                       {col.hideName ? '' : col.name}
-                   </Typography>
-
-                   <ButtonGroup>
-                       {filter ?
-                           <IconButton>
-                               <FilterAltIcon/>
-                           </IconButton>
-                           :
-                           <></>
-                       }
-                       {sortable ?
-                           <IconButton>
-                               <SwapVertIcon/>
-                           </IconButton>
-                           :
-                           <></>
-                       }
-                   </ButtonGroup>
-               </>
-
-        }
-        return col
-    })
+    let newCols = RenderColumns(props.columns)
 
     return (
 
@@ -72,29 +35,63 @@ export default function StatsGrid(props: StatsGridProps<any>) {
                 width: '100%',
                 border: 'gray solid 1px',
                 borderRadius: '10px',
-                // borderTopLeftRadius: '10px',
+                color: '#eee'
             }}
         >
-            <Box>
-                hello
+            {/*Filter Box*/}
+            <Box height={filterHeight} display='flex'>
+                <Box
+                    height={filterHeight}
+                    lineHeight={filterHeight}
+                    borderRight='1px solid grey'
+                    width='3.75em'
+                    mr='auto'
+                    fontWeight='bold'
+                >
+                    Filter:
+                </Box>
+
+                <Box
+                    id='filter-list'
+                    overflow='auto'
+                    display='inline'
+                />
+
+                <IconButton
+                    id='add-filter'
+                    sx={{
+                        ml: 'auto',
+                        width: 48,
+                    }}
+                    color='success'
+                    onClick={handleClickOpen}
+                >
+                    <AddIcon/>
+                </IconButton>
             </Box>
 
             <DataGrid
                 style={{
-                    // border: 'gray solid 1px',
-                    // borderRadius: '10px',
-                    height: props.height ? props.height : `${height * 0.70}px`
+                    height: props.height ? props.height : `${height * 0.70}px`,
+                    color: '#eee'
                 }}
                 rowHeight={40}
-                // headerRowHeight={80}
 
                 {...props}
                 columns={newCols}
             />
 
             <Box>
-                {props.rows.length} items
+                {props.rows.length} rows
             </Box>
+
+            <FilterModal
+                open={open}
+                onClose={handleClose}
+                handleClose={handleClose}
+                columns={props.columns}
+            />
+
         </Box>
     )
 }

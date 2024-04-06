@@ -22,12 +22,13 @@ const columns: GridCol<any, any>[] = [
     },
     {
         width: 40,
+        minWidth: 40,
         key: 'category_id',
         name: 'License Category',
         hideName: true,
         sortable: false,
         // align: 'left',
-        // filterable: false,
+        filterable: false,  // Temporary
         // resizable: true,
         type: 'singleSelect',
         renderCell: params =>
@@ -55,6 +56,7 @@ const columns: GridCol<any, any>[] = [
         minWidth: 300,
         // width: 300,
         // flex: 1,
+        resizable: true,
         type: 'string',
         renderCell: params =>
             <Tooltip title="Subsession Results">
@@ -82,6 +84,7 @@ const columns: GridCol<any, any>[] = [
         width: 80,
         // align: 'center',
         // headerAlign: 'center',
+        filterable: false,
         type: 'number',
         renderCell: params =>
             <ColoredValue value={params.row.sr_change} decimals={2} positiveIsGood={true}/>
@@ -127,6 +130,7 @@ const columns: GridCol<any, any>[] = [
         name: 'Track',
         // flex: 1,
         width: 350,
+        resizable: true,
         type: 'string',
     }
 ];

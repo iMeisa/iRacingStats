@@ -9,12 +9,16 @@ import IconButton from "@mui/material/IconButton";
 import AddIcon from '@mui/icons-material/Add';
 import {useState} from "react";
 import FilterModal from "./FilterModal.tsx";
+import {Filter} from "./models/Filter.ts";
+import CloseIcon from '@mui/icons-material/Close';
 
-const filterHeight: string = '3em'
+const filterHeight: string = '4em'
 
 export default function StatsGrid(props: StatsGridProps<any>) {
     const [_width, height] = useWindowSize()
     const [open, setOpen] = useState(false)
+
+    const [filterList, setFilterList] = useState<Filter[]>([])
 
     const handleClickOpen = () => {
         setOpen(true);
@@ -23,6 +27,14 @@ export default function StatsGrid(props: StatsGridProps<any>) {
     const handleClose = () => {
         setOpen(false);
     };
+
+    const handleSubmit = (filter: Filter) => {
+        console.log(filter)
+
+        let updatedFilters = filterList
+        updatedFilters.push(filter)
+        setFilterList(updatedFilters)
+    }
 
     let newCols = RenderColumns(props.columns)
 
@@ -51,17 +63,48 @@ export default function StatsGrid(props: StatsGridProps<any>) {
                     Filter:
                 </Box>
 
+                {/*Filter list*/}
                 <Box
                     id='filter-list'
-                    overflow='auto'
-                    display='inline'
-                />
+                    overflow='scroll'
+
+                    display='flex'
+                    justifyContent='start'
+                    sx={{
+                        width: '100%',
+                        overflowY: 'hidden'
+                    }}
+                >
+                    { filterList.map(filter => {
+                        return (
+                            <Box
+                                display='flex'
+                                whiteSpace='nowrap'
+                                m={0.5}
+                                border='1px solid lightskyblue'
+                                borderRadius='0.5em'
+                                p={1}
+                                gap={1}
+                            >
+                                <strong>{filter.colName}</strong>
+                                {/*{filter.colName} {filter.operator} {filter.value}*/}
+                                {filter.operator}
+                                <ins>{filter.value}</ins>
+                                <IconButton sx={{ mt: -0.1, height: '1em', width: '1em' }}>
+                                    <CloseIcon/>
+                                </IconButton>
+                            </Box>
+                        )
+                    })}
+                </Box>
 
                 <IconButton
-                    id='add-filter'
                     sx={{
                         ml: 'auto',
-                        width: 48,
+                        mr: '5px',
+                        height: '70%',
+                        aspectRatio: 1,
+                        top: '15%',
                     }}
                     color='success'
                     onClick={handleClickOpen}
@@ -89,6 +132,7 @@ export default function StatsGrid(props: StatsGridProps<any>) {
                 open={open}
                 onClose={handleClose}
                 handleClose={handleClose}
+                handleSubmit={handleSubmit}
                 columns={props.columns}
             />
 

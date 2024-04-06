@@ -1,6 +1,6 @@
 export type Filter = {
-    id: number,
     col: string,
+    colName: string,
     operator: string,
-    filterValue: string,
+    value: string,
 }

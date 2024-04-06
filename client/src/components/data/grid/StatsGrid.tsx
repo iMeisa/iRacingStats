@@ -11,8 +11,7 @@ import {useState} from "react";
 import FilterModal from "./FilterModal.tsx";
 import {Filter} from "./models/Filter.ts";
 import CloseIcon from '@mui/icons-material/Close';
-
-const filterHeight: string = '4em'
+import {Tooltip} from "@mui/material";
 
 export default function StatsGrid(props: StatsGridProps<any>) {
     const [_width, height] = useWindowSize()
@@ -31,9 +30,13 @@ export default function StatsGrid(props: StatsGridProps<any>) {
     const handleSubmit = (filter: Filter) => {
         console.log(filter)
 
-        let updatedFilters = filterList
-        updatedFilters.push(filter)
-        setFilterList(updatedFilters)
+        setFilterList([ ...filterList, filter])
+    }
+
+    const removeFilter = (index: number) => {
+        setFilterList(oldFilters => {
+            return oldFilters.filter((_, i) => i !== index)
+        })
     }
 
     let newCols = RenderColumns(props.columns)
@@ -51,14 +54,16 @@ export default function StatsGrid(props: StatsGridProps<any>) {
             }}
         >
             {/*Filter Box*/}
-            <Box height={filterHeight} display='flex'>
+            <Box
+                // height={filterHeight}
+                display='flex'
+            >
                 <Box
-                    height={filterHeight}
-                    lineHeight={filterHeight}
-                    borderRight='1px solid grey'
                     width='3.75em'
-                    mr='auto'
+                    m='auto'
+                    ml='5px'
                     fontWeight='bold'
+                    height='100%'
                 >
                     Filter:
                 </Box>
@@ -66,7 +71,7 @@ export default function StatsGrid(props: StatsGridProps<any>) {
                 {/*Filter list*/}
                 <Box
                     id='filter-list'
-                    overflow='scroll'
+                    // overflow='scroll'
 
                     display='flex'
                     justifyContent='start'
@@ -75,14 +80,17 @@ export default function StatsGrid(props: StatsGridProps<any>) {
                         overflowY: 'hidden'
                     }}
                 >
-                    { filterList.map(filter => {
+                    { filterList.map((filter, index) => {
                         return (
                             <Box
                                 display='flex'
                                 whiteSpace='nowrap'
-                                m={0.5}
+                                // m={0.5}
+                                my={0.5}
+                                mx={0.5}
                                 border='1px solid lightskyblue'
                                 borderRadius='0.5em'
+                                height='2.5em'
                                 p={1}
                                 gap={1}
                             >
@@ -90,7 +98,10 @@ export default function StatsGrid(props: StatsGridProps<any>) {
                                 {/*{filter.colName} {filter.operator} {filter.value}*/}
                                 {filter.operator}
                                 <ins>{filter.value}</ins>
-                                <IconButton sx={{ mt: -0.1, height: '1em', width: '1em' }}>
+                                <IconButton
+                                    sx={{ my: 'auto', height: '1em', width: '1em' }}
+                                    onClick={() => removeFilter(index)}
+                                >
                                     <CloseIcon/>
                                 </IconButton>
                             </Box>
@@ -98,19 +109,23 @@ export default function StatsGrid(props: StatsGridProps<any>) {
                     })}
                 </Box>
 
-                <IconButton
-                    sx={{
-                        ml: 'auto',
-                        mr: '5px',
-                        height: '70%',
-                        aspectRatio: 1,
-                        top: '15%',
-                    }}
-                    color='success'
-                    onClick={handleClickOpen}
-                >
-                    <AddIcon/>
-                </IconButton>
+                <Tooltip title='Add filter'>
+                    <span>
+                        <IconButton
+                            sx={{
+                                my: 'auto',
+                                mx: '5px',
+                                height: '70%',
+                                aspectRatio: 1,
+                                top: '15%',
+                            }}
+                            color='success'
+                            onClick={handleClickOpen}
+                        >
+                            <AddIcon/>
+                        </IconButton>
+                    </span>
+                </Tooltip>
             </Box>
 
             <DataGrid

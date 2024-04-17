@@ -44,6 +44,8 @@ export default function FillDriverRaceData(races: DriverRace[]): DriverRace[] {
 
     races = fillDefaults(races)
 
+    races.sort((a, b) => b.end_time - a.end_time)
+
     return races
 }
 

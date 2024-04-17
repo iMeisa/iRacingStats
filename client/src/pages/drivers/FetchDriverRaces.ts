@@ -14,6 +14,8 @@ export default function FetchDriverRaces(id: any): [DriverRace[], boolean] {
 
             race.valid_race = race.field_size >= 4 && race.laps_complete >= 2
 
+            race.adjusted_position = race.finish_position_in_class === undefined ? 1 : race.finish_position_in_class + 1
+
             race.dnf = race.reason_out_id !== 0 && race.reason_out_id !== undefined
 
             race.sr_change = (race.new_sub_level - race.old_sub_level) / 100

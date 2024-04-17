@@ -12,13 +12,15 @@ import BoolIcon from "../../../components/data/BoolIcon.tsx";
 
 const columns: GridCol<any, any>[] = [
     {
-        key: 'finish_position_in_class',
+        key: 'adjusted_position',
         name: 'Pos',
         // hideName: true,
         width: 80,
         // headerAlign: 'center',
         // align: 'center',
-        renderCell: params => <PositionTrophy position={params.row.finish_position_in_class}/>,
+        renderCell: params => params.row.finish_position_in_class < 3 ?
+            <PositionTrophy position={params.row.finish_position_in_class}/> :
+            params.row.adjusted_position,
         type: 'number',
     },
     {
@@ -138,6 +140,7 @@ const columns: GridCol<any, any>[] = [
 ];
 
 export default function UserRaces(props: {results: DriverRace[], loading: boolean}) {
+
     return <StatsGrid
         columns={columns}
         rows={props.results}

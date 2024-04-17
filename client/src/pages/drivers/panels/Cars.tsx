@@ -19,8 +19,9 @@ const columns: GridCol<any, any>[] = [
         // flex: 1,
         minWidth: 300,
         key: 'car_name',
-        name: '',
-        // type: 'string',
+        name: 'Car Name',
+        hideName: true,
+        type: 'string',
     },
     {
         // flex: 1,
@@ -29,7 +30,7 @@ const columns: GridCol<any, any>[] = [
         name: 'Races',
         // headerAlign: 'center',
         align: 'center',
-        // type: 'number',
+        type: 'number',
     },
     {
         // flex: 1,
@@ -38,7 +39,7 @@ const columns: GridCol<any, any>[] = [
         name: 'Wins',
         // headerAlign: 'center',
         align: 'center',
-        // type: 'number',
+        type: 'number',
     },
     {
         // flex: 1,
@@ -47,7 +48,7 @@ const columns: GridCol<any, any>[] = [
         name: 'Podiums',
         // headerAlign: 'center',
         align: 'center',
-        // type: 'number',
+        type: 'number',
     },
     {
         // flex: 1,
@@ -67,7 +68,7 @@ const columns: GridCol<any, any>[] = [
         name: 'Laps',
         // headerAlign: 'center',
         align: 'center',
-        // type: 'number',
+        type: 'number',
     },
     {
         // flex: 1,
@@ -76,7 +77,7 @@ const columns: GridCol<any, any>[] = [
         name: 'Laps Lead',
         // headerAlign: 'center',
         align: 'center',
-        // type: 'number',
+        type: 'number',
     },
     {
         // flex: 1,
@@ -85,7 +86,8 @@ const columns: GridCol<any, any>[] = [
         name: 'Inc Avg',
         // headerAlign: 'center',
         align: 'center',
-        filterable: false,
+        // filterable: false,
+        type: 'number',
         renderCell: params => params.row.inc_avg.toFixed(2)
     },
     {
@@ -105,7 +107,7 @@ const columns: GridCol<any, any>[] = [
         name: 'ID',
         // headerAlign: 'right',
         align: 'right',
-        // type: 'number',
+        type: 'number',
     },
 
 ];

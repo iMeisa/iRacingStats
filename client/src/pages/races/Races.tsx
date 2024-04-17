@@ -28,7 +28,8 @@ const columns: GridCol<any, any>[] = [
     {
         width: 50,
         key: 'category_id',
-        name: '',
+        name: 'License Category',
+        hideName: true,
         sortable: false,
         filterable: false,
         align: 'center',
@@ -38,7 +39,8 @@ const columns: GridCol<any, any>[] = [
     },
     {
         key: 'series_short_name',
-        name: '',
+        name: 'Series Name',
+        hideName: true,
         minWidth: 350,
         renderCell: params =>
             <Tooltip title="See splits">
@@ -55,7 +57,7 @@ const columns: GridCol<any, any>[] = [
         name: 'Splits',
         width: 70,
         align: 'center',
-        // type: 'number'
+        type: 'number'
     },
     {
         key: 'start_time',

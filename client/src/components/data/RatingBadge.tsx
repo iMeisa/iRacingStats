@@ -53,6 +53,7 @@ export default function RatingBadge(props: RatingBadgeProps) {
             fontSize: '1em',
             paddingX: 1,
             // paddingY: 0.5,
+            marginY: 'auto',
 
             border: 1,
             borderColor: LicenseTertiaryColor(license, false),

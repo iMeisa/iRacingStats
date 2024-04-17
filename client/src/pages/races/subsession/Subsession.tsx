@@ -23,7 +23,7 @@ const columns: GridCol<any, any>[] = [
         // headerAlign: 'right',
         align: 'right',
         renderCell: params => <PositionTrophy position={params.row.finish_position}/>,
-        // type: 'number'
+        type: 'number'
     },
     {
         key: 'rating',
@@ -31,16 +31,18 @@ const columns: GridCol<any, any>[] = [
         width: 200,
         filterable: false,
         renderCell: params =>
-            <RatingBadge
-                loading={false}
-                category={params.row.license_category_id}
-                license={params.row.new_license_level}
-                old_sr={params.row.old_sub_level}
-                safety_rating={params.row.new_sub_level}
-                old_ir={params.row.oldi_rating}
-                irating={params.row.newi_rating}
-                show_change={true}
-            />,
+            <Box display={'flex'} height={'100%'}>
+                <RatingBadge
+                    loading={false}
+                    category={params.row.license_category_id}
+                    license={params.row.new_license_level}
+                    old_sr={params.row.old_sub_level}
+                    safety_rating={params.row.new_sub_level}
+                    old_ir={params.row.oldi_rating}
+                    irating={params.row.newi_rating}
+                    show_change={true}
+                />
+            </Box>,
     },
     {
         key: 'display_name',
@@ -53,21 +55,23 @@ const columns: GridCol<any, any>[] = [
                 to={`/driver/${params.row.cust_id}`}
             >{params.row.display_name}</Link>
     },
-    {
-        key: 'mobile_rating',
-        name: '',
-        width: 140,
-        filterable: false,
-        renderCell: params =>
-            <RatingBadge
-                loading={false}
-                category={params.row.license_category_id}
-                license={params.row.new_license_level}
-                safety_rating={params.row.new_sub_level}
-                irating={params.row.newi_rating}
-                show_change={false}
-            />,
-    },
+    // {
+    //     key: 'mobile_rating',
+    //     name: '',
+    //     width: 140,
+    //     filterable: false,
+    //     renderCell: params =>
+    //         <Box display={'flex'} height={'100%'}>
+    //             <RatingBadge
+    //                 loading={false}
+    //                 category={params.row.license_category_id}
+    //                 license={params.row.new_license_level}
+    //                 safety_rating={params.row.new_sub_level}
+    //                 irating={params.row.newi_rating}
+    //                 show_change={false}
+    //             />
+    //         </Box>,
+    // },
     {
         key: 'logo',
         name: 'Car',
@@ -75,11 +79,13 @@ const columns: GridCol<any, any>[] = [
         width: 80,
         filterable: false,
         renderCell: params =>
-            <Tooltip title={params.row.car_name} disableInteractive>
-                <span>
-                    <CarLogo link={params.row.logo}/>
-                </span>
-            </Tooltip>,
+            <Box display={'flex'} height={'100%'}>
+                <Tooltip title={params.row.car_name} disableInteractive>
+                    <span>
+                        <CarLogo link={params.row.logo}/>
+                    </span>
+                </Tooltip>
+            </Box>
     },
     {
         key: 'average_lap',

@@ -18,9 +18,14 @@ import {useState} from "react";
 import CategoryLogo from "../../functions/img/CategoryLogo.tsx";
 
 const pages = ['Races', 'Series', 'Cars', 'Tracks', 'Drivers'];
+const disabled = ['cars', 'tracks']
+
+function pageDisabled(page: string): boolean {
+    return disabled.includes(page.toLowerCase())
+}
 
 function pageLink(pageName: string) {
-    return `/${pageName.toLowerCase()}`
+    return pageDisabled(pageName) ? '#' : `/${pageName.toLowerCase()}`
 }
 
 const pageIcons = (page: string) => {
@@ -90,6 +95,7 @@ function ResponsiveAppBar() {
                         {pages.map((page) => (
                             <Link key={page} to={pageLink(page)}>
                                 <Button
+                                    disabled={pageDisabled(page)}
                                     className={'nav-item'}
                                     key={page}
                                     onClick={handleSetActiveNav}
@@ -137,7 +143,10 @@ function ResponsiveAppBar() {
                                 {pages.map((page) => (
                                     <Link key={page} to={pageLink(page)} style={{ color: 'inherit' }}>
                                         <ListItem disablePadding>
-                                            <ListItemButton onClick={handleCloseNavMenu}>
+                                            <ListItemButton
+                                                onClick={handleCloseNavMenu}
+                                                disabled={pageDisabled(page)}
+                                            >
                                                 {pageIcons(page)}
                                                 <ListItemText style={{marginLeft: '3px'}} primary={page}/>
                                             </ListItemButton>

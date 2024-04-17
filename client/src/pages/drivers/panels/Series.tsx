@@ -17,7 +17,8 @@ const columns: GridCol<any, any>[] = [
     {
         width: 50,
         key: 'license_category_id',
-        name: '',
+        name: 'License Category',
+        hideName: true,
         sortable: false,
         align: 'center',
         filterable: false,
@@ -29,7 +30,8 @@ const columns: GridCol<any, any>[] = [
         // flex: 1,
         width: 400,
         key: 'series_name',
-        name: '',
+        name: 'Series Name',
+        hideName: true,
     },
     {
         // flex: 1,
@@ -38,7 +40,7 @@ const columns: GridCol<any, any>[] = [
         name: 'Races',
         // headerAlign: 'center',
         align: 'center',
-        // type: 'number',
+        type: 'number',
     },
     {
         // flex: 1,
@@ -47,7 +49,7 @@ const columns: GridCol<any, any>[] = [
         name: 'Wins',
         // headerAlign: 'center',
         align: 'center',
-        // type: 'number',
+        type: 'number',
     },
     {
         // flex: 1,
@@ -56,7 +58,7 @@ const columns: GridCol<any, any>[] = [
         name: 'Podiums',
         // headerAlign: 'center',
         align: 'center',
-        // type: 'number',
+        type: 'number',
     },
     {
         // flex: 1,
@@ -65,7 +67,7 @@ const columns: GridCol<any, any>[] = [
         name: 'Laps',
         // headerAlign: 'center',
         align: 'center',
-        // type: 'number',
+        type: 'number',
     },
     {
         // flex: 1,
@@ -74,7 +76,7 @@ const columns: GridCol<any, any>[] = [
         name: 'Laps Lead',
         // headerAlign: 'center',
         align: 'center',
-        // type: 'number',
+        type: 'number',
     },
     {
         // flex: 1,
@@ -83,7 +85,7 @@ const columns: GridCol<any, any>[] = [
         name: 'Inc Avg',
         // headerAlign: 'center',
         align: 'center',
-        // type: 'number',
+        type: 'number',
         filterable: false,
         renderCell: params => params.row.inc_avg.toFixed(2)
     },
@@ -103,7 +105,7 @@ const columns: GridCol<any, any>[] = [
         name: 'ID',
         // headerAlign: 'right',
         align: 'right',
-        // type: 'number',
+        type: 'number',
     },
 
 ];

@@ -10,7 +10,7 @@
 }
 
 .rdg-row > .rdg-cell {
-    > a > img, > svg {
+    > a > img, > svg, .center-img {
         margin: 0;
         position: absolute;
         top: 50%;

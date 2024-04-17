@@ -30,17 +30,19 @@ const columns: GridCol<any, any>[] = [
     },
     {
         key: 'split',
-        name: '',
+        name: 'Split',
+        hideName: true,
         align: 'center',
-        // type: 'number',
-        width: 20
+        type: 'number',
+        width: 20,
+        filterable: false,
     },
     {
         key: 'event_strength_of_field',
         name: 'SOF',
         // headerAlign: 'center',
         align: 'center',
-        // type: 'number',
+        type: 'number',
         minWidth: 70
     },
     {
@@ -49,7 +51,7 @@ const columns: GridCol<any, any>[] = [
         // flex: 1,
         // headerAlign: 'center',
         align: 'center',
-        // type: 'number',
+        type: 'number',
         minWidth: 100
     },
     {
@@ -67,7 +69,7 @@ const columns: GridCol<any, any>[] = [
         // flex: 1,
         // headerAlign: 'center',
         align: 'center',
-        // type: 'number',
+        type: 'number',
         minWidth: 125
     },
     {
@@ -75,7 +77,7 @@ const columns: GridCol<any, any>[] = [
         name: 'Cautions',
         align: 'center',
         minWidth: 90,
-        // type: 'number',
+        type: 'number',
         // hideable: true
     },
     {
@@ -84,7 +86,7 @@ const columns: GridCol<any, any>[] = [
         align: 'center',
         width: 20,
         filterable: false,
-        // type: 'boolean',
+        type: 'boolean',
     },
     // { key: 'id', name: 'ID', align: 'right', type: 'number'},
 ];

@@ -16,7 +16,7 @@ export default function StatsGrid(props: StatsGridProps<any>) {
     const [open, setOpen] = useState(false)
 
     const [filterList, setFilterList] = useState<Filter[]>([])
-    const [editFilter, setEditFilter] = useState<Filter>(DefaultFilter)
+    const [editFilter, _setEditFilter] = useState<Filter>(DefaultFilter)
 
     const filteredRows = FilterRows(props.rows, filterList)
 

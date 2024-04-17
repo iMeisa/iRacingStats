@@ -8,6 +8,7 @@ import PositionTrophy from "../../../components/images/PositionTrophy.tsx";
 import ColoredValue from "../../../components/data/ColoredValue.tsx";
 import {DriverRace} from "../../../models/driver/Race.ts";
 import {GridCol} from "../../../components/data/grid/models/GridCol.ts";
+import BoolIcon from "../../../components/data/BoolIcon.tsx";
 
 const columns: GridCol<any, any>[] = [
     {
@@ -124,6 +125,7 @@ const columns: GridCol<any, any>[] = [
         // flex: 1,
         width: 80,
         type: "boolean",
+        renderCell: params => <BoolIcon value={params.row.dnf} positiveValue={false}/>
     },
     {
         key: 'track',

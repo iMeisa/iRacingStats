@@ -204,9 +204,8 @@ export default function FilterModal(props: FilterModalProps) {
                             label='value'
                             onChange={handleFilterSelectValueChange}
                         >
-                            <MenuItem value={0}>Any</MenuItem>
-                            <MenuItem value={1}>True</MenuItem>
-                            <MenuItem value={2}>False</MenuItem>
+                            <MenuItem value={'true'}>True</MenuItem>
+                            <MenuItem value={'false'}>False</MenuItem>
                         </Select> : <></>
                     }
                 </FormControl>

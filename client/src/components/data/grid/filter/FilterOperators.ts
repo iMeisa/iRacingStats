@@ -1,33 +1,5 @@
 import {GridColType} from "@mui/x-data-grid";
 
-// export const filterOperators: Record<GridColType, string[]> = {
-//     string: [
-//         'contains',
-//         'equals',
-//         'starts with',
-//         'ends with',
-//         'is empty',
-//         'is not empty',
-//         'is any of',
-//     ],
-//     number: [
-//         '=',
-//         '≠',
-//         '>',
-//         '>=',
-//         '<',
-//         '<=',
-//         'is empty',
-//         'is not empty',
-//         'is any of',
-//     ],
-//     date: ['is'],
-//     dateTime: ['is'],
-//     boolean: ['is'],
-//     singleSelect: ['is'],
-//     actions: ['is'],
-// }
-
 export const filterFunctions: Record<GridColType, Record<string, Function>> = {
     string: {
         // s: original string
@@ -54,10 +26,10 @@ export const filterFunctions: Record<GridColType, Record<string, Function>> = {
     },
     number: {
         '=': function (n: number, v: number): boolean
-        { return n === v },
+        { return n == v },
 
         '≠': function (n: number, v: number): boolean
-        { return n !== v },
+        { return n != v },
 
         '>': function (n: number, v: number): boolean
         { return n > v },
@@ -88,8 +60,8 @@ export const filterFunctions: Record<GridColType, Record<string, Function>> = {
         { return x === v },
     },
     boolean: {
-        'is': function (x: any, v: any): boolean
-        { return x === v },
+        'is': function (x: boolean, v: string): boolean
+        { return x == (v.toLowerCase() === 'true') },
     },
     singleSelect: {
         'is': function (x: any, v: any): boolean

@@ -139,7 +139,7 @@ export default function UserRaces(props: {results: DriverRace[], loading: boolea
     return <StatsGrid
         columns={columns}
         rows={props.results}
-        // loading={props.loading}
+        loading={props.loading}
         // initialState={{
         //     sorting: {
         //         sortModel: [{key: 'end_time', sort: 'desc'}],

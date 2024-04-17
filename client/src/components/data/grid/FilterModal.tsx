@@ -13,43 +13,18 @@ import Box from "@mui/material/Box";
 import useIsMobile from "../../../hooks/useIsMobile.ts";
 import {GridColType} from "@mui/x-data-grid";
 import {Filter} from "./models/Filter.ts";
+import {filterOperators} from "./filter/FilterOperators.ts";
 
 export interface FilterModalProps extends DialogProps {
     handleClose: () => void
     handleSubmit: (filter: Filter) => void
     columns: GridCol<any, any>[]
+    editFilter: Filter
     // rows: Record<string, unknown>[]
 }
 
 const inputVariant = 'standard'
 
-const filterOperators: Record<GridColType, string[]> = {
-    string: [
-        'contains',
-        'equals',
-        'starts with',
-        'ends with',
-        'is empty',
-        'is not empty',
-        'is any of',
-    ],
-    number: [
-        '=',
-        '≠',
-        '>',
-        '>=',
-        '<',
-        '<=',
-        'is empty',
-        'is not empty',
-        'is any of',
-    ],
-    date: ['is'],
-    dateTime: ['is'],
-    boolean: ['is'],
-    singleSelect: ['is'],
-    actions: ['is'],
-}
 
 export default function FilterModal(props: FilterModalProps) {
 
@@ -74,7 +49,6 @@ export default function FilterModal(props: FilterModalProps) {
         const colKey = event.target.value  // Update select value
         setFilterCol(colKey)
         // Clear other inputs
-        setFilterOperator('0')
         setFilterValue('')
 
         // Update operator list based on column type
@@ -91,7 +65,9 @@ export default function FilterModal(props: FilterModalProps) {
 
     // Updated filter operators on column type change
     useEffect(() => {
-        setFilterOperatorList(filterOperators[colType])
+        const typeOperators = filterOperators(colType)
+        setFilterOperatorList(typeOperators)
+        setFilterOperator(typeOperators[0] as string)
     }, [colType]);
 
     // Filter value
@@ -119,8 +95,9 @@ export default function FilterModal(props: FilterModalProps) {
                 props.handleSubmit({
                     col: formJson.column,
                     colName: colsByKey[formJson.column].name as string,
-                    operator: filterOperators[colType][formJson.operator as number],
-                    value: formJson.value
+                    operator: formJson.operator as string,
+                    value: formJson.value,
+                    type: colType as GridColType,
                 })
                 handleClose();
             },
@@ -179,8 +156,9 @@ export default function FilterModal(props: FilterModalProps) {
                         name='operator'
                         onChange={handleFilterOperatorChange}
                     >
-                        {filterOperatorList.map((operator, index) =>
-                           <MenuItem value={index}>{operator}</MenuItem>
+                        {/*<MenuItem value={0} hidden>{filterOperatorList[0]}</MenuItem>*/}
+                        {filterOperatorList.map(operator =>
+                           <MenuItem value={operator as string}>{operator}</MenuItem>
                         )}
                     </Select>
                 </FormControl>
@@ -223,6 +201,7 @@ export default function FilterModal(props: FilterModalProps) {
                             value={filterValue}
                             disabled={filterCol.length < 1}
                             name='value'
+                            label='value'
                             onChange={handleFilterSelectValueChange}
                         >
                             <MenuItem value={0}>Any</MenuItem>

@@ -1,30 +1,30 @@
-import {GridColDef, GridRenderCellParams} from "@mui/x-data-grid";
 import useFetchArray from "../../hooks/useFetchArray.ts";
 import CarLogo from "../../components/images/CarLogo.tsx";
 import StatsGrid from "../../components/data/grid/StatsGrid.tsx";
+import {GridCol} from "../../components/data/grid/models/GridCol.ts";
 
-const columns: GridColDef[] = [
+const columns: GridCol<any, any>[] = [
     {
-        field: 'logo',
-        headerName: '',
+        key: 'logo',
+        name: '',
         width: 75,
-        renderCell: (params: GridRenderCellParams<any, string>) => <CarLogo link={params.value as string}/>,
+        renderCell: params => <CarLogo link={params.row.logo as string}/>,
         sortable: false,
         filterable: false,
-        headerAlign: 'center',
+        // headerAlign: 'center',
         align: 'right'
     },
     {
-        field: 'car_name',
-        headerName: 'Car.ts Name',
-        flex: 1,
+        key: 'car_name',
+        name: 'Car Name',
+        // flex: 1,
         minWidth: 200,
     },
     {
-        field: 'free_with_subscription',
+        key: 'free_with_subscription',
         type: 'boolean',
-        headerName: 'Free',
-        flex: 1,
+        name: 'Free',
+        // flex: 1,
     },
 ];
 
@@ -49,10 +49,5 @@ export default function CarTable() {
         loading={loading}
         rows={rows}
         columns={columns}
-        initialState={{
-            sorting: {
-                sortModel: [{field: 'car_name', sort: 'asc'}],
-            },
-        }}
     />
 }

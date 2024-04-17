@@ -1,37 +1,54 @@
 import useFetchArray from "../../hooks/useFetchArray.ts";
 import {useEffect} from "react";
 import Container from "@mui/material/Container";
-import {GridColDef, GridRenderCellParams} from "@mui/x-data-grid";
 import TrackLogo from "../../components/images/TrackLogo.tsx";
 import CategoryLogo from "../../functions/img/CategoryLogo.tsx";
 import StatsGrid from "../../components/data/grid/StatsGrid.tsx";
+import {GridCol} from "../../components/data/grid/models/GridCol.ts";
 
 
-const columns: GridColDef[] = [
-    { field: 'id', headerName: 'ID', headerAlign: 'center', align: 'right', width: 50, type: 'number'},
+const columns: GridCol<any, any>[] = [
     {
-        field: 'logo',
-        headerName: '',
+        key: 'id',
+        name: 'ID',
+        // headerAlign: 'center',
+        align: 'right',
+        width: 50,
+        type: 'number'
+    },
+    {
+        key: 'logo',
+        name: '',
         width: 75,
-        renderCell: (params: GridRenderCellParams<any, string>) => <TrackLogo link={params.value as string}/>,
+        renderCell: params => <TrackLogo link={params.row.logo as string}/>,
         sortable: false,
         filterable: false,
-        headerAlign: 'center',
+        // headerAlign: 'center',
         align: 'right'
     },
     {
         width: 50,
-        field: 'license_category_id',
-        headerName: '',
+        key: 'license_category_id',
+        name: '',
         sortable: false,
         filterable: false,
         align: 'center',
         renderCell: params =>
-            CategoryLogo(params.value, 0)
+            CategoryLogo(params.row.license_category_id, 0)
 
     },
-    { field: 'track_name', headerName: 'Name', flex: 1, minWidth: 300},
-    { field: 'config_name', headerName: 'Config', flex: 1, minWidth: 200},
+    {
+        key: 'track_name',
+        name: 'Name',
+        // flex: 1,
+        minWidth: 300
+    },
+    {
+        key: 'config_name',
+        name: 'Config',
+        // flex: 1,
+        minWidth: 200
+    },
 ];
 
 export default function Tracks() {

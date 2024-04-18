@@ -23,7 +23,7 @@ export default function FilterHeader(props: FilterHeaderProps) {
                 fontWeight='bold'
                 height='100%'
             >
-                Filter:
+                Filters:
             </Box>
 
             {/*Filter list*/}
@@ -39,6 +39,7 @@ export default function FilterHeader(props: FilterHeaderProps) {
                 { props.filterList.map((filter, index) => {
                     return (
                         <Box
+                            key={index}
                             display='flex'
                             whiteSpace='nowrap'
                             // m={0.5}

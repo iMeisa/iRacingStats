@@ -5,7 +5,7 @@ import Box from "@mui/material/Box";
 import {StatsGridProps} from "./models/StatsGridProps.ts";
 import useWindowSize from "../../../hooks/useWindowSize.ts";
 import RenderColumns from "./RenderColumns.tsx";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import FilterModal from "./FilterModal.tsx";
 import {DefaultFilter, Filter} from "./models/Filter.ts";
 import FilterHeader from "./FilterHeader.tsx";
@@ -16,12 +16,15 @@ export default function StatsGrid(props: StatsGridProps<any>) {
     const [open, setOpen] = useState(false)
 
     const [filterList, setFilterList] = useState<Filter[]>([])
-    const [editFilter, _setEditFilter] = useState<Filter>(DefaultFilter)
+    const [editFilter, setEditFilter] = useState<Filter>(DefaultFilter)
 
     const filteredRows = FilterRows(props.rows, filterList)
 
     const handleClickOpen = () => setOpen(true)
-    const handleClose = () => setOpen(false)
+    const handleClose = () => {
+        setEditFilter(DefaultFilter)
+        setOpen(false)
+    }
 
     const handleSubmit = (filter: Filter) => setFilterList([ ...filterList, filter])
     const removeFilter = (index: number) =>
@@ -29,7 +32,16 @@ export default function StatsGrid(props: StatsGridProps<any>) {
             oldFilters.filter((_, i) => i !== index)
         )
 
-    let newCols = RenderColumns(props.columns)
+    const handleEditFilter = (filter: Filter) => {
+        setEditFilter(filter)
+        setOpen(true)
+    }
+
+    let newCols = RenderColumns(props.columns, handleEditFilter)
+
+    useEffect(() => {
+        console.log(editFilter)
+    }, [editFilter]);
 
     return (
 
@@ -63,7 +75,7 @@ export default function StatsGrid(props: StatsGridProps<any>) {
             />
 
             <Box>
-                {props.rows.length} rows
+                {filteredRows.length} rows
             </Box>
 
             <FilterModal

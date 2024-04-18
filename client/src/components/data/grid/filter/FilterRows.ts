@@ -14,7 +14,7 @@ export default function FilterRows(rows: Record<string, unknown>[], filters: Fil
         // Loop through filters per row
         let filtersSatisfied = 0
         for (const filter of filters) {
-            console.log(filter)
+            // console.log(filter)
             if (filterApplies(row, filter)) filtersSatisfied++
         }
 
@@ -37,7 +37,7 @@ function filterApplies(row: Record<string, unknown>, filter: Filter): boolean {
     const originalValue = row[filter.col]
     const filterValue = filter.value
 
-    console.log(row, row['type'], dataType, originalValue, filterValue)
+    // console.log(row, row['type'], dataType, originalValue, filterValue)
 
     return filterFunctions[dataType][filter.operator](originalValue, filterValue)
 }

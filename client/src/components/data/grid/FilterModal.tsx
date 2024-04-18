@@ -44,6 +44,11 @@ export default function FilterModal(props: FilterModalProps) {
 
     const [filterValue, setFilterValue] = useState('')
 
+    useEffect(() => {
+        setFilterCol(props.editFilter.col)
+        handleSetColType(props.editFilter.col)
+    }, [props.editFilter]);
+
     // Filter column
     const handleFilterColChange = (event: SelectChangeEvent) => {
         const colKey = event.target.value  // Update select value
@@ -52,10 +57,20 @@ export default function FilterModal(props: FilterModalProps) {
         setFilterValue('')
 
         // Update operator list based on column type
-        let colTypeRaw = colsByKey[colKey].type
+        handleSetColType(colKey)
+
+    }
+
+    const handleSetColType = (col: string) => {
+
+        if (col === '') {
+            setColType('string')
+            return
+        }
+
+        let colTypeRaw = colsByKey[col].type
         if (colTypeRaw === undefined) setColType('string')
         else setColType(colTypeRaw)
-
     }
 
     // Filter operator
@@ -134,7 +149,7 @@ export default function FilterModal(props: FilterModalProps) {
                         {props.columns.map(col => {
                             if (col.filterable === false) return
 
-                            return <MenuItem value={col.key}>{col.name}</MenuItem>
+                            return <MenuItem key={col.key} value={col.key}>{col.name}</MenuItem>
                         })}
                     </Select>
                 </FormControl>
@@ -158,7 +173,7 @@ export default function FilterModal(props: FilterModalProps) {
                     >
                         {/*<MenuItem value={0} hidden>{filterOperatorList[0]}</MenuItem>*/}
                         {filterOperatorList.map(operator =>
-                           <MenuItem value={operator as string}>{operator}</MenuItem>
+                           <MenuItem key={operator} value={operator as string}>{operator}</MenuItem>
                         )}
                     </Select>
                 </FormControl>
@@ -204,8 +219,8 @@ export default function FilterModal(props: FilterModalProps) {
                             label='value'
                             onChange={handleFilterSelectValueChange}
                         >
-                            <MenuItem value={'true'}>True</MenuItem>
-                            <MenuItem value={'false'}>False</MenuItem>
+                            <MenuItem key={1} value={'true'}>True</MenuItem>
+                            <MenuItem key={0} value={'false'}>False</MenuItem>
                         </Select> : <></>
                     }
                 </FormControl>

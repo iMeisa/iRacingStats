@@ -4,8 +4,9 @@ import {ButtonGroup} from "@mui/material";
 import IconButton from "@mui/material/IconButton";
 import FilterAltIcon from "@mui/icons-material/FilterAlt";
 import SwapVertIcon from "@mui/icons-material/SwapVert";
+import {DefaultFilter, Filter} from "./models/Filter.ts";
 
-export default function RenderColumns(cols: GridCol<any, any>[]): GridCol<any, any>[] {
+export default function RenderColumns(cols: GridCol<any, any>[], setFilter: Function): GridCol<any, any>[] {
     return cols.map(col => {
 
         const filter: boolean = col.filterable !== false
@@ -27,7 +28,12 @@ export default function RenderColumns(cols: GridCol<any, any>[]): GridCol<any, a
 
                     <ButtonGroup>
                     { filter ?
-                        <IconButton>
+                        <IconButton onClick={() =>
+                            setFilter({
+                                ...DefaultFilter,
+                                col: col.key,
+                            } as Filter)
+                        }>
                             <FilterAltIcon/>
                         </IconButton>
                         :

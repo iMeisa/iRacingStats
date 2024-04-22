@@ -8,12 +8,13 @@ import {
 } from "@mui/material";
 import {FormEvent, useEffect, useState} from "react";
 import Button from "@mui/material/Button";
-import {GridCol} from "./models/GridCol.ts";
+import {GridCol} from "../models/GridCol.ts";
 import Box from "@mui/material/Box";
-import useIsMobile from "../../../hooks/useIsMobile.ts";
+import useIsMobile from "../../../../hooks/useIsMobile.ts";
 import {GridColType} from "@mui/x-data-grid";
-import {Filter} from "./models/Filter.ts";
-import {filterOperators} from "./filter/FilterOperators.ts";
+import {Filter} from "../models/Filter.ts";
+import {filterOperators} from "./FilterOperators.ts";
+import ColsByKey from "../ColsByKey.ts";
 
 export interface FilterModalProps extends DialogProps {
     handleClose: () => void
@@ -29,10 +30,7 @@ const inputVariant = 'standard'
 export default function FilterModal(props: FilterModalProps) {
 
     // Object of columns by key
-    let colsByKey: Record<string, GridCol<any, any>> = {}
-    for (const column of props.columns) {
-        colsByKey[column.key] = column
-    }
+    const colsByKey = ColsByKey(props.columns)
 
     const isMobile = useIsMobile()
 

@@ -5,8 +5,26 @@ import IconButton from "@mui/material/IconButton";
 import FilterAltIcon from "@mui/icons-material/FilterAlt";
 import SwapVertIcon from "@mui/icons-material/SwapVert";
 import {DefaultFilter, Filter} from "./models/Filter.ts";
+import {GridColType} from "@mui/x-data-grid";
+import {SortCol} from "./models/SortCol.ts";
+import ArrowRightAltIcon from '@mui/icons-material/ArrowRightAlt';
+// import Box from "@mui/material/Box";
 
-export default function RenderColumns(cols: GridCol<any, any>[], setFilter: Function): GridCol<any, any>[] {
+export default function RenderColumns(
+    cols: GridCol<any, any>[],
+    setFilter: Function,
+    sortCol: SortCol | null,
+    setSort: (col: string, type: GridColType) => void
+): GridCol<any, any>[] {
+
+    const sortIcon = (col: string, hideUnsorted?: boolean) => {
+        if (sortCol === null || sortCol.colName !== col) return hideUnsorted ? <></> : <SwapVertIcon/>
+
+        if (sortCol.ascending) return <ArrowRightAltIcon sx={{transform: 'rotate(-90deg)'}}/>
+
+        return <ArrowRightAltIcon sx={{transform: 'rotate(90deg)'}}/>
+    }
+
     return cols.map(col => {
 
         const filter: boolean = col.filterable !== false
@@ -26,6 +44,16 @@ export default function RenderColumns(cols: GridCol<any, any>[], setFilter: Func
                         {col.hideName ? '' : col.name}
                     </Typography>
 
+                    {/*<Box sx={{*/}
+                    {/*    display: 'relative',*/}
+                    {/*    // gridColumn: 2,*/}
+                    {/*    // gridRow: 1,*/}
+                    {/*    width: '100%',*/}
+                    {/*    right: 0,*/}
+                    {/*}}>*/}
+                    {/*    {sortIcon(col.key, true)}*/}
+                    {/*</Box>*/}
+
                     <ButtonGroup>
                     { filter ?
                         <IconButton onClick={() =>
@@ -40,8 +68,8 @@ export default function RenderColumns(cols: GridCol<any, any>[], setFilter: Func
                         <></>
                     }
                     { sortable ?
-                        <IconButton>
-                            <SwapVertIcon/>
+                        <IconButton onClick={() => setSort(col.key, col.type === undefined ? 'string' : col.type)}>
+                            {sortIcon(col.key)}
                         </IconButton>
                         :
                         <></>

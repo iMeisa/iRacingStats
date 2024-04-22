@@ -6,24 +6,62 @@ import {StatsGridProps} from "./models/StatsGridProps.ts";
 import useWindowSize from "../../../hooks/useWindowSize.ts";
 import RenderColumns from "./RenderColumns.tsx";
 import {useEffect, useState} from "react";
-import FilterModal from "./FilterModal.tsx";
+import FilterModal from "./filter/FilterModal.tsx";
 import {DefaultFilter, Filter} from "./models/Filter.ts";
-import FilterHeader from "./FilterHeader.tsx";
+import FilterHeader from "./filter/FilterHeader.tsx";
 import FilterRows from "./filter/FilterRows.ts";
+import SortRows from "./filter/SortRows.ts";
+import {SortCol} from "./models/SortCol.ts";
+import {GridColType} from "@mui/x-data-grid";
 
 export default function StatsGrid(props: StatsGridProps<any>) {
     const [_width, height] = useWindowSize()
     const [open, setOpen] = useState(false)
 
+    const [sortCol, setSortCol] = useState<SortCol | null>(null)
+
     const [filterList, setFilterList] = useState<Filter[]>([])
     const [editFilter, setEditFilter] = useState<Filter>(DefaultFilter)
 
-    const filteredRows = FilterRows(props.rows, filterList)
+    const sortedRows = SortRows(props.rows, sortCol)
+    const filteredRows = FilterRows(sortedRows, filterList)
 
     const handleClickOpen = () => setOpen(true)
     const handleClose = () => {
         setEditFilter(DefaultFilter)
         setOpen(false)
+    }
+
+    const handleUpdateSort = (col: string, type: GridColType) => {
+
+        if (sortCol === null || sortCol.colName !== col) {
+
+            setSortCol({
+                colName: col,
+                ascending: true,
+                type: type,
+            })
+
+            return
+        }
+
+        // Remove filter if set to descending
+        if (!sortCol.ascending) {
+            setSortCol(null)
+            return
+        }
+
+        // Set to descending if already sorting column
+        // if (sortCol.colName === col) {
+
+            setSortCol({
+                ...sortCol,
+                ascending: false,
+            })
+
+            // return
+        // }
+
     }
 
     const handleSubmit = (filter: Filter) => setFilterList([ ...filterList, filter])
@@ -37,7 +75,12 @@ export default function StatsGrid(props: StatsGridProps<any>) {
         setOpen(true)
     }
 
-    let newCols = RenderColumns(props.columns, handleEditFilter)
+    let newCols = RenderColumns(
+        props.columns,
+        handleEditFilter,
+        sortCol,
+        handleUpdateSort,
+    )
 
     useEffect(() => {
         console.log(editFilter)

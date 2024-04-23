@@ -58,6 +58,7 @@ const columns: GridCol<any, any>[] = [
         // headerAlign: 'center',
         align: 'center',
         filterable: false,
+        type: 'number',
         renderCell: params =>
             ElapsedTime(params.row.race_time / 10)
     },
@@ -98,6 +99,7 @@ const columns: GridCol<any, any>[] = [
         // headerAlign: 'center',
         align: 'center',
         filterable: false,
+        type: 'number',
         renderCell: params =>
             `${FormatCompactNumber(params.row.distance_km)} km (${FormatCompactNumber(params.row.distance_mi)} mi)`
     },

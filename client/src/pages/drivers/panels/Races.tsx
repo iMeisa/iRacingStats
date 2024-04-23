@@ -110,6 +110,7 @@ const columns: GridCol<any, any>[] = [
         // headerAlign: 'center',
         // align: 'center',
         filterable: false,
+        type: 'number',
         renderCell: params => UnixToDateTime(params.row.end_time)
     },
     // { key: 'track', name: 'Track', flex: 1, minWidth: 200 },

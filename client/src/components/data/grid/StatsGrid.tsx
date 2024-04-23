@@ -34,6 +34,7 @@ export default function StatsGrid(props: StatsGridProps<any>) {
 
     const handleUpdateSort = (col: string, type: GridColType) => {
 
+        // New sort if no selected column or different selected column
         if (sortCol === null || sortCol.colName !== col) {
 
             setSortCol({
@@ -51,17 +52,11 @@ export default function StatsGrid(props: StatsGridProps<any>) {
             return
         }
 
-        // Set to descending if already sorting column
-        // if (sortCol.colName === col) {
-
-            setSortCol({
-                ...sortCol,
-                ascending: false,
-            })
-
-            // return
-        // }
-
+        // Set to descending
+        setSortCol({
+            ...sortCol,
+            ascending: false,
+        })
     }
 
     const handleSubmit = (filter: Filter) => setFilterList([ ...filterList, filter])

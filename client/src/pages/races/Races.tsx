@@ -64,6 +64,7 @@ const columns: GridCol<any, any>[] = [
         name: 'Start Time',
         align: 'center',
         filterable: false,
+        type: 'number',
         renderCell: params => UnixToTime(params.row.start_time)
     },
     {
@@ -71,6 +72,7 @@ const columns: GridCol<any, any>[] = [
         name: 'End Time',
         align: 'center',
         filterable: false,
+        type: 'number',
         renderCell: params => UnixToTime(params.row.end_time)
     },
     {

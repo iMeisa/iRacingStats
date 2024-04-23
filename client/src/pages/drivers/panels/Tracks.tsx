@@ -32,7 +32,9 @@ const columns: GridCol<any, any>[] = [
         // flex: 1,
         minWidth: 400,
         key: 'track_name',
-        name: '',
+        name: 'Track_name',
+        hideName: true,
+        type: 'string',
     },
     {
         // flex: 1,
@@ -69,6 +71,7 @@ const columns: GridCol<any, any>[] = [
         // headerAlign: 'center',
         align: 'center',
         filterable: false,
+        type: 'number',
         renderCell: params =>
             ElapsedTime(params.row.race_time / 10)
     },
@@ -109,6 +112,7 @@ const columns: GridCol<any, any>[] = [
         // headerAlign: 'center',
         align: 'center',
         filterable: false,
+        type: 'number',
         renderCell: params =>
             params.row.finish_avg.toFixed(2)
     },
@@ -120,6 +124,7 @@ const columns: GridCol<any, any>[] = [
         // headerAlign: 'center',
         align: 'center',
         filterable: false,
+        type: 'number',
         renderCell: params =>
             `${FormatCompactNumber(params.row.distance_km)} km (${FormatCompactNumber(params.row.distance_mi)} mi)`
     },

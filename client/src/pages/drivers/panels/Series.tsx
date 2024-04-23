@@ -97,6 +97,7 @@ const columns: GridCol<any, any>[] = [
         // headerAlign: 'center',
         align: 'center',
         filterable: false,
+        type: 'number',
         renderCell: params => params.row.finish_avg.toFixed(2)
     },
     {

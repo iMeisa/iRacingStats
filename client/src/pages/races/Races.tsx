@@ -96,6 +96,7 @@ export default function Races() {
             <Container maxWidth="xl">
                 <Box>
                     <StatsGrid
+                        id={'recent-races'}
                         loading={loading}
                         rows={rows.sort((a, b) => b.end_time - a.end_time)}
                         columns={columns}

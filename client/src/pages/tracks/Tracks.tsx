@@ -68,6 +68,7 @@ export default function Tracks() {
         <Container maxWidth="xl">
             <h2>Tracks</h2>
             <StatsGrid
+                id={'track-list'}
                 loading={loading}
                 rows={tracks}
                 columns={columns}

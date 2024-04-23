@@ -143,6 +143,7 @@ export default function Subsession() {
                 <SubsessionInfo subsession={subsession}/>
 
                 <StatsGrid
+                    id={'subsession-table'}
                     height='60%'
                     loading={loading}
                     columns={columns}
@@ -184,6 +185,7 @@ export default function Subsession() {
 
                     <AccordionDetails>
                         <StatsGrid
+                            id={'subsession-table'}
                             loading={loading}
                             // sx={{ margin: 0 }}
                             columns={columns}

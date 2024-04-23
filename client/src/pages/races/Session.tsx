@@ -163,6 +163,7 @@ export default function Session() {
 
                 <Container maxWidth="xl">
                     <StatsGrid
+                        id={'race-session'}
                         loading={loading}
                         rows={rows}
                         columns={columns}

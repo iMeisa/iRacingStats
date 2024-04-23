@@ -76,6 +76,7 @@ type SeriesTableProps = {
 
 export default function SeriesTable(props: SeriesTableProps) {
     return <StatsGrid
+        id={'series-list'}
         loading={props.loading}
         columns={columns}
         rows={props.series}

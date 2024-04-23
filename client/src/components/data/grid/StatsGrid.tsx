@@ -15,15 +15,21 @@ import {SortCol} from "./models/SortCol.ts";
 import {GridColType} from "@mui/x-data-grid";
 import RenderLoading from "./RenderLoading.tsx";
 import {EmptyRowsRenderer} from "./EmptyRowsRenderer.tsx";
+import GetGridSettings from "../../../storage/dataGrid/GetGridSettings.ts";
+import SaveGridSettings from "../../../storage/dataGrid/SaveGridSettings.ts";
 
 export default function StatsGrid(props: StatsGridProps<any>) {
     const [_width, height] = useWindowSize()
     const gridHeight = props.height ? props.height : `${height * 0.70}px`
     const [open, setOpen] = useState(false)
 
-    const [sortCol, setSortCol] = useState<SortCol | null>(null)
+    const initialSettings = GetGridSettings(props.id)
 
-    const [filterList, setFilterList] = useState<Filter[]>([])
+    const [sortCol, setSortCol] =
+        useState<SortCol | null>(initialSettings.sort)
+
+    const [filterList, setFilterList] =
+        useState<Filter[]>(initialSettings.filters)
     const [editFilter, setEditFilter] = useState<Filter>(DefaultFilter)
 
     const sortedRows = SortRows(props.rows, sortCol)
@@ -73,7 +79,7 @@ export default function StatsGrid(props: StatsGridProps<any>) {
         setOpen(true)
     }
 
-    let newCols = RenderColumns(
+    let renderedColumns = RenderColumns(
         props.columns,
         handleEditFilter,
         sortCol,
@@ -83,6 +89,16 @@ export default function StatsGrid(props: StatsGridProps<any>) {
     useEffect(() => {
         console.log(editFilter)
     }, [editFilter]);
+
+    // Save grid filters and sort column
+    useEffect(() => {
+        if (props.id === undefined) return
+
+        SaveGridSettings(props.id, {
+            sort: sortCol,
+            filters: filterList,
+        })
+    }, [sortCol, filterList])
 
     return (
 
@@ -117,7 +133,7 @@ export default function StatsGrid(props: StatsGridProps<any>) {
                         noRowsFallback: <EmptyRowsRenderer/>
                     }}
                     rows={filteredRows}
-                    columns={newCols}
+                    columns={renderedColumns}
                 />
             }
 

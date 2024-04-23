@@ -143,6 +143,7 @@ const columns: GridCol<any, any>[] = [
 export default function UserRaces(props: {results: DriverRace[], loading: boolean}) {
 
     return <StatsGrid
+        id={'driver-races'}
         columns={columns}
         rows={props.results}
         loading={props.loading}

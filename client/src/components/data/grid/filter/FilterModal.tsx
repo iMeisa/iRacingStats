@@ -180,6 +180,9 @@ export default function FilterModal(props: FilterModalProps) {
                     fullWidth={isMobile}
                     // sx={{ mt: -1 }}
                     variant={inputVariant}
+                    aria-autocomplete={'none'}
+                    autoCorrect={'off'}
+                    // autoComplete={'off'}
                 >
                     {/*<InputLabel id='filter-value' sx={{mt: 4}}>Value</InputLabel>*/}
                     { colType === 'string' ?
@@ -190,6 +193,7 @@ export default function FilterModal(props: FilterModalProps) {
                             required
                             label='Value'
                             name='value'
+                            autoComplete={'off'}
                             disabled={filterCol.length < 1}
                         /> : <></>
                     }
@@ -199,6 +203,8 @@ export default function FilterModal(props: FilterModalProps) {
                             required
                             type='number'
                             name='value'
+                            aria-autocomplete={'none'}
+                            autoComplete={'off'}
                             disabled={filterCol.length < 1}
                         /> : <></>
                     }

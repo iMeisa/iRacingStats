@@ -141,6 +141,7 @@ const columns: GridCol<any, any>[] = [
 
 export default function UserTracks(props: {stats: Record<string, unknown>[], loading: boolean}) {
     return <StatsGrid
+        id={'driver-tracks'}
         columns={columns}
         rows={props.stats}
         loading={props.loading}

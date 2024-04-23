@@ -46,6 +46,7 @@ export default function CarTable() {
             })
 
     return <StatsGrid
+        id={'car-list'}
         loading={loading}
         rows={rows}
         columns={columns}

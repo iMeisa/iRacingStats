@@ -84,7 +84,6 @@ const columns: GridCol<any, any>[] = [
 ];
 
 
-
 export default function Races() {
 
     const [rows, loading] = useFetchArray<Session>('/api/sessions');
@@ -98,7 +97,7 @@ export default function Races() {
                 <Box>
                     <StatsGrid
                         loading={loading}
-                        rows={rows}
+                        rows={rows.sort((a, b) => b.end_time - a.end_time)}
                         columns={columns}
                     />
                 </Box>
@@ -106,12 +105,3 @@ export default function Races() {
         </>
     )
 }
-
-// function changeRows(model: GridPaginationModel, rowCount: number): boolean {
-//     const totalPages = rowCount / model.pageSize
-//     const pagesLeft = totalPages - model.page
-//
-//     console.log(pagesLeft)
-//
-//     return pagesLeft <= 1;
-// }

@@ -13,9 +13,12 @@ import FilterRows from "./filter/FilterRows.ts";
 import SortRows from "./filter/SortRows.ts";
 import {SortCol} from "./models/SortCol.ts";
 import {GridColType} from "@mui/x-data-grid";
+import RenderLoading from "./RenderLoading.tsx";
+import {EmptyRowsRenderer} from "./EmptyRowsRenderer.tsx";
 
 export default function StatsGrid(props: StatsGridProps<any>) {
     const [_width, height] = useWindowSize()
+    const gridHeight = props.height ? props.height : `${height * 0.70}px`
     const [open, setOpen] = useState(false)
 
     const [sortCol, setSortCol] = useState<SortCol | null>(null)
@@ -100,17 +103,23 @@ export default function StatsGrid(props: StatsGridProps<any>) {
                 removeFilter={removeFilter}
             />
 
-            <DataGrid
-                style={{
-                    height: props.height ? props.height : `${height * 0.70}px`,
-                    color: '#eee'
-                }}
-                rowHeight={40}
+            {props.loading ? <RenderLoading height={gridHeight}/> :
+                <DataGrid
+                    style={{
+                        height: gridHeight,
+                        color: '#eee'
+                    }}
+                    rowHeight={40}
 
-                {...props}
-                rows={filteredRows}
-                columns={newCols}
-            />
+                    {...props}
+
+                    renderers={{
+                        noRowsFallback: <EmptyRowsRenderer/>
+                    }}
+                    rows={filteredRows}
+                    columns={newCols}
+                />
+            }
 
             <Box>
                 {filteredRows.length} rows

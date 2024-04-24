@@ -7,6 +7,6 @@ export interface StatsGridProps<R, SR = unknown, K extends Key = Key>
     id: string
     columns: GridCol<R, SR>[]
     rows: Record<string, unknown>[]
-    height?: number | string
+    height?: number  // Percentage of window height
     loading?: boolean
 }

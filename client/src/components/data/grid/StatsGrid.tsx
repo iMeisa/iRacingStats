@@ -20,7 +20,8 @@ import SaveGridSettings from "../../../storage/dataGrid/SaveGridSettings.ts";
 
 export default function StatsGrid(props: StatsGridProps<any>) {
     const [_width, height] = useWindowSize()
-    const gridHeight = props.height ? props.height : `${height * 0.70}px`
+    const heightPercentage = props.height === undefined ? 0.7 : props.height
+    const gridHeight: string = (height * heightPercentage) + 'px'
     const [open, setOpen] = useState(false)
 
     const initialSettings = GetGridSettings(props.id)

@@ -144,10 +144,14 @@ export default function Subsession() {
 
                 <StatsGrid
                     id={'subsession-table'}
-                    height='60%'
+                    height={0.6}
                     loading={loading}
                     columns={columns}
-                    rows={results}
+                    rows={
+                        results.sort((a, b) =>
+                            Number(a['finish_position']) - Number(b['finish_position'])
+                        )
+                    }
                     // initialState={{
                     //     columns: {
                     //         columnVisibilityModel: {

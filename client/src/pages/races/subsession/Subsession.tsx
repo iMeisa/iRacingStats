@@ -14,6 +14,7 @@ import RatingBadge from "../../../components/data/RatingBadge.tsx";
 import StatsGrid from "../../../components/data/grid/StatsGrid.tsx";
 import PositionTrophy from "../../../components/images/PositionTrophy.tsx";
 import {GridCol} from "../../../components/data/grid/models/GridCol.ts";
+import {Result} from "../../../models/Result.ts";
 
 const columns: GridCol<any, any>[] = [
     {
@@ -30,6 +31,7 @@ const columns: GridCol<any, any>[] = [
         name: '',
         width: 200,
         filterable: false,
+        sortable: false,
         renderCell: params =>
             <Box display={'flex'} height={'100%'}>
                 <RatingBadge
@@ -79,20 +81,23 @@ const columns: GridCol<any, any>[] = [
         width: 80,
         filterable: false,
         renderCell: params =>
-            <Box display={'flex'} height={'100%'}>
-                <Tooltip title={params.row.car_name} disableInteractive>
-                    <span>
-                        <CarLogo link={params.row.logo}/>
-                    </span>
-                </Tooltip>
-            </Box>
+            <Tooltip title={params.row.car_name} disableInteractive>
+                <span>
+                    <CarLogo link={params.row.logo}/>
+                </span>
+            </Tooltip>
     },
     {
         key: 'average_lap',
         name: 'Avg Lap',
         // flex: 1,
         filterable: false,
-        minWidth: 125
+        type: "number",
+        minWidth: 125,
+        renderCell: params =>
+            params.row.average_lap === Number.MAX_SAFE_INTEGER ?
+                "-" :
+                LapTime(params.row.average_lap)
     },
     {
         key: 'best_lap_time',
@@ -101,7 +106,12 @@ const columns: GridCol<any, any>[] = [
         align: 'center',
         // flex: 1,
         filterable: false,
-        minWidth: 125
+        type: "number",
+        minWidth: 125,
+        renderCell: params =>
+            params.row.best_lap_time === Number.MAX_SAFE_INTEGER ?
+                "-" :
+                LapTime(params.row.best_lap_time)
     },
 ];
 
@@ -125,17 +135,18 @@ export default function Subsession() {
             setExpanded(isExpanded ? panel : false);
         };
 
-    const [results, loading] = useFetchArray(`/api/subsession_results?id=${id}`,
+    const [results, loading] = useFetchArray<Result>(`/api/subsession_results?id=${id}`,
         (obj) => {
-            obj['id'] = obj['result_id']
-            obj['average_lap'] = LapTime(obj['average_lap'] as number)
-            obj['best_lap_time'] = LapTime(obj['best_lap_time'] as number)
+
+            if (obj.average_lap < 1) obj.average_lap = Number.MAX_SAFE_INTEGER
+            if (obj.best_lap_time < 1) obj.best_lap_time = Number.MAX_SAFE_INTEGER
+
             return obj
         })
 
-    useEffect(() => {
-        console.log(results)
-    }, [results]);
+    // useEffect(() => {
+    //     console.log(results)
+    // }, [results]);
 
     return <>
         <Container maxWidth='xl'>
@@ -149,16 +160,9 @@ export default function Subsession() {
                     columns={columns}
                     rows={
                         results.sort((a, b) =>
-                            Number(a['finish_position']) - Number(b['finish_position'])
+                            Number(a.finish_position) - Number(b.finish_position)
                         )
                     }
-                    // initialState={{
-                    //     columns: {
-                    //         columnVisibilityModel: {
-                    //             mobile_rating: false
-                    //         }
-                    //     }
-                    // }}
                 />
             </Box>
 
@@ -193,15 +197,11 @@ export default function Subsession() {
                             loading={loading}
                             // sx={{ margin: 0 }}
                             columns={columns}
-                            rows={results}
-                            // hideFooter
-                            // initialState={{
-                            //     columns: {
-                            //         columnVisibilityModel: {
-                            //             rating: false
-                            //         }
-                            //     }
-                            // }}
+                            rows={
+                                results.sort((a, b) =>
+                                    Number(a.finish_position) - Number(b.finish_position)
+                                )
+                            }
                         />
                     </AccordionDetails>
                 </Accordion>

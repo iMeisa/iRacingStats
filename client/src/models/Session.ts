@@ -13,7 +13,7 @@ export type Session = {
     min_license_level: number,
 }
 
-export const DefaultSession = {
+export const DefaultSession: Session = {
     id: 0,
     session_id: 0,
     season_id: 0,

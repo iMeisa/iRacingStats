@@ -57,7 +57,7 @@ export type Result = {
     ai: boolean,
 }
 
-export const DefaultResult = {
+export const DefaultResult: Result = {
     id: 0,
     subsession_id: 0,
     cust_id: 0,

@@ -2,6 +2,7 @@ export type Subsession = {
     id: number,
     end_time: number,
     event_average_lap: number,
+    event_best_lap: number,
     event_laps_complete: number,
     event_strength_of_field: number,
     field_size: number,
@@ -17,10 +18,11 @@ export type Subsession = {
     verified: boolean,
 }
 
-export const DefaultSubsession = {
+export const DefaultSubsession: Subsession = {
     id: 0,
     end_time: 0,
     event_average_lap: 0,
+    event_best_lap: 0,
     event_laps_complete: 0,
     event_strength_of_field: 0,
     field_size: 0,

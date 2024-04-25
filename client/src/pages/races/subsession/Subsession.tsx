@@ -16,6 +16,8 @@ import PositionTrophy from "../../../components/images/PositionTrophy.tsx";
 import {GridCol} from "../../../components/data/grid/models/GridCol.ts";
 import {Result} from "../../../models/Result.ts";
 import PositionDelta from "../../../components/data/PositionDelta.tsx";
+import Button from "@mui/material/Button";
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 
 const columns: GridCol<any, any>[] = [
     {
@@ -31,8 +33,9 @@ const columns: GridCol<any, any>[] = [
         key: 'position_delta',
         name: 'Position Change',
         hideName: true,
-        width: 10,
+        width: 50,
         // headerAlign: 'right',
+        filterable: false,
         align: 'left',
         type: 'number',
         renderCell: params => <PositionDelta delta={params.row.position_delta}/> ,
@@ -80,7 +83,7 @@ const columns: GridCol<any, any>[] = [
         key: 'logo',
         name: 'Car',
         align: 'right',
-        width: 80,
+        width: 75,
         filterable: false,
         sortable: false,
         renderCell: params =>
@@ -203,6 +206,15 @@ export default function Subsession() {
 
     return <>
         <Container maxWidth='xl'>
+
+            <Box ml={0} mb={-2} mt={1} display='flex'>
+                <Link to={subsession === DefaultSubsession ? '#' : `/sessions/${subsession.session_id}`}>
+                    <Button startIcon={<ArrowBackIcon/>}>
+                        Splits
+                    </Button>
+                </Link>
+            </Box>
+
             <Box sx={{ display: { xs: 'none', md: 'block' } }}>
                 <SubsessionInfo subsession={subsession}/>
 
@@ -219,7 +231,7 @@ export default function Subsession() {
                 />
             </Box>
 
-            <Box sx={{ mt: 2, display: { xs: 'block', md: 'none' } }}>
+            <Box sx={{ mt: 3, display: { xs: 'block', md: 'none' } }}>
 
                 <Accordion expanded={expanded === 'summary'} onChange={handleChange('summary')}>
                     <AccordionSummary

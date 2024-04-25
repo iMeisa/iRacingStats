@@ -89,6 +89,10 @@ img {
     text-align: left;
 }
 
+.align-right, .header-align-right {
+    text-align: right;
+}
+
 .header-align-left {
     padding-left: 1em;
 }

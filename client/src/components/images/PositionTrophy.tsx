@@ -1,5 +1,6 @@
 import EmojiEventsIcon from "@mui/icons-material/EmojiEvents";
 import {amber, deepOrange, grey} from "@mui/material/colors";
+import Box from "@mui/material/Box";
 
 type PositionTrophyProps = {
     position: number,
@@ -19,5 +20,7 @@ export default function PositionTrophy(props: PositionTrophyProps) {
             }
     }
 
-    return props.position + 1
+    return <Box fontWeight='bold'>
+        {props.position + 1}
+    </Box>
 }

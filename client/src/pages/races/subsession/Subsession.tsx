@@ -15,6 +15,7 @@ import StatsGrid from "../../../components/data/grid/StatsGrid.tsx";
 import PositionTrophy from "../../../components/images/PositionTrophy.tsx";
 import {GridCol} from "../../../components/data/grid/models/GridCol.ts";
 import {Result} from "../../../models/Result.ts";
+import PositionDelta from "../../../components/data/PositionDelta.tsx";
 
 const columns: GridCol<any, any>[] = [
     {
@@ -22,9 +23,19 @@ const columns: GridCol<any, any>[] = [
         name: 'Pos',
         width: 10,
         // headerAlign: 'right',
-        align: 'right',
+        // align: 'right',
         renderCell: params => <PositionTrophy position={params.row.finish_position}/>,
         type: 'number'
+    },
+    {
+        key: 'position_delta',
+        name: 'Position Change',
+        hideName: true,
+        width: 10,
+        // headerAlign: 'right',
+        align: 'left',
+        type: 'number',
+        renderCell: params => <PositionDelta delta={params.row.position_delta}/> ,
     },
     {
         key: 'rating',
@@ -167,6 +178,8 @@ export default function Subsession() {
     let top_avg_lap: number = 0
     const [results, loading] = useFetchArray<Result>(`/api/subsession_results?id=${id}`,
         (obj) => {
+
+            obj.position_delta = obj.starting_position - obj.finish_position
 
             obj.starting_position++
 

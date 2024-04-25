@@ -168,6 +168,8 @@ export default function Subsession() {
     const [results, loading] = useFetchArray<Result>(`/api/subsession_results?id=${id}`,
         (obj) => {
 
+            obj.starting_position++
+
             if (obj.laps_complete > total_laps) total_laps = obj.laps_complete
 
             // Get top driver's average lap times

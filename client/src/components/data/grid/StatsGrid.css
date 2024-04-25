@@ -9,6 +9,9 @@
     }
 }
 
+img {
+    object-fit: contain;
+}
 .rdg-row > .rdg-cell {
     > a > img, > svg, .center-img {
         margin: 0;

@@ -24,7 +24,20 @@ const columns: GridCol<any, any>[] = [
         type: 'number',
     },
     {
-        width: 40,
+        key: 'series_logo',
+        name: 'Series',
+        width: 80,
+        headerAlign: 'left',
+        renderCell: params =>
+            <Link to={`/series/${params.row.series_id}`}>
+                <SeriesLogo link={params.row.series_logo} />
+            </Link>,
+        sortable: false,
+        filterable: false,
+        // headerAlign: 'center',
+    },
+    {
+        width: 50,
         minWidth: 40,
         key: 'category_id',
         name: 'License Category',
@@ -37,18 +50,6 @@ const columns: GridCol<any, any>[] = [
         renderCell: params =>
             CategoryLogo(params.row.category_id, params.row.min_license_level, 30)
 
-    },
-    {
-        key: 'series_logo',
-        name: 'Series',
-        width: 100,
-        renderCell: params =>
-            <Link to={`/series/${params.row.series_id}`}>
-                <SeriesLogo link={params.row.series_logo} />
-            </Link>,
-        sortable: false,
-        filterable: false,
-        // headerAlign: 'center',
     },
     {
         key: 'series_short_name',

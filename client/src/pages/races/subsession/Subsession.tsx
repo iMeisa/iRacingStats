@@ -51,11 +51,45 @@ const columns: GridCol<any, any>[] = [
         name: 'Driver',
         // flex: 1,
         minWidth: 150,
+        align: 'left',
+        headerAlign: 'left',
         renderCell: params =>
             <Link
                 style={{ textDecoration: 'underline', fontStyle: 'italic', color: 'inherit', fontWeight: 'bold'}}
                 to={`/driver/${params.row.cust_id}`}
             >{params.row.display_name}</Link>
+    },
+    {
+        key: 'starting_position',
+        name: 'Start',
+        width: 80,
+        type: 'number',
+    },
+    {
+        key: 'logo',
+        name: 'Car',
+        align: 'right',
+        width: 80,
+        filterable: false,
+        sortable: false,
+        renderCell: params =>
+            <Tooltip title={params.row.car_name} disableInteractive>
+                <span>
+                    <CarLogo link={params.row.logo}/>
+                </span>
+            </Tooltip>
+    },
+    {
+        key: 'interval',
+        name: 'Int',
+        minWidth: 100,
+        filterable: false,
+        type: 'number',
+        renderCell: params => params.row.interval === 0 ?
+            "":
+            params.row.laps_complete < params.row.event_laps_complete ?
+                `-${params.row.event_laps_complete - params.row.laps_complete} L`:
+                '-' + LapTime(params.row.interval, false)
     },
     // {
     //     key: 'mobile_rating',
@@ -75,25 +109,12 @@ const columns: GridCol<any, any>[] = [
     //         </Box>,
     // },
     {
-        key: 'logo',
-        name: 'Car',
-        align: 'right',
-        width: 80,
-        filterable: false,
-        renderCell: params =>
-            <Tooltip title={params.row.car_name} disableInteractive>
-                <span>
-                    <CarLogo link={params.row.logo}/>
-                </span>
-            </Tooltip>
-    },
-    {
         key: 'average_lap',
         name: 'Avg Lap',
         // flex: 1,
         filterable: false,
         type: "number",
-        minWidth: 125,
+        width: 125,
         renderCell: params =>
             params.row.average_lap === Number.MAX_SAFE_INTEGER ?
                 "-" :
@@ -107,12 +128,19 @@ const columns: GridCol<any, any>[] = [
         // flex: 1,
         filterable: false,
         type: "number",
-        minWidth: 125,
+        width: 125,
         renderCell: params =>
             params.row.best_lap_time === Number.MAX_SAFE_INTEGER ?
                 "-" :
                 LapTime(params.row.best_lap_time)
     },
+    {
+        key: 'incidents',
+        name: 'Incidents',
+        type: 'number',
+        width: 80,
+        renderCell: params => params.row.incidents + 'x'
+    }
 ];
 
 export default function Subsession() {
@@ -135,11 +163,21 @@ export default function Subsession() {
             setExpanded(isExpanded ? panel : false);
         };
 
+    let total_laps: number = 0
+    let top_avg_lap: number = 0
     const [results, loading] = useFetchArray<Result>(`/api/subsession_results?id=${id}`,
         (obj) => {
 
+            if (obj.laps_complete > total_laps) total_laps = obj.laps_complete
+
+            // Get top driver's average lap times
+            if (top_avg_lap === 0) top_avg_lap = obj.average_lap
+            obj.event_laps_complete = total_laps
+
             if (obj.average_lap < 1) obj.average_lap = Number.MAX_SAFE_INTEGER
             if (obj.best_lap_time < 1) obj.best_lap_time = Number.MAX_SAFE_INTEGER
+
+            if (obj.interval < 0) obj.interval = top_avg_lap * total_laps + obj.finish_position
 
             return obj
         })

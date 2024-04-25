@@ -36,7 +36,9 @@ export default function RenderColumns(
         col = {
             ...col,
             minWidth: minWidth,
-            headerCellClass: col.headerCellClass + ` ${filter ? 'filter' : ''} ${sortable ? 'sortable' : ''}`,
+            headerCellClass:
+                col.headerCellClass + ` ${filter ? 'filter' : ''} ${sortable ? 'sortable' : ''}` +
+                ` header-align-${col.headerAlign}`,
             cellClass: col.cellClass + ` align-${col.align}`,
             renderHeaderCell: _p =>
                 <>

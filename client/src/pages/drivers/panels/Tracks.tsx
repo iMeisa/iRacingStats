@@ -32,9 +32,10 @@ const columns: GridCol<any, any>[] = [
         // flex: 1,
         minWidth: 400,
         key: 'track_name',
-        name: 'Track_name',
+        name: 'Track Name',
         hideName: true,
         type: 'string',
+        align: 'left',
     },
     {
         // flex: 1,

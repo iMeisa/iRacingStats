@@ -85,8 +85,12 @@ img {
     }
 }
 
-.align-left {
+.align-left, .header-align-left {
     text-align: left;
+}
+
+.header-align-left {
+    padding-left: 1em;
 }
 
 /*#add-filter:hover {*/

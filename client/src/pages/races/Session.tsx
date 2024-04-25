@@ -30,11 +30,11 @@ const columns: GridCol<any, any>[] = [
     },
     {
         key: 'split',
-        name: 'Split',
-        hideName: true,
+        name: 'Split #',
+        // hideName: true,
         align: 'center',
         type: 'number',
-        width: 20,
+        width: 80,
         filterable: false,
     },
     {
@@ -165,6 +165,7 @@ export default function Session() {
                     <StatsGrid
                         id={'race-session'}
                         loading={loading}
+                        height={0.6}
                         rows={rows}
                         columns={columns}
                     />

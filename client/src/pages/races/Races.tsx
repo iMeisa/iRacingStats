@@ -43,7 +43,7 @@ const columns: GridCol<any, any>[] = [
         hideName: true,
         minWidth: 350,
         renderCell: params =>
-            <Tooltip title="See splits">
+            <Tooltip title="See splits" disableInteractive>
                 <Link
                     style={{ textDecoration: 'underline', fontStyle: 'italic', color: 'inherit', fontWeight: 'bold'}}
                     to={`/sessions/${params.row.id}`}

@@ -3,6 +3,7 @@ import {GridAlignment, GridColType} from "@mui/x-data-grid";
 
 export interface GridCol<R, SR> extends Column<R, SR> {
     // field?: string
+    headerAlign?: GridAlignment
     align?: GridAlignment
     hideName?: boolean
     filterable?: boolean

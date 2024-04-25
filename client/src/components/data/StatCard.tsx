@@ -19,7 +19,14 @@ export default function StatCard(props: StatCardProps) {
             <Tooltip placement="top" title={tooltip} arrow>
                 <Paper elevation={props.elevation} sx={{ p: 1 }}>
 
-                    <Box display="flex" justifyContent="center" flexDirection="row" alignItems="center" textAlign="center" height="2.2em">
+                    <Box
+                        display="flex"
+                        justifyContent="center"
+                        flexDirection="row"
+                        alignItems="center"
+                        textAlign="center"
+                        height="2.2em"
+                    >
                         <Typography variant="subtitle2" fontWeight="bold" lineHeight={1.2}>{props.name}</Typography>
                     </Box>
 

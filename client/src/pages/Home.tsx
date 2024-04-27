@@ -52,7 +52,7 @@ export default function Home() {
                         <PageCard
                             title="Drivers"
                             description="Statistics about you and your friends"
-                            link="/users"
+                            link="/drivers"
                         />
                     </Grid>
                 </Grid>

@@ -14,10 +14,10 @@ type PageCardProps = {
 }
 
 export default function PageCard(props: PageCardProps) {
-    return <Link to={props.link}>
-        <Card>
-            <CardActionArea>
-                <CardHeader title={props.title} />
+    return <Link to={props.wip ? '#' : props.link}>
+        <Card elevation={ props.wip ? 1 : 2 } aria-disabled={props.wip}>
+            <CardActionArea disabled={props.wip}>
+                <CardHeader  title={props.title} />
                 {
                     props.image ?
                         <CardMedia

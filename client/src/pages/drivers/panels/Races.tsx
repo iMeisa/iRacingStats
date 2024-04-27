@@ -63,7 +63,7 @@ const columns: GridCol<any, any>[] = [
         resizable: true,
         type: 'string',
         renderCell: params =>
-            <Tooltip title="Subsession Results">
+            <Tooltip title="Subsession Results" disableInteractive>
                 <Link
                     style={{ textDecoration: 'underline', fontStyle: 'italic', color: 'inherit', fontWeight: 'bold'}}
                     to={`/subsession/${params.row.subsession_id}`}

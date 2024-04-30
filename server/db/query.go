@@ -554,6 +554,54 @@ func (d *DB) sessions(where string, recent bool, limit int) []models.Session {
 	return sessions
 }
 
+func (d *DB) Subsession(id int) models.Subsession {
+	ctx, cancel := getContext()
+	defer cancel()
+
+	statement := `
+		SELECT ss.subsession_id,
+			   ss.event_strength_of_field,
+			   sr.series_logo,
+			   sr.series_short_name,
+			   ss.field_size,
+			   ss.event_average_lap,
+			   ss.num_lead_changes,
+			   ss.num_cautions, 
+			   s.caution_type,
+			   ss.verified,
+			   sr.series_id
+		from subsessions ss
+		JOIN sessions s USING (session_id)
+		JOIN seasons se USING (season_id)
+		JOIN series sr USING (series_id)
+		WHERE subsession_id = $1 
+		ORDER BY event_strength_of_field DESC
+	`
+
+	row := d.SQL.QueryRowContext(ctx, statement, id)
+
+	var subsession models.Subsession
+	err := row.Scan(
+		&subsession.Id,
+		&subsession.StrengthOfField,
+		&subsession.SeriesLogo,
+		&subsession.SeriesName,
+		&subsession.FieldSize,
+		&subsession.AverageLap,
+		&subsession.LeadChanges,
+		&subsession.Cautions,
+		&subsession.CautionType,
+		&subsession.Verified,
+		&subsession.SeriesId,
+	)
+
+	if err != nil {
+		log.Println("error scanning subsession: ", err)
+	}
+
+	return subsession
+}
+
 func (d *DB) Subsessions(sessionId int) []models.Subsession {
 	ctx, cancel := getContext()
 	defer cancel()

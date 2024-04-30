@@ -60,6 +60,9 @@ func (a *Api) Get(ctx *fiber.Ctx) error {
 	case "session":
 		query = a.DB.Subsessions(ctx.QueryInt("session_id"))
 
+	case "subsession":
+		query = a.DB.Subsession(ctx.QueryInt("id"))
+
 	case "subsession_results":
 		query = a.DB.SubsessionResults(ctx.QueryInt("id"))
 

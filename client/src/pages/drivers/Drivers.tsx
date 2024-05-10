@@ -1,25 +1,33 @@
-import {Input, InputAdornment, LinearProgress} from "@mui/material";
-import {useEffect, useState} from "react";
+import {Input, InputAdornment} from "@mui/material";
+import {SetStateAction, useEffect, useState} from "react";
 import {Link, useSearchParams} from "react-router-dom";
-import {DataGrid, GridColDef} from "@mui/x-data-grid";
+// import {DataGrid, GridColDef} from "@mui/x-data-grid";
 import CurrentUrl from "../../variables/Url.ts";
 import Container from "@mui/material/Container";
 import SearchIcon from '@mui/icons-material/Search';
 import IconButton from "@mui/material/IconButton";
 import RecentDrivers from "../../storage/RecentDrivers.ts";
+import {GridCol} from "../../components/data/grid/models/GridCol.ts";
+import StatsGrid from "../../components/data/grid/StatsGrid.tsx";
 
-const columns: GridColDef[] = [
+const columns: GridCol<any, any>[] = [
     {
-        field: 'display_name',
-        headerName: 'Name',
-        flex: 1,
+        key: 'display_name',
+        name: 'Name',
+        // flex: 1,
         headerAlign: 'center',
         align: 'center',
         renderCell: params =>
             <Link
-                style={{ color: 'inherit' }}
+                style={{textDecoration: 'underline', fontStyle: 'italic', color: 'inherit', fontWeight: 'bold'}}
                 to={`/driver/${params.row.id}`}
-            >{params.value}</Link>
+            >
+                {params.row.display_name}
+            </Link>
+        // <Link
+        //     style={{ color: 'inherit' }}
+        //     to={`/driver/${params.row.id}`}
+        // >{params.value}</Link>
     }
 ];
 
@@ -35,8 +43,15 @@ export default function Drivers() {
     const [inputName, setInputName] = useState(name === null ? '' : name)
     const [searchName, setSearchName] = useState(inputName)
 
+    const handleOnChange = (event: { target: { value: SetStateAction<string>; }; }) => {
+        setInputName(event.target.value)
+        if (inputName.length > 1) return
+
+        handleSubmit()
+    }
+
     const handleSubmit = () => {
-        if (inputName.length < 2) return
+        // if (inputName.length < 2) return
 
         setSearchName(inputName)
     }
@@ -64,7 +79,7 @@ export default function Drivers() {
                 console.log(data)
 
                 if (data === null) {
-                    setRows(RecentDrivers())
+                    setRows([])
                     return
                 }
 
@@ -102,9 +117,7 @@ export default function Drivers() {
                                 </IconButton>
                             </InputAdornment>
                         }
-                        onChange={event => {
-                            setInputName(event.target.value)
-                        }}
+                        onChange={handleOnChange}
 
                         onKeyDown={event => {
                             if (event.key !== "Enter") return
@@ -112,30 +125,11 @@ export default function Drivers() {
                             handleSubmit()
                         }}
                     />
-                    <DataGrid
-                        slots={{
-                            loadingOverlay: LinearProgress,
-                        }}
+                    <StatsGrid
+                        id={'driver-search'}
                         loading={loading}
-                        sx={{
-                            color: 'inherit',
-                            mt: 3,
-                        }}
                         rows={rows}
                         columns={columns}
-                        // initialState={{
-                        //     sorting: {
-                        //         sortModel: [{field: 'display_name', sort: 'asc'}],
-                        //     },
-                        // }}
-
-                        onCellClick={
-                            (
-                                params,
-                                _,
-                                __
-                            ) => <Link to={`/user/${params.id}`}/>
-                        }
                     />
 
                 </Container>

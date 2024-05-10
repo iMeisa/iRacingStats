@@ -292,6 +292,10 @@ func (d *DB) SubsessionResults(id int) []JsonMap {
 
 	// Create a JSON array
 	var results []JsonMap
+	if rows == nil {
+		return results
+	}
+
 	for rows.Next() {
 		var result string
 

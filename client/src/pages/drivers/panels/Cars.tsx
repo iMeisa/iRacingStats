@@ -3,6 +3,7 @@ import FormatCompactNumber from "../../../functions/numbers/FormatCompactNumber.
 import CarLogo from "../../../components/images/CarLogo.tsx";
 import StatsGrid from "../../../components/data/grid/StatsGrid.tsx";
 import {GridCol} from "../../../components/data/grid/models/GridCol.ts";
+import Typography from "@mui/material/Typography";
 
 const columns: GridCol<any, any>[] = [
     {
@@ -12,50 +13,50 @@ const columns: GridCol<any, any>[] = [
         renderCell: params =>
             <CarLogo link={params.row.car_logo} />,
         sortable: false,
-        // headerAlign: 'center',
         filterable: false,
     },
     {
-        // flex: 1,
         minWidth: 300,
         key: 'car_name',
         name: 'Car Name',
         hideName: true,
         type: 'string',
+        align: 'left',
+        renderCell: params =>
+            <Typography
+                style={{
+                    color: 'inherit',
+                    fontWeight: 'bold'
+                }}
+            >
+                {params.row.car_name}
+            </Typography>
     },
     {
-        // flex: 1,
         minWidth: 75,
         key: 'races',
         name: 'Races',
-        // headerAlign: 'center',
         align: 'center',
         type: 'number',
     },
     {
-        // flex: 1,
         minWidth: 75,
         key: 'wins',
         name: 'Wins',
-        // headerAlign: 'center',
         align: 'center',
         type: 'number',
     },
     {
-        // flex: 1,
         minWidth: 80,
         key: 'podiums',
         name: 'Podiums',
-        // headerAlign: 'center',
         align: 'center',
         type: 'number',
     },
     {
-        // flex: 1,
         minWidth: 100,
         key: 'race_time',
         name: 'Race Time',
-        // headerAlign: 'center',
         align: 'center',
         filterable: false,
         type: 'number',
@@ -63,40 +64,32 @@ const columns: GridCol<any, any>[] = [
             ElapsedTime(params.row.race_time / 10)
     },
     {
-        // flex: 1,
         minWidth: 60,
         key: 'laps',
         name: 'Laps',
-        // headerAlign: 'center',
         align: 'center',
         type: 'number',
     },
     {
-        // flex: 1,
         minWidth: 100,
         key: 'laps_lead',
         name: 'Laps Lead',
-        // headerAlign: 'center',
         align: 'center',
         type: 'number',
     },
     {
-        // flex: 1,
         minWidth: 100,
         key: 'inc_avg',
         name: 'Inc Avg',
-        // headerAlign: 'center',
+        filterable: false,
         align: 'center',
-        // filterable: false,
         type: 'number',
         renderCell: params => params.row.inc_avg.toFixed(2)
     },
     {
-        // flex: 1,
         minWidth: 150,
         key: 'distance_mi',
         name: 'Distance',
-        // headerAlign: 'center',
         align: 'center',
         filterable: false,
         type: 'number',
@@ -107,7 +100,6 @@ const columns: GridCol<any, any>[] = [
         width: 50,
         key: 'id',
         name: 'ID',
-        // headerAlign: 'right',
         align: 'right',
         type: 'number',
     },

@@ -1,30 +1,31 @@
-import {DataGrid, GridColDef, GridRenderCellParams} from "@mui/x-data-grid";
 import {Link} from "react-router-dom";
-import {LinearProgress, Tooltip} from "@mui/material";
+import {Tooltip} from "@mui/material";
 import {UnixToDateTime, UnixToTime} from "../../../../functions/datetime/UnixToDate.ts";
 import Button from "@mui/material/Button";
 import FormatListNumberedIcon from "@mui/icons-material/FormatListNumbered";
 import TimeAgo from "@elbotho/timeago-react";
+import StatsGrid from "../../../../components/data/grid/StatsGrid.tsx";
+import {GridCol} from "../../../../components/data/grid/models/GridCol.ts";
 
-const columns: GridColDef[] = [
+const columns: GridCol<any, any>[] = [
     {
-        field: 'time_ago',
-        headerName: '',
+        key: 'time_ago',
+        name: '',
         width: 175,
         headerAlign: 'center',
         align: 'center',
         renderCell: params => <TimeAgo datetime={UnixToDateTime(params.row.end_time)}/>
     },
     {
-        field: 'id',
-        headerName: '',
+        key: 'id',
+        name: '',
         headerAlign: 'center',
-        flex: 1,
+        // flex: 1,
         minWidth: 100,
-        renderCell: (params: GridRenderCellParams<any, string>) =>
+        renderCell: params =>
             <Tooltip title="Subsession Results">
                 <Link
-                    to={`/sessions/${params.value}`}
+                    to={`/sessions/${params.row.id}`}
                 >
                     <Button variant="contained" size="small" startIcon={<FormatListNumberedIcon/>} >
                         Splits
@@ -33,49 +34,40 @@ const columns: GridColDef[] = [
             </Tooltip>
     },
     {
-        field: 'subsession_count',
-        headerName: 'Splits',
+        key: 'subsession_count',
+        name: 'Splits',
         headerAlign: 'center',
         align: 'center',
     },
     {
-        field: 'start_time',
-        headerName: 'Start Time',
+        key: 'start_time',
+        name: 'Start Time',
         width: 175,
         headerAlign: 'center',
         align: 'center',
-        renderCell: params => UnixToDateTime(params.value)
+        renderCell: params => UnixToDateTime(params.row.start_time)
     },
     {
-        field: 'end_time',
-        headerName: 'End Time',
+        key: 'end_time',
+        name: 'End Time',
         width: 100,
         headerAlign: 'center',
         align: 'center',
-        renderCell: params => UnixToTime(params.value)
+        renderCell: params => UnixToTime(params.row.end_time)
     },
     {
-        field: 'track',
-        headerName: 'Track',
-        flex: 1,
+        key: 'track',
+        name: 'Track',
+        // flex: 1,
         minWidth: 300,
     }
 ];
 
 export default function Races(props: {results: Record<string, unknown>[], loading: boolean}) {
-    return <DataGrid
-        slots={{
-            loadingOverlay: LinearProgress,
-        }}
+    return <StatsGrid
+        id='series-races'
         loading={props.loading}
-        sx={{
-            maxHeight: '75vh',
-            minHeight: '100px',
-        }}
-        // autoHeight
         columns={columns}
         rows={props.results}
-        disableColumnMenu
-        pageSizeOptions={[]}
     />
 }

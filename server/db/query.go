@@ -314,7 +314,7 @@ func (d *DB) SubsessionResults(id int) []JsonMap {
 	return results
 }
 
-func (d *DB) Seasons(series_id int) []models.Season {
+func (d *DB) Seasons(seriesId int) []models.Season {
 	ctx, cancel := getContext()
 	defer cancel()
 
@@ -332,7 +332,7 @@ func (d *DB) Seasons(series_id int) []models.Season {
 		WHERE series_id=$1
 	`
 
-	rows, err := d.SQL.QueryContext(ctx, statement, series_id)
+	rows, err := d.SQL.QueryContext(ctx, statement, seriesId)
 
 	var seasons []models.Season
 	if err != nil {

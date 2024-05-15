@@ -11,6 +11,8 @@ type InfoProps = {
     series: Series,
     seasons: Season[],
     seasons_loading: boolean,
+    races: Record<string, unknown>[],
+    races_loading: boolean,
 }
 
 export default function Info(props: InfoProps) {
@@ -35,6 +37,7 @@ export default function Info(props: InfoProps) {
                 >
                     <Typography variant="subtitle1" fontWeight="bold" lineHeight={1.2}>Cars</Typography>
 
+                    <CarList seasons={props.seasons} seasons_loading={props.seasons_loading}/>
                 </Paper>
             </Grid>
 
@@ -42,6 +45,11 @@ export default function Info(props: InfoProps) {
     </>
 }
 
-function CarList() {
-    
+type CarListProps = {
+    seasons: Season[],
+    seasons_loading: boolean,
+}
+
+function CarList(_props: CarListProps) {
+    return <></>
 }

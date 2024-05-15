@@ -13,8 +13,9 @@ import Typography from "@mui/material/Typography";
 import {useEffect} from "react";
 import {SeriesById} from "../../../cache/CachesById.ts";
 import {Season} from "../../../models/Season.ts";
+import Seasons from "./panels/Seasons.tsx";
 
-const panels = ['info', 'races']
+const panels = ['info', 'races', 'seasons']
 const titleHeight = 80
 
 export default function SingleSeries() {
@@ -22,13 +23,14 @@ export default function SingleSeries() {
     const {id} = useParams()
 
     const series = SeriesById()[Number(id)]
-    const [seasons, seasons_loading] = useFetchArray<Season>(`/api/seasons/series_id=${id}`)
+    const [seasons, seasons_loading] = useFetchArray<Season>(`/api/seasons?series_id=${id}`)
     const [races, races_loading] = useFetchArray(`/api/series_sessions?id=${id}`)
 
     const [tab, setTab] = useTabState(panels)
 
     useEffect(() => {
-        console.log(series)
+        // console.log(series)
+        console.log(seasons)
     }, [series])
 
 
@@ -88,10 +90,15 @@ function Tabs(props: TabProps) {
                 series={props.series}
                 seasons={props.seasons}
                 seasons_loading={props.seasons_loading}
+                races={props.races}
+                races_loading={props.races_loading}
             />
         }
         case 1: {
             return <Races results={props.races} loading={props.races_loading}/>
+        }
+        case 2: {
+            return <Seasons seasons={props.seasons} seasons_loading={props.seasons_loading}/>
         }
         default: {
             return <></>

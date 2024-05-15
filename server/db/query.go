@@ -314,7 +314,17 @@ func (d *DB) SubsessionResults(id int) []JsonMap {
 	return results
 }
 
-func (d *DB) Series(id int, active bool) []models.Series {
+func (d *DB) Series(id int, active bool) models.Series {
+	seriesList := d.SeriesList(id, active)
+
+	if len(seriesList) < 1 {
+		return models.Series{}
+	}
+
+	return seriesList[0]
+}
+
+func (d *DB) SeriesList(id int, active bool) []models.Series {
 	ctx, cancel := getContext()
 	defer cancel()
 

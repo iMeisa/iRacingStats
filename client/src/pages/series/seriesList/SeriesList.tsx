@@ -1,36 +1,34 @@
-import useFetchArray from "../../../hooks/useFetchArray.ts";
-import ToTitle from "../../../functions/strings/Title.ts";
+// import useFetchArray from "../../../hooks/useFetchArray.ts";
+// import ToTitle from "../../../functions/strings/Title.ts";
 import "./SeriesList.css"
 import Container from "@mui/material/Container";
 import SideMenu from "../../../components/navigation/SideMenu.tsx";
 import Grid from "@mui/material/Unstable_Grid2";
 import SeriesTable from "./panels/SeriesTable.tsx";
-import SeriesParticipation, {SeriesPop} from "./panels/SeriesParticipation.tsx";
+// import {SeriesPop} from "./panels/SeriesParticipation.tsx";
 import useTabState from "../../../hooks/useTabState.ts";
+import {Series} from "../../../models/Series.ts";
+// import PullCache from "../../../cache/PullCache.ts";
+import ContentCache from "../../../cache/ContentCache.ts";
 
 
-const panels = ['popularity', 'list']
+const panels = [
+    // 'popularity',
+    'list'
+]
 
 export default function SeriesList() {
 
     const [tab, setTab] = useTabState(panels)
 
-    const [rows, loading] =
-        useFetchArray('/api/series', obj => {
-            obj['category'] = ToTitle(obj['category'] as string)
-            // obj['sr_change'] = Number(Number(obj['sr_change']).toFixed(2))
-            return obj
-        })
+    const rows = ContentCache<Series>("series")
+        // useFetchArray<Series>('/api/series_list')
 
-    const [seriesPop, popLoading] =
-        useFetchArray<SeriesPop>('/api/series_popularity', obj => {
-            obj['category'] = ToTitle(obj['category'] as string)
-            return obj
-        })
-
-    // const isMobile = useIsMobile()
-
-    // TODO: Fetch sr change separately
+    // const [seriesPop, popLoading] =
+    //     useFetchArray<SeriesPop>('/api/series_popularity', obj => {
+    //         obj['category'] = ToTitle(obj['category'] as string)
+    //         return obj
+    //     })
 
     return <>
         <Grid container>
@@ -43,10 +41,10 @@ export default function SeriesList() {
                 <Container maxWidth="xl" sx={{ mt: 1 }}>
                     <Tabs
                         tab={tab}
-                        seriesPopularity={seriesPop}
-                        seriesPopLoading={popLoading}
+                        // seriesPopularity={seriesPop}
+                        // seriesPopLoading={popLoading}
                         series={rows}
-                        loading={loading}
+                        // loading={popLoading}
                     />
                 </Container>
             </Grid>
@@ -57,19 +55,20 @@ export default function SeriesList() {
 
 interface TabProps {
     tab: number,
-    seriesPopularity: SeriesPop[],
-    seriesPopLoading: boolean,
+    // seriesPopularity: SeriesPop[],
+    // seriesPopLoading: boolean,
     series: Record<string, unknown>[],
-    loading: boolean,
+    // loading: boolean,
 }
 
 function Tabs(props: TabProps) {
     switch (props.tab) {
+        // case 0: {
+        //     return <SeriesParticipation series={props.seriesPopularity} loading={props.seriesPopLoading} />
+        // }
+        // case 1: {
         case 0: {
-            return <SeriesParticipation series={props.seriesPopularity} loading={props.seriesPopLoading} />
-        }
-        case 1: {
-            return <SeriesTable series={props.series} loading={props.loading} />
+            return <SeriesTable series={props.series} />
         }
         default: {
             return <></>

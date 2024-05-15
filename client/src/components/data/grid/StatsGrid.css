@@ -1,6 +1,10 @@
 .rdg-cell {
     border-inline-end: 0;
 
+    &[aria-selected="true"] {
+        outline: none;
+    }
+
     > .MuiTypography-root {
         line-height: inherit;
         font-style: inherit;
@@ -96,6 +100,8 @@ img {
 .header-align-left {
     padding-left: 1em;
 }
+
+
 
 /*#add-filter:hover {*/
 /*    background-color: transparent;*/

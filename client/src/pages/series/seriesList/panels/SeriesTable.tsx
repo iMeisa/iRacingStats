@@ -8,12 +8,12 @@ import BoolIcon from "../../../../components/data/BoolIcon.tsx";
 
 const columns: GridCol<any, any>[] = [
     {
-        key: 'logo',
+        key: 'series_logo',
         name: 'Series',
         width: 75,
         renderCell: params =>
-            <Link to={`/series/${params.row.id}`}>
-                <SeriesLogo link={params.row.logo} />
+            <Link to={`/series/${params.row.series_id}`}>
+                <SeriesLogo link={params.row.series_logo} />
             </Link>,
         sortable: false,
         filterable: false,
@@ -21,7 +21,7 @@ const columns: GridCol<any, any>[] = [
     },
     {
         width: 50,
-        key: 'category_id',
+        key: 'license_category_id',
         name: 'License Category',
         hideName: true,
         sortable: false,
@@ -34,7 +34,7 @@ const columns: GridCol<any, any>[] = [
 
     },
     {
-        key: 'name',
+        key: 'series_short_name',
         name: 'Series Name',
         hideName: true,
         // flex: 1,
@@ -43,9 +43,9 @@ const columns: GridCol<any, any>[] = [
         renderCell: params =>
             <Link
                 style={{ textDecoration: 'underline', fontStyle: 'italic', color: 'inherit', fontWeight: 'bold'}}
-                to={`/series/${params.row.id}`}
+                to={`/series/${params.row.series_id}`}
             >
-                {params.row.name}
+                {params.row.series_short_name}
             </Link>
     },
     // { key: 'category', name: 'Category', flex: 1},
@@ -60,7 +60,7 @@ const columns: GridCol<any, any>[] = [
         renderCell: params => <BoolIcon value={params.row.active} positiveValue={true} />
     },
     {
-        key: 'id',
+        key: 'series_id',
         name: 'ID',
         // headerAlign: 'center',
         align: 'center',
@@ -71,13 +71,13 @@ const columns: GridCol<any, any>[] = [
 
 type SeriesTableProps = {
     series: Record<string, unknown>[],
-    loading: boolean
+    // loading: boolean
 }
 
 export default function SeriesTable(props: SeriesTableProps) {
     return <StatsGrid
         id={'series-list'}
-        loading={props.loading}
+        // loading={props.loading}
         columns={columns}
         rows={props.series}
     />

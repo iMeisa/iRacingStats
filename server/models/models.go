@@ -210,6 +210,18 @@ type Result struct {
 	Ai                      bool      `json:"ai,omitempty"`
 }
 
+type Season struct {
+	Id              int    `json:"season_id"`
+	SeasonName      string `json:"season_name"`
+	SeasonShortName string `json:"season_short_name"`
+	SeasonYear      int    `json:"season_year"`
+	SeasonQuarter   int    `json:"season_quarter"`
+	SeriesId        int    `json:"series_id"`
+	LicenseGroup    int    `json:"license_group"`
+	DriverChanges   bool   `json:"driver_changes"`
+	CarClasses      []int  `json:"car_classes"`
+}
+
 type Series struct {
 	Id              int     `json:"id"`
 	Name            string  `json:"name"`

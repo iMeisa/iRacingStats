@@ -45,6 +45,9 @@ func (a *Api) Get(ctx *fiber.Ctx) error {
 	case "driver_races":
 		query = a.DB.DriverRaces(ctx.QueryInt("id"))
 
+	case "seasons":
+		query = a.DB.Seasons(ctx.QueryInt("series_id"))
+
 	case "series":
 		query = a.DB.Series(ctx.QueryInt("id"), ctx.QueryBool("active"))
 

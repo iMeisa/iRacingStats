@@ -314,6 +314,52 @@ func (d *DB) SubsessionResults(id int) []JsonMap {
 	return results
 }
 
+func (d *DB) Seasons(series_id int) []models.Season {
+	ctx, cancel := getContext()
+	defer cancel()
+
+	statement := `
+		SELECT season_id,
+			   season_name,
+			   season_short_name,
+			   season_year,
+			   season_quarter,
+			   series_id,
+			   license_group,
+			   driver_changes,
+			   car_classes
+		FROM seasons
+		WHERE series_id=$1
+	`
+
+	rows, err := d.SQL.QueryContext(ctx, statement, series_id)
+
+	var seasons []models.Season
+	if err != nil {
+		log.Println("error retrieving seasons:", err)
+		return seasons
+	}
+
+	for rows.Next() {
+		var season models.Season
+		err = rows.Scan(
+			&season.Id,
+			&season.SeasonName,
+			&season.SeasonShortName,
+			&season.SeasonYear,
+			&season.SeasonQuarter,
+			&season.SeriesId,
+			&season.LicenseGroup,
+			&season.DriverChanges,
+			&season.CarClasses,
+		)
+
+		seasons = append(seasons, season)
+	}
+
+	return seasons
+}
+
 func (d *DB) Series(id int, active bool) models.Series {
 	seriesList := d.SeriesList(id, active)
 

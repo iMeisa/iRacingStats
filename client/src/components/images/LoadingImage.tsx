@@ -13,6 +13,7 @@ export default function LoadingImage(props:{width: number, height: number, url: 
                 src={props.url + props.endpoint}
                 alt="logo"
                 width={props.width}
+                height={props.height}
                 style={loading ? { display: 'none' } : {}}
                 onLoad={() => setLoading(false)}
             />

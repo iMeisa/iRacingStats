@@ -42,7 +42,11 @@ export default function SingleSeries() {
             <Container maxWidth="xl">
 
                 <Box display='flex' justifyContent='center' width={'100%'}>
-                    <SeriesLogo width={120} height={titleHeight} link={series.series_logo}/>
+
+                    <Box height={titleHeight}>
+                        <SeriesLogo width={120} link={series.series_logo}/>
+                    </Box>
+
                     <Box
                         ml={2}
                         display="flex"

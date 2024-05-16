@@ -1,5 +1,6 @@
 import {Car} from "../../models/Car.ts";
 import Box from "@mui/material/Box";
+import {CSSProperties} from "react";
 // import {SxProps} from "@mui/material";
 
 type CarImageProps = {
@@ -9,6 +10,12 @@ type CarImageProps = {
 }
 export default function CarImage(props: CarImageProps) {
     // const car = props.car
+
+    const logoStyles: CSSProperties = {
+        position: 'absolute',
+        maxHeight: '20%',
+        maxWidth: '20%',
+    }
 
     return <>
         <Box
@@ -31,13 +38,19 @@ export default function CarImage(props: CarImageProps) {
             />
             <img
                 style={{
-                    bottom: '12%',
-                    left: '8%',
-                    position: "absolute",
-                    // height: '100%',
+                    ...logoStyles,
+                    top: '5%',
+                    right: '5%',
                 }}
-                height={'20%'}
-                width={'20%'}
+                alt={''}
+                src={`https://images-static.iracing.com${props.car.sponsor_logo}`}
+            />
+            <img
+                style={{
+                    ...logoStyles,
+                    bottom: '12%',
+                    left: '6%',
+                }}
                 alt={''}
                 src={`https://images-static.iracing.com${props.car.logo}`}
             />

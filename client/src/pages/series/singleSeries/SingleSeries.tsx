@@ -14,6 +14,7 @@ import {useEffect} from "react";
 import {SeriesById} from "../../../cache/CachesById.ts";
 import {Season} from "../../../models/Season.ts";
 import Seasons from "./panels/Seasons.tsx";
+import Footer from "../../../components/navigation/Footer.tsx";
 
 const panels = ['info', 'races', 'seasons']
 const titleHeight = 80
@@ -73,6 +74,8 @@ export default function SingleSeries() {
                 />
             </Container>
         </Grid>
+
+        <Footer/>
     </Grid>
 }
 
@@ -86,7 +89,7 @@ type TabProps = {
 }
 
 function Tabs(props: TabProps) {
-    console.log(props.tab)
+    // console.log(props.tab)
     switch (props.tab) {
         case 0: {
             return <Info

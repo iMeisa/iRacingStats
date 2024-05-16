@@ -19,5 +19,5 @@ export const DefaultSeason: Season = {
     series_id: 0,
     license_group: 0,
     driver_changes: false,
-    car_classes: [],
+    car_classes: [1],
 }

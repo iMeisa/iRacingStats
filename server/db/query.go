@@ -7,6 +7,7 @@ import (
 	"fmt"
 	"github.com/iMeisa/errortrace"
 	"github.com/iMeisa/iRacingStats/server/models"
+	"github.com/lib/pq"
 	"log"
 	"slices"
 )
@@ -351,12 +352,17 @@ func (d *DB) Seasons(seriesId int) []models.Season {
 			&season.SeriesId,
 			&season.LicenseGroup,
 			&season.DriverChanges,
-			&season.CarClasses,
+			pq.Array(&season.CarClasses),
 		)
+
+		if len(season.CarClasses) < 1 {
+			season.CarClasses = []int64{1}
+		}
 
 		seasons = append(seasons, season)
 	}
 
+	//fmt.Println(seasons)
 	return seasons
 }
 

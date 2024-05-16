@@ -10,7 +10,7 @@ import useTabState from "../../../hooks/useTabState.ts";
 import SeriesLogo from "../../../components/images/SeriesLogo.tsx";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
-import {useEffect} from "react";
+// import {useEffect} from "react";
 import {SeriesById} from "../../../cache/CachesById.ts";
 import {Season} from "../../../models/Season.ts";
 import Seasons from "./panels/Seasons.tsx";
@@ -29,10 +29,10 @@ export default function SingleSeries() {
 
     const [tab, setTab] = useTabState(panels)
 
-    useEffect(() => {
-        // console.log(series)
-        console.log(seasons)
-    }, [series])
+    // useEffect(() => {
+    //     // console.log(series)
+    //     console.log(seasons)
+    // }, [series])
 
 
     return <Grid container>

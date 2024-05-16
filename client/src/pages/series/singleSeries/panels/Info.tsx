@@ -47,12 +47,13 @@ function CarList(props: CarListProps) {
     const [_width, height] = useWindowSize()
 
     const latestSeason = props.seasons_loading ? DefaultSeason : props.seasons[0]
-    console.log(latestSeason)
+    // console.log(latestSeason)
 
     if (latestSeason.car_classes === null) return <></>
 
     let cars: Car[] = []
 
+    // Get a list of cars
     for (const car_class_id of latestSeason.car_classes) {
         const car_class = CarClassesById()[car_class_id]
 
@@ -76,8 +77,10 @@ function CarList(props: CarListProps) {
 
             <Grid container>
                 <Grid md={ cars.length > 1 ? 0 : 3 }/>
+
                 { props.seasons_loading ?
                     <CircularProgress/> :
+
                     cars.map((car) =>
                         <Grid md={ 6 }>
                             <CarImage
@@ -86,6 +89,7 @@ function CarList(props: CarListProps) {
                         </Grid>
                     )
                 }
+
             </Grid>
         </Paper>
     </>

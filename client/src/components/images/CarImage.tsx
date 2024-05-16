@@ -1,15 +1,13 @@
 import {Car} from "../../models/Car.ts";
 import Box from "@mui/material/Box";
 import {CSSProperties} from "react";
-// import {SxProps} from "@mui/material";
+import Typography from "@mui/material/Typography";
 
 type CarImageProps = {
     car: Car
     width?: string | number
-    // sx?: SxProps
 }
 export default function CarImage(props: CarImageProps) {
-    // const car = props.car
 
     const logoStyles: CSSProperties = {
         position: 'absolute',
@@ -23,11 +21,9 @@ export default function CarImage(props: CarImageProps) {
             height='100%'
             mt={1}
             position='relative'
-            // sx={props.sx}
         >
             <img
                 style={{
-                    // top: 0,
                     position: "relative",
                     borderRadius: '10px',
                     boxShadow: '0 0 5px 2px black',
@@ -54,6 +50,39 @@ export default function CarImage(props: CarImageProps) {
                 alt={''}
                 src={`https://images-static.iracing.com${props.car.logo}`}
             />
+            <Box
+                height='100%'
+                width='100%'
+                sx={{
+                    top: -7,
+                    position: 'absolute',
+
+                    borderRadius: '10px',
+
+                    display: 'flex',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+
+                    opacity: 0,
+                    transition: 'opacity 0.2s',
+
+                    '&:hover': {
+                        opacity: 1,
+                    },
+                }}
+            >
+                <Typography
+                    fontWeight='bold'
+                    fontFamily={'Verdana'}
+                    boxShadow='0 0 15px 15px black'
+                    sx={{
+                        borderRadius: '5px',
+                        backgroundColor: 'black',
+                    }}
+                >
+                    {props.car.car_name}
+                </Typography>
+            </Box>
         </Box>
     </>
 }

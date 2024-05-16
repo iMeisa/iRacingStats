@@ -37,6 +37,8 @@ function filterApplies(row: Record<string, unknown>, filter: Filter): boolean {
     const originalValue = row[filter.col]
     const filterValue = filter.value
 
+    if (originalValue === undefined || filterValue === undefined) return false
+
     // console.log(row, row['type'], dataType, originalValue, filterValue)
 
     return filterFunctions[dataType][filter.operator](originalValue, filterValue)

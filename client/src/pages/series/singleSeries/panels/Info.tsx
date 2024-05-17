@@ -1,21 +1,27 @@
-// import {Skeleton} from "@mui/material";
 import Typography from "@mui/material/Typography";
-import {CircularProgress, Paper} from "@mui/material";
+import {CircularProgress, Paper, Stack} from "@mui/material";
 import Grid from "@mui/material/Unstable_Grid2";
-import StatCard from "../../../../components/data/StatCard.tsx";
 import {Series} from "../../../../models/Series.ts";
 import {DefaultSeason, Season} from "../../../../models/Season.ts";
 import {CarClassesById, CarsById} from "../../../../cache/CachesById.ts";
 import {Car} from "../../../../models/Car.ts";
 import CarImage from "../../../../components/images/CarImage.tsx";
 import useWindowSize from "../../../../hooks/useWindowSize.ts";
+import {DefaultSession, Session} from "../../../../models/Session.ts";
+import Box from "@mui/material/Box";
+import TimeAgo from "@elbotho/timeago-react";
+import {UnixToDateTime} from "../../../../functions/datetime/UnixToDate.ts";
+import CategoryLogo from "../../../../functions/img/CategoryLogo.tsx";
+import {Link} from "react-router-dom";
+import Button from "@mui/material/Button";
+import FormatListNumberedIcon from "@mui/icons-material/FormatListNumbered";
 
 type InfoProps = {
     loading: boolean,
     series: Series,
     seasons: Season[],
     seasons_loading: boolean,
-    races: Record<string, unknown>[],
+    races: Session[],
     races_loading: boolean,
 }
 
@@ -25,12 +31,12 @@ export default function Info(props: InfoProps) {
 
         <Grid container width="100%" mx="auto" mt={2}>
 
-            <Grid md={6}>
+            <Grid xs={12} md={6}>
                 <RecentRace races={props.races} races_loading={props.races_loading}/>
                 {/*<StatCard name={'Recent Race'} value={'hello'} elevation={3}/>*/}
             </Grid>
 
-            <Grid md={6}>
+            <Grid mt={{ xs: 2, md: 0 }} xs={12} md={6}>
                 <CarList seasons={props.seasons} seasons_loading={props.seasons_loading}/>
             </Grid>
 
@@ -39,11 +45,15 @@ export default function Info(props: InfoProps) {
 }
 
 type RecentRaceProps = {
-    races: Record<string, unknown>[],
+    races: Session[],
     races_loading: boolean,
 }
 
 function RecentRace(props: RecentRaceProps) {
+
+    props.races.sort((a, b) => b.session_id - a.session_id)
+    const latestRace = props.races_loading ? DefaultSession : props.races[0]
+
     return <>
         <Paper
             elevation={3}
@@ -68,9 +78,30 @@ function RecentRace(props: RecentRaceProps) {
                 elevation={5}
                 sx={{
                     marginTop: 1,
+                    padding: 1,
                 }}
             >
-                hello
+
+                <Box display='flex' justifyContent='space-between' alignItems='center'>
+
+                    {CategoryLogo(latestRace.category_id, latestRace.min_license_level, 50)}
+
+                    <Stack>
+                        <Box mx='auto' display='flex' justifyContent='space-around' alignItems='center' width='80%'>
+                            <TimeAgo datetime={UnixToDateTime(latestRace.end_time)}/>
+                            <Typography>Splits: {latestRace.subsession_count}</Typography>
+                        </Box>
+
+                        <Box display='flex' mx={1}>
+                            <Typography fontWeight='bold'>{latestRace.track}</Typography>
+                        </Box>
+                    </Stack>
+
+                    <Link to={`/sessions/${latestRace.session_id}`}>
+                        <Button variant="contained" size="small" startIcon={<FormatListNumberedIcon/>}>Results</Button>
+                    </Link>
+                </Box>
+
             </Paper>
 
         </Paper>
@@ -104,7 +135,7 @@ function CarList(props: CarListProps) {
 
     return <>
         <Paper
-            elevation={3}
+            elevation={1}
             sx={{
                 maxHeight: height * 0.7,
                 padding: 1,
@@ -119,13 +150,13 @@ function CarList(props: CarListProps) {
             <Typography variant="h6" fontWeight="bold" lineHeight={1.2} fontFamily={'Verdana'}>Cars</Typography>
 
             <Grid container>
-                <Grid md={ cars.length > 1 ? 0 : 3 }/>
+                <Grid sm={ cars.length > 1 ? 0 : 3 }/>
 
                 { props.seasons_loading ?
                     <CircularProgress/> :
 
                     cars.map((car) =>
-                        <Grid key={car.car_id} md={ 6 }>
+                        <Grid key={car.car_id} sm={6}>
                             <CarImage
                                 car={car}
                             />

@@ -15,6 +15,8 @@ import {SeriesById} from "../../../cache/CachesById.ts";
 import {Season} from "../../../models/Season.ts";
 import Seasons from "./panels/Seasons.tsx";
 import Footer from "../../../components/navigation/Footer.tsx";
+import {useEffect} from "react";
+import {Session} from "../../../models/Session.ts";
 
 const panels = ['info', 'races', 'seasons']
 const titleHeight = 80
@@ -25,21 +27,21 @@ export default function SingleSeries() {
 
     const series = SeriesById()[Number(id)]
     const [seasons, seasons_loading] = useFetchArray<Season>(`/api/seasons?series_id=${id}`)
-    const [races, races_loading] = useFetchArray(`/api/series_sessions?id=${id}`)
+    const [races, races_loading] = useFetchArray<Session>(`/api/series_sessions?id=${id}`)
 
     const [tab, setTab] = useTabState(panels)
 
-    // useEffect(() => {
-    //     // console.log(series)
-    //     console.log(seasons)
-    // }, [series])
+    useEffect(() => {
+        // console.log(series)
+        console.log(races)
+    }, [races])
 
 
     return <Grid container>
         <Grid xs={0} md={1}>
             <SideMenu initialTab={tab} panels={panels} onChange={value => setTab(value)}/>
         </Grid>
-        <Grid xs mt={1}>
+        <Grid xs={12} md mt={1}>
             <Container maxWidth="xl">
 
                 <Box display='flex' justifyContent='center' width={'100%'}>
@@ -84,7 +86,7 @@ type TabProps = {
     series: Series,
     seasons: Season[],
     seasons_loading: boolean,
-    races: Record<string, unknown>[]
+    races: Session[],
     races_loading: boolean
 }
 

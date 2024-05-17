@@ -531,7 +531,7 @@ func (d *DB) SeriesPopularity() []models.Series {
 }
 
 func (d *DB) SeriesSessions(id int) []models.Session {
-	return d.sessions(fmt.Sprintf(" series_id = %d ", id), false, 100)
+	return d.sessions(fmt.Sprintf(" series_id = %d ", id), false, 10)
 }
 
 func (d *DB) Sessions() []models.Session {

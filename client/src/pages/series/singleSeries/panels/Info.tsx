@@ -54,7 +54,7 @@ function RecentRace(props: RecentRaceProps) {
     props.races.sort((a, b) => b.session_id - a.session_id)
     const latestRace = props.races_loading ? DefaultSession : props.races[0]
 
-    if (props.races_loading) return <CircularProgress/>
+    // if (props.races_loading) return <CircularProgress/>
 
     return <>
         <Paper

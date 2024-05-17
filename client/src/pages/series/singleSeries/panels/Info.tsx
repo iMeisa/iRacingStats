@@ -26,7 +26,8 @@ export default function Info(props: InfoProps) {
         <Grid container width="100%" mx="auto" mt={2}>
 
             <Grid md={6}>
-                <StatCard name={'Recent Race'} value={'hello'} elevation={3}/>
+                <RecentRace races={props.races} races_loading={props.races_loading}/>
+                {/*<StatCard name={'Recent Race'} value={'hello'} elevation={3}/>*/}
             </Grid>
 
             <Grid md={6}>
@@ -34,6 +35,45 @@ export default function Info(props: InfoProps) {
             </Grid>
 
         </Grid>
+    </>
+}
+
+type RecentRaceProps = {
+    races: Record<string, unknown>[],
+    races_loading: boolean,
+}
+
+function RecentRace(props: RecentRaceProps) {
+    return <>
+        <Paper
+            elevation={3}
+            sx={{
+                marginX: 1,
+                padding: 1,
+
+                border: '2px solid turquoise',
+                borderRadius: '1em',
+            }}
+        >
+            <Typography
+                variant="h6"
+                fontWeight="bold"
+                lineHeight={1.2}
+                fontFamily={'Verdana'}
+            >
+                Most Recent Race
+            </Typography>
+
+            <Paper
+                elevation={5}
+                sx={{
+                    marginTop: 1,
+                }}
+            >
+                hello
+            </Paper>
+
+        </Paper>
     </>
 }
 
@@ -68,7 +108,10 @@ function CarList(props: CarListProps) {
             sx={{
                 maxHeight: height * 0.7,
                 padding: 1,
+                marginX: 1,
+
                 overflowY: 'auto',
+
                 border: '2px solid maroon',
                 borderRadius: '1em',
             }}
@@ -82,7 +125,7 @@ function CarList(props: CarListProps) {
                     <CircularProgress/> :
 
                     cars.map((car) =>
-                        <Grid md={ 6 }>
+                        <Grid key={car.car_id} md={ 6 }>
                             <CarImage
                                 car={car}
                             />

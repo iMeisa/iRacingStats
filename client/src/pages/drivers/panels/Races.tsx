@@ -9,8 +9,16 @@ import ColoredValue from "../../../components/data/ColoredValue.tsx";
 import {DriverRace} from "../../../models/driver/Race.ts";
 import {GridCol} from "../../../components/data/grid/models/GridCol.ts";
 import BoolIcon from "../../../components/data/BoolIcon.tsx";
+import UnixTimeAgo from "../../../components/data/UnixTimeAgo.tsx";
 
 const columns: GridCol<any, any>[] = [
+    {
+        key: 'end',
+        name: '',
+        hideName: true,
+        filterable: false,
+        renderCell: params => <UnixTimeAgo unixStamp={params.row.end_time} mini/>
+    },
     {
         key: 'adjusted_position',
         name: 'Pos',

@@ -2,9 +2,9 @@ import {UnixToDateTime} from "../../functions/datetime/UnixToDate.ts";
 import useFetchObject from "../../hooks/useFetchObject.ts";
 import {DataRange as DataRangeModel, DefaultDataRange} from "../../models/DataRange.ts";
 import {Skeleton} from "@mui/material";
-import TimeAgo from "@elbotho/timeago-react";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
+import UnixTimeAgo from "./UnixTimeAgo.tsx";
 
 export default function DataRange() {
 
@@ -25,7 +25,7 @@ export default function DataRange() {
                         {UnixToDateTime(dataRange.min)}
                     </Typography>
                     -
-                    <TimeAgo datetime={new Date(dataRange.max * 1000)}/>
+                    <UnixTimeAgo unixStamp={dataRange.max}/>
                 </>
             }
         </Box>

@@ -3,9 +3,9 @@ import {Tooltip} from "@mui/material";
 import {UnixToDateTime, UnixToTime} from "../../../../functions/datetime/UnixToDate.ts";
 import Button from "@mui/material/Button";
 import FormatListNumberedIcon from "@mui/icons-material/FormatListNumbered";
-import TimeAgo from "@elbotho/timeago-react";
 import StatsGrid from "../../../../components/data/grid/StatsGrid.tsx";
 import {GridCol} from "../../../../components/data/grid/models/GridCol.ts";
+import UnixTimeAgo from "../../../../components/data/UnixTimeAgo.tsx";
 
 const columns: GridCol<any, any>[] = [
     {
@@ -14,7 +14,7 @@ const columns: GridCol<any, any>[] = [
         width: 175,
         headerAlign: 'center',
         align: 'center',
-        renderCell: params => <TimeAgo datetime={UnixToDateTime(params.row.end_time)}/>
+        renderCell: params => <UnixTimeAgo unixStamp={params.row.end_time}/>
     },
     {
         key: 'id',

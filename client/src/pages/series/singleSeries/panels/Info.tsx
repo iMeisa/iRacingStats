@@ -9,12 +9,12 @@ import CarImage from "../../../../components/images/CarImage.tsx";
 import useWindowSize from "../../../../hooks/useWindowSize.ts";
 import {DefaultSession, Session} from "../../../../models/Session.ts";
 import Box from "@mui/material/Box";
-import TimeAgo from "@elbotho/timeago-react";
-import {UnixToDateTime} from "../../../../functions/datetime/UnixToDate.ts";
+// import TimeAgo from "@elbotho/timeago-react";
 import CategoryLogo from "../../../../functions/img/CategoryLogo.tsx";
 import {Link} from "react-router-dom";
 import Button from "@mui/material/Button";
 import FormatListNumberedIcon from "@mui/icons-material/FormatListNumbered";
+import UnixTimeAgo from "../../../../components/data/UnixTimeAgo.tsx";
 
 type InfoProps = {
     loading: boolean,
@@ -54,6 +54,8 @@ function RecentRace(props: RecentRaceProps) {
     props.races.sort((a, b) => b.session_id - a.session_id)
     const latestRace = props.races_loading ? DefaultSession : props.races[0]
 
+    if (props.races_loading) return <CircularProgress/>
+
     return <>
         <Paper
             elevation={3}
@@ -74,35 +76,48 @@ function RecentRace(props: RecentRaceProps) {
                 Most Recent Race
             </Typography>
 
-            <Paper
-                elevation={5}
-                sx={{
-                    marginTop: 1,
-                    padding: 1,
-                }}
-            >
+            {props.races_loading ? <CircularProgress/> :
+                <Paper
+                    elevation={5}
+                    sx={{
+                        marginTop: 1,
+                        padding: 1,
+                    }}
+                >
 
-                <Box display='flex' justifyContent='space-between' alignItems='center'>
+                    <Box display='flex' justifyContent='space-between' alignItems='center'>
 
-                    {CategoryLogo(latestRace.category_id, latestRace.min_license_level, 50)}
-
-                    <Stack>
-                        <Box mx='auto' display='flex' justifyContent='space-around' alignItems='center' width='80%'>
-                            <TimeAgo datetime={UnixToDateTime(latestRace.end_time)}/>
-                            <Typography>Splits: {latestRace.subsession_count}</Typography>
+                        <Box mr={1}>
+                            {CategoryLogo(latestRace.category_id, latestRace.min_license_level, 50)}
                         </Box>
 
-                        <Box display='flex' mx={1}>
-                            <Typography fontWeight='bold'>{latestRace.track}</Typography>
+                        <Stack width='100%'>
+                            <Box
+                                mx='auto'
+                                mb={1}
+                                display='flex'
+                                justifyContent='space-around'
+                                alignItems='center'
+                                width='80%'
+                            >
+                                <UnixTimeAgo unixStamp={latestRace.end_time}/>
+                                <Typography sx={{marginLeft: 1}}>Splits: {latestRace.subsession_count}</Typography>
+                            </Box>
+
+                            <Box display='flex' mx={'auto'} mt={0}>
+                                <Typography fontWeight='bold'>{latestRace.track}</Typography>
+                            </Box>
+                        </Stack>
+
+                        <Box ml={1}>
+                            <Link to={`/sessions/${latestRace.session_id}`}>
+                                <Button variant="contained" size="small" startIcon={<FormatListNumberedIcon/>}>Results</Button>
+                            </Link>
                         </Box>
-                    </Stack>
+                    </Box>
 
-                    <Link to={`/sessions/${latestRace.session_id}`}>
-                        <Button variant="contained" size="small" startIcon={<FormatListNumberedIcon/>}>Results</Button>
-                    </Link>
-                </Box>
-
-            </Paper>
+                </Paper>
+            }
 
         </Paper>
     </>

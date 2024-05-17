@@ -18,12 +18,14 @@
     "@mui/lab": "^5.0.0-alpha.147",
     "@mui/material": "^5.14.11",
     "@mui/x-data-grid": "^6.16.0",
+    "javascript-time-ago": "^2.5.10",
     "react": "^18.2.0",
     "react-circular-progressbar": "^2.1.0",
     "react-data-grid": "^7.0.0-beta.43",
     "react-dom": "^18.2.0",
     "react-odometerjs": "^3.1.0",
     "react-router-dom": "^6.16.0",
+    "react-time-ago": "^7.3.3",
     "recharts": "^2.10.3"
   },
   "devDependencies": {

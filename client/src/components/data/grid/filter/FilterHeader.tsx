@@ -3,7 +3,8 @@ import Box from "@mui/material/Box";
 import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
 import {Tooltip} from "@mui/material";
-import AddIcon from "@mui/icons-material/Add";
+import FilterAltIcon from '@mui/icons-material/FilterAlt';
+import ViewColumnIcon from '@mui/icons-material/ViewColumn';
 
 type FilterHeaderProps = {
     handleClickOpen: () => void
@@ -16,15 +17,31 @@ export default function FilterHeader(props: FilterHeaderProps) {
     return (
         <Box display='flex' >
 
-            <Box
-                width='3.75em'
-                m='auto'
-                ml='5px'
-                fontWeight='bold'
-                height='100%'
-            >
-                Filters:
-            </Box>
+            {/*<Box*/}
+            {/*    width='3.75em'*/}
+            {/*    m='auto'*/}
+            {/*    ml='5px'*/}
+            {/*    fontWeight='bold'*/}
+            {/*    height='100%'*/}
+            {/*>*/}
+            {/*    Filters:*/}
+            {/*</Box>*/}
+
+            {/*Filter button*/}
+            <Tooltip title='Add filter'>
+                <Box sx={{
+                    my: 'auto',
+                    mx: '2px',
+                }} >
+                    <IconButton
+                        color='success'
+                        onClick={props.handleClickOpen}
+                    >
+                        <FilterAltIcon/>
+                    </IconButton>
+                </Box>
+            </Tooltip>
+
 
             {/*Filter list*/}
             <Box
@@ -42,7 +59,6 @@ export default function FilterHeader(props: FilterHeaderProps) {
                             key={index}
                             display='flex'
                             whiteSpace='nowrap'
-                            // m={0.5}
                             my={0.5}
                             mx={0.5}
                             border='1px solid lightskyblue'
@@ -66,17 +82,13 @@ export default function FilterHeader(props: FilterHeaderProps) {
                 })}
             </Box>
 
-            {/*Close button*/}
-            <Tooltip title='Add filter'>
+            <Tooltip title='Columns'>
                 <Box sx={{
                     my: 'auto',
                     mx: '2px',
-                }} >
-                    <IconButton
-                        color='success'
-                        onClick={props.handleClickOpen}
-                    >
-                        <AddIcon/>
+                }}>
+                    <IconButton color='info'>
+                        <ViewColumnIcon/>
                     </IconButton>
                 </Box>
             </Tooltip>

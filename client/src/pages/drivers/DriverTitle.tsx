@@ -8,6 +8,7 @@ import WarningAmberIcon from '@mui/icons-material/WarningAmber';
 import DoneOutlineIcon from '@mui/icons-material/DoneOutline';
 import UnixTimeAgo from "../../components/data/UnixTimeAgo.tsx";
 import GetBreakpoints from "../../functions/data/Breakpoints.ts";
+import useWindowSize from "../../hooks/useWindowSize.ts";
 
 export default function DriverTitle(props: {driver: DriverSummary, loading: boolean}) {
 
@@ -16,6 +17,7 @@ export default function DriverTitle(props: {driver: DriverSummary, loading: bool
     const [dataRange, loading] = useDataRange()
 
     const breakpoints = GetBreakpoints()
+    const [width, _height] = useWindowSize()
 
     return <Box my={2} display={ breakpoints.md ? 'flex' : 'block' } alignItems='center'>
 
@@ -44,8 +46,8 @@ export default function DriverTitle(props: {driver: DriverSummary, loading: bool
                         borderRadius: '10em',
                     }}
                 >
-                    <Box display='flex'>
-                        <Typography fontWeight='bold' mr={1}>Member since:</Typography>
+                    <Box display={ width > 450 ? 'flex' : 'block' }>
+                        <Typography noWrap fontWeight='bold' mr={ width > 450 ? 1 : 0 }>Member since:</Typography>
                         <UnixTimeAgo tooltip={false} unixStamp={props.driver.member_since}/>
                     </Box>
                 </Paper>

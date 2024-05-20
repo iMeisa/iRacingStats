@@ -27,13 +27,11 @@ type InfoProps = {
 
 export default function Info(props: InfoProps) {
     return <>
-        {/*<Typography variant="subtitle2">more to come soon </Typography>*/}
 
         <Grid container width="100%" mx="auto" mt={2}>
 
             <Grid xs={12} md={6}>
                 <RecentRace races={props.races} races_loading={props.races_loading}/>
-                {/*<StatCard name={'Recent Race'} value={'hello'} elevation={3}/>*/}
             </Grid>
 
             <Grid mt={{ xs: 2, md: 0 }} xs={12} md={6}>
@@ -133,11 +131,11 @@ function CarList(props: CarListProps) {
     const [_width, height] = useWindowSize()
 
     const latestSeason = props.seasons_loading ? DefaultSeason : props.seasons[0]
-    // console.log(latestSeason)
 
     if (latestSeason.car_classes === null) return <></>
 
     let cars: Car[] = []
+    const singleCar = () => cars.length < 2
 
     // Get a list of cars
     for (const car_class_id of latestSeason.car_classes) {
@@ -164,14 +162,26 @@ function CarList(props: CarListProps) {
         >
             <Typography variant="h6" fontWeight="bold" lineHeight={1.2} fontFamily={'Verdana'}>Cars</Typography>
 
+            {/*{singleCar() ? "single car" : "many cars"}*/}
             <Grid container>
-                <Grid sm={ cars.length > 1 ? 0 : 3 }/>
+                {/*Padding for single car*/}
+                <Grid
+                    sm={ singleCar() ? 2 : 0 }
+                    xl={ singleCar() ? 3 : 0 }
+                />
 
                 { props.seasons_loading ?
                     <CircularProgress/> :
 
                     cars.map((car) =>
-                        <Grid key={car.car_id} sm={6}>
+                        <Grid
+                            key={car.car_id}
+                            xs={12}
+                            sm={ singleCar() ? 8 : 6}
+                            md={ singleCar() ? 8 : 12 }
+                            lg={ singleCar() ? 8 : 6 }
+                            xl={6}
+                        >
                             <CarImage
                                 car={car}
                             />

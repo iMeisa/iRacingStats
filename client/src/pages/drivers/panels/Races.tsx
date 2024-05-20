@@ -17,15 +17,13 @@ const columns: GridCol<any, any>[] = [
         name: '',
         hideName: true,
         filterable: false,
+        width: 50,
         renderCell: params => <UnixTimeAgo unixStamp={params.row.end_time} mini/>
     },
     {
         key: 'adjusted_position',
         name: 'Pos',
-        // hideName: true,
         width: 80,
-        // headerAlign: 'center',
-        // align: 'center',
         renderCell: params => params.row.finish_position_in_class < 3 ?
             <PositionTrophy position={params.row.finish_position_in_class}/> :
             params.row.adjusted_position,
@@ -42,7 +40,6 @@ const columns: GridCol<any, any>[] = [
             </Link>,
         sortable: false,
         filterable: false,
-        // headerAlign: 'center',
     },
     {
         width: 50,
@@ -51,9 +48,7 @@ const columns: GridCol<any, any>[] = [
         name: 'License Category',
         hideName: true,
         sortable: false,
-        // align: 'left',
         filterable: false,  // Temporary
-        // resizable: true,
         type: 'singleSelect',
         renderCell: params =>
             CategoryLogo(params.row.category_id, params.row.min_license_level, 30)
@@ -63,11 +58,8 @@ const columns: GridCol<any, any>[] = [
         key: 'series_short_name',
         name: 'Series Name',
         hideName: true,
-        // headerAlign: 'center',
         align: 'left',
         minWidth: 300,
-        // width: 300,
-        // flex: 1,
         resizable: true,
         type: 'string',
         renderCell: params =>
@@ -84,18 +76,12 @@ const columns: GridCol<any, any>[] = [
         key: 'event_strength_of_field',
         name: 'SOF',
         width: 80,
-        // filterable: false,
-        // headerAlign: 'center',
-        // align: 'center',
         type: 'number',
     },
     {
         key: 'sr_change',
         name: 'SR',
-        // flex: 1,
         width: 80,
-        // align: 'center',
-        // headerAlign: 'center',
         filterable: false,
         type: 'number',
         renderCell: params =>
@@ -104,10 +90,7 @@ const columns: GridCol<any, any>[] = [
     {
         key: 'ir_change',
         name: 'iRating',
-        // flex: 1,
         width: 80,
-        // align: 'center',
-        // headerAlign: 'center',
         type: 'number',
         renderCell: params =>
             <ColoredValue value={params.row.ir_change} positiveIsGood={true}/>
@@ -116,17 +99,13 @@ const columns: GridCol<any, any>[] = [
         key: 'end_time',
         name: 'End Time',
         width: 175,
-        // headerAlign: 'center',
-        // align: 'center',
         filterable: false,
         type: 'number',
         renderCell: params => UnixToDateTime(params.row.end_time)
     },
-    // { key: 'track', name: 'Track', flex: 1, minWidth: 200 },
     {
         key: 'incidents',
         name: 'Inc',
-        // flex: 1,
         width: 80,
         type: 'number',
         renderCell: params => `${params.row.incidents}x`
@@ -134,7 +113,6 @@ const columns: GridCol<any, any>[] = [
     {
         key: 'dnf',
         name: 'DNF',
-        // flex: 1,
         width: 80,
         type: "boolean",
         renderCell: params => <BoolIcon value={params.row.dnf} positiveValue={false}/>
@@ -142,7 +120,6 @@ const columns: GridCol<any, any>[] = [
     {
         key: 'track',
         name: 'Track',
-        // flex: 1,
         width: 350,
         resizable: true,
         type: 'string',
@@ -156,10 +133,5 @@ export default function UserRaces(props: {results: DriverRace[], loading: boolea
         columns={columns}
         rows={props.results}
         loading={props.loading}
-        // initialState={{
-        //     sorting: {
-        //         sortModel: [{key: 'end_time', sort: 'desc'}],
-        //     }
-        // }}
     />
 }

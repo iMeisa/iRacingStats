@@ -25,7 +25,13 @@ export default function DriverTitle(props: {driver: DriverSummary, loading: bool
         </Box>
 
 
-        <Box mt={ breakpoints.md ? 0 : 1 } mr={2} display={'flex'} justifyContent='center' alignItems='center'>
+        <Box
+            mt={ breakpoints.md ? 0 : 1 }
+            mr={ breakpoints.md ? 2 : 0 }
+            display={'flex'}
+            justifyContent='center'
+            alignItems='center'
+        >
             <ClubLogo id={props.driver.club_id} clubName={props.driver.club_name}/>
 
             <Tooltip title={joinDay}>

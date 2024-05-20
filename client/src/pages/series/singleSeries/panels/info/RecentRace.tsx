@@ -25,8 +25,6 @@ export default function RecentRace(props: RecentRaceProps) {
     if (breakpoints.lg) vertical = false
     else if (breakpoints.xs) vertical = true
 
-    // if (props.races_loading) return <CircularProgress/>
-
     return <>
         <Paper
             elevation={3}
@@ -47,7 +45,7 @@ export default function RecentRace(props: RecentRaceProps) {
                 Most Recent Race
             </Typography>
 
-            {props.races_loading ? <CircularProgress/> :
+            {props.races_loading ? <CircularProgress sx={{ marginTop: 2 }}/> :
                 <Paper
                     elevation={5}
                     sx={{

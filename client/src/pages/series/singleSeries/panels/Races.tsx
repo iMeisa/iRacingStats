@@ -20,7 +20,6 @@ const columns: GridCol<any, any>[] = [
         key: 'id',
         name: '',
         headerAlign: 'center',
-        // flex: 1,
         minWidth: 100,
         renderCell: params =>
             <Tooltip title="Subsession Results">
@@ -58,7 +57,6 @@ const columns: GridCol<any, any>[] = [
     {
         key: 'track',
         name: 'Track',
-        // flex: 1,
         minWidth: 300,
     }
 ];
@@ -69,5 +67,6 @@ export default function Races(props: {results: Record<string, unknown>[], loadin
         loading={props.loading}
         columns={columns}
         rows={props.results}
+        height={0.6}
     />
 }

@@ -10,7 +10,6 @@ import useTabState from "../../../hooks/useTabState.ts";
 import SeriesLogo from "../../../components/images/SeriesLogo.tsx";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
-// import {useEffect} from "react";
 import {SeriesById} from "../../../cache/CachesById.ts";
 import {Season} from "../../../models/Season.ts";
 import Seasons from "./panels/Seasons.tsx";
@@ -44,7 +43,7 @@ export default function SingleSeries() {
         <Grid xs={12} md mt={1}>
             <Container maxWidth="xl">
 
-                <Box display='flex' justifyContent='center' width={'100%'}>
+                <Box mt={1} mb={2} display='flex' justifyContent='center' width={'100%'}>
 
                     <Box height={titleHeight}>
                         <SeriesLogo width={120} link={series.series_logo}/>
@@ -91,7 +90,6 @@ type TabProps = {
 }
 
 function Tabs(props: TabProps) {
-    // console.log(props.tab)
     switch (props.tab) {
         case 0: {
             return <Info

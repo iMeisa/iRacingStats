@@ -15,9 +15,6 @@ const columns: GridCol<any, any>[] = [
         key: 'season_quarter',
         name: 'Quarter',
     },
-    // {
-    //
-    // }
 ]
 
 type SeasonsProps = {
@@ -35,5 +32,6 @@ export default function Seasons(props: SeasonsProps) {
         columns={columns}
         rows={props.seasons}
         loading={props.seasons_loading}
+        height={0.6}
     />
 }

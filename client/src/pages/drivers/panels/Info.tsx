@@ -7,11 +7,8 @@ import {
     Divider,
     Paper,
     Stack,
-    Tooltip
 } from "@mui/material";
 import Typography from "@mui/material/Typography";
-import DataRange from "../../../functions/datetime/DataRange.ts";
-import InfoIcon from "@mui/icons-material/Info";
 import TrophyCabinet from "../TrophyCabinet.tsx";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import {DriverSummary} from "../../../models/driver/Driver.ts";
@@ -43,7 +40,7 @@ export default function DriverInfo(props: InfoProps) {
     return <>
 
         {/*Desktop*/}
-        <Grid sx={{ display: {xs: 'none', md: 'flex'} }} container spacing={2} style={{ marginTop: '2em' }}>
+        <Grid sx={{ display: {xs: 'none', md: 'flex'} }} container spacing={2}>
             <Grid md={12} lg={6}>
                 <Stack spacing={2}>
 
@@ -53,7 +50,6 @@ export default function DriverInfo(props: InfoProps) {
                             Licenses
                         </Typography>
 
-                        {/*<InfoCard user={props.user} loading={props.loading}/>*/}
                         <DriverLicenses loading={props.loading} licenses={props.user.licenses}/>
                     </Paper>
 
@@ -82,14 +78,9 @@ export default function DriverInfo(props: InfoProps) {
 
                 <Divider sx={{ my: 1, display: { md: 'block', lg: 'none' }}} />
 
-                <Stack direction="row" spacing={1} sx={{ display: 'flex', justifyContent: 'center' }}>
-                    <Typography variant="subtitle1" sx={{ fontWeight: 'bold' }}>
-                        Trophy Cabinet
-                    </Typography>
-                    <Tooltip placement="top" arrow title={'Data range: ' + DataRange()}>
-                        <InfoIcon/>
-                    </Tooltip>
-                </Stack>
+                <Typography variant="subtitle1" sx={{ fontWeight: 'bold' }}>
+                    Trophy Cabinet
+                </Typography>
                 <Box className={"stat-border trophies"} >
                     <TrophyCabinet loading={props.data_loading} driverRaces={props.driver_races}/>
                 </Box>

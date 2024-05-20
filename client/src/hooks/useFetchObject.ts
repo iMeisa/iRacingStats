@@ -13,7 +13,6 @@ export default function useFetchObject<Type = Record<string, unknown>>(typeDefau
 
         setLoading(true)
         const url = `${CurrentUrl()}${endpoint}`
-        console.log(url)
         fetch(url)
             .then((response) => response.json())
             .then((data: Type) => {

@@ -1,15 +1,13 @@
 import {UnixToDateTime} from "../../functions/datetime/UnixToDate.ts";
-import useFetchObject from "../../hooks/useFetchObject.ts";
-import {DataRange as DataRangeModel, DefaultDataRange} from "../../models/DataRange.ts";
 import {Skeleton} from "@mui/material";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import UnixTimeAgo from "./UnixTimeAgo.tsx";
+import useDataRange from "../../hooks/useDataRange.ts";
 
 export default function DataRange() {
 
-    const [dataRange, loading] =
-        useFetchObject<DataRangeModel>(DefaultDataRange, '/api/data_range')
+    const [dataRange, loading] = useDataRange()
 
     return <>
         <Box mt={2} display='flex' justifyContent='center' gap={1}>

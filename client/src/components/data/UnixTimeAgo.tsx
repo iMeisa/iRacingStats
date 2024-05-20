@@ -1,14 +1,29 @@
-import TimeAgo, {Style} from 'javascript-time-ago'
-import en from 'javascript-time-ago/locale/en'
+import {Style} from 'javascript-time-ago'
 import ReactTimeAgo from "react-time-ago";
+// import {Tooltip} from "@mui/material";
+// import {ReactElement} from "react";
 
 type TimeAgoProps = {
     unixStamp: number,
     mini?: boolean,
+    tooltip?: boolean,
 }
 
+// type WrapperProps = {
+//     verboseDate: string,
+//     children: ReactElement
+// }
+
+// const TooltipWrapper = ({verboseDate, children, ...rest}: WrapperProps) => {
+//     console.log(rest)
+//     return <Tooltip {...rest} title={verboseDate}>
+//         {children}
+//     </Tooltip>
+// }
+
 export default function UnixTimeAgo(props: TimeAgoProps) {
-    TimeAgo.addDefaultLocale(en)
+
+    const tooltipEnabled = props.tooltip === undefined ? true : props.tooltip
 
     return <ReactTimeAgo
         date={ new Date(props.unixStamp * 1000) }
@@ -17,5 +32,6 @@ export default function UnixTimeAgo(props: TimeAgoProps) {
             labels: props.mini ? 'mini' : '',
             round: 'floor',
         } as Style}
+        tooltip={tooltipEnabled}
     />
 }

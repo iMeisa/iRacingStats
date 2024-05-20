@@ -17,7 +17,8 @@ const columns: GridCol<any, any>[] = [
         name: '',
         hideName: true,
         filterable: false,
-        width: 50,
+        width: 60,
+        align: 'left',
         renderCell: params => <UnixTimeAgo unixStamp={params.row.end_time} mini/>
     },
     {

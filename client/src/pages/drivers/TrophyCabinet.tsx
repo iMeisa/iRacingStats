@@ -89,7 +89,7 @@ export default function TrophyCabinet(props: {loading: boolean, driverRaces: Dri
                         <strong>Series</strong> <br/>
                         Total
                     </TableCell>
-                    { isMobile ? <></> : <TableCell></TableCell>}
+                    {isMobile ? <></> : <TableCell></TableCell>}
                     <TableCell align="right">
                         <strong>Gold</strong> <br/>
                         {totals.golds}
@@ -107,9 +107,9 @@ export default function TrophyCabinet(props: {loading: boolean, driverRaces: Dri
             <TableBody>
 
                 { props.loading ? (
-                        <TableCell colSpan={isMobile ? 4 : 5} align="center">
-                            <CircularProgress/>
-                        </TableCell>
+                    <TableCell colSpan={isMobile ? 4 : 5} align="center">
+                        <CircularProgress/>
+                    </TableCell>
                 ) : (
                     <CabinetRows trophies={trophies} mobile={isMobile}/>
                 )}

@@ -5,7 +5,6 @@ import "./Driver.css"
 import DriverInfo, {InfoProps} from "./panels/Info.tsx";
 import {DriverSummary, DefaultDriverSummary} from "../../models/driver/Driver.ts";
 import SideMenu from "../../components/navigation/SideMenu.tsx";
-import Box from "@mui/material/Box";
 import DriverRaces from "./panels/Races.tsx";
 import Grid from "@mui/material/Unstable_Grid2";
 import DriverTracks from "./panels/Tracks.tsx";
@@ -17,16 +16,19 @@ import SeriesStats from "./stats/SeriesStats.ts";
 import DriverSeries from "./panels/Series.tsx";
 import useFetchObject from "../../hooks/useFetchObject.ts";
 import FetchDriverRaces from "./FetchDriverRaces.ts";
-import Typography from "@mui/material/Typography";
 import AddRecentDriver from "../../storage/AddRecentDriver.ts";
 import DataRange from "../../components/data/DataRange.tsx";
+import DriverTitle from "./DriverTitle.tsx";
+import useIsMobile from "../../hooks/useIsMobile.ts";
 
 const panels = ['info', 'series', 'races', 'tracks', 'cars']
 
 export default function Driver() {
     const {id} = useParams()
 
-    const [user, user_loading] = useFetchObject<DriverSummary>(DefaultDriverSummary, `/api/driver?cust_id=${id}`)
+    const isMobile = useIsMobile()
+
+    const [driver, driver_loading] = useFetchObject<DriverSummary>(DefaultDriverSummary, `/api/driver?cust_id=${id}`)
 
     const [driver_races, races_loading] = FetchDriverRaces(id)
 
@@ -38,54 +40,39 @@ export default function Driver() {
 
     useEffect(() => {
 
-        if (!user_loading) AddRecentDriver(user)
+        if (!driver_loading) AddRecentDriver(driver)
 
-        console.log("user: ", user)
+        console.log("user: ", driver)
         console.log("results: ", driver_races)
-    }, [user, driver_races, races_loading]);
+    }, [driver, driver_races, races_loading]);
 
     return <>
         {/*Desktop*/}
-        <Grid container display={{ xs: 'none', sm: 'none', md: 'flex' }}>
-            <Grid md={1}>
+        <Grid container display={ isMobile ? 'block' : 'flex' }>
+            <Grid xs={0} md={1}>
                 <SideMenu initialTab={tab} panels={panels} onChange={value => setTab(value)}/>
             </Grid>
-            <Grid md>
+            <Grid xs md>
                 <Container maxWidth="xl">
-                    <DriverName name={user.name}/>
+
+                    <DriverTitle driver={driver} loading={driver_loading}/>
+                    <SideMenu mobile initialTab={tab} panels={panels} onChange={value => setTab(value)}/>
                     <Tabs
                         tab={tab}
-                        user={user}
-                        loading={user_loading}
+                        user={driver}
+                        loading={driver_loading}
                         driver_races={driver_races}
                         data_loading={races_loading}
                         trackStats={trackStats}
                         carStats={carStats}
                         seriesStats={seriesStats}
                     />
+
                     <DataRange/>
+
                 </Container>
             </Grid>
         </Grid>
-
-        {/*Mobile*/}
-        <Container sx={{display: {sm: 'block', md:'none'}}}>
-            <DriverName name={user.name}/>
-            <SideMenu initialTab={tab} panels={panels} mobile onChange={value => setTab(value)}/>
-            <Tabs
-                tab={tab}
-                user={user}
-                loading={user_loading}
-                driver_races={driver_races}
-                data_loading={races_loading}
-                trackStats={trackStats}
-                carStats={carStats}
-                seriesStats={seriesStats}
-            />
-            <DataRange/>
-        </Container>
-
-        <Box height={'2em'} display={{xs: 'block', md: 'none'}}/>
     </>
 }
 
@@ -97,7 +84,6 @@ interface TabProps extends InfoProps {
 }
 
 function Tabs(props: TabProps) {
-    // console.log(props.tab)
     switch (props.tab) {
         case 0: {
             return <DriverInfo user={props.user} loading={props.loading} driver_races={props.driver_races} data_loading={props.data_loading}/>
@@ -118,8 +104,4 @@ function Tabs(props: TabProps) {
             return <></>
         }
     }
-}
-
-function DriverName(props: {name: string}) {
-    return <Typography mt={2} variant="h5" fontWeight="bold">{props.name}</Typography>
 }

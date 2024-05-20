@@ -10,6 +10,8 @@ import usePageHit from "./hooks/usePageHit.ts"
 import UpdateContentCache from "./cache/UpdateContentCache.ts";
 import {useEffect, useRef, useState} from "react";
 import LoadingScreen from "./components/loading/LoadingScreen.tsx";
+import TimeAgo from "javascript-time-ago";
+import en from "javascript-time-ago/locale/en";
 
 
 function App() {
@@ -24,6 +26,7 @@ function App() {
 
         // Anything on first render here
         UpdateContentCache().then(() => setLoading(false))
+        TimeAgo.addDefaultLocale(en)
 
     }, []);
 

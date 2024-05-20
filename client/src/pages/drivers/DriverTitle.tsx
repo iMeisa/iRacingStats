@@ -7,17 +7,15 @@ import {Paper, Tooltip} from "@mui/material";
 import WarningAmberIcon from '@mui/icons-material/WarningAmber';
 import DoneOutlineIcon from '@mui/icons-material/DoneOutline';
 import UnixTimeAgo from "../../components/data/UnixTimeAgo.tsx";
-import GetBreakpoints from "../../functions/data/Breakpoints.ts";
+import GetBreakpoints, {ScreenSizes} from "../../functions/data/Breakpoints.ts";
 import useWindowSize from "../../hooks/useWindowSize.ts";
 
 export default function DriverTitle(props: {driver: DriverSummary, loading: boolean}) {
 
-    const joinDay = new Date(props.driver.member_since * 1000).toDateString()
 
     const [dataRange, loading] = useDataRange()
 
     const breakpoints = GetBreakpoints()
-    const [width, _height] = useWindowSize()
 
     return <Box my={2} display={ breakpoints.md ? 'flex' : 'block' } alignItems='center'>
 
@@ -35,23 +33,7 @@ export default function DriverTitle(props: {driver: DriverSummary, loading: bool
             alignItems='center'
         >
             <ClubLogo id={props.driver.club_id} clubName={props.driver.club_name}/>
-
-            <Tooltip title={joinDay}>
-                <Paper
-                    elevation={3}
-                    sx={{
-                        marginLeft: 2,
-                        paddingY: 1,
-                        paddingX: 2,
-                        borderRadius: '10em',
-                    }}
-                >
-                    <Box display={ width > 450 ? 'flex' : 'block' }>
-                        <Typography noWrap fontWeight='bold' mr={ width > 450 ? 1 : 0 }>Member since:</Typography>
-                        <UnixTimeAgo tooltip={false} unixStamp={props.driver.member_since}/>
-                    </Box>
-                </Paper>
-            </Tooltip>
+            <MemberSince breakpoints={breakpoints} member_since={props.driver.member_since}/>
         </Box>
 
         <DriverStatus
@@ -85,4 +67,32 @@ function DriverStatus(props: DriverStatusProps) {
             </Tooltip>
         }
     </Box>
+}
+
+type MemberSinceProps = {
+    breakpoints: ScreenSizes,
+    member_since: number,
+}
+
+function MemberSince(props: MemberSinceProps) {
+
+    const joinDay = new Date(props.member_since * 1000).toDateString()
+    const [width, _height] = useWindowSize()
+
+    return <Tooltip title={joinDay}>
+        <Paper
+            elevation={3}
+            sx={{
+                marginLeft: props.breakpoints.sm ? 2 : 1,
+                paddingY: 1,
+                paddingX: 2,
+                borderRadius: '10em',
+            }}
+        >
+            <Box display={ width >= 400 ? 'flex' : 'block' }>
+                <Typography fontWeight='bold' mr={ width >= 400 ? 1 : 0 }>Member since:</Typography>
+                <UnixTimeAgo tooltip={false} unixStamp={props.member_since}/>
+            </Box>
+        </Paper>
+    </Tooltip>
 }

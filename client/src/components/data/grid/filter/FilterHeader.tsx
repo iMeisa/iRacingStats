@@ -7,25 +7,17 @@ import FilterAltIcon from '@mui/icons-material/FilterAlt';
 import ViewColumnIcon from '@mui/icons-material/ViewColumn';
 
 type FilterHeaderProps = {
-    handleClickOpen: () => void
+    handleClickOpenFilter: () => void
     filterList: Filter[]
     removeFilter: (index: number) => void
+
+    handleClickOpenColumns: () => void
     // editFilter: Filter
 }
 
 export default function FilterHeader(props: FilterHeaderProps) {
     return (
         <Box display='flex' >
-
-            {/*<Box*/}
-            {/*    width='3.75em'*/}
-            {/*    m='auto'*/}
-            {/*    ml='5px'*/}
-            {/*    fontWeight='bold'*/}
-            {/*    height='100%'*/}
-            {/*>*/}
-            {/*    Filters:*/}
-            {/*</Box>*/}
 
             {/*Filter button*/}
             <Tooltip title='Add filter'>
@@ -35,7 +27,7 @@ export default function FilterHeader(props: FilterHeaderProps) {
                 }} >
                     <IconButton
                         color='success'
-                        onClick={props.handleClickOpen}
+                        onClick={props.handleClickOpenFilter}
                     >
                         <FilterAltIcon/>
                     </IconButton>
@@ -87,7 +79,10 @@ export default function FilterHeader(props: FilterHeaderProps) {
                     my: 'auto',
                     mx: '2px',
                 }}>
-                    <IconButton color='info'>
+                    <IconButton
+                        color='info'
+                        onClick={props.handleClickOpenColumns}
+                    >
                         <ViewColumnIcon/>
                     </IconButton>
                 </Box>

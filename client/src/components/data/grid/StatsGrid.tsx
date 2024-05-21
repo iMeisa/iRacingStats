@@ -17,12 +17,15 @@ import RenderLoading from "./RenderLoading.tsx";
 import {EmptyRowsRenderer} from "./EmptyRowsRenderer.tsx";
 import GetGridSettings from "../../../storage/dataGrid/GetGridSettings.ts";
 import SaveGridSettings from "../../../storage/dataGrid/SaveGridSettings.ts";
+import ColumnModal from "./filter/ColumnModal.tsx";
 
 export default function StatsGrid(props: StatsGridProps<any>) {
     const [_width, height] = useWindowSize()
     const heightPercentage = props.height === undefined ? 0.7 : props.height
     const gridHeight: string = (height * heightPercentage) + 'px'
-    const [open, setOpen] = useState(false)
+
+    const [filterOpen, setFilterOpen] = useState(false)
+    const [columnsOpen, setColumnsOpen] = useState(false)
 
     const initialSettings = GetGridSettings(props.id)
 
@@ -33,14 +36,20 @@ export default function StatsGrid(props: StatsGridProps<any>) {
         useState<Filter[]>(initialSettings.filters)
     const [editFilter, setEditFilter] = useState<Filter>(DefaultFilter)
 
+    const [hiddenColumns, setHiddenColumns] =
+        useState<string[]>(initialSettings.hiddenColumns)
+
     const sortedRows = SortRows(props.rows, sortCol)
     const filteredRows = FilterRows(sortedRows, filterList)
 
-    const handleClickOpen = () => setOpen(true)
-    const handleClose = () => {
+    const handleClickOpenFilter = () => setFilterOpen(true)
+    const handleCloseFilter = () => {
         setEditFilter(DefaultFilter)
-        setOpen(false)
+        setFilterOpen(false)
     }
+
+    const handleClickOpenColumns = () => setColumnsOpen(true)
+    const handleCloseColumns = () => setColumnsOpen(false)
 
     const handleUpdateSort = (col: string, type: GridColType) => {
 
@@ -77,7 +86,7 @@ export default function StatsGrid(props: StatsGridProps<any>) {
 
     const handleEditFilter = (filter: Filter) => {
         setEditFilter(filter)
-        setOpen(true)
+        setFilterOpen(true)
     }
 
     let renderedColumns = RenderColumns(
@@ -85,11 +94,12 @@ export default function StatsGrid(props: StatsGridProps<any>) {
         handleEditFilter,
         sortCol,
         handleUpdateSort,
+        hiddenColumns,
     )
 
-    useEffect(() => {
-        console.log(editFilter)
-    }, [editFilter]);
+    // useEffect(() => {
+    //     console.log(hiddenColumns)
+    // }, [hiddenColumns]);
 
     // Save grid filters and sort column
     useEffect(() => {
@@ -98,8 +108,9 @@ export default function StatsGrid(props: StatsGridProps<any>) {
         SaveGridSettings(props.id, {
             sort: sortCol,
             filters: filterList,
+            hiddenColumns: hiddenColumns,
         })
-    }, [sortCol, filterList])
+    }, [sortCol, filterList, hiddenColumns])
 
     return (
 
@@ -115,9 +126,11 @@ export default function StatsGrid(props: StatsGridProps<any>) {
         >
 
             <FilterHeader
-                handleClickOpen={handleClickOpen}
+                handleClickOpenFilter={handleClickOpenFilter}
                 filterList={filterList}
                 removeFilter={removeFilter}
+
+                handleClickOpenColumns={handleClickOpenColumns}
             />
 
             {props.loading ? <RenderLoading height={gridHeight}/> :
@@ -139,16 +152,24 @@ export default function StatsGrid(props: StatsGridProps<any>) {
             }
 
             <Box>
-                {filteredRows.length} rows
+                {filteredRows.length} {props.rowName ? props.rowName : 'rows'}
             </Box>
 
             <FilterModal
-                open={open}
-                onClose={handleClose}
-                handleClose={handleClose}
+                open={filterOpen}
+                onClose={handleCloseFilter}
+                handleClose={handleCloseFilter}
                 handleSubmit={handleSubmit}
                 columns={props.columns}
                 editFilter={editFilter}
+            />
+
+            <ColumnModal
+                open={columnsOpen}
+                handleClose={handleCloseColumns}
+                columns={props.columns}
+                hiddenColumns={hiddenColumns}
+                setHiddenColumns={setHiddenColumns}
             />
 
         </Box>

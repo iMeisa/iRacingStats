@@ -14,7 +14,8 @@ export default function RenderColumns(
     cols: GridCol<any, any>[],
     setFilter: Function,
     sortCol: SortCol | null,
-    setSort: (col: string, type: GridColType) => void
+    setSort: (col: string, type: GridColType) => void,
+    hiddenColumns: string[] | undefined,
 ): GridCol<any, any>[] {
 
     const sortIcon = (col: string, hideUnsorted?: boolean) => {
@@ -23,6 +24,12 @@ export default function RenderColumns(
         if (sortCol.ascending) return <ArrowRightAltIcon sx={{transform: 'rotate(-90deg)'}}/>
 
         return <ArrowRightAltIcon sx={{transform: 'rotate(90deg)'}}/>
+    }
+
+    if (hiddenColumns !== undefined) {
+        // console.log('filtering: ', hiddenColumns)
+        cols = cols.filter(col => !hiddenColumns.includes(col.key))
+        // console.log(cols)
     }
 
     return cols.map(col => {
@@ -78,7 +85,8 @@ export default function RenderColumns(
                     }
                     </ButtonGroup>
                 </>
-    }
+        }
+
         return col
     })
 }

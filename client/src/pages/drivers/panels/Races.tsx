@@ -14,7 +14,7 @@ import UnixTimeAgo from "../../../components/data/UnixTimeAgo.tsx";
 const columns: GridCol<any, any>[] = [
     {
         key: 'end',
-        name: '',
+        name: 'Time Ago',
         hideName: true,
         filterable: false,
         width: 60,
@@ -61,6 +61,7 @@ const columns: GridCol<any, any>[] = [
         hideName: true,
         align: 'left',
         minWidth: 300,
+        // width: 300,
         resizable: true,
         type: 'string',
         renderCell: params =>
@@ -121,7 +122,8 @@ const columns: GridCol<any, any>[] = [
     {
         key: 'track',
         name: 'Track',
-        width: 350,
+        minWidth: 350,
+        // width: 350,
         resizable: true,
         type: 'string',
     }
@@ -134,5 +136,6 @@ export default function UserRaces(props: {results: DriverRace[], loading: boolea
         columns={columns}
         rows={props.results}
         loading={props.loading}
+        rowName={'races'}
     />
 }

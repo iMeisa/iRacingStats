@@ -70,7 +70,7 @@ export default function CarStats(races: DriverRace[], loading: boolean): Record<
 
     }
 
-    console.log("cars:", cars)
+    // console.log("cars:", cars)
 
     let stats: statsType[] = []
     for (const i in cars) {
@@ -85,7 +85,7 @@ export default function CarStats(races: DriverRace[], loading: boolean): Record<
 
     // @ts-ignore
     stats.sort((a,b) => (a.races < b.races) ? 1 : ((b.races < a.races) ? -1 : 0));
-    console.log("stats:", stats)
+    // console.log("stats:", stats)
 
     return stats
 }

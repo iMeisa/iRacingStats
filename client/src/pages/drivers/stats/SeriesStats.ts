@@ -86,7 +86,7 @@ export default function SeriesStats(races: DriverRace[], loading: boolean): Reco
 
     // @ts-ignore
     stats.sort((a,b) => (a.races < b.races) ? 1 : ((b.races < a.races) ? -1 : 0));
-    console.log("series stats:", stats)
+    // console.log("series stats:", stats)
 
     return stats
 }

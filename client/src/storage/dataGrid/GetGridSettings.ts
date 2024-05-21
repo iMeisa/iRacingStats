@@ -7,6 +7,7 @@ export default function GetGridSettings(gridId: string): GridSettings {
         return {
             sort: null,
             filters: [],
+            hiddenColumns: [],
         } as GridSettings
     }
 

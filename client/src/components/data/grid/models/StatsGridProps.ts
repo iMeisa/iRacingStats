@@ -9,4 +9,5 @@ export interface StatsGridProps<R, SR = unknown, K extends Key = Key>
     rows: Record<string, unknown>[]
     height?: number  // Percentage of window height
     loading?: boolean
+    rowName?: string
 }

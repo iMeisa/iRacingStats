@@ -91,7 +91,7 @@ export default function TrackStats(races: DriverRace[], loading: boolean): Recor
 
     }
 
-    console.log("tracks:", tracks)
+    // console.log("tracks:", tracks)
 
     let stats: statsType[] = []
     for (const i in tracks) {
@@ -111,7 +111,7 @@ export default function TrackStats(races: DriverRace[], loading: boolean): Recor
 
     // @ts-ignore
     stats.sort((a,b) => (a.races < b.races) ? 1 : ((b.races < a.races) ? -1 : 0));
-    console.log("stats:", stats)
+    // console.log("stats:", stats)
 
     return stats
 }

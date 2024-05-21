@@ -131,6 +131,7 @@ export default function StatsGrid(props: StatsGridProps<any>) {
                 removeFilter={removeFilter}
 
                 handleClickOpenColumns={handleClickOpenColumns}
+                hiddenColumnCount={hiddenColumns ? hiddenColumns.length : 0}
             />
 
             {props.loading ? <RenderLoading height={gridHeight}/> :

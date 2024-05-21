@@ -27,9 +27,7 @@ export default function RenderColumns(
     }
 
     if (hiddenColumns !== undefined) {
-        // console.log('filtering: ', hiddenColumns)
         cols = cols.filter(col => !hiddenColumns.includes(col.key))
-        // console.log(cols)
     }
 
     return cols.map(col => {

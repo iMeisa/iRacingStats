@@ -5,6 +5,7 @@ import CloseIcon from "@mui/icons-material/Close";
 import {Tooltip} from "@mui/material";
 import FilterAltIcon from '@mui/icons-material/FilterAlt';
 import ViewColumnIcon from '@mui/icons-material/ViewColumn';
+import CircleIcon from '@mui/icons-material/Circle';
 
 type FilterHeaderProps = {
     handleClickOpenFilter: () => void
@@ -12,7 +13,7 @@ type FilterHeaderProps = {
     removeFilter: (index: number) => void
 
     handleClickOpenColumns: () => void
-    // editFilter: Filter
+    hiddenColumnCount: number
 }
 
 export default function FilterHeader(props: FilterHeaderProps) {
@@ -79,11 +80,34 @@ export default function FilterHeader(props: FilterHeaderProps) {
                     my: 'auto',
                     mx: '2px',
                 }}>
+
                     <IconButton
                         color='info'
                         onClick={props.handleClickOpenColumns}
                     >
-                        <ViewColumnIcon/>
+                        <Box position='relative' height={24} width={24}>
+                            <ViewColumnIcon/>
+
+                            { props.hiddenColumnCount > 0 ?
+                                <Box
+                                    position='absolute'
+                                    top={-11}
+                                    right={-3}
+                                    // height={10}
+                                >
+                                    <CircleIcon
+                                        fontSize={'small'}
+                                        color='info'
+                                        sx={{
+                                            boxShadow: 'inset 0 0 20em #1b1b1b',
+                                            borderRadius: '50%',
+                                            height: 15,
+                                            width: 15,
+                                        }}
+                                    />
+                                </Box> : <></>
+                            }
+                        </Box>
                     </IconButton>
                 </Box>
             </Tooltip>

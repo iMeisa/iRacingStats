@@ -25,7 +25,7 @@ const columns: GridCol<any, any>[] = [
         align: 'center',
         filterable: false,
         renderCell: params =>
-            CategoryLogo(params.row.license_category_id, 0)
+            CategoryLogo(params.row.license_category_id, params.row.min_license_level)
 
     },
     {

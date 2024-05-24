@@ -17,6 +17,7 @@ import Footer from "../../../components/navigation/Footer.tsx";
 import {useEffect} from "react";
 import {Session} from "../../../models/Session.ts";
 import TrackName from "../../../functions/data/TrackName.ts";
+import {LicenseTertiaryColor} from "../../../functions/img/LicenseColor.ts";
 
 const panels = ['info', 'races', 'seasons']
 const titleHeight = 80
@@ -46,48 +47,54 @@ export default function SingleSeries() {
     }, [races])
 
 
-    return <Grid container>
-        <Grid xs={0} md={1}>
-            <SideMenu initialTab={tab} panels={panels} onChange={value => setTab(value)}/>
-        </Grid>
-        <Grid xs={12} md mt={1}>
-            <Container maxWidth="xl">
+    return <Box>
+        <Box height={0} sx={{
+            zIndex: 0,
+            boxShadow: '0px 2px 2px 2px ' + LicenseTertiaryColor(series.min_license_level)
+        }}/>
+        <Grid container>
+            <Grid xs={0} md={1}>
+                <SideMenu initialTab={tab} panels={panels} onChange={value => setTab(value)}/>
+            </Grid>
+            <Grid xs={12} md mt={1}>
+                <Container maxWidth="xl">
 
-                <Box mt={1} mb={2} display='flex' justifyContent='center' width={'100%'}>
+                    <Box mt={1} mb={2} display='flex' justifyContent='center' width={'100%'}>
 
-                    <Box height={titleHeight}>
-                        <SeriesLogo width={120} link={series.series_logo}/>
+                        <Box height={titleHeight}>
+                            <SeriesLogo width={120} link={series.series_logo}/>
+                        </Box>
+
+                        <Box
+                            ml={2}
+                            display="flex"
+                            justifyContent="center"
+                            flexDirection="row"
+                            alignItems="center"
+                            textAlign="center"
+                            height={`${titleHeight}px`}
+                        >
+                            <Typography variant="h5" fontWeight="bold" fontFamily='Verdana'>
+                                {series.series_name}
+                            </Typography>
+                        </Box>
                     </Box>
 
-                    <Box
-                        ml={2}
-                        display="flex"
-                        justifyContent="center"
-                        flexDirection="row"
-                        alignItems="center"
-                        textAlign="center"
-                        height={`${titleHeight}px`}
-                    >
-                        <Typography variant="h5" fontWeight="bold" fontFamily='Verdana'>
-                            {series.series_name}
-                        </Typography>
-                    </Box>
-                </Box>
+                    <SideMenu initialTab={tab} mobile panels={panels} onChange={value => setTab(value)}/>
+                    <Tabs
+                        tab={tab}
+                        series={series}
+                        seasons={seasons}
+                        seasons_loading={seasons_loading}
+                        races={races}
+                        races_loading={races_loading}
+                    />
+                </Container>
+            </Grid>
 
-                <SideMenu initialTab={tab} mobile panels={panels} onChange={value => setTab(value)}/>
-                <Tabs
-                    tab={tab}
-                    series={series}
-                    seasons={seasons}
-                    seasons_loading={seasons_loading}
-                    races={races}
-                    races_loading={races_loading}
-                />
-            </Container>
+            <Footer/>
         </Grid>
-
-        <Footer/>
-    </Grid>
+    </Box>
 }
 
 type TabProps = {

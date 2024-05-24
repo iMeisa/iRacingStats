@@ -20,7 +20,7 @@ export default function AddRecentDriver(driver: DriverSummary) {
         ids.push(driver.id)
         uniqueDrivers.push(driver)
     }
-    console.log(ids, uniqueDrivers)
+    // console.log(ids, uniqueDrivers)
 
 
     localStorage.setItem('recent_drivers', JSON.stringify(uniqueDrivers))

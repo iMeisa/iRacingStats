@@ -23,10 +23,12 @@ type TimeAgoProps = {
 
 export default function UnixTimeAgo(props: TimeAgoProps) {
 
+    const unixStamp = isNaN(props.unixStamp) ? 0 : props.unixStamp
+
     const tooltipEnabled = props.tooltip === undefined ? true : props.tooltip
 
     return <ReactTimeAgo
-        date={ new Date(props.unixStamp * 1000) }
+        date={ new Date(unixStamp * 1000) }
         locale={'en-US'}
         timeStyle={{
             labels: props.mini ? 'mini' : '',

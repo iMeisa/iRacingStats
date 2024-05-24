@@ -30,17 +30,17 @@ func stringToJsonMap(jsonString string) (JsonMap, errortrace.ErrorTrace) {
 	return jsonMap, errortrace.NilTrace()
 }
 
-func (d *DB) LatestSeriesSeason(seriesId int) int {
+func (d *DB) LatestSeriesSeason(seriesId int) (seasonId int) {
 	ctx, cancel := getContext()
 	defer cancel()
 
 	row := d.SQL.QueryRowContext(ctx, `
 		SELECT max(season_id)
-		FROM seasons s 
+		FROM sessions s 
+		JOIN seasons se USING (season_id)
 		WHERE series_id = $1
 	`, seriesId)
 
-	var seasonId int
 	err := row.Scan(&seasonId)
 	if err != nil {
 		log.Println("error getting latest series season:", err)
@@ -48,6 +48,28 @@ func (d *DB) LatestSeriesSeason(seriesId int) int {
 	}
 
 	return seasonId
+}
+
+// LatestSeriesWeek returns iso_year and iso_week for latest session
+func (d *DB) LatestSeriesWeek(seriesId int) (year int, week int) {
+	ctx, cancel := getContext()
+	defer cancel()
+
+	seasonId := d.LatestSeriesSeason(seriesId)
+
+	row := d.SQL.QueryRowContext(ctx, `
+		SELECT iso_year, iso_week
+		FROM sessions
+		WHERE season_id = $1
+		ORDER BY session_id DESC
+	`, seasonId)
+
+	err := row.Scan(&year, &week)
+	if err != nil {
+		log.Println("error scanning latest series week:", err)
+	}
+
+	return year, week
 }
 
 func (d *DB) LatestSubsessionTime() int {
@@ -351,6 +373,7 @@ func (d *DB) Seasons(seriesId int) []models.Season {
 			   car_classes
 		FROM seasons
 		WHERE series_id=$1
+		ORDER BY season_id DESC
 	`
 
 	rows, err := d.SQL.QueryContext(ctx, statement, seriesId)
@@ -554,10 +577,14 @@ func (d *DB) SeriesSessions(seriesId int) []models.Session {
 	ctx, cancel := getContext()
 	defer cancel()
 
+	// TODO get season quarter
 	seasonId := d.LatestSeriesSeason(seriesId)
+	year, week := d.LatestSeriesWeek(seriesId)
+	//fmt.Println(seasonId, year, week)
 
 	statement := `
 		SELECT session_id,
+			   race_week_num,
 			   start_time,
 			   max(end_time),
 			   license_category_id,
@@ -566,13 +593,15 @@ func (d *DB) SeriesSessions(seriesId int) []models.Session {
 			   track_id
 		FROM sessions s
 		JOIN subsessions ss USING (session_id)
-		WHERE season_id = $1
+		WHERE iso_year = $1
+		AND iso_week = $2
+		AND season_id = $3
 		GROUP BY s.session_id
 		ORDER BY session_id DESC
-		LIMIT 10
+-- 		LIMIT 10
 	`
 
-	rows, err := d.SQL.QueryContext(ctx, statement, seasonId)
+	rows, err := d.SQL.QueryContext(ctx, statement, year, week, seasonId)
 
 	var sessions []models.Session
 	if err != nil {
@@ -585,6 +614,7 @@ func (d *DB) SeriesSessions(seriesId int) []models.Session {
 
 		err = rows.Scan(
 			&session.SessionId,
+			&session.RaceWeekNum,
 			&session.StartTime,
 			&session.EndTime,
 			&session.CategoryId,

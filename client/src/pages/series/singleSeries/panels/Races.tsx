@@ -6,6 +6,7 @@ import FormatListNumberedIcon from "@mui/icons-material/FormatListNumbered";
 import StatsGrid from "../../../../components/data/grid/StatsGrid.tsx";
 import {GridCol} from "../../../../components/data/grid/models/GridCol.ts";
 import UnixTimeAgo from "../../../../components/data/UnixTimeAgo.tsx";
+import {Session} from "../../../../models/Session.ts";
 
 const columns: GridCol<any, any>[] = [
     {
@@ -18,19 +19,25 @@ const columns: GridCol<any, any>[] = [
     },
     {
         key: 'id',
-        name: '',
+        name: 'Splits Button',
+        hideName: true,
         headerAlign: 'center',
         minWidth: 100,
         renderCell: params =>
             <Tooltip title="Subsession Results">
                 <Link
-                    to={`/sessions/${params.row.id}`}
+                    to={`/sessions/${params.row.session_id}`}
                 >
                     <Button variant="contained" size="small" startIcon={<FormatListNumberedIcon/>} >
                         Splits
                     </Button>
                 </Link>
             </Tooltip>
+    },
+    {
+        key: 'race_week_num',
+        name: 'Week #',
+        type: 'number',
     },
     {
         key: 'subsession_count',
@@ -67,7 +74,7 @@ const columns: GridCol<any, any>[] = [
     }
 ];
 
-export default function Races(props: {results: Record<string, unknown>[], loading: boolean}) {
+export default function Races(props: {results: Session[], loading: boolean}) {
     return <StatsGrid
         id='series-races'
         loading={props.loading}

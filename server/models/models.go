@@ -249,6 +249,7 @@ type Session struct {
 	Id              int    `json:"id,omitempty"`
 	SessionId       int    `json:"session_id,omitempty"`
 	SeasonId        int    `json:"season_id,omitempty"`
+	RaceWeekNum     int    `json:"race_week_num,omitempty"`
 	SeriesId        int    `json:"series_id,omitempty"`
 	SeriesLogo      string `json:"series_logo,omitempty"`
 	SeriesShortName string `json:"series_short_name,omitempty"`

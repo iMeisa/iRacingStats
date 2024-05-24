@@ -51,21 +51,27 @@ export default function Participation(props: ParticipationProps) {
                 Participation
             </Typography>
 
-            <Typography
-                ml={2}
-                color='darkgrey'
-                lineHeight={1.2}
-            >
-                {latestSeason.season_year} S{latestSeason.season_quarter}
-            </Typography>
+            { props.races_loading ? <></> :
+                <>
+                    <Typography
+                        ml={2}
+                        color='darkgrey'
+                        lineHeight={1.2}
+                    >
+                        {latestSeason.season_year} S{latestSeason.season_quarter}
+                    </Typography>
 
-            <Typography
-                ml={2}
-                color='darkgrey'
-                lineHeight={1.2}
-            >
-                Week {week}
-            </Typography>
+                    { week === undefined ? <></> :
+                        <Typography
+                            ml={2}
+                            color='darkgrey'
+                            lineHeight={1.2}
+                        >
+                            Week {week}
+                        </Typography>
+                    }
+                </>
+            }
         </Box>
 
         { props.races_loading ? <CircularProgress/> :

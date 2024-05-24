@@ -4,6 +4,8 @@ import {Season} from "../../../../models/Season.ts";
 import {Session} from "../../../../models/Session.ts";
 import CarList from "./info/CarList.tsx";
 import RecentRace from "./info/RecentRace.tsx";
+import Participation from "./info/Participation.tsx";
+import {Stack} from "@mui/material";
 
 type InfoProps = {
     loading: boolean,
@@ -20,7 +22,10 @@ export default function Info(props: InfoProps) {
         <Grid container width="100%" mx="auto" mt={2}>
 
             <Grid xs={12} md={6}>
-                <RecentRace races={props.races} races_loading={props.races_loading}/>
+                <Stack spacing={2}>
+                    <RecentRace races={props.races} races_loading={props.races_loading}/>
+                    <Participation/>
+                </Stack>
             </Grid>
 
             <Grid mt={{ xs: 2, md: 0 }} xs={12} md={6}>

@@ -16,6 +16,7 @@ import Seasons from "./panels/Seasons.tsx";
 import Footer from "../../../components/navigation/Footer.tsx";
 import {useEffect} from "react";
 import {Session} from "../../../models/Session.ts";
+import TrackName from "../../../functions/data/TrackName.ts";
 
 const panels = ['info', 'races', 'seasons']
 const titleHeight = 80
@@ -26,7 +27,17 @@ export default function SingleSeries() {
 
     const series = SeriesById()[Number(id)]
     const [seasons, seasons_loading] = useFetchArray<Season>(`/api/seasons?series_id=${id}`)
-    const [races, races_loading] = useFetchArray<Session>(`/api/series_sessions?id=${id}`)
+    const [races, races_loading] =
+        useFetchArray<Session>(
+            `/api/series_sessions?id=${id}`,
+            race => {
+
+                race.min_license_level = series.min_license_level
+                race.track = TrackName(race.track_id)
+
+                return race
+            }
+        )
 
     const [tab, setTab] = useTabState(panels)
 

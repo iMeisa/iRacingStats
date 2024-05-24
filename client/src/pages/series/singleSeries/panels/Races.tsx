@@ -37,6 +37,12 @@ const columns: GridCol<any, any>[] = [
         name: 'Splits',
         headerAlign: 'center',
         align: 'center',
+        type: 'number',
+    },
+    {
+        key: 'entry_count',
+        name: 'Entries',
+        type: "number",
     },
     {
         key: 'start_time',

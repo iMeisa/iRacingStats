@@ -30,6 +30,26 @@ func stringToJsonMap(jsonString string) (JsonMap, errortrace.ErrorTrace) {
 	return jsonMap, errortrace.NilTrace()
 }
 
+func (d *DB) LatestSeriesSeason(seriesId int) int {
+	ctx, cancel := getContext()
+	defer cancel()
+
+	row := d.SQL.QueryRowContext(ctx, `
+		SELECT max(season_id)
+		FROM seasons s 
+		WHERE series_id = $1
+	`, seriesId)
+
+	var seasonId int
+	err := row.Scan(&seasonId)
+	if err != nil {
+		log.Println("error getting latest series season:", err)
+		return 0
+	}
+
+	return seasonId
+}
+
 func (d *DB) LatestSubsessionTime() int {
 	ctx, cancel := getContext()
 	defer cancel()
@@ -530,8 +550,57 @@ func (d *DB) SeriesPopularity() []models.Series {
 	return seriess
 }
 
-func (d *DB) SeriesSessions(id int) []models.Session {
-	return d.sessions(fmt.Sprintf(" series_id = %d ", id), false, 10)
+func (d *DB) SeriesSessions(seriesId int) []models.Session {
+	ctx, cancel := getContext()
+	defer cancel()
+
+	seasonId := d.LatestSeriesSeason(seriesId)
+
+	statement := `
+		SELECT session_id,
+			   start_time,
+			   license_category_id,
+			   count(*) as subsession_count,
+			   sum(field_size) as drivers,
+			   track_id
+		FROM sessions s
+		JOIN subsessions ss USING (session_id)
+		WHERE season_id = $1
+		GROUP BY s.session_id, start_time
+		ORDER BY session_id DESC
+		LIMIT 10
+	`
+
+	rows, err := d.SQL.QueryContext(ctx, statement, seasonId)
+
+	var sessions []models.Session
+	if err != nil {
+		log.Println("error querying series sessions:", err)
+		return sessions
+	}
+
+	for rows.Next() {
+		var session models.Session
+
+		err = rows.Scan(
+			&session.SessionId,
+			&session.StartTime,
+			&session.CategoryId,
+			&session.SubsessionCount,
+			&session.EntryCount,
+			&session.TrackId,
+		)
+
+		if err != nil {
+			log.Println("error scanning series sessions:", err)
+			continue
+		}
+
+		sessions = append(sessions, session)
+	}
+
+	fmt.Println(sessions)
+	return sessions
 }
 
 func (d *DB) Sessions() []models.Session {

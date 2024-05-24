@@ -253,8 +253,10 @@ type Session struct {
 	SeriesLogo      string `json:"series_logo,omitempty"`
 	SeriesShortName string `json:"series_short_name,omitempty"`
 	SubsessionCount int    `json:"subsession_count,omitempty"`
+	EntryCount      int    `json:"entry_count,omitempty"`
 	StartTime       int    `json:"start_time,omitempty"`
 	EndTime         int    `json:"end_time,omitempty"`
+	TrackId         int    `json:"track_id,omitempty"`
 	Track           string `json:"track,omitempty"`
 	CategoryId      int    `json:"category_id,omitempty"`
 	MinLicenseLevel int    `json:"min_license_level,omitempty"`

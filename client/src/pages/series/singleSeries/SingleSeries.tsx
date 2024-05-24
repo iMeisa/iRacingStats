@@ -42,7 +42,6 @@ export default function SingleSeries() {
     const [tab, setTab] = useTabState(panels)
 
     useEffect(() => {
-        // console.log(series)
         console.log(races)
     }, [races])
 

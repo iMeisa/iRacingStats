@@ -24,7 +24,7 @@ export default function Info(props: InfoProps) {
             <Grid xs={12} md={6}>
                 <Stack spacing={2}>
                     <RecentRace races={props.races} races_loading={props.races_loading}/>
-                    <Participation/>
+                    <Participation races={props.races} loading={props.races_loading}/>
                 </Stack>
             </Grid>
 

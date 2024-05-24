@@ -559,6 +559,7 @@ func (d *DB) SeriesSessions(seriesId int) []models.Session {
 	statement := `
 		SELECT session_id,
 			   start_time,
+			   max(end_time),
 			   license_category_id,
 			   count(*) as subsession_count,
 			   sum(field_size) as drivers,
@@ -566,7 +567,7 @@ func (d *DB) SeriesSessions(seriesId int) []models.Session {
 		FROM sessions s
 		JOIN subsessions ss USING (session_id)
 		WHERE season_id = $1
-		GROUP BY s.session_id, start_time
+		GROUP BY s.session_id
 		ORDER BY session_id DESC
 		LIMIT 10
 	`
@@ -585,6 +586,7 @@ func (d *DB) SeriesSessions(seriesId int) []models.Session {
 		err = rows.Scan(
 			&session.SessionId,
 			&session.StartTime,
+			&session.EndTime,
 			&session.CategoryId,
 			&session.SubsessionCount,
 			&session.EntryCount,
@@ -599,7 +601,6 @@ func (d *DB) SeriesSessions(seriesId int) []models.Session {
 		sessions = append(sessions, session)
 	}
 
-	fmt.Println(sessions)
 	return sessions
 }
 

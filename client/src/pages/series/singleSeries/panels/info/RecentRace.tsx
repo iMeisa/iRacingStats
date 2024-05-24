@@ -88,6 +88,7 @@ function RaceDisplay(props: RaceProps) {
                  >
                      <UnixTimeAgo unixStamp={props.session.end_time}/>
                      <Typography sx={{marginLeft: 1}}>Splits: {props.session.subsession_count}</Typography>
+                     <Typography sx={{marginLeft: 1}}>Entries: {props.session.entry_count}</Typography>
                  </Box>
 
                  <Box display='flex' mx={'auto'} mt={0}>

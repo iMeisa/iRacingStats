@@ -1,10 +1,10 @@
 import {Link} from "react-router-dom";
 import SeriesLogo from "../../../../components/images/SeriesLogo.tsx";
-import {Tooltip} from "@mui/material";
 import CategoryLogo from "../../../../functions/img/CategoryLogo.tsx";
 import StatsGrid from "../../../../components/data/grid/StatsGrid.tsx";
 import {GridCol} from "../../../../components/data/grid/models/GridCol.ts";
 import BoolIcon from "../../../../components/data/BoolIcon.tsx";
+import {Series} from "../../../../models/Series.ts";
 
 const columns: GridCol<any, any>[] = [
     {
@@ -17,7 +17,6 @@ const columns: GridCol<any, any>[] = [
             </Link>,
         sortable: false,
         filterable: false,
-        // headerAlign: 'center',
     },
     {
         width: 50,
@@ -28,16 +27,13 @@ const columns: GridCol<any, any>[] = [
         filterable: false,
         align: 'center',
         renderCell: params =>
-            <Tooltip title={params.row.category}>
-                {CategoryLogo(params.row.category_id, params.row.min_license_level)}
-            </Tooltip>
+                CategoryLogo(params.row.license_category_id, params.row.min_license_level, 30)
 
     },
     {
         key: 'series_short_name',
         name: 'Series Name',
         hideName: true,
-        // flex: 1,
         minWidth: 300,
         type: 'string',
         renderCell: params =>
@@ -48,36 +44,45 @@ const columns: GridCol<any, any>[] = [
                 {params.row.series_short_name}
             </Link>
     },
-    // { key: 'category', name: 'Category', flex: 1},
-    // { key: 'sr_change', name: 'Avg SR Change', flex: 1},
     {
         key: 'active',
         name: 'Active',
-        // headerAlign: 'center',
         align: 'center',
-        width: 125,
+        width: 80,
         type: "boolean",
         renderCell: params => <BoolIcon value={params.row.active} positiveValue={true} />
     },
     {
+        key: 'official',
+        name: 'Official',
+        align: 'center',
+        width: 80,
+        type: "boolean",
+        renderCell: params => <BoolIcon value={params.row.official} positiveValue={true} />
+    },
+    {
+        key: 'fixed_setup',
+        name: 'Fixed',
+        align: 'center',
+        width: 80,
+        type: "boolean",
+        renderCell: params => <BoolIcon value={params.row.fixed_setup} positiveValue={true} />
+    },
+    {
         key: 'series_id',
         name: 'ID',
-        // headerAlign: 'center',
         align: 'center',
-        // flex: 0,
         type: 'number'
     },
 ];
 
 type SeriesTableProps = {
-    series: Record<string, unknown>[],
-    // loading: boolean
+    series: Series[],
 }
 
 export default function SeriesTable(props: SeriesTableProps) {
     return <StatsGrid
         id={'series-list'}
-        // loading={props.loading}
         columns={columns}
         rows={props.series}
     />

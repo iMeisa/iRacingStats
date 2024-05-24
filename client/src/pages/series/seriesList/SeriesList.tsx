@@ -1,14 +1,10 @@
-// import useFetchArray from "../../../hooks/useFetchArray.ts";
-// import ToTitle from "../../../functions/strings/Title.ts";
 import "./SeriesList.css"
 import Container from "@mui/material/Container";
 import SideMenu from "../../../components/navigation/SideMenu.tsx";
 import Grid from "@mui/material/Unstable_Grid2";
 import SeriesTable from "./panels/SeriesTable.tsx";
-// import {SeriesPop} from "./panels/SeriesParticipation.tsx";
 import useTabState from "../../../hooks/useTabState.ts";
 import {Series} from "../../../models/Series.ts";
-// import PullCache from "../../../cache/PullCache.ts";
 import ContentCache from "../../../cache/ContentCache.ts";
 
 
@@ -55,10 +51,7 @@ export default function SeriesList() {
 
 interface TabProps {
     tab: number,
-    // seriesPopularity: SeriesPop[],
-    // seriesPopLoading: boolean,
-    series: Record<string, unknown>[],
-    // loading: boolean,
+    series: Series[],
 }
 
 function Tabs(props: TabProps) {

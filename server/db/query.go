@@ -10,6 +10,7 @@ import (
 	"github.com/lib/pq"
 	"log"
 	"slices"
+	"time"
 )
 
 func fullTrackName(trackName, configName string) string {
@@ -504,10 +505,12 @@ func (d *DB) SeriesPopularity() []models.Series {
 	ctx, cancel := getContext()
 	defer cancel()
 
+	isoYear, isoWeek := time.Now().Add(-1 * 24 * time.Hour).UTC().ISOWeek()
+
 	statement := `
 		SELECT sp.series_id,
-			   s.series_short_name,
-			   s.series_logo,
+-- 			   s.series_short_name,
+-- 			   s.series_logo,
 			   s.license_category_id,
 			   lc.license_category,
 			   s.min_license_level,
@@ -519,11 +522,13 @@ func (d *DB) SeriesPopularity() []models.Series {
 		FROM series_popularity sp
 		JOIN series s USING (series_id)
 		JOIN license_categories lc USING (license_category_id)
-		JOIN race_weeks rc ON rc.season_id = sp.season_id AND rc.race_week_num = sp.race_week_num
+-- 		JOIN race_weeks rc ON rc.season_id = sp.season_id AND rc.race_week_num = sp.race_week_num
 		JOIN tracks t USING (track_id)
+		WHERE iso_year = $1
+		AND iso_week = $2
 	`
 
-	rows, err := d.SQL.QueryContext(ctx, statement)
+	rows, err := d.SQL.QueryContext(ctx, statement, isoYear, isoWeek)
 	if err != nil {
 		log.Println("error querying series_popularity: ", err)
 	}
@@ -539,8 +544,8 @@ func (d *DB) SeriesPopularity() []models.Series {
 
 		err = rows.Scan(
 			&series.Id,
-			&series.Name,
-			&series.Logo,
+			//&series.Name,
+			//&series.Logo,
 			&series.CategoryId,
 			&series.Category,
 			&series.MinLicenseLevel,
@@ -577,7 +582,6 @@ func (d *DB) SeriesSessions(seriesId int) []models.Session {
 	ctx, cancel := getContext()
 	defer cancel()
 
-	// TODO get season quarter
 	seasonId := d.LatestSeriesSeason(seriesId)
 	year, week := d.LatestSeriesWeek(seriesId)
 	//fmt.Println(seasonId, year, week)
@@ -628,6 +632,7 @@ func (d *DB) SeriesSessions(seriesId int) []models.Session {
 			continue
 		}
 
+		session.RaceWeekNum++ // DB race week starts from 0, increment to account for that
 		sessions = append(sessions, session)
 	}
 

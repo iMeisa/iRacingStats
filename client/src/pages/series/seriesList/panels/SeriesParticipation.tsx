@@ -38,6 +38,7 @@ const seriesLogo = (props: any, dataById: Record<number, SeriesPop>) => {
     const seriesId = payload.value
 
     const seriesLogo = seriesLogoUrl + dataById[seriesId].logo
+    console.log(seriesLogo)
     const imgHeight = dataHeight / 1.5
 
     return (
@@ -109,7 +110,7 @@ export default function SeriesParticipation(props: SeriesParticipationProps) {
         (a.total_entry_count < b.total_entry_count) ? 1 : ((b.total_entry_count < a.total_entry_count) ? -1 : 0));
 
     return <>
-        <UnderConstructionChip/>
+        {/*<UnderConstructionChip/>*/}
         <br/>
         { props.loading ?
             <CircularProgress sx={{ width: '99%', mt: 2 }}/> :

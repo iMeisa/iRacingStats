@@ -6,10 +6,14 @@ import SeriesTable from "./panels/SeriesTable.tsx";
 import useTabState from "../../../hooks/useTabState.ts";
 import {Series} from "../../../models/Series.ts";
 import ContentCache from "../../../cache/ContentCache.ts";
+import SeriesParticipation, {SeriesPop} from "./panels/SeriesParticipation.tsx";
+import ToTitle from "../../../functions/strings/Title.ts";
+import useFetchArray from "../../../hooks/useFetchArray.ts";
+import {SeriesById} from "../../../cache/CachesById.ts";
 
 
 const panels = [
-    // 'popularity',
+    'popularity',
     'list'
 ]
 
@@ -20,11 +24,15 @@ export default function SeriesList() {
     const rows = ContentCache<Series>("series")
         // useFetchArray<Series>('/api/series_list')
 
-    // const [seriesPop, popLoading] =
-    //     useFetchArray<SeriesPop>('/api/series_popularity', obj => {
-    //         obj['category'] = ToTitle(obj['category'] as string)
-    //         return obj
-    //     })
+    const [seriesPop, popLoading] =
+        useFetchArray<SeriesPop>('/api/series_popularity', obj => {
+            obj['category'] = ToTitle(obj['category'] as string)
+
+            const series = SeriesById()[obj.id]
+            obj.logo = series.series_logo
+            obj.name = series.series_short_name
+            return obj
+        })
 
     return <>
         <Grid container>
@@ -37,8 +45,8 @@ export default function SeriesList() {
                 <Container maxWidth="xl" sx={{ mt: 1 }}>
                     <Tabs
                         tab={tab}
-                        // seriesPopularity={seriesPop}
-                        // seriesPopLoading={popLoading}
+                        seriesPopularity={seriesPop}
+                        seriesPopLoading={popLoading}
                         series={rows}
                         // loading={popLoading}
                     />
@@ -51,16 +59,18 @@ export default function SeriesList() {
 
 interface TabProps {
     tab: number,
+    seriesPopularity: SeriesPop[],
+    seriesPopLoading: boolean,
     series: Series[],
 }
 
 function Tabs(props: TabProps) {
     switch (props.tab) {
-        // case 0: {
-        //     return <SeriesParticipation series={props.seriesPopularity} loading={props.seriesPopLoading} />
-        // }
-        // case 1: {
         case 0: {
+            return <SeriesParticipation series={props.seriesPopularity} loading={props.seriesPopLoading} />
+        }
+        case 1: {
+        // case 0: {
             return <SeriesTable series={props.series} />
         }
         default: {

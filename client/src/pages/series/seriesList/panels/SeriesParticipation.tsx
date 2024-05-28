@@ -6,7 +6,6 @@ import {CircularProgress, Paper} from "@mui/material";
 import Typography from "@mui/material/Typography";
 import {useState} from "react";
 import Grid from "@mui/material/Unstable_Grid2";
-import UnderConstructionChip from "../../../../components/info/UnderConstructionChip.tsx";
 
 export type SeriesPop = {
     id: number,

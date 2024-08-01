@@ -20,6 +20,7 @@ import AddRecentDriver from "../../storage/AddRecentDriver.ts";
 import DataRange from "../../components/data/DataRange.tsx";
 import DriverTitle from "./DriverTitle.tsx";
 import useIsMobile from "../../hooks/useIsMobile.ts";
+import {Adsense} from "@ctrl/react-adsense";
 
 const panels = ['info', 'series', 'races', 'tracks', 'cars']
 
@@ -72,6 +73,14 @@ export default function Driver() {
 
                 </Container>
             </Grid>
+            <Grid xs={0} md={1}>
+                adtest
+                <Adsense
+                    client={"ca-pub-5118888052597442"}
+                    slot={"3365671265"}
+                    adTest={"on"}
+                />
+            </Grid>
         </Grid>
     </>
 }
@@ -86,7 +95,8 @@ interface TabProps extends InfoProps {
 function Tabs(props: TabProps) {
     switch (props.tab) {
         case 0: {
-            return <DriverInfo user={props.user} loading={props.loading} driver_races={props.driver_races} data_loading={props.data_loading}/>
+            return <DriverInfo user={props.user} loading={props.loading} driver_races={props.driver_races}
+                               data_loading={props.data_loading}/>
         }
         case 1: {
             return <DriverSeries stats={props.seriesStats} loading={props.data_loading}/>

@@ -1,46 +1,90 @@
-import Box from "@mui/material/Box";
-import {Tab} from "@mui/material";
-import React, {useState} from "react";
-import TabPanel from '@mui/lab/TabPanel';
-import {TabContext, TabList} from "@mui/lab";
-import CarTable from "./CarTable.tsx";
 import Container from "@mui/material/Container";
-import UnderConstructionChip from "../../components/info/UnderConstructionChip.tsx";
+import StatsGrid from "../../components/data/grid/StatsGrid.tsx";
+import {GridCol} from "../../components/data/grid/models/GridCol.ts";
+import ContentCache from "../../cache/ContentCache.ts";
+import {Car} from "../../models/Car.ts";
+import CarLogo from "../../components/images/CarLogo.tsx";
+import BoolIcon from "../../components/data/BoolIcon.tsx";
+import Typography from "@mui/material/Typography";
 
-// function a11yProps(index: number) {
-//     return {
-//         id: `simple-tab-${index}`,
-//         'aria-controls': `simple-tabpanel-${index}`,
-//     };
-// }
+const columns: GridCol<any, any>[] = [
+    {
+        key: 'logo',
+        name: 'Car',
+        width: 75,
+        renderCell: params =>
+            <CarLogo link={params.row.logo} />,
+        sortable: false,
+        filterable: false,
+    },
+    {
+        key: 'car_name',
+        name: 'Name',
+        hideName: true,
+        minWidth: 250,
+        resizable: true,
+    },
+    {
+        key: 'ai_enabled',
+        name: 'AI',
+        type: "boolean",
+        renderCell: params => <BoolIcon value={params.row.ai_enabled} positiveValue={true}/>
+    },
+    {
+        key: 'car_weight',
+        name: 'Weight',
+        width: 150,
+        type: 'number',
+        renderCell: params =>
+            `${Math.round(params.row.car_weight * 0.45359237)} kg (${params.row.car_weight} lb)`,
+    },
+    {
+        key: 'free_with_subscription',
+        name: 'Free',
+        type: 'boolean',
+        renderCell: params => <BoolIcon value={params.row.free_with_subscription} positiveValue={true}/>
+    },
+    {
+        key: 'hp',
+        name: 'HP',
+        type: 'number',
+    },
+    {
+        key: 'retired',
+        name: 'Retired',
+        type: 'boolean',
+        renderCell: params => <BoolIcon value={params.row.retired} positiveValue={false}/>
+    },
+    {
+        key: 'rain_enabled',
+        name: 'Rain',
+        type: 'boolean',
+        renderCell: params => <BoolIcon value={params.row.rain_enabled} positiveValue={true}/>
+    },
+    {
+        key: 'car_id',
+        name: 'ID',
+        type: 'number',
+    }
+]
 
 export default function Cars() {
-    const [value, setValue] = useState('1');
 
-    const handleChange = (_event: React.SyntheticEvent, newValue: string) => {
-        setValue(newValue);
-    };
+    const cars = ContentCache<Car>('cars')
+        .filter( car => car.car_id >= 0 )  // Filter out negative car ids
+        .sort((a, b) => a.car_id - b.car_id )
 
     return (
         <>
-            {/*<h1>Cars</h1>*/}
-            {/*<Box className={"container"} sx={{ width: '100%'}}>*/}
 
             <Container maxWidth="xl">
-                <TabContext value={value}>
-                    <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-                        <TabList onChange={handleChange} aria-label="lab API tabs example" centered>
-                            <Tab label="Cars" value="1" />
-                            <Tab label="Classes" value="2" />
-                        </TabList>
-                    </Box>
-                    <TabPanel value="1">
-                        <CarTable/>
-                    </TabPanel>
-                    <TabPanel value="2" aria-disabled><UnderConstructionChip/></TabPanel>
-                </TabContext>
+                <Typography variant="h5" fontWeight="bold" mt={1}>Cars</Typography>
+                <StatsGrid
+                    id={'cars'}
+                    columns={columns}
+                    rows={cars}
+                />
             </Container>
-            {/*</Box>*/}
         </>
     )
 }

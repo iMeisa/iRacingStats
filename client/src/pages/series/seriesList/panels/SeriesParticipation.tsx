@@ -1,11 +1,11 @@
 import {BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, Cell } from 'recharts';
 import Box from "@mui/material/Box";
 import {LicenseColor, LicenseSecondaryColor, LicenseTertiaryColor} from "../../../../functions/img/LicenseColor.ts";
-import useMediaQuery from "@mui/material/useMediaQuery";
 import {CircularProgress, Paper} from "@mui/material";
 import Typography from "@mui/material/Typography";
 import {useState} from "react";
 import Grid from "@mui/material/Unstable_Grid2";
+import {useNavigate} from "react-router-dom";
 
 export type SeriesPop = {
     id: number,
@@ -37,7 +37,7 @@ const seriesLogo = (props: any, dataById: Record<number, SeriesPop>) => {
     const seriesId = payload.value
 
     const seriesLogo = seriesLogoUrl + dataById[seriesId].logo
-    console.log(seriesLogo)
+    // console.log(seriesLogo)
     const imgHeight = dataHeight / 1.5
 
     return (
@@ -99,7 +99,7 @@ type SeriesParticipationProps = {
 }
 
 export default function SeriesParticipation(props: SeriesParticipationProps) {
-    const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)');
+    const navigate = useNavigate()
 
     const [focusBar, setFocusBar] = useState(null)
 
@@ -133,23 +133,17 @@ export default function SeriesParticipation(props: SeriesParticipationProps) {
                             setFocusBar(state.id)
                         }}
                         onMouseLeave={() => setFocusBar(null)}
+                        onClick={(props) => navigate(`/series/${props.id}`)}
                     >
                         {data.map((entry, index) =>
                             <Cell
                                 key={`cell-${index}`}
-                                fill={
-                                    focusBar === entry.id ?
-                                        prefersDarkMode ?
-                                            LicenseSecondaryColor(entry.min_license_level) :
-                                            LicenseColor(entry.min_license_level)
-                                        :
-                                        prefersDarkMode ?
-                                            LicenseColor(entry.min_license_level) :
-                                            LicenseSecondaryColor(entry.min_license_level)
+                                fill={ focusBar === entry.id ?
+                                    LicenseSecondaryColor(entry.min_license_level) :
+                                    LicenseColor(entry.min_license_level)
                                 }
                                 stroke={LicenseTertiaryColor(entry.min_license_level)}
-                            >
-                            </Cell>
+                            />
                         )}
                     </Bar>
                     <Tooltip

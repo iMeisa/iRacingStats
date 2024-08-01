@@ -1,4 +1,3 @@
-import * as React from 'react';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
@@ -18,7 +17,7 @@ import {useState} from "react";
 import CategoryLogo from "../../functions/img/CategoryLogo.tsx";
 
 const pages = ['Races', 'Series', 'Cars', 'Tracks', 'Drivers'];
-const disabled = ['cars', 'tracks']
+const disabled = ['tracks']
 
 function pageDisabled(page: string): boolean {
     return disabled.includes(page.toLowerCase())
@@ -50,10 +49,6 @@ const pageIcons = (page: string) => {
 function ResponsiveAppBar() {
     const [navOpen, setNavOpen] = useState<boolean>(false)
 
-    const handleSetActiveNav = (event: React.MouseEvent<HTMLElement>) => {
-        event.currentTarget.classList.add('nav-active')
-    };
-
     const handleOpenNavMenu = () => {
         setNavOpen(true)
     };
@@ -61,6 +56,12 @@ function ResponsiveAppBar() {
     const handleCloseNavMenu = () => {
         setNavOpen(false);
     };
+
+    const linkColor = (page: string) => {
+        return window.location.pathname === pageLink(page) ?
+            'skyblue' :
+            'white'
+    }
 
     return (
         <AppBar position="static">
@@ -98,8 +99,12 @@ function ResponsiveAppBar() {
                                     disabled={pageDisabled(page)}
                                     className={'nav-item'}
                                     key={page}
-                                    onClick={handleSetActiveNav}
-                                    sx={{my: 2, color: 'white', display: 'block', fontWeight: 'bold'}}
+                                    sx={{
+                                        my: 2,
+                                        color: linkColor(page),
+                                        display: 'block',
+                                        fontWeight: 'bold',
+                                    }}
                                 >
                                     {page}
                                 </Button>
@@ -141,7 +146,7 @@ function ResponsiveAppBar() {
                         >
                             <List>
                                 {pages.map((page) => (
-                                    <Link key={page} to={pageLink(page)} style={{ color: 'inherit' }}>
+                                    <Link key={page} to={pageLink(page)} style={{ color: linkColor(page) }}>
                                         <ListItem disablePadding>
                                             <ListItemButton
                                                 onClick={handleCloseNavMenu}

@@ -74,7 +74,6 @@ export default function Driver() {
                 </Container>
             </Grid>
             <Grid xs={0} md={1}>
-                adtest
                 <Adsense
                     client={"ca-pub-5118888052597442"}
                     slot={"3365671265"}

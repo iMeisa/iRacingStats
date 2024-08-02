@@ -6,6 +6,7 @@ import {Car} from "../../models/Car.ts";
 import CarLogo from "../../components/images/CarLogo.tsx";
 import BoolIcon from "../../components/data/BoolIcon.tsx";
 import Typography from "@mui/material/Typography";
+import PageTitle from "../../functions/strings/PageTitle.ts";
 
 const columns: GridCol<any, any>[] = [
     {
@@ -83,6 +84,8 @@ export default function Cars() {
     const cars = ContentCache<Car>('cars')
         .filter( car => car.car_id >= 0 )  // Filter out negative car ids
         .sort((a, b) => a.car_id - b.car_id )
+
+    PageTitle('Cars')
 
     return (
         <>

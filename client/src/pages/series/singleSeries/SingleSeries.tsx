@@ -18,6 +18,7 @@ import {useEffect} from "react";
 import {Session} from "../../../models/Session.ts";
 import TrackName from "../../../functions/data/TrackName.ts";
 import {LicenseTertiaryColor} from "../../../functions/img/LicenseColor.ts";
+import PageTitle from "../../../functions/strings/PageTitle.ts";
 
 const panels = ['info', 'races', 'seasons']
 const titleHeight = 80
@@ -46,6 +47,7 @@ export default function SingleSeries() {
         console.log(races)
     }, [races])
 
+    PageTitle(series.series_name)
 
     return <Box>
         <Box height={0} sx={{

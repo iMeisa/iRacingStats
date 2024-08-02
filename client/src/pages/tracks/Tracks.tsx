@@ -7,6 +7,7 @@ import ContentCache from "../../cache/ContentCache.ts";
 import {Track} from "../../models/Track.ts";
 import BoolIcon from "../../components/data/BoolIcon.tsx";
 import Typography from "@mui/material/Typography";
+import PageTitle from "../../functions/strings/PageTitle.ts";
 
 
 const columns: GridCol<any, any>[] = [
@@ -98,6 +99,8 @@ export default function Tracks() {
     const tracks = ContentCache<Track>('tracks')
         .filter( track => track.track_id >= 0 )  // Filter out negative car ids
         .sort((a, b) => a.track_id - b.track_id )
+
+    PageTitle('Tracks')
 
     return <>
 

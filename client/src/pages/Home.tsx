@@ -8,8 +8,11 @@ import {Link} from "react-router-dom";
 import DiscordIcon from "../assets/discord.svg";
 import Button from "@mui/material/Button";
 import Box from "@mui/material/Box";
+import PageTitle from "../functions/strings/PageTitle.ts";
 
 export default function Home() {
+
+    PageTitle('iRacing Stats', true)
 
     return (
         <>

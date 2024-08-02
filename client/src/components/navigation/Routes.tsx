@@ -13,6 +13,9 @@ import Driver from "../../pages/drivers/Driver.tsx";
 import AnalyticsPage from "../../pages/Analytics.tsx";
 
 export default function Routes() {
+
+    // PageTitle()
+
     return (
         <RouterRoutes>
             <Route path="/" element={<Home />} />

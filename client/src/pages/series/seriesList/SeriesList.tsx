@@ -10,6 +10,7 @@ import SeriesParticipation, {SeriesPop} from "./panels/SeriesParticipation.tsx";
 import ToTitle from "../../../functions/strings/Title.ts";
 import useFetchArray from "../../../hooks/useFetchArray.ts";
 import {SeriesById} from "../../../cache/CachesById.ts";
+import PageTitle from "../../../functions/strings/PageTitle.ts";
 
 
 const panels = [
@@ -18,6 +19,8 @@ const panels = [
 ]
 
 export default function SeriesList() {
+
+    PageTitle('Series')
 
     const [tab, setTab] = useTabState(panels)
 

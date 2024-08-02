@@ -11,6 +11,7 @@ import useFetchArray from "../../hooks/useFetchArray.ts";
 import {Session} from "../../models/Session.ts";
 import {GridCol} from "../../components/data/grid/models/GridCol.ts";
 import Box from "@mui/material/Box";
+import PageTitle from "../../functions/strings/PageTitle.ts";
 
 const columns: GridCol<any, any>[] = [
     {
@@ -87,6 +88,8 @@ const columns: GridCol<any, any>[] = [
 export default function Races() {
 
     const [rows, loading] = useFetchArray<Session>('/api/sessions');
+
+    PageTitle('Races')
 
     return (
         <>

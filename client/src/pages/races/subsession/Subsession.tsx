@@ -18,6 +18,7 @@ import {Result} from "../../../models/Result.ts";
 import PositionDelta from "../../../components/data/PositionDelta.tsx";
 import Button from "@mui/material/Button";
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import PageTitle from "../../../functions/strings/PageTitle.ts";
 
 const columns: GridCol<any, any>[] = [
     {
@@ -160,6 +161,7 @@ const columns: GridCol<any, any>[] = [
 export default function Subsession() {
 
     const {id} = useParams()
+    PageTitle(`Subsession #${id}`)
 
     const [subsessions, _] = useFetchArray<SubsessionModel>(`/api/subsessions?subsession_id=${id}`)
     const [subsession, setSubsession] =

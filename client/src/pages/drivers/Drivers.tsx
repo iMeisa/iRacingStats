@@ -9,6 +9,7 @@ import IconButton from "@mui/material/IconButton";
 import RecentDrivers from "../../storage/RecentDrivers.ts";
 import {GridCol} from "../../components/data/grid/models/GridCol.ts";
 import StatsGrid from "../../components/data/grid/StatsGrid.tsx";
+import PageTitle from "../../functions/strings/PageTitle.ts";
 
 const columns: GridCol<any, any>[] = [
     {
@@ -33,6 +34,8 @@ const columns: GridCol<any, any>[] = [
 
 
 export default function Drivers() {
+
+    PageTitle('Driver Search')
 
     const [rows, setRows] = useState(RecentDrivers());
 

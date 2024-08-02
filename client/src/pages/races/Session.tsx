@@ -8,6 +8,7 @@ import FormatListNumberedIcon from '@mui/icons-material/FormatListNumbered';
 import Container from "@mui/material/Container";
 import StatsGrid from "../../components/data/grid/StatsGrid.tsx";
 import {GridCol} from "../../components/data/grid/models/GridCol.ts";
+import PageTitle from "../../functions/strings/PageTitle.ts";
 
 function sortSubsessions(subsessions: Record<string, unknown>[]): Record<string, unknown>[] {
     subsessions.sort((a,b) => (b.event_strength_of_field as number) - (a.event_strength_of_field as number))
@@ -93,6 +94,8 @@ const columns: GridCol<any, any>[] = [
 
 export default function Session() {
     const {id} = useParams()
+
+    PageTitle(`Session #${id}`)
 
     const emptyRows: Record<string, unknown>[] = []
     const [rows, setRows] = useState(emptyRows);

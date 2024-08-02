@@ -21,6 +21,7 @@ import DataRange from "../../components/data/DataRange.tsx";
 import DriverTitle from "./DriverTitle.tsx";
 import useIsMobile from "../../hooks/useIsMobile.ts";
 import {Adsense} from "@ctrl/react-adsense";
+import PageTitle from "../../functions/strings/PageTitle.ts";
 
 const panels = ['info', 'series', 'races', 'tracks', 'cars']
 
@@ -41,7 +42,10 @@ export default function Driver() {
 
     useEffect(() => {
 
-        if (!driver_loading) AddRecentDriver(driver)
+        if (!driver_loading) {
+            AddRecentDriver(driver)
+            PageTitle(driver.name)
+        }
 
         console.log("user: ", driver)
         console.log("results: ", driver_races)

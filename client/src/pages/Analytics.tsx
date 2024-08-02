@@ -16,7 +16,7 @@ const columns: GridCol<any, any>[] = [
 ]
 
 export default function AnalyticsPage() {
-    const [hits, loading] = useFetchArray('/api/visits')
+    const [hits, loading] = useFetchArray('/api/visits?rows=500')
 
     console.log(hits)
 

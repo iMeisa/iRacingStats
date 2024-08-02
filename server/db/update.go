@@ -62,7 +62,7 @@ func (d *DB) cacheDriverResults(data []models.DriverRace, custId int) {
 
 }
 
-func (d *DB) HitPage(page, ip string) {
+func (d *DB) HitPage(page, ip, browser string, isMobile bool) {
 	if len(ip) < 2 {
 		return
 	}
@@ -72,13 +72,13 @@ func (d *DB) HitPage(page, ip string) {
 	dev := os.Getenv("ENV") == "dev"
 
 	statement := `
-		INSERT INTO page_hits (page, ip, time, dev)
-		VALUES ($1, $2, $3, $4)
+		INSERT INTO page_hits (page, ip, time, dev, browser, is_mobile)
+		VALUES ($1, $2, $3, $4, $5, $6)
 		ON CONFLICT (ip, time)
 		DO NOTHING 
 	`
 
-	_, err := d.SQL.Exec(statement, page, ip, time.Now().Unix(), dev)
+	_, err := d.SQL.Exec(statement, page, ip, time.Now().Unix(), dev, browser, isMobile)
 	if err != nil {
 		log.Println("error inserting page hit: ", err)
 	}

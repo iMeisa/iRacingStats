@@ -37,7 +37,6 @@ export default function Home() {
                             title="Cars"
                             description="Find stats for your favorite cars"
                             link="/cars"
-                            wip
                         />
                     </Grid>
                     <Grid xs={12} sm={6} md={4}>
@@ -45,7 +44,6 @@ export default function Home() {
                             title="Tracks"
                             description="Your favorite tracks also have stats"
                             link="/tracks"
-                            wip
                         />
                     </Grid>
                     <Grid xs={12} sm={12} md={4}>

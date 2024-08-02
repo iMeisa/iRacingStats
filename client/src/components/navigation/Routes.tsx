@@ -10,11 +10,13 @@ import Cars from "../../pages/cars/Cars.tsx";
 import Tracks from "../../pages/tracks/Tracks.tsx";
 import Drivers from "../../pages/drivers/Drivers.tsx";
 import Driver from "../../pages/drivers/Driver.tsx";
+import AnalyticsPage from "../../pages/Analytics.tsx";
 
 export default function Routes() {
     return (
         <RouterRoutes>
             <Route path="/" element={<Home />} />
+            <Route path="/analytics" element={<AnalyticsPage />} />
             <Route path="/cars" element={<Cars />} />
             <Route path="/races" element={<Races />} />
             <Route path="/series" element={<SeriesList />} />

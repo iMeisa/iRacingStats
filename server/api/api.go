@@ -46,7 +46,7 @@ func (a *Api) Get(ctx *fiber.Ctx) error {
 		query = a.DB.DriverRaces(ctx.QueryInt("id"))
 
 	case "hit_page":
-		a.DB.HitPage(ctx.Query("page"), ctx.Query("ip"), ctx.Query("browser"), ctx.QueryBool("is_mobile"))
+		a.DB.HitPage(ctx.Query("page"), ctx.Query("ip"), ctx.Query("browser"), ctx.Query("ua"), ctx.QueryBool("is_mobile"))
 
 	case "seasons":
 		query = a.DB.Seasons(ctx.QueryInt("series_id"))

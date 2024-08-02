@@ -3,7 +3,7 @@ import {useLocation} from "react-router-dom";
 import CurrentUrl from "../variables/Url.ts";
 import StripUrl from "../functions/strings/StripUrl.ts";
 import IpFetch from "../functions/data/IpFetch.ts";
-import { browserName, isMobile } from "react-device-detect";
+import {browserName, getUA, isMobile} from "react-device-detect";
 
 export default function UsePageHit() {
 
@@ -18,7 +18,7 @@ export default function UsePageHit() {
     }, [location])
 
     useEffect(() => {
-        if (!loading) fetch(`${CurrentUrl()}/api/hit_page?page=${location.pathname}&ip=${ip}&browser=${browserName}&is_mobile=${isMobile}`)
+        if (!loading) fetch(`${CurrentUrl()}/api/hit_page?page=${location.pathname}&ip=${ip}&browser=${browserName}&is_mobile=${isMobile}&ua=${getUA}`)
             .then(_ => {});
     }, [location, loading]);
 }

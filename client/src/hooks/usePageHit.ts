@@ -18,5 +18,5 @@ export default function UsePageHit() {
 
     useEffect(() => {
         if (!loading) fetch(`${CurrentUrl()}/api/hit_page?page=${location.pathname}&ip=${ip}`).then(_ => {});
-    }, [loading]);
+    }, [location, loading]);
 }

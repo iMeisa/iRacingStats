@@ -67,14 +67,18 @@ func (d *DB) HitPage(page, ip string) {
 		return
 	}
 
-	fmt.Println(page, ip, time.Now().Unix())
+	//fmt.Println(page, ip, time.Now().Unix())
+
+	dev := os.Getenv("ENV") == "dev"
 
 	statement := `
-		INSERT INTO page_hits (page, ip, time)
-		VALUES ($1, $2, $3)
+		INSERT INTO page_hits (page, ip, time, dev)
+		VALUES ($1, $2, $3, $4)
+		ON CONFLICT (ip, time)
+		DO NOTHING 
 	`
 
-	_, err := d.SQL.Exec(statement, page, ip, time.Now().Unix())
+	_, err := d.SQL.Exec(statement, page, ip, time.Now().Unix(), dev)
 	if err != nil {
 		log.Println("error inserting page hit: ", err)
 	}

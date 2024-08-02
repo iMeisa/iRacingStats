@@ -62,6 +62,24 @@ func (d *DB) cacheDriverResults(data []models.DriverRace, custId int) {
 
 }
 
+func (d *DB) HitPage(page, ip string) {
+	if len(ip) < 2 {
+		return
+	}
+
+	fmt.Println(page, ip, time.Now().Unix())
+
+	statement := `
+		INSERT INTO page_hits (page, ip, time)
+		VALUES ($1, $2, $3)
+	`
+
+	_, err := d.SQL.Exec(statement, page, ip, time.Now().Unix())
+	if err != nil {
+		log.Println("error inserting page hit: ", err)
+	}
+}
+
 // UpdateResultsCacheReadTime updates the cache last_read column to current time
 func (d *DB) UpdateResultsCacheReadTime(custId int) {
 	statement := `

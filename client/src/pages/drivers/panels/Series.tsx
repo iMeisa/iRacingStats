@@ -112,5 +112,6 @@ export default function UserSeries(props: {stats: Record<string, unknown>[], loa
         columns={columns}
         rows={props.stats}
         loading={props.loading}
+        rowName={'series'}
     />
 }

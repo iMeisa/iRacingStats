@@ -17,7 +17,7 @@ import {useState} from "react";
 import CategoryLogo from "../../functions/img/CategoryLogo.tsx";
 
 const pages = ['Races', 'Series', 'Cars', 'Tracks', 'Drivers'];
-const disabled = ['tracks']
+const disabled = ['']
 
 function pageDisabled(page: string): boolean {
     return disabled.includes(page.toLowerCase())

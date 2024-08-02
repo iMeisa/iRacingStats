@@ -19,10 +19,20 @@ const columns: GridCol<any, any>[] = [
     },
     {
         key: 'car_name',
-        name: 'Name',
+        name: 'Car Name',
         hideName: true,
         minWidth: 250,
         resizable: true,
+        align: 'left',
+        renderCell: params =>
+            <Typography
+                style={{
+                    color: 'inherit',
+                    fontWeight: 'bold'
+                }}
+            >
+                {params.row.car_name}
+            </Typography>
     },
     {
         key: 'ai_enabled',
@@ -83,6 +93,7 @@ export default function Cars() {
                     id={'cars'}
                     columns={columns}
                     rows={cars}
+                    rowName={'cars'}
                 />
             </Container>
         </>

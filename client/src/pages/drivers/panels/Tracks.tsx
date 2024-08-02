@@ -136,5 +136,6 @@ export default function UserTracks(props: {stats: Record<string, unknown>[], loa
         columns={columns}
         rows={props.stats}
         loading={props.loading}
+        rowName={'tracks'}
     />
 }

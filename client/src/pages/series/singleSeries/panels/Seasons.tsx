@@ -33,5 +33,6 @@ export default function Seasons(props: SeasonsProps) {
         rows={props.seasons}
         loading={props.seasons_loading}
         height={0.6}
+        rowName={'seasons'}
     />
 }

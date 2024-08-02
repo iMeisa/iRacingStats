@@ -168,6 +168,7 @@ export default function Session() {
                         height={0.6}
                         rows={rows}
                         columns={columns}
+                        rowName={'splits'}
                     />
                 </Container>
             </div>

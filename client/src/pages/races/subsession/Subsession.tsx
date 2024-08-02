@@ -228,6 +228,7 @@ export default function Subsession() {
                             Number(a.finish_position) - Number(b.finish_position)
                         )
                     }
+                    rowName={'drivers'}
                 />
             </Box>
 
@@ -267,6 +268,7 @@ export default function Subsession() {
                                     Number(a.finish_position) - Number(b.finish_position)
                                 )
                             }
+                            rowName={'drivers'}
                         />
                     </AccordionDetails>
                 </Accordion>

@@ -81,5 +81,6 @@ export default function Races(props: {results: Session[], loading: boolean}) {
         columns={columns}
         rows={props.results}
         height={0.6}
+        rowName={'races'}
     />
 }

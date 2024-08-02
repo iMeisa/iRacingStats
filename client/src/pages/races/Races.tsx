@@ -100,6 +100,7 @@ export default function Races() {
                         loading={loading}
                         rows={rows.sort((a, b) => b.end_time - a.end_time)}
                         columns={columns}
+                        rowName={'races'}
                     />
                 </Box>
             </Container>

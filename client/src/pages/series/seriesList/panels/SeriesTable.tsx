@@ -85,5 +85,6 @@ export default function SeriesTable(props: SeriesTableProps) {
         id={'series-list'}
         columns={columns}
         rows={props.series}
+        rowName={'series'}
     />
 }

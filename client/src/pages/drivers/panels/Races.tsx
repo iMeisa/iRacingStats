@@ -10,6 +10,8 @@ import {DriverRace} from "../../../models/driver/Race.ts";
 import {GridCol} from "../../../components/data/grid/models/GridCol.ts";
 import BoolIcon from "../../../components/data/BoolIcon.tsx";
 import UnixTimeAgo from "../../../components/data/UnixTimeAgo.tsx";
+import CarLogo from "../../../components/images/CarLogo.tsx";
+import TrackLogo from "../../../components/images/TrackLogo.tsx";
 
 const columns: GridCol<any, any>[] = [
     {
@@ -18,7 +20,7 @@ const columns: GridCol<any, any>[] = [
         hideName: true,
         filterable: false,
         width: 60,
-        align: 'left',
+        align: 'right',
         renderCell: params => <UnixTimeAgo unixStamp={params.row.end_time} mini/>
     },
     {
@@ -120,13 +122,32 @@ const columns: GridCol<any, any>[] = [
         renderCell: params => <BoolIcon value={params.row.dnf} positiveValue={false}/>
     },
     {
+        key: 'car_name',
+        name: 'Car',
+        width: 80,
+        type: 'string',
+        renderCell: params =>
+            <Tooltip title={params.row.car_name} disableInteractive>
+                <span>
+                    <CarLogo link={params.row.car_logo}/>
+                </span>
+            </Tooltip>
+    },
+    {
         key: 'track',
         name: 'Track',
-        minWidth: 350,
-        // width: 350,
+        width: 80,
+        // minWidth: 350,
         resizable: true,
         type: 'string',
-    }
+
+        renderCell: params =>
+            <Tooltip title={params.row.track} disableInteractive>
+                <span>
+                    <TrackLogo link={params.row.track_logo}/>
+                </span>
+            </Tooltip>
+    },
 ];
 
 export default function UserRaces(props: {results: DriverRace[], loading: boolean}) {

@@ -13,6 +13,7 @@ import UnixTimeAgo from "../../../components/data/UnixTimeAgo.tsx";
 import CarLogo from "../../../components/images/CarLogo.tsx";
 import TrackLogo from "../../../components/images/TrackLogo.tsx";
 import IconTooltip from "../../../components/data/IconTooltip.tsx";
+import PositionDelta from "../../../components/data/PositionDelta.tsx";
 
 const columns: GridCol<any, any>[] = [
     {
@@ -31,6 +32,15 @@ const columns: GridCol<any, any>[] = [
         renderCell: params => params.row.finish_position_in_class < 3 ?
             <PositionTrophy position={params.row.finish_position_in_class}/> :
             params.row.adjusted_position,
+        type: 'number',
+    },
+    {
+        key: 'pos_delta',
+        name: 'Position Delta',
+        hideName: true,
+        width: 80,
+        renderCell: params =>
+            <PositionDelta delta={params.row.pos_delta}/>,
         type: 'number',
     },
     {

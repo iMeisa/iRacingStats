@@ -22,6 +22,9 @@ import DriverTitle from "./DriverTitle.tsx";
 import useIsMobile from "../../hooks/useIsMobile.ts";
 import {Adsense} from "@ctrl/react-adsense";
 import PageTitle from "../../functions/strings/PageTitle.ts";
+import useDriverUpdate from "../../hooks/useDriverUpdate.ts";
+import {Alert, AlertTitle, Snackbar} from "@mui/material";
+import AutorenewIcon from '@mui/icons-material/Autorenew';
 
 const panels = ['info', 'series', 'races', 'tracks', 'cars']
 
@@ -51,9 +54,25 @@ export default function Driver() {
         console.log("results: ", driver_races)
     }, [driver, driver_races, races_loading]);
 
+    const hasUpdate = useDriverUpdate(id)
+
     return <>
         {/*Desktop*/}
         <Grid container display={ isMobile ? 'block' : 'flex' }>
+
+            <Snackbar open={hasUpdate}>
+                <Alert
+                    icon={<AutorenewIcon/>}
+                    color='success'
+                    sx={{
+                        textAlign: 'left',
+                    }}
+                >
+                    <AlertTitle sx={{ fontWeight: 'bold' }}>Driver update available!</AlertTitle>
+                    Reload page to view.
+                </Alert>
+            </Snackbar>
+
             <Grid xs={0} md={1}>
                 <SideMenu initialTab={tab} panels={panels} onChange={value => setTab(value)}/>
             </Grid>

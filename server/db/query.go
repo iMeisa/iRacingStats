@@ -219,6 +219,32 @@ func (d *DB) DriverRaces(id int) []models.DriverRace {
 	return results
 }
 
+func (d *DB) DriverUpdate(id int) models.JsonResponse {
+
+	statement := `
+		SELECT has_update
+		FROM driver_results_cache
+		WHERE cust_id = $1
+	`
+
+	row := d.SQL.QueryRow(statement, id)
+
+	var hasUpdate bool
+	err := row.Scan(&hasUpdate)
+
+	if err != nil {
+		return models.JsonResponse{
+			Ok:      false,
+			BoolVal: false,
+		}
+	}
+
+	return models.JsonResponse{
+		Ok:      true,
+		BoolVal: hasUpdate,
+	}
+}
+
 // Query validates and executes api query requested by the user
 func (d *DB) Query(tableName string, queries UrlQueryMap) ([]JsonMap, errortrace.ErrorTrace) {
 	ctx, cancel := getContext()
@@ -243,7 +269,6 @@ func (d *DB) Query(tableName string, queries UrlQueryMap) ([]JsonMap, errortrace
 			LIMIT $1 OFFSET $2
 		) t
 	`, tableName, where)
-	//fmt.Println(statement)
 
 	rows, err := d.SQL.QueryContext(ctx, statement, limit, offset)
 	if err != nil {

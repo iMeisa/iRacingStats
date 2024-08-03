@@ -9,15 +9,7 @@ type Api struct {
 	DB *db.DB
 }
 
-type jsonResponse struct {
-	Ok  bool   `json:"ok"`
-	Msg string `json:"msg"`
-}
-
 func (a *Api) Get(ctx *fiber.Ctx) error {
-	//resp := jsonResponse{
-	//	Ok: false,
-	//}
 
 	tableName := ctx.Params("table")
 
@@ -44,6 +36,9 @@ func (a *Api) Get(ctx *fiber.Ctx) error {
 
 	case "driver_races":
 		query = a.DB.DriverRaces(ctx.QueryInt("id"))
+
+	case "driver_update":
+		query = a.DB.DriverUpdate(ctx.QueryInt("cust_id"))
 
 	case "hit_page":
 		a.DB.HitPage(ctx.Query("page"), ctx.Query("ip"), ctx.Query("browser"), ctx.Query("ua"), ctx.QueryBool("is_mobile"))

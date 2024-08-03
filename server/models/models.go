@@ -2,6 +2,12 @@ package models
 
 import "time"
 
+type JsonResponse struct {
+	Ok      bool   `json:"ok"`
+	Msg     string `json:"msg"`
+	BoolVal bool   `json:"bool_val"`
+}
+
 type Car struct {
 	CarId                   int                 `json:"car_id,omitempty"`
 	CarName                 string              `json:"car_name,omitempty"`

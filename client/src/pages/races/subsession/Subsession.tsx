@@ -4,7 +4,7 @@ import useFetchArray from "../../../hooks/useFetchArray.ts";
 import {SyntheticEvent, useEffect, useState} from "react";
 import {DefaultSubsession, Subsession as SubsessionModel} from "../../../models/Subsession.ts";
 import LapTime from "../../../functions/datetime/LapTime.ts";
-import {Accordion, AccordionDetails, AccordionSummary, Tooltip} from "@mui/material";
+import {Accordion, AccordionDetails, AccordionSummary} from "@mui/material";
 import SubsessionInfo from "./SubsessionInfo.tsx";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
@@ -19,6 +19,7 @@ import PositionDelta from "../../../components/data/PositionDelta.tsx";
 import Button from "@mui/material/Button";
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import PageTitle from "../../../functions/strings/PageTitle.ts";
+import IconTooltip from "../../../components/data/IconTooltip.tsx";
 
 const columns: GridCol<any, any>[] = [
     {
@@ -64,7 +65,6 @@ const columns: GridCol<any, any>[] = [
     {
         key: 'display_name',
         name: 'Driver',
-        // flex: 1,
         minWidth: 150,
         align: 'left',
         headerAlign: 'left',
@@ -88,11 +88,9 @@ const columns: GridCol<any, any>[] = [
         filterable: false,
         sortable: false,
         renderCell: params =>
-            <Tooltip title={params.row.car_name} disableInteractive>
-                <span>
-                    <CarLogo link={params.row.logo}/>
-                </span>
-            </Tooltip>
+            <IconTooltip title={params.row.car_name}>
+                <CarLogo link={params.row.logo}/>
+            </IconTooltip>
     },
     {
         key: 'interval',

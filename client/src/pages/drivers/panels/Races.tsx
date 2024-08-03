@@ -12,6 +12,7 @@ import BoolIcon from "../../../components/data/BoolIcon.tsx";
 import UnixTimeAgo from "../../../components/data/UnixTimeAgo.tsx";
 import CarLogo from "../../../components/images/CarLogo.tsx";
 import TrackLogo from "../../../components/images/TrackLogo.tsx";
+import IconTooltip from "../../../components/data/IconTooltip.tsx";
 
 const columns: GridCol<any, any>[] = [
     {
@@ -127,11 +128,9 @@ const columns: GridCol<any, any>[] = [
         width: 80,
         type: 'string',
         renderCell: params =>
-            <Tooltip title={params.row.car_name} disableInteractive>
-                <span>
-                    <CarLogo link={params.row.car_logo}/>
-                </span>
-            </Tooltip>
+            <IconTooltip title={params.row.car_name}>
+                <CarLogo link={params.row.car_logo}/>
+            </IconTooltip>
     },
     {
         key: 'track',
@@ -142,11 +141,9 @@ const columns: GridCol<any, any>[] = [
         type: 'string',
 
         renderCell: params =>
-            <Tooltip title={params.row.track} disableInteractive>
-                <span>
-                    <TrackLogo link={params.row.track_logo}/>
-                </span>
-            </Tooltip>
+            <IconTooltip title={params.row.track}>
+                <TrackLogo link={params.row.track_logo}/>
+            </IconTooltip>
     },
 ];
 

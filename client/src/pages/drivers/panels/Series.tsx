@@ -10,7 +10,7 @@ const columns: GridCol<any, any>[] = [
         name: 'Series',
         width: 76,
         renderCell: params =>
-            <Link to={`/series/${params.row.series_id}`}>
+            <Link to={`/series/${params.row.id}`}>
                 <SeriesLogo link={params.row.series_logo} />
             </Link>,
         sortable: false,

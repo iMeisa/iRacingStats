@@ -69,12 +69,12 @@ interface TabProps {
 
 function Tabs(props: TabProps) {
     switch (props.tab) {
+        // case 1: {
         case 0: {
-            return <SeriesParticipation series={props.seriesPopularity} loading={props.seriesPopLoading} />
+            return <SeriesTable series={props.series} />
         }
         case 1: {
-        // case 0: {
-            return <SeriesTable series={props.series} />
+            return <SeriesParticipation series={props.seriesPopularity} loading={props.seriesPopLoading} />
         }
         default: {
             return <></>

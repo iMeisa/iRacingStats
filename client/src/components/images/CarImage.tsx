@@ -84,6 +84,7 @@ export default function CarImage(props: CarImageProps) {
                         borderRadius: '5px',
                         backgroundColor: 'black',
                     }}
+                    color={'#eee'}
                 >
                     {props.car.car_name}
                 </Typography>

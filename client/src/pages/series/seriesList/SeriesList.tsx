@@ -14,8 +14,8 @@ import PageTitle from "../../../functions/strings/PageTitle.ts";
 
 
 const panels = [
+    'list',
     'popularity',
-    'list'
 ]
 
 export default function SeriesList() {

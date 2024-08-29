@@ -18,6 +18,7 @@ import {EmptyRowsRenderer} from "./EmptyRowsRenderer.tsx";
 import GetGridSettings from "../../../storage/dataGrid/GetGridSettings.ts";
 import SaveGridSettings from "../../../storage/dataGrid/SaveGridSettings.ts";
 import ColumnModal from "./filter/ColumnModal.tsx";
+import usePageTheme from "../../../hooks/usePageTheme.ts";
 
 export default function StatsGrid(props: StatsGridProps<any>) {
     const [_width, height] = useWindowSize()
@@ -112,16 +113,18 @@ export default function StatsGrid(props: StatsGridProps<any>) {
         })
     }, [sortCol, filterList, hiddenColumns])
 
+    const pageDark = usePageTheme()
+
     return (
 
         <Box
             mt={1}
             sx={{
-                backgroundColor: '#1b1b1b',
+                backgroundColor: pageDark ? '#1b1b1b' : 'white',
                 width: '100%',
                 border: 'gray solid 1px',
                 borderRadius: '10px',
-                color: '#eee'
+                // color: '#eee'
             }}
         >
 
@@ -138,7 +141,7 @@ export default function StatsGrid(props: StatsGridProps<any>) {
                 <DataGrid
                     style={{
                         height: gridHeight,
-                        color: '#eee'
+                        // color: '#eee'
                     }}
                     rowHeight={40}
 

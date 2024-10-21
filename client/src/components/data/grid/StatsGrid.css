@@ -57,7 +57,31 @@ img {
         visibility: visible;
         opacity: 1;
         transition: visibility 0.2s, opacity 0.2s linear;
+
+        svg {
+            margin: 0;
+            position: absolute;
+            top: 50%;
+        }
+
+        .arrow-ascending {
+            -ms-transform: translate(0, -50%) rotate(-90deg);
+            transform: translate(0, -50%) rotate(-90deg);
+        }
+
+        .arrow-descending {
+            -ms-transform: translate(0, -50%) rotate(90deg);
+            transform: translate(0, -50%) rotate(90deg);
+        }
     }
+}
+
+.arrow-ascending {
+    transform: rotate(-90deg);
+}
+
+.arrow-descending {
+    transform: rotate(90deg);
 }
 
 .rdg-cell.filter:hover, .rdg-cell.sortable:hover {

@@ -21,9 +21,9 @@ export default function RenderColumns(
     const sortIcon = (col: string, hideUnsorted?: boolean) => {
         if (sortCol === null || sortCol.colName !== col) return hideUnsorted ? <></> : <SwapVertIcon/>
 
-        if (sortCol.ascending) return <ArrowRightAltIcon sx={{transform: 'rotate(-90deg)'}}/>
+        if (sortCol.ascending) return <ArrowRightAltIcon className={'arrow-ascending'}/>
 
-        return <ArrowRightAltIcon sx={{transform: 'rotate(90deg)'}}/>
+        return <ArrowRightAltIcon className={'arrow-descending'}/>
     }
 
     if (hiddenColumns !== undefined) {
@@ -49,6 +49,7 @@ export default function RenderColumns(
                 <>
                     <Typography variant = "h6" >
                         {col.hideName ? '' : col.name}
+                        {sortIcon(col.key, true)}
                     </Typography>
 
                     {/*<Box sx={{*/}

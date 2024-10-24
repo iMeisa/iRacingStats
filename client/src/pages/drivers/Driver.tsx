@@ -1,7 +1,6 @@
 import {useParams} from "react-router-dom";
 import {useEffect} from "react";
 import Container from "@mui/material/Container";
-import "./Driver.css"
 import DriverInfo, {InfoProps} from "./panels/Info.tsx";
 import {DriverSummary, DefaultDriverSummary} from "../../models/driver/Driver.ts";
 import SideMenu from "../../components/navigation/SideMenu.tsx";

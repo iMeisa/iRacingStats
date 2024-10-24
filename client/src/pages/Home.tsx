@@ -21,39 +21,39 @@ export default function Home() {
 
             <Container>
                 <Grid container spacing={2}>
-                    <Grid xs={12} sm={6} md={6}>
+                    {/*<Grid xs={12} sm={6} md={6}>*/}
+                    {/*    <PageCard*/}
+                    {/*        title="Races"*/}
+                    {/*        description="See races that just finished"*/}
+                    {/*        link="/races"*/}
+                    {/*    />*/}
+                    {/*</Grid>*/}
+                    <Grid xs={12} sm={6}>
                         <PageCard
-                            title="Races"
-                            description="See races that just finished"
-                            link="/races"
+                            title="Drivers"
+                            description="Statistics about you and your friends"
+                            link="/drivers"
                         />
                     </Grid>
-                    <Grid xs={12} sm={6} md={6}>
+                    <Grid xs={12} sm={6}>
                         <PageCard
                             title="Series"
                             description="See series participation and more"
                             link="/series"
                         />
                     </Grid>
-                    <Grid xs={12} sm={6} md={4}>
+                    <Grid xs={12} sm={6}>
                         <PageCard
                             title="Cars"
                             description="Find stats for your favorite cars"
                             link="/cars"
                         />
                     </Grid>
-                    <Grid xs={12} sm={6} md={4}>
+                    <Grid xs={12} sm={6}>
                         <PageCard
                             title="Tracks"
                             description="Your favorite tracks also have stats"
                             link="/tracks"
-                        />
-                    </Grid>
-                    <Grid xs={12} sm={12} md={4}>
-                        <PageCard
-                            title="Drivers"
-                            description="Statistics about you and your friends"
-                            link="/drivers"
                         />
                     </Grid>
                 </Grid>

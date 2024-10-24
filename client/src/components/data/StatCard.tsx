@@ -2,6 +2,7 @@ import {Paper, Tooltip} from "@mui/material";
 import Typography from "@mui/material/Typography";
 import Grid from "@mui/material/Unstable_Grid2";
 import Box from "@mui/material/Box";
+import "./StatBox.css";
 
 type StatCardProps = {
     elevation: number,
@@ -25,7 +26,7 @@ export default function StatCard(props: StatCardProps) {
     return (
         <Grid xs={xs} md={md} lg={lg}>
             <Tooltip placement="top" title={tooltip} arrow>
-                <Paper elevation={props.elevation} sx={{ p: 1 }}>
+                <Paper elevation={props.elevation} sx={{ p: 1, height: '5em' }}>
 
                     <Box
                         display="flex"

@@ -20,6 +20,11 @@
   width: 30em;
 }
 
+.stat-border {
+  border: 2px solid;
+  border-radius: 5px;
+}
+
 .data-grid {
   margin: 0 10%;
   color: white;

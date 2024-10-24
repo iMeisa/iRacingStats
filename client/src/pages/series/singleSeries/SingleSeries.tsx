@@ -14,9 +14,9 @@ import {SeriesById} from "../../../cache/CachesById.ts";
 import {Season} from "../../../models/Season.ts";
 import Seasons from "./panels/Seasons.tsx";
 import Footer from "../../../components/navigation/Footer.tsx";
-import {useEffect} from "react";
+// import {useEffect} from "react";
 import {Session} from "../../../models/Session.ts";
-import TrackName from "../../../functions/data/TrackName.ts";
+import TrackName from "../../../functions/strings/TrackName.ts";
 import {LicenseTertiaryColor} from "../../../functions/img/LicenseColor.ts";
 import PageTitle from "../../../functions/strings/PageTitle.ts";
 
@@ -43,9 +43,9 @@ export default function SingleSeries() {
 
     const [tab, setTab] = useTabState(panels)
 
-    useEffect(() => {
-        console.log(races)
-    }, [races])
+    // useEffect(() => {
+    //     console.log(races)
+    // }, [races])
 
     PageTitle(series.series_name)
 

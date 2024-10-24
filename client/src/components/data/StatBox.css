@@ -13,16 +13,20 @@
     border-radius: 5px;
 }
 
+.driving-stats {
+    border-color: #cb9ce8;
+}
+
 .info {
     border-color: #66d5e3;
 }
 
-.race-stats {
-    border-color: #94ea79;
+.list-color {
+    border-color: maroon;
 }
 
-.driving-stats {
-    border-color: #cb9ce8;
+.race-stats {
+    border-color: #94ea79;
 }
 
 .trophies {

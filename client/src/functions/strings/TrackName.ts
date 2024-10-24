@@ -5,11 +5,7 @@ export default function TrackName(trackId: number): string {
     const track = TracksById()[trackId]
     if (track === undefined) return ''
 
-    let trackName = track.track_name
-
-    if (track.config_name.length > 0) {
-        trackName += ' - ' + track.config_name
-    }
-
-    return trackName
+    return track.config_name.length < 1 ?
+        track.track_name :
+        `${track.track_name} - ${track.config_name}`
 }

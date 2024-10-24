@@ -8,6 +8,7 @@ import {Track} from "../../models/Track.ts";
 import BoolIcon from "../../components/data/BoolIcon.tsx";
 import Typography from "@mui/material/Typography";
 import PageTitle from "../../functions/strings/PageTitle.ts";
+import {Link} from "react-router-dom";
 
 
 const columns: GridCol<any, any>[] = [
@@ -15,7 +16,10 @@ const columns: GridCol<any, any>[] = [
         key: 'logo',
         name: '',
         width: 75,
-        renderCell: params => <TrackLogo link={params.row.logo as string}/>,
+        renderCell: params =>
+            <Link to={`/track/${params.row.track_id}`}>
+                <TrackLogo link={params.row.logo} />
+            </Link>,
         sortable: false,
         filterable: false,
         align: 'right'
@@ -36,14 +40,12 @@ const columns: GridCol<any, any>[] = [
         type: 'string',
         align: 'left',
         renderCell: params =>
-            <Typography
-                style={{
-                    color: 'inherit',
-                    fontWeight: 'bold'
-                }}
+            <Link
+                style={{ textDecoration: 'underline', fontStyle: 'italic', color: 'inherit', fontWeight: 'bold'}}
+                to={`/track/${params.row.track_id}`}
             >
                 {params.row.track_name}
-            </Typography>
+            </Link>
     },
     {
         key: 'config_name',
@@ -105,7 +107,7 @@ export default function Tracks() {
     return <>
 
         <Container maxWidth="xl">
-            <h2>Tracks</h2>
+            <Typography variant="h5" fontWeight="bold" mt={1}>Tracks</Typography>
             <StatsGrid
                 id={'track-list'}
                 rows={tracks}

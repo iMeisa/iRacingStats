@@ -157,6 +157,12 @@ type UserLicenses struct {
 	DirtRoad License `json:"dirt_road"`
 }
 
+type RaceWeek struct {
+	SeasonId    int `json:"season_id"`
+	RaceWeekNum int `json:"race_week_num"`
+	TrackId     int `json:"track_id"`
+}
+
 type Result struct {
 	ResultId                int       `json:"id,omitempty"`
 	SubsessionId            int       `json:"subsession_id,omitempty"`
@@ -226,6 +232,7 @@ type Season struct {
 	LicenseGroup    int     `json:"license_group"`
 	DriverChanges   bool    `json:"driver_changes"`
 	CarClasses      []int64 `json:"car_classes"`
+	RaceWeek
 }
 
 type Series struct {

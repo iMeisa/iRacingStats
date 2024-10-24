@@ -1,17 +1,32 @@
 import {Track} from "../../../models/Track.ts";
 import Grid from "@mui/material/Unstable_Grid2";
-import {Paper, Stack} from "@mui/material";
+import {CircularProgress, Paper, Stack} from "@mui/material";
 import Typography from "@mui/material/Typography";
 import useWindowSize from "../../../hooks/useWindowSize.ts";
 import GeneralTrackInfo from "./info/GeneralTrackInfo.tsx";
 import OtherTrackInfo from "./info/OtherTrackInfo.tsx";
+import {Season} from "../../../models/Season.ts";
+import {useEffect} from "react";
+import Box from "@mui/material/Box";
+import SeriesLogo from "../../../components/images/SeriesLogo.tsx";
 
 type TrackInfoProps = {
     track: Track
+    trackUses: Season[]
+    loading: boolean
 }
 
 export default function TrackInfo(props: TrackInfoProps) {
     const [_width, height] = useWindowSize()
+
+    let trackUses = props.trackUses
+
+    useEffect(() => {
+        trackUses.sort((a, b) => (a.series_id < b.series_id) ? -1 : (b.series_id < a.series_id) ? 1 : 0)
+        trackUses.sort((a, b) => (a.season_quarter < b.season_quarter) ? -1 : (b.season_quarter < a.season_quarter) ? 1 : 0)
+        trackUses.sort((a, b) => (a.season_year < b.season_year) ? -1 : (b.season_year < a.season_year) ? 1 : 0)
+        trackUses.sort((a, b) => (a.race_week_num < b.race_week_num) ? -1 : (b.race_week_num < a.race_week_num) ? 1 : 0)
+    }, [props.loading])
 
     return <>
         <Grid container width="100%" mx="auto" mt={2}>
@@ -55,29 +70,19 @@ export default function TrackInfo(props: TrackInfoProps) {
                     {/*{singleCar() ? "single car" : "many cars"}*/}
                     <Grid container>
                         {/*Padding for single car*/}
-                        <Grid
-                            // sm={ singleCar() ? 2 : 0 }
-                            // xl={ singleCar() ? 3 : 0 }
-                        />
 
-                        {/*{ props.seasons_loading ?*/}
-                        {/*    <CircularProgress/> :*/}
+                        { props.loading ?
+                            <CircularProgress/> :
+                            // <>{props.trackUses}</>
+                            <Stack>
+                            {trackUses.map((use) =>
+                                <Box>
+                                    { use.series_id } { use.race_week_num }
+                                </Box>
+                            )}
+                            </Stack>
 
-                        {/*    cars.map((car) =>*/}
-                        {/*        <Grid*/}
-                        {/*            key={car.car_id}*/}
-                        {/*            xs={12}*/}
-                        {/*            sm={ singleCar() ? 8 : 6}*/}
-                        {/*            md={ singleCar() ? 8 : 12 }*/}
-                        {/*            lg={ singleCar() ? 8 : 6 }*/}
-                        {/*            xl={6}*/}
-                        {/*        >*/}
-                        {/*            <CarImage*/}
-                        {/*                car={car}*/}
-                        {/*            />*/}
-                        {/*        </Grid>*/}
-                        {/*    )*/}
-                        {/*}*/}
+                        }
 
                     </Grid>
                 </Paper>

@@ -140,6 +140,40 @@ func (d *DB) CacheHashes() []models.ContentCache {
 	return hashes
 }
 
+// currentSeriesSeasonIds returns IDs for currently active seasons
+func (d *DB) currentSeriesSeasonIds() []int {
+	ctx, cancel := getContext()
+	defer cancel()
+
+	statement := `
+		SELECT max(season_id)
+		FROM series s 
+		JOIN seasons s2 USING (series_id)
+		WHERE active 
+		GROUP BY series_id
+	`
+
+	rows, err := d.SQL.QueryContext(ctx, statement)
+	if err != nil {
+		log.Println("error querying series season ids: ", err)
+	}
+
+	var seasonIds []int
+	for rows.Next() {
+		var seasonId int
+		err = rows.Scan(&seasonId)
+		if err != nil {
+			log.Println("error scanning series season id: ", err)
+			continue
+		}
+
+		seasonIds = append(seasonIds, seasonId)
+	}
+
+	//fmt.Println("idk", seasonIds)
+	return seasonIds
+}
+
 // driverCache returns cached data for driver
 // returns Result model slice, if cache needs to be updated, latest subsession, earliest subsession
 func (d *DB) driverCache(custId int) ([]models.DriverRace, bool, int, int) {
@@ -860,6 +894,42 @@ func (d *DB) Subsessions(sessionId int) []models.Subsession {
 
 	return subsessions
 
+}
+
+func (d *DB) TrackSeasonUsesList(id int) []models.Season {
+	ctx, cancel := getContext()
+	defer cancel()
+
+	seasonIds := d.currentSeriesSeasonIds()
+	//fmt.Println("season ids", seasonIds)
+
+	statement := `
+		SELECT series_id, season_year, season_quarter, race_week_num
+		FROM race_weeks rw 
+		JOIN seasons s USING (season_id)
+		WHERE track_id = $1
+		AND season_id = ANY($2)
+	`
+
+	rows, err := d.SQL.QueryContext(ctx, statement, id, seasonIds)
+	if err != nil {
+		log.Println("error querying track series list: ", err)
+		return []models.Season{}
+	}
+
+	var trackUses []models.Season
+	for rows.Next() {
+		var trackUse models.Season
+		err = rows.Scan(&trackUse.SeriesId, &trackUse.SeasonYear, &trackUse.SeasonQuarter, &trackUse.RaceWeek.RaceWeekNum)
+		if err != nil {
+			log.Println("error scanning track use:", err)
+			continue
+		}
+		trackUses = append(trackUses, trackUse)
+	}
+	//fmt.Println(trackUses)
+
+	return trackUses
 }
 
 func (d *DB) Users(name string) []map[string]any {

@@ -1,3 +1,4 @@
+
 export type Season = {
     season_id: number
     season_name: string
@@ -8,6 +9,7 @@ export type Season = {
     license_group: number
     driver_changes: boolean
     car_classes: number[]
+    race_week_num: number
 }
 
 export const DefaultSeason: Season = {
@@ -20,4 +22,5 @@ export const DefaultSeason: Season = {
     license_group: 0,
     driver_changes: false,
     car_classes: [1],
+    race_week_num: 0,
 }

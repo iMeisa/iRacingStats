@@ -1,7 +1,6 @@
 import {Track as TrackModel} from "../../../../models/Track.ts";
 import Grid from "@mui/material/Unstable_Grid2";
 import StatCard from "../../../../components/data/StatCard.tsx";
-import BoolIcon from "../../../../components/data/BoolIcon.tsx";
 import {UnixToDate} from "../../../../functions/datetime/UnixToDate.ts";
 
 type OtherTrackInfoProps = {

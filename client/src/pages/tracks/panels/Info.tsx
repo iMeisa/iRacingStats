@@ -1,14 +1,8 @@
 import {Track} from "../../../models/Track.ts";
 import Grid from "@mui/material/Unstable_Grid2";
-import {CircularProgress, Paper, Stack} from "@mui/material";
-import RecentRace from "../../series/singleSeries/panels/info/RecentRace.tsx";
-import Participation from "../../series/singleSeries/panels/info/Participation.tsx";
-import CarList from "../../series/singleSeries/panels/info/CarList.tsx";
+import {Paper, Stack} from "@mui/material";
 import Typography from "@mui/material/Typography";
-import DriverLicenses from "../../drivers/panels/info/DriverLicenses.tsx";
-import CarImage from "../../../components/images/CarImage.tsx";
 import useWindowSize from "../../../hooks/useWindowSize.ts";
-import StatCard from "../../../components/data/StatCard.tsx";
 import GeneralTrackInfo from "./info/GeneralTrackInfo.tsx";
 import OtherTrackInfo from "./info/OtherTrackInfo.tsx";
 
@@ -33,7 +27,7 @@ export default function TrackInfo(props: TrackInfoProps) {
                         <GeneralTrackInfo track={props.track}/>
                     </Paper>
 
-                    <Paper className={"stat-border"} sx={{ p: 1 }}>
+                    <Paper className={"stat-border race-stats"} sx={{ p: 1 }}>
 
                         <Typography variant="subtitle1" pb={0.5} fontWeight="bold">
                             Other

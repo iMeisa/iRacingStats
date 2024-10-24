@@ -8,7 +8,6 @@ import OtherTrackInfo from "./info/OtherTrackInfo.tsx";
 import {Season} from "../../../models/Season.ts";
 import {useEffect} from "react";
 import Box from "@mui/material/Box";
-import SeriesLogo from "../../../components/images/SeriesLogo.tsx";
 
 type TrackInfoProps = {
     track: Track

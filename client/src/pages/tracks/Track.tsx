@@ -16,8 +16,9 @@ import useFetchArray from "../../hooks/useFetchArray.ts";
 import {Season} from "../../models/Season.ts";
 import {useEffect, useState} from "react";
 import useFetchObject from "../../hooks/useFetchObject.ts";
+import TrackStatsMap from "./panels/Map.tsx";
 
-const panels = ['info', 'usage']
+const panels = ['info', 'map', 'usage']
 const titleHeight = 80
 
 export default function Track() {
@@ -57,7 +58,7 @@ export default function Track() {
             <Grid xs={12} md mt={1}>
                 <Container maxWidth="xl">
 
-                    <Box mt={1} mb={2} display='flex' width={'100%'}>
+                    <Box mt={1} mb={2} display='flex' width={'100%'} justifyContent={'center'}>
 
                         <Box height={titleHeight}>
                             <TrackLogo width={120} link={track.logo}/>
@@ -106,6 +107,9 @@ function Tabs(props: TabProps) {
     switch (props.tab) {
         case 0: {
             return <TrackInfo track={props.track} trackUses={props.trackUses} loading={props.usesLoading} trackOwners={props.trackOwners}/>
+        }
+        case 1: {
+            return <TrackStatsMap id={props.track.track_id}/>
         }
         default: {
             return <></>

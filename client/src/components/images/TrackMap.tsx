@@ -8,6 +8,7 @@ type TrackMapProps = {
     size?: number | string
     minimal?: boolean
     showActive?: boolean
+    border?: boolean
 }
 
 let track: Track | undefined = undefined
@@ -17,10 +18,14 @@ export default function TrackMap(props: TrackMapProps) {
     const size: number | string =  props.size || '10em'
     const minimal: boolean = props.minimal || false
     const showActive: boolean = props.showActive || true
+    const border: boolean = props.border || false
 
     track = TracksById()[props.id]
 
-    return <Box className={'track-layer'} height={size} display="flex" justifyContent={'center'}>
+    let additionalClasses = ''
+    if (border) additionalClasses += ` track-layer-border`
+
+    return <Box className={'track-layer' + additionalClasses} height={size} display="flex" justifyContent={'center'}>
         <img style={{ maxHeight: size }} src={!minimal ? trackLayer('background') : ''} alt={''}/>
         <img style={{ maxHeight: size }} src={trackLayer('inactive')} alt={''}/>
         <img style={{ maxHeight: size }} src={showActive ? trackLayer('active') : ''} alt={''}/>

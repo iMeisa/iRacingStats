@@ -1,3 +1,10 @@
 .track-layer > img {
     position: absolute;
 }
+
+.track-layer-border > img:nth-child(1) {
+    border: white 2px solid;
+    border-radius: 10px;
+
+    box-shadow: 10px 10px 5px #000;
+}

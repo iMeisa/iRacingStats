@@ -23,6 +23,8 @@ export default function useFetchArray<Type = Record<string, unknown>>(endpoint: 
                 data.map(dataFunc)
 
                 setRows(data)
+            })
+            .finally(() => {
                 setLoading(false)
             })
     }, [])

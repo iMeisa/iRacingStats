@@ -20,12 +20,12 @@ export default function GeneralTrackInfo(props: GeneralTrackInfoProps) {
 
     return <>
         <Grid container spacing={1}>
-            <StatCard elevation={5} name="Track ID" value={props.track.track_id}/>
-            <StatCard elevation={3} name="Corners" value={props.track.corners_per_lap}/>
-            <StatCard elevation={3} name="Length" value={length_main} tooltip={length_secondary}/>
-            <StatCard elevation={3} name="Max Cars" value={props.track.max_cars}/>
-            <StatCard elevation={3} name="Lighting" value={<BoolIcon value={props.track.night_lighting} positiveValue={true} />}/>
-            <StatCard elevation={3} name="Banking" value={banking} />
+            <StatCard elevation={5} sm={2} md={4} name="Track ID" value={props.track.track_id}/>
+            <StatCard elevation={3} sm={2} md={4} name="Corners" value={props.track.corners_per_lap}/>
+            <StatCard elevation={3} sm={2} md={4} name="Length" value={length_main} tooltip={length_secondary}/>
+            <StatCard elevation={3} sm={2} md={4} name="Max Cars" value={props.track.max_cars}/>
+            <StatCard elevation={3} sm={2} md={4} name="Lighting" value={<BoolIcon value={props.track.night_lighting} positiveValue={true} />}/>
+            <StatCard elevation={3} sm={2} md={4} name="Banking" value={banking} />
         </Grid>
     </>
 }

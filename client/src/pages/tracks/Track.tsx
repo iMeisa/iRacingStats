@@ -14,7 +14,6 @@ import TrackName from "../../functions/strings/TrackName.ts";
 import TrackInfo from "./panels/Info.tsx";
 import useFetchArray from "../../hooks/useFetchArray.ts";
 import {Season} from "../../models/Season.ts";
-import {useEffect} from "react";
 
 const panels = ['info', 'usage']
 const titleHeight = 80
@@ -31,11 +30,6 @@ export default function Track() {
     const [tab, setTab] = useTabState(panels)
 
     PageTitle(trackName)
-
-    console.log(track)
-    useEffect(() => {
-        console.log(trackSeasonUses)
-    }, [usesLoading])
 
     return <Box>
         <Grid container>

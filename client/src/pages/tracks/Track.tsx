@@ -14,6 +14,7 @@ import TrackName from "../../functions/strings/TrackName.ts";
 import TrackInfo from "./panels/Info.tsx";
 import useFetchArray from "../../hooks/useFetchArray.ts";
 import {Season} from "../../models/Season.ts";
+import {useEffect, useState} from "react";
 
 const panels = ['info', 'usage']
 const titleHeight = 80
@@ -24,12 +25,27 @@ export default function Track() {
 
     const track = TracksById()[Number(id)]
     const trackName = TrackName(track.track_id)
+    PageTitle(trackName)
 
-    const [trackSeasonUses, usesLoading] = useFetchArray<Season>(`/api/track_season_uses?id=${id}`)
+    const [trackSeasonUsesUnsorted, usesLoading] = useFetchArray<Season>(`/api/track_season_uses?id=${id}`)
+
+    const [trackUses, setTrackUses] = useState<Season[]>([])
+
+    // Sort track uses by race week on load
+    useEffect(() => {
+
+        if (usesLoading) return
+
+        trackSeasonUsesUnsorted.sort((a, b) => (a.series_id < b.series_id) ? -1 : (b.series_id < a.series_id) ? 1 : 0)
+        trackSeasonUsesUnsorted.sort((a, b) => (a.race_week_num < b.race_week_num) ? -1 : (b.race_week_num < a.race_week_num) ? 1 : 0)
+        trackSeasonUsesUnsorted.sort((a, b) => (a.season_year < b.season_year) ? -1 : (b.season_year < a.season_year) ? 1 : 0)
+        trackSeasonUsesUnsorted.sort((a, b) => (a.season_quarter < b.season_quarter) ? -1 : (b.season_quarter < a.season_quarter) ? 1 : 0)
+
+        setTrackUses(trackSeasonUsesUnsorted)
+    }, [usesLoading])
 
     const [tab, setTab] = useTabState(panels)
 
-    PageTitle(trackName)
 
     return <Box>
         <Grid container>
@@ -64,7 +80,7 @@ export default function Track() {
                     <Tabs
                         tab={tab}
                         track={track}
-                        trackUses={trackSeasonUses}
+                        trackUses={trackUses}
                         usesLoading={usesLoading}
                     />
                 </Container>

@@ -21,6 +21,8 @@ export default function useFetchObject<Type = Record<string, unknown>>(typeDefau
                 dataFormat(data)
 
                 setObject(data)
+            })
+            .finally(() => {
                 setLoading(false)
             })
     }, [])

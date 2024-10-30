@@ -15,6 +15,7 @@ import TrackInfo from "./panels/Info.tsx";
 import useFetchArray from "../../hooks/useFetchArray.ts";
 import {Season} from "../../models/Season.ts";
 import {useEffect, useState} from "react";
+import useFetchObject from "../../hooks/useFetchObject.ts";
 
 const panels = ['info', 'usage']
 const titleHeight = 80
@@ -28,6 +29,7 @@ export default function Track() {
     PageTitle(trackName)
 
     const [trackSeasonUsesUnsorted, usesLoading] = useFetchArray<Season>(`/api/track_season_uses?id=${id}`)
+    const [trackOwners, _ownersLoading] = useFetchObject<number>(0, `/api/track_owners?id=${id}`)
 
     const [trackUses, setTrackUses] = useState<Season[]>([])
 
@@ -82,6 +84,7 @@ export default function Track() {
                         track={track}
                         trackUses={trackUses}
                         usesLoading={usesLoading}
+                        trackOwners={trackOwners}
                     />
                 </Container>
             </Grid>
@@ -96,12 +99,13 @@ type TabProps = {
     track: TrackModel
     trackUses: Season[]
     usesLoading: boolean
+    trackOwners: number
 }
 
 function Tabs(props: TabProps) {
     switch (props.tab) {
         case 0: {
-            return <TrackInfo track={props.track} trackUses={props.trackUses} loading={props.usesLoading}/>
+            return <TrackInfo track={props.track} trackUses={props.trackUses} loading={props.usesLoading} trackOwners={props.trackOwners}/>
         }
         default: {
             return <></>

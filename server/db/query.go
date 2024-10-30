@@ -279,6 +279,67 @@ func (d *DB) DriverUpdate(id int) models.JsonResponse {
 	}
 }
 
+func (d *DB) GetTrackConfigsFromId(trackId int) []int {
+	ctx, cancel := getContext()
+	defer cancel()
+
+	packageId := d.GetTrackPackage(trackId)
+
+	statement := `
+		SELECT track_id
+		FROM tracks
+		WHERE package_id = $1
+	`
+
+	rows, err := d.SQL.QueryContext(ctx, statement, packageId)
+
+	if err != nil {
+		log.Println("error querying track configs: ", err)
+		return []int(nil)
+	}
+
+	var configs []int
+	for rows.Next() {
+		var configId int
+		err = rows.Scan(&configId)
+
+		if err != nil {
+			log.Println("error scanning track configs: ", err)
+			continue
+		}
+
+		configs = append(configs, configId)
+	}
+
+	return configs
+}
+
+func (d *DB) GetTrackConfigsFromPackage(packageId int) {
+
+}
+
+func (d *DB) GetTrackPackage(trackId int) int {
+	ctx, cancel := getContext()
+	defer cancel()
+
+	statement := `
+		SELECT package_id
+		FROM tracks
+		WHERE track_id = $1
+	`
+
+	row := d.SQL.QueryRowContext(ctx, statement, trackId)
+
+	var packageId int
+	err := row.Scan(&packageId)
+	if err != nil {
+		log.Println("error scanning track package id: ", err)
+		return 0
+	}
+
+	return packageId
+}
+
 // Query validates and executes api query requested by the user
 func (d *DB) Query(tableName string, queries UrlQueryMap) ([]JsonMap, errortrace.ErrorTrace) {
 	ctx, cancel := getContext()
@@ -894,6 +955,32 @@ func (d *DB) Subsessions(sessionId int) []models.Subsession {
 
 	return subsessions
 
+}
+
+func (d *DB) TrackOwners(id int) int {
+	ctx, cancel := getContext()
+	defer cancel()
+
+	configs := d.GetTrackConfigsFromId(id)
+
+	statement := `
+		SELECT count(*)
+		FROM sessions s 
+		JOIN subsessions ss USING (session_id)
+		JOIN results USING (subsession_id)
+		WHERE track_id = ANY($1)
+	`
+
+	row := d.SQL.QueryRowContext(ctx, statement, configs)
+
+	var ownerCount int
+	err := row.Scan(&ownerCount)
+	if err != nil {
+		log.Println("error scanning track owners: ", err)
+		return 0
+	}
+
+	return ownerCount
 }
 
 func (d *DB) TrackSeasonUsesList(id int) []models.Season {

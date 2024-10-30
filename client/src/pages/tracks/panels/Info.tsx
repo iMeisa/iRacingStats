@@ -14,6 +14,7 @@ type TrackInfoProps = {
     track: Track
     trackUses: Season[]
     loading: boolean
+    trackOwners: number
 }
 
 export default function TrackInfo(props: TrackInfoProps) {
@@ -50,7 +51,7 @@ export default function TrackInfo(props: TrackInfoProps) {
                             Other
                         </Typography>
 
-                        <OtherTrackInfo track={props.track}/>
+                        <OtherTrackInfo track={props.track} owners={props.trackOwners}/>
                     </Paper>
                 </Stack>
             </Grid>

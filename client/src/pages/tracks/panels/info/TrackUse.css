@@ -1,0 +1,9 @@
+a > .MuiPaper-root:hover {
+    filter: brightness(120%);
+    transition: filter 0.3s ease;
+}
+
+a > .MuiPaper-root {
+    filter: brightness(100%);
+    transition: filter 0.3s ease;
+}

@@ -12,6 +12,7 @@ import Drivers from "../../pages/drivers/Drivers.tsx";
 import Driver from "../../pages/drivers/Driver.tsx";
 import AnalyticsPage from "../../pages/Analytics.tsx";
 import Track from "../../pages/tracks/Track.tsx";
+import MissingPage from "../../pages/MissingPage.tsx";
 
 export default function Routes() {
 
@@ -31,6 +32,7 @@ export default function Routes() {
             <Route path="/track/:id" element={<Track/>} />
             <Route path="/drivers" element={<Drivers />} />
             <Route path="/driver/:id" element={<Driver />} />
+            <Route path="*" element={<MissingPage/>} />
             {/*<Route path="/about" element={<About />} />*/}
         </RouterRoutes>
     )

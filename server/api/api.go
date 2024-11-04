@@ -70,6 +70,12 @@ func (a *Api) Get(ctx *fiber.Ctx) error {
 	case "subsession_results":
 		query = a.DB.SubsessionResults(ctx.QueryInt("id"))
 
+	case "track_first_race":
+		query = a.DB.TrackFirstRace(ctx.QueryInt("id"))
+
+	//case "track_info":
+	//	query = a.DB.TrackInfo(ctx.QueryInt("id"))
+
 	case "track_owners":
 		query = a.DB.TrackOwners(ctx.QueryInt("id"))
 

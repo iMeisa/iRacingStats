@@ -363,6 +363,10 @@ type Track struct {
 	GalleryPrefix          string            `json:"gallery_prefix,omitempty"`
 }
 
+type TrackStats struct {
+	Track
+}
+
 type User struct {
 	Id          int             `json:"id"`
 	Name        string          `json:"name"`

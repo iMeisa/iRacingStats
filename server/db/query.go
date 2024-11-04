@@ -957,6 +957,34 @@ func (d *DB) Subsessions(sessionId int) []models.Subsession {
 
 }
 
+func (d *DB) TrackFirstRace(id int) int {
+	ctx, cancel := getContext()
+	defer cancel()
+
+	statement := `
+		SELECT start_time
+		FROM sessions 
+		WHERE track_id = $1
+		ORDER BY start_time
+		LIMIT 1
+	`
+
+	row := d.SQL.QueryRowContext(ctx, statement, id)
+
+	var startTime int
+	err := row.Scan(&startTime)
+	if err != nil {
+		log.Println("error scanning sessions: ", err)
+		return 0
+	}
+
+	return startTime
+}
+
+func (d *DB) TrackInfo(id int) {
+
+}
+
 func (d *DB) TrackOwners(id int) int {
 	ctx, cancel := getContext()
 	defer cancel()

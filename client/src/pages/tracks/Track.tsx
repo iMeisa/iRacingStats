@@ -17,6 +17,7 @@ import {Season} from "../../models/Season.ts";
 import {useEffect, useState} from "react";
 import useFetchObject from "../../hooks/useFetchObject.ts";
 import TrackStatsMap from "./panels/Map.tsx";
+import {TrackInfoModel} from "./TrackInfo.ts";
 
 const panels = ['info', 'map', 'usage']
 const titleHeight = 80
@@ -31,8 +32,14 @@ export default function Track() {
 
     const [trackSeasonUsesUnsorted, usesLoading] = useFetchArray<Season>(`/api/track_season_uses?id=${id}`)
     const [trackOwners, _ownersLoading] = useFetchObject<number>(0, `/api/track_owners?id=${id}`)
+    const [trackFirstRace, _] = useFetchObject<number>(0, `/api/track_first_race?id=${id}`)
 
     const [trackUses, setTrackUses] = useState<Season[]>([])
+
+    const trackInfo: TrackInfoModel = {
+        trackOwners: trackOwners,
+        trackFirstRace: trackFirstRace,
+    }
 
     // Sort track uses by race week on load
     useEffect(() => {
@@ -85,7 +92,7 @@ export default function Track() {
                         track={track}
                         trackUses={trackUses}
                         usesLoading={usesLoading}
-                        trackOwners={trackOwners}
+                        trackInfo={trackInfo}
                     />
                 </Container>
             </Grid>
@@ -100,13 +107,13 @@ type TabProps = {
     track: TrackModel
     trackUses: Season[]
     usesLoading: boolean
-    trackOwners: number
+    trackInfo: TrackInfoModel
 }
 
 function Tabs(props: TabProps) {
     switch (props.tab) {
         case 0: {
-            return <TrackInfo track={props.track} trackUses={props.trackUses} loading={props.usesLoading} trackOwners={props.trackOwners}/>
+            return <TrackInfo track={props.track} trackUses={props.trackUses} loading={props.usesLoading} trackInfo={props.trackInfo}/>
         }
         case 1: {
             return <TrackStatsMap id={props.track.track_id}/>

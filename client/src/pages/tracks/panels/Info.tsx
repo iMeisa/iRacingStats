@@ -9,12 +9,13 @@ import SeasonTrackUse from "./info/SeasonTrackUse.tsx";
 import TrackMap from "../../../components/images/TrackMap.tsx";
 import useWindowSize from "../../../hooks/useWindowSize.ts";
 import GetBreakpoints from "../../../functions/data/Breakpoints.ts";
+import {TrackInfoModel} from "../TrackInfo.ts";
 
 type TrackInfoProps = {
     track: Track
     trackUses: Season[]
     loading: boolean
-    trackOwners: number
+    trackInfo: TrackInfoModel
 }
 
 export default function TrackInfo(props: TrackInfoProps) {
@@ -51,7 +52,7 @@ export default function TrackInfo(props: TrackInfoProps) {
                             Other
                         </Typography>
 
-                        <OtherTrackInfo track={props.track} owners={props.trackOwners}/>
+                        <OtherTrackInfo track={props.track} info={props.trackInfo}/>
                     </Paper>
                 </Stack>
             </Grid>

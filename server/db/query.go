@@ -962,10 +962,9 @@ func (d *DB) TrackFirstRace(id int) int {
 	defer cancel()
 
 	statement := `
-		SELECT start_time
+		SELECT min(start_time)
 		FROM sessions 
 		WHERE track_id = $1
-		ORDER BY start_time
 		LIMIT 1
 	`
 
@@ -985,21 +984,21 @@ func (d *DB) TrackInfo(id int) {
 
 }
 
+// TODO Create track_owners table
+
 func (d *DB) TrackOwners(id int) int {
 	ctx, cancel := getContext()
 	defer cancel()
 
-	configs := d.GetTrackConfigsFromId(id)
+	packageId := d.GetTrackPackage(id)
 
 	statement := `
 		SELECT count(*)
-		FROM sessions s 
-		JOIN subsessions ss USING (session_id)
-		JOIN results USING (subsession_id)
-		WHERE track_id = ANY($1)
+		FROM track_owners
+		WHERE track_package_id = $1
 	`
 
-	row := d.SQL.QueryRowContext(ctx, statement, configs)
+	row := d.SQL.QueryRowContext(ctx, statement, packageId)
 
 	var ownerCount int
 	err := row.Scan(&ownerCount)

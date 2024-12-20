@@ -31,13 +31,13 @@ export default function Track() {
     PageTitle(trackName)
 
     const [trackSeasonUsesUnsorted, usesLoading] = useFetchArray<Season>(`/api/track_season_uses?id=${id}`)
-    const [trackOwners, _ownersLoading] = useFetchObject<number>(0, `/api/track_owners?id=${id}`)
+    // const [trackOwners, _ownersLoading] = useFetchObject<number>(0, `/api/track_owners?id=${id}`)
     const [trackFirstRace, _] = useFetchObject<number>(0, `/api/track_first_race?id=${id}`)
 
     const [trackUses, setTrackUses] = useState<Season[]>([])
 
     const trackInfo: TrackInfoModel = {
-        trackOwners: trackOwners,
+        trackOwners: 0,
         trackFirstRace: trackFirstRace,
     }
 

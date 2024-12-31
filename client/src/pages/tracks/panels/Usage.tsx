@@ -26,8 +26,9 @@ export default function Usage(props: UsageProps) {
                         <XAxis
                             dataKey="season_label"
                             angle={-20}
-                            minTickGap={10}
+                            minTickGap={0}
                             tickMargin={10}
+                            interval={'preserveStartEnd'}
                         />
                         <YAxis hide={isMobile} width={35}/>
                         <Bar

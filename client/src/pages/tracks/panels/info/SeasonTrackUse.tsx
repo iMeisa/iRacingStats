@@ -7,6 +7,7 @@ import {SeriesById} from "../../../../cache/CachesById.ts";
 import {Season} from "../../../../models/Season.ts";
 import useWindowSize from "../../../../hooks/useWindowSize.ts";
 import './TrackUse.css'
+import useIsMobile from "../../../../hooks/useIsMobile.ts";
 
 type SeasonTrackUseProps = {
     loading: boolean;
@@ -16,6 +17,7 @@ type SeasonTrackUseProps = {
 export default function SeasonTrackUse(props: SeasonTrackUseProps) {
 
     const [_width, height] = useWindowSize()
+    const isMobile = useIsMobile()
 
     return <>
         <Paper
@@ -24,7 +26,7 @@ export default function SeasonTrackUse(props: SeasonTrackUseProps) {
             sx={{
                 maxHeight: height * 0.7,
                 padding: 1,
-                marginX: 1,
+                marginLeft: isMobile ? 0 : 1,
 
                 overflowY: 'auto',
             }}

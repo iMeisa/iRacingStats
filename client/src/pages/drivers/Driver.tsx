@@ -19,7 +19,6 @@ import AddRecentDriver from "../../storage/AddRecentDriver.ts";
 import DataRange from "../../components/data/DataRange.tsx";
 import DriverTitle from "./DriverTitle.tsx";
 import useIsMobile from "../../hooks/useIsMobile.ts";
-import {Adsense} from "@ctrl/react-adsense";
 import PageTitle from "../../functions/strings/PageTitle.ts";
 import useDriverUpdate from "../../hooks/useDriverUpdate.ts";
 import {Alert, AlertTitle, Snackbar} from "@mui/material";
@@ -94,13 +93,6 @@ export default function Driver() {
                     <DataRange/>
 
                 </Container>
-            </Grid>
-            <Grid xs={0} md={1}>
-                <Adsense
-                    client={"ca-pub-5118888052597442"}
-                    slot={"3365671265"}
-                    adTest={"on"}
-                />
             </Grid>
         </Grid>
     </>

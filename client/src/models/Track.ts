@@ -67,6 +67,11 @@ export type Track = {
     gallery_prefix: string,
 }
 
+export type TrackConfig = {
+    track_id: number,
+    config_name: string,
+}
+
 export const DefaultTrack: Track = {
     track_id: 0,
     track_name: '',
@@ -134,4 +139,9 @@ export const DefaultTrack: Track = {
     track_map: '',
     track_map_layers: {'': ''},
     gallery_prefix: '',
+}
+
+export const DefaultTrackConfig: TrackConfig = {
+    track_id: 0,
+    config_name: '',
 }

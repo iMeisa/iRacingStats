@@ -957,6 +957,39 @@ func (d *DB) Subsessions(sessionId int) []models.Subsession {
 
 }
 
+func (d *DB) TrackConfigs(id int) []models.TrackConfigs {
+	ctx, cancel := getContext()
+	defer cancel()
+
+	statement := `
+		SELECT track_id, config_name
+		FROM tracks
+		WHERE package_id = $1
+	`
+
+	rows, err := d.SQL.QueryContext(ctx, statement, id)
+	if err != nil {
+		log.Println("error querying track configs:", err)
+	}
+
+	var configs []models.TrackConfigs
+	for rows.Next() {
+		var config models.TrackConfigs
+		err = rows.Scan(
+			&config.Id,
+			&config.Name,
+		)
+
+		if err != nil {
+			log.Println("error scanning track configs: ", err)
+		}
+
+		configs = append(configs, config)
+	}
+
+	return configs
+}
+
 func (d *DB) TrackFirstRace(id int) int {
 	ctx, cancel := getContext()
 	defer cancel()

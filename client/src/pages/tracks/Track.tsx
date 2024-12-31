@@ -5,7 +5,7 @@ import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import {TracksById} from "../../cache/CachesById.ts";
 import TrackLogo from "../../components/images/TrackLogo.tsx";
-import {Track as TrackModel} from "../../models/Track.ts";
+import {Track as TrackModel, TrackConfig} from "../../models/Track.ts";
 import PageTitle from "../../functions/strings/PageTitle.ts";
 import useTabState from "../../hooks/useTabState.ts";
 import SideMenu from "../../components/navigation/SideMenu.tsx";
@@ -18,6 +18,8 @@ import {useEffect, useState} from "react";
 import useFetchObject from "../../hooks/useFetchObject.ts";
 import TrackStatsMap from "./panels/Map.tsx";
 import {TrackInfoModel} from "./TrackInfo.ts";
+import {Paper} from "@mui/material";
+import TrackConfigSelect from "./TrackConfigSelect.tsx";
 
 const panels = ['info', 'map', 'usage']
 const titleHeight = 80
@@ -31,6 +33,7 @@ export default function Track() {
     PageTitle(trackName)
 
     const [trackSeasonUsesUnsorted, usesLoading] = useFetchArray<Season>(`/api/track_season_uses?id=${id}`)
+    const [trackConfigs, trackConfigsLoading] = useFetchArray<TrackConfig>(`/api/track_configs?package_id=${track.package_id}`)
     // const [trackOwners, _ownersLoading] = useFetchObject<number>(0, `/api/track_owners?id=${id}`)
     const [trackFirstRace, _] = useFetchObject<number>(0, `/api/track_first_race?id=${id}`)
 
@@ -65,26 +68,34 @@ export default function Track() {
             <Grid xs={12} md mt={1}>
                 <Container maxWidth="xl">
 
-                    <Box mt={1} mb={2} display='flex' width={'100%'} justifyContent={'center'}>
+                    <Paper>
+                        <Box mt={1} mb={2} display='flex' width={'100%'} justifyContent={'center'}>
 
-                        <Box height={titleHeight}>
-                            <TrackLogo width={120} link={track.logo}/>
-                        </Box>
+                            <Box height={titleHeight}>
+                                <TrackLogo width={120} link={track.logo}/>
+                            </Box>
 
-                        <Box
-                            ml={2}
-                            display="flex"
-                            justifyContent="center"
-                            flexDirection="row"
-                            alignItems="center"
-                            textAlign="center"
-                            height={`${titleHeight}px`}
-                        >
-                            <Typography variant="h5" fontWeight="bold" fontFamily='Verdana'>
-                                {trackName}
-                            </Typography>
+                            <Box
+                                ml={2}
+                                display="flex"
+                                justifyContent="center"
+                                flexDirection="row"
+                                alignItems="center"
+                                textAlign="center"
+                                height={`${titleHeight}px`}
+                            >
+                                <Typography variant="h5" fontWeight="bold" fontFamily='Verdana'>
+                                    {track.track_name}
+                                </Typography>
+
+                                <TrackConfigSelect
+                                    trackId={id}
+                                    trackConfigs={trackConfigs}
+                                    trackConfigsLoading={trackConfigsLoading}
+                                />
+                            </Box>
                         </Box>
-                    </Box>
+                    </Paper>
 
                     <SideMenu initialTab={tab} mobile panels={panels} onChange={value => setTab(value)}/>
                     <Tabs

@@ -965,6 +965,7 @@ func (d *DB) TrackConfigs(id int) []models.TrackConfigs {
 		SELECT track_id, config_name
 		FROM tracks
 		WHERE package_id = $1
+		ORDER BY track_id
 	`
 
 	rows, err := d.SQL.QueryContext(ctx, statement, id)
@@ -1090,6 +1091,7 @@ func (d *DB) TrackUsesPerSeason(id int) []models.TrackSeasonUse {
 		JOIN seasons s USING (season_id)
 		WHERE track_id = $1
 		GROUP BY season_year, season_quarter
+		ORDER BY season_year, season_quarter
 	`
 
 	rows, err := d.SQL.QueryContext(ctx, statement, id)
@@ -1111,12 +1113,62 @@ func (d *DB) TrackUsesPerSeason(id int) []models.TrackSeasonUse {
 			continue
 		}
 
-		seasonUse.SeasonLabel = fmt.Sprintf("%dS%d", seasonUse.SeasonYear, seasonUse.SeasonQuarter)
-
 		trackSeasonUses = append(trackSeasonUses, seasonUse)
 	}
 
-	return trackSeasonUses
+	return fillSeasonUses(trackSeasonUses)
+}
+
+func fillSeasonUses(trackUses []models.TrackSeasonUse) []models.TrackSeasonUse {
+
+	if len(trackUses) < 1 {
+		return trackUses
+	}
+
+	seasonUseMap := make(map[int]map[int]int)
+
+	for _, use := range trackUses {
+		if _, ok := seasonUseMap[use.SeasonYear]; !ok {
+			seasonUseMap[use.SeasonYear] = make(map[int]int)
+		}
+		seasonUseMap[use.SeasonYear][use.SeasonQuarter] = use.Count
+	}
+
+	startpoint := trackUses[0]
+	endpoint := trackUses[len(trackUses)-1]
+
+	//fmt.Println(startpoint, endpoint)
+
+	var filledSeasonUses []models.TrackSeasonUse
+	for year := startpoint.SeasonYear; year <= endpoint.SeasonYear; year++ {
+		for quarter := 1; quarter <= 4; quarter++ {
+
+			if year == endpoint.SeasonYear && quarter > endpoint.SeasonQuarter {
+				break
+			}
+
+			if year == startpoint.SeasonYear && quarter < startpoint.SeasonQuarter {
+				continue
+			}
+
+			seasonUse := models.TrackSeasonUse{
+				SeasonYear:    year,
+				SeasonQuarter: quarter,
+			}
+
+			if _, ok := seasonUseMap[year][quarter]; !ok {
+				seasonUse.Count = 0
+			} else {
+				seasonUse.Count = seasonUseMap[year][quarter]
+			}
+
+			seasonUse.SeasonLabel = fmt.Sprintf("%dS%d", seasonUse.SeasonYear, seasonUse.SeasonQuarter)
+
+			filledSeasonUses = append(filledSeasonUses, seasonUse)
+		}
+	}
+
+	return filledSeasonUses
 }
 
 func (d *DB) Users(name string) []map[string]any {

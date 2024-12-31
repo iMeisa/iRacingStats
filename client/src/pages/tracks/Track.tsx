@@ -35,13 +35,12 @@ export default function Track() {
     PageTitle(trackName)
 
     const [trackSeriesUsesUnsorted, usesLoading] = useFetchArrayState<Season>(id, `/api/track_series_uses?id=${id}`)
-    const [trackUsesPerSeasonUnsorted, usesPerSeasonLoading] = useFetchArrayState<TrackSeasonUse>(id, `/api/track_uses_per_season?id=${id}`)
+    const [trackSeasonUses, usesPerSeasonLoading] = useFetchArrayState<TrackSeasonUse>(id, `/api/track_uses_per_season?id=${id}`)
     const [trackConfigs, trackConfigsLoading] = useFetchArrayState<TrackConfig>(id, `/api/track_configs?package_id=${track.package_id}`)
     // const [trackOwners, _ownersLoading] = useFetchObject<number>(0, `/api/track_owners?id=${id}`)
     const [trackFirstRace, _] = useFetchObjectState<number>(id, 0, `/api/track_first_race?id=${id}`)
 
     const [trackSeriesUses, setTrackSeriesUses] = useState<Season[]>([])
-    const [trackSeasonUses, setTrackSeasonUses] = useState<TrackSeasonUse[]>([])
 
     const trackInfo: TrackInfoModel = {
         trackOwners: 0,
@@ -60,18 +59,6 @@ export default function Track() {
 
         setTrackSeriesUses(trackSeriesUsesUnsorted)
     }, [usesLoading])
-
-    // Sort track season uses by season
-    useEffect(() => {
-
-        if (usesPerSeasonLoading) return
-
-        trackUsesPerSeasonUnsorted.sort((a, b) => (a.season_quarter < b.season_quarter) ? -1 : (b.season_quarter < a.season_quarter) ? 1 : 0)
-        trackUsesPerSeasonUnsorted.sort((a, b) => (a.season_year < b.season_year) ? -1 : (b.season_year < a.season_year) ? 1 : 0)
-
-        setTrackSeasonUses(trackUsesPerSeasonUnsorted)
-
-    }, [usesPerSeasonLoading]);
 
     const [tab, setTab] = useTabState(panels)
 

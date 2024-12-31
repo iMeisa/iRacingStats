@@ -20,9 +20,10 @@ import TrackStatsMap from "./panels/Map.tsx";
 import {TrackInfoModel} from "./TrackInfo.ts";
 import {Paper} from "@mui/material";
 import TrackConfigSelect from "./TrackConfigSelect.tsx";
+import useIsMobile from "../../hooks/useIsMobile.ts";
 
 const panels = ['info', 'map', 'usage']
-const titleHeight = 80
+const titleHeight = 85
 
 export default function Track() {
 
@@ -59,6 +60,7 @@ export default function Track() {
 
     const [tab, setTab] = useTabState(panels)
 
+    const isMobile = useIsMobile()
 
     return <Box>
         <Grid container>
@@ -69,31 +71,41 @@ export default function Track() {
                 <Container maxWidth="xl">
 
                     <Paper>
-                        <Box mt={1} mb={2} display='flex' width={'100%'} justifyContent={'center'}>
+                        <Box mt={1} mb={2} p={1}
+                             display={ isMobile ? 'block' : 'flex' }
+                             width={'100%'}
+                             justifyContent={'center'}
+                        >
 
-                            <Box height={titleHeight}>
+                            <Box
+                                height={ isMobile ? undefined : titleHeight }
+                                my={ isMobile ? 1 : 0}
+                                display='flex'
+                                justifyContent={'center'}
+                            >
                                 <TrackLogo width={120} link={track.logo}/>
                             </Box>
 
                             <Box
-                                ml={2}
+                                ml={ isMobile ? 0 : 2 }
                                 display="flex"
                                 justifyContent="center"
                                 flexDirection="row"
                                 alignItems="center"
                                 textAlign="center"
-                                height={`${titleHeight}px`}
+                                height={ isMobile ? undefined : `${titleHeight}px` }
                             >
                                 <Typography variant="h5" fontWeight="bold" fontFamily='Verdana'>
                                     {track.track_name}
                                 </Typography>
 
-                                <TrackConfigSelect
-                                    trackId={id}
-                                    trackConfigs={trackConfigs}
-                                    trackConfigsLoading={trackConfigsLoading}
-                                />
                             </Box>
+
+                            <TrackConfigSelect
+                                trackId={id}
+                                trackConfigs={trackConfigs}
+                                trackConfigsLoading={trackConfigsLoading}
+                            />
                         </Box>
                     </Paper>
 

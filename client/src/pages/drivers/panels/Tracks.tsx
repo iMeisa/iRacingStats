@@ -4,7 +4,7 @@ import ElapsedTime from "../../../functions/datetime/ElapsedTime.ts";
 import FormatCompactNumber from "../../../functions/numbers/FormatCompactNumber.ts";
 import StatsGrid from "../../../components/data/grid/StatsGrid.tsx";
 import {GridCol} from "../../../components/data/grid/models/GridCol.ts";
-import Typography from "@mui/material/Typography";
+import {Link} from "react-router-dom";
 
 const columns: GridCol<any, any>[] = [
     {
@@ -12,7 +12,10 @@ const columns: GridCol<any, any>[] = [
         name: 'Track',
         width: 76,
         renderCell: params =>
-            <TrackLogo link={params.row.track_logo} />,
+            <Link to={`/track/${params.row.id}`} >
+                <TrackLogo link={params.row.track_logo} />
+            </Link>,
+
         sortable: false,
         filterable: false,
     },
@@ -36,14 +39,12 @@ const columns: GridCol<any, any>[] = [
         type: 'string',
         align: 'left',
         renderCell: params =>
-            <Typography
-                style={{
-                    color: 'inherit',
-                    fontWeight: 'bold'
-                }}
+            <Link
+                style={{ textDecoration: 'underline', fontStyle: 'italic', color: 'inherit', fontWeight: 'bold'}}
+                to={`/track/${params.row.id}`}
             >
                 {params.row.track_name}
-            </Typography>
+            </Link>,
     },
     {
         minWidth: 75,

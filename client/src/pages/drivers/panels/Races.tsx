@@ -113,7 +113,7 @@ const columns: GridCol<any, any>[] = [
     {
         key: 'end_time',
         name: 'End Time',
-        width: 175,
+        width: 180,
         filterable: false,
         type: 'number',
         renderCell: params => UnixToDateTime(params.row.end_time)
@@ -151,9 +151,14 @@ const columns: GridCol<any, any>[] = [
         type: 'string',
 
         renderCell: params =>
-            <IconTooltip title={params.row.track}>
-                <TrackLogo link={params.row.track_logo}/>
-            </IconTooltip>
+            <Link
+                style={{ textDecoration: 'underline', fontStyle: 'italic', color: 'inherit', fontWeight: 'bold'}}
+                to={`/track/${params.row.track_id}`}
+            >
+                <IconTooltip title={params.row.track}>
+                    <TrackLogo link={params.row.track_logo}/>
+                </IconTooltip>
+            </Link>
     },
 ];
 

@@ -11,7 +11,7 @@ type OtherTrackInfoProps = {
 export default function OtherTrackInfo(props: OtherTrackInfoProps) {
 
     // const owners = props.info.trackOwners.toLocaleString()
-    const firstRace = UnixToDate(props.info.trackFirstRace)
+    const firstRace = props.info.trackFirstRace < 1 ? 'N/A' : UnixToDate(props.info.trackFirstRace)
 
     return <>
         <Grid container spacing={1}>

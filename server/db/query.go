@@ -1008,7 +1008,7 @@ func (d *DB) TrackFirstRace(id int) int {
 	var startTime int
 	err := row.Scan(&startTime)
 	if err != nil {
-		log.Println("error scanning sessions: ", err)
+		log.Println("error scanning track first race sessions: ", err)
 		return 0
 	}
 

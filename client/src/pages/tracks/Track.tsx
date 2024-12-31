@@ -134,10 +134,10 @@ export default function Track() {
                         usesPerSeasonLoading={usesPerSeasonLoading}
                         trackInfo={trackInfo}
                     />
+                    <Footer/>
                 </Container>
             </Grid>
 
-            <Footer/>
         </Grid>
     </Box>
 }

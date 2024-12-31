@@ -1111,6 +1111,8 @@ func (d *DB) TrackUsesPerSeason(id int) []models.TrackSeasonUse {
 			continue
 		}
 
+		seasonUse.SeasonLabel = fmt.Sprintf("%dS%d", seasonUse.SeasonYear, seasonUse.SeasonQuarter)
+
 		trackSeasonUses = append(trackSeasonUses, seasonUse)
 	}
 

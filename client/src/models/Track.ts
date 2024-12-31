@@ -75,6 +75,7 @@ export type TrackConfig = {
 export type TrackSeasonUse = {
     season_year: number,
     season_quarter: number,
+    season_label: string,
     count: number,
 }
 
@@ -155,5 +156,6 @@ export const DefaultTrackConfig: TrackConfig = {
 export const DefaultTrackSeasonUse: TrackSeasonUse = {
     season_year: 0,
     season_quarter: 0,
+    season_label: '',
     count: 0,
 }

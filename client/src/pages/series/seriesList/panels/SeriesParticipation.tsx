@@ -5,7 +5,7 @@ import {CircularProgress, Paper} from "@mui/material";
 import Typography from "@mui/material/Typography";
 import {useState} from "react";
 import Grid from "@mui/material/Unstable_Grid2";
-import {useNavigate} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 
 export type SeriesPop = {
     id: number,
@@ -41,16 +41,18 @@ const seriesLogo = (props: any, dataById: Record<number, SeriesPop>) => {
     const imgHeight = dataHeight / 1.5
 
     return (
-        <g>
-            <title>hello</title>
-            <image
-                xlinkHref={seriesLogo}
-                x={x - 100}
-                y={y - imgHeight / 2}
-                height={imgHeight}
-                width={100}
-            />
-        </g>
+        <Link to={`/series/${seriesId}`}>
+            <g>
+                <title>hello</title>
+                <image
+                    xlinkHref={seriesLogo}
+                    x={x - 100}
+                    y={y - imgHeight / 2}
+                    height={imgHeight}
+                    width={100}
+                />
+            </g>
+        </Link>
     )
 }
 

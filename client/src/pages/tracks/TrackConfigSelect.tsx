@@ -16,7 +16,8 @@ export default function TrackConfigSelect(props: TrackConfigSelectProps) {
     const navigate = useNavigate()
     const handleChange = (event: SelectChangeEvent) => {
         event.preventDefault()
-        navigate(`/track/${event.target.value}`)
+        navigate(`/track/${event.target.value}`, {replace: false, state: undefined, relative: 'route'})
+        // navigate(0)
     };
 
     // If config name is empty, don't show config select

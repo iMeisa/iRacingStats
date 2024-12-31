@@ -83,8 +83,11 @@ func (a *Api) Get(ctx *fiber.Ctx) error {
 		query = a.DB.TrackOwners(ctx.QueryInt("id"))
 
 	// List of series a track is used in
-	case "track_season_uses":
-		query = a.DB.TrackSeasonUsesList(ctx.QueryInt("id"))
+	case "track_series_uses":
+		query = a.DB.TrackSeriesUsesList(ctx.QueryInt("id"))
+
+	case "track_uses_per_season":
+		query = a.DB.TrackUsesPerSeason(ctx.QueryInt("id"))
 
 	case "visit":
 		a.DB.AddPageVisit(ctx.Query("page"))

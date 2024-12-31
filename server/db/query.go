@@ -982,6 +982,7 @@ func (d *DB) TrackConfigs(id int) []models.TrackConfigs {
 
 		if err != nil {
 			log.Println("error scanning track configs: ", err)
+			continue
 		}
 
 		configs = append(configs, config)
@@ -1043,7 +1044,7 @@ func (d *DB) TrackOwners(id int) int {
 	return ownerCount
 }
 
-func (d *DB) TrackSeasonUsesList(id int) []models.Season {
+func (d *DB) TrackSeriesUsesList(id int) []models.Season {
 	ctx, cancel := getContext()
 	defer cancel()
 
@@ -1077,6 +1078,43 @@ func (d *DB) TrackSeasonUsesList(id int) []models.Season {
 	//fmt.Println(trackUses)
 
 	return trackUses
+}
+
+func (d *DB) TrackUsesPerSeason(id int) []models.TrackSeasonUse {
+	ctx, cancel := getContext()
+	defer cancel()
+
+	statement := `
+		SELECT season_year, season_quarter, count(*)
+		FROM race_weeks rw 
+		JOIN seasons s USING (season_id)
+		WHERE track_id = $1
+		GROUP BY season_year, season_quarter
+	`
+
+	rows, err := d.SQL.QueryContext(ctx, statement, id)
+	if err != nil {
+		log.Println("error querying track uses per season: ", err)
+	}
+
+	var trackSeasonUses []models.TrackSeasonUse
+	for rows.Next() {
+		var seasonUse models.TrackSeasonUse
+		err = rows.Scan(
+			&seasonUse.SeasonYear,
+			&seasonUse.SeasonQuarter,
+			&seasonUse.Count,
+		)
+
+		if err != nil {
+			log.Println("error scanning track uses per season: ", err)
+			continue
+		}
+
+		trackSeasonUses = append(trackSeasonUses, seasonUse)
+	}
+
+	return trackSeasonUses
 }
 
 func (d *DB) Users(name string) []map[string]any {

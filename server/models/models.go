@@ -368,6 +368,12 @@ type TrackConfigs struct {
 	Name string `json:"config_name"`
 }
 
+type TrackSeasonUse struct {
+	SeasonYear    int `json:"season_year"`
+	SeasonQuarter int `json:"season_quarter"`
+	Count         int `json:"count"`
+}
+
 type TrackStats struct {
 	Track
 }

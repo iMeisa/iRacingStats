@@ -72,6 +72,12 @@ export type TrackConfig = {
     config_name: string,
 }
 
+export type TrackSeasonUse = {
+    season_year: number,
+    season_quarter: number,
+    count: number,
+}
+
 export const DefaultTrack: Track = {
     track_id: 0,
     track_name: '',
@@ -144,4 +150,10 @@ export const DefaultTrack: Track = {
 export const DefaultTrackConfig: TrackConfig = {
     track_id: 0,
     config_name: '',
+}
+
+export const DefaultTrackSeasonUse: TrackSeasonUse = {
+    season_year: 0,
+    season_quarter: 0,
+    count: 0,
 }

@@ -43,7 +43,7 @@ const seriesLogo = (props: any, dataById: Record<number, SeriesPop>) => {
     return (
         <Link to={`/series/${seriesId}`}>
             <g>
-                <title>hello</title>
+                <title>{dataById[seriesId].name}</title>
                 <image
                     xlinkHref={seriesLogo}
                     x={x - 100}

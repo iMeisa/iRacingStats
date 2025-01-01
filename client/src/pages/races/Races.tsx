@@ -80,7 +80,14 @@ const columns: GridCol<any, any>[] = [
         key: 'track',
         name: 'Track',
         // flex: 1,
-        minWidth: 200
+        minWidth: 200,
+        renderCell: params =>
+            <Link
+                style={{ textDecoration: 'underline', fontStyle: 'italic', color: 'inherit', fontWeight: 'bold'}}
+                to={`/track/${params.row.track_id}`}
+            >
+                {params.row.track}
+            </Link>,
     },
 ];
 

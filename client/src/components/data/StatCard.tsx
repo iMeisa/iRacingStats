@@ -4,10 +4,14 @@ import Grid from "@mui/material/Unstable_Grid2";
 import Box from "@mui/material/Box";
 import "./StatBox.css";
 import InfoIcon from '@mui/icons-material/Info';
+import WarningIcon from '@mui/icons-material/Warning';
+
+type TooltipType = undefined | 'info' | 'warning'
 
 type StatCardProps = {
     elevation: number,
     tooltip?: string,
+    tooltipType?: TooltipType
     name: string,
     value: any,
 
@@ -15,6 +19,20 @@ type StatCardProps = {
     sm?: number,
     md?: number,
     lg?: number,
+}
+
+type TooltipIconProps = {
+    tooltipType: TooltipType
+}
+function TooltipIcon (props: TooltipIconProps){
+    switch (props.tooltipType) {
+        case 'warning': {
+            return <WarningIcon color={'warning'} fontSize={'small'}/>
+        }
+        default: {
+            return <InfoIcon fontSize={'small'} />
+        }
+    }
 }
 
 export default function StatCard(props: StatCardProps) {
@@ -31,13 +49,9 @@ export default function StatCard(props: StatCardProps) {
             <Tooltip placement="top" title={tooltip} arrow>
                 <Paper elevation={props.elevation} sx={{ p: 1, height: '5em' }}>
 
-                    <Box position={'relative'} display={tooltip ? 'block' : 'none' }>
-                        <Box
-                            position={'absolute'}
-                            right={-5}
-                            top={-5}
-                        >
-                            <InfoIcon fontSize={'small'}  />
+                    <Box position={'relative'} display={ tooltip ? 'block' : 'none' }>
+                        <Box position={'absolute'} right={-5} top={-5}>
+                            <TooltipIcon tooltipType={props.tooltipType}/>
                         </Box>
                     </Box>
 

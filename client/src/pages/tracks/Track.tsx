@@ -81,7 +81,7 @@ export default function Track() {
 
                             <Box
                                 height={ isMobile ? undefined : titleHeight }
-                                my={ isMobile ? 1 : 0}
+                                my={ isMobile ? 1 : 0 }
                                 display='flex'
                                 justifyContent={'center'}
                             >

@@ -21,7 +21,7 @@ export default function Usage(props: UsageProps) {
             <CircularProgress/>:
             data.length < 1 ?
                 <Typography variant={'h5'} >Never used</Typography> :
-                <ResponsiveContainer width="98%" height={250}>
+                <ResponsiveContainer width="98%" height={500}>
                     <BarChart data={data}>
                         <XAxis
                             dataKey="season_label"

@@ -78,7 +78,7 @@ export default function Driver() {
                 <SideMenu initialTab={tab} panels={panels} onChange={value => setTab(value)}/>
             </Grid>
             <Grid xs md>
-                <Box mx={8}>
+                <Box mx={ isMobile ? 1 : 8}>
 
                     <DriverTitle driver={driver} loading={driver_loading}/>
                     <Box mb={2} mx={breakpoints.sm ? 3 : 0}>

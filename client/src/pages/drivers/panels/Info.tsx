@@ -57,9 +57,9 @@ export default function DriverInfo(props: InfoProps) {
                 </Stack>
             </Grid>
 
-            <Grid md={12} lg={6} sx={{mb: 2}} display={'block'} mx={'auto'}>
+            <Grid md={12} lg={6} sx={{mb: 2}} display={'block'} width={'100%'}>
 
-                <Divider sx={{ mt: 1, mb: 2, display: { md: 'block', lg: 'none' }}} />
+                <Divider sx={{ my: 2, display: { md: 'block', lg: 'none' }}} />
 
                 <Box className={"stat-border trophies"}>
                     <TrophyCabinet loading={props.data_loading} driverRaces={props.driver_races}/>

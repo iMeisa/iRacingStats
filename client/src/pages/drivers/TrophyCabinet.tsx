@@ -4,6 +4,7 @@ import SeriesLogo from "../../components/images/SeriesLogo.tsx";
 import useIsMobile from "../../hooks/useIsMobile.ts";
 import {DriverRace} from "../../models/driver/Race.ts";
 import useWindowSize from "../../hooks/useWindowSize.ts";
+import GetBreakpoints from "../../functions/data/Breakpoints.ts";
 
 type SeriesTrophies = {
     id: number,
@@ -84,7 +85,7 @@ export default function TrophyCabinet(props: {loading: boolean, driverRaces: Dri
 
     const isMobile = useIsMobile()
 
-    return <TableContainer sx={{ maxHeight: height * 0.7, width: '100%' }} component={Paper}>
+    return <TableContainer sx={{ maxHeight: height * 0.7 }} component={Paper}>
         <Table stickyHeader aria-label="simple table">
             <TableHead>
                 <TableRow>

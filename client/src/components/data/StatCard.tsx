@@ -19,6 +19,7 @@ type StatCardProps = {
     sm?: number,
     md?: number,
     lg?: number,
+    xl?: number,
 }
 
 type TooltipIconProps = {
@@ -42,10 +43,11 @@ export default function StatCard(props: StatCardProps) {
     const xs = props.xs || 4
     const sm = props.sm || 4
     const md = props.md || 2
-    const lg = props.lg || 2
+    const lg = props.lg || 4
+    const xl = props.xl || 2
 
     return (
-        <Grid xs={xs} sm={sm} md={md} lg={lg}>
+        <Grid xs={xs} sm={sm} md={md} lg={lg} xl={xl}>
             <Tooltip placement="top" title={tooltip} arrow>
                 <Paper elevation={props.elevation} sx={{ p: 1, height: '5em' }}>
 

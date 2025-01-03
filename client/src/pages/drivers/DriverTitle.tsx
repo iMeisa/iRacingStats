@@ -17,7 +17,7 @@ export default function DriverTitle(props: {driver: DriverSummary, loading: bool
 
     const breakpoints = GetBreakpoints()
 
-    return <Box my={2} display={ breakpoints.md ? 'flex' : 'block' } alignItems='center'>
+    return <Box my={2} ml={1} display={ breakpoints.md ? 'flex' : 'block' } alignItems='center'>
 
         <Box display='flex' justifyContent='center' alignItems='center'>
             <Typography mr={2} variant="h5" fontWeight="bold" fontFamily='Verdana'>{props.driver.name}</Typography>

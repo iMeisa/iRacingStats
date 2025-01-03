@@ -1,6 +1,5 @@
 import {useParams} from "react-router-dom";
 import {useEffect} from "react";
-import Container from "@mui/material/Container";
 import DriverInfo, {InfoProps} from "./panels/Info.tsx";
 import {DriverSummary, DefaultDriverSummary} from "../../models/driver/Driver.ts";
 import SideMenu from "../../components/navigation/SideMenu.tsx";
@@ -23,6 +22,8 @@ import PageTitle from "../../functions/strings/PageTitle.ts";
 import useDriverUpdate from "../../hooks/useDriverUpdate.ts";
 import {Alert, AlertTitle, Snackbar} from "@mui/material";
 import AutorenewIcon from '@mui/icons-material/Autorenew';
+import Box from "@mui/material/Box";
+import GetBreakpoints from "../../functions/data/Breakpoints.ts";
 
 const panels = ['info', 'series', 'races', 'tracks', 'cars']
 
@@ -40,6 +41,8 @@ export default function Driver() {
     const trackStats = TrackStats(driver_races, races_loading)
 
     const [tab, setTab] = useTabState(panels)
+
+    const breakpoints = GetBreakpoints()
 
     useEffect(() => {
 
@@ -75,10 +78,12 @@ export default function Driver() {
                 <SideMenu initialTab={tab} panels={panels} onChange={value => setTab(value)}/>
             </Grid>
             <Grid xs md>
-                <Container maxWidth="xl">
+                <Box mx={8}>
 
                     <DriverTitle driver={driver} loading={driver_loading}/>
-                    <SideMenu mobile initialTab={tab} panels={panels} onChange={value => setTab(value)}/>
+                    <Box mb={2} mx={breakpoints.sm ? 3 : 0}>
+                        <SideMenu mobile initialTab={tab} panels={panels} onChange={value => setTab(value)}/>
+                    </Box>
                     <Tabs
                         tab={tab}
                         user={driver}
@@ -92,7 +97,7 @@ export default function Driver() {
 
                     <DataRange/>
 
-                </Container>
+                </Box>
             </Grid>
         </Grid>
     </>

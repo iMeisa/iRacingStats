@@ -4,7 +4,6 @@ import SeriesLogo from "../../components/images/SeriesLogo.tsx";
 import useIsMobile from "../../hooks/useIsMobile.ts";
 import {DriverRace} from "../../models/driver/Race.ts";
 import useWindowSize from "../../hooks/useWindowSize.ts";
-import GetBreakpoints from "../../functions/data/Breakpoints.ts";
 
 type SeriesTrophies = {
     id: number,

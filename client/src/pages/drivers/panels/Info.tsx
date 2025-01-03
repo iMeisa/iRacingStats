@@ -1,8 +1,5 @@
 import Grid from "@mui/material/Unstable_Grid2";
 import {
-    Accordion,
-    AccordionDetails,
-    AccordionSummary,
     Box, CircularProgress,
     Divider,
     Paper,
@@ -10,12 +7,10 @@ import {
 } from "@mui/material";
 import Typography from "@mui/material/Typography";
 import TrophyCabinet from "../TrophyCabinet.tsx";
-import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import {DriverSummary} from "../../../models/driver/Driver.ts";
 import ElapsedTime from "../../../functions/datetime/ElapsedTime.ts";
 import Percentage from "../../../functions/strings/Percentage.ts";
 import StatCard from "../../../components/data/StatCard.tsx";
-import {SyntheticEvent, useState} from "react";
 import FormatCompactNumber from "../../../functions/numbers/FormatCompactNumber.ts";
 import {DriverRace} from "../../../models/driver/Race.ts";
 import DriverLicenses from "./info/DriverLicenses.tsx";
@@ -29,18 +24,10 @@ export type InfoProps = {
 
 export default function DriverInfo(props: InfoProps) {
 
-
-    const [expanded, setExpanded] = useState<string | false>('info');
-
-    const handleChange =
-        (panel: string) => (_event: SyntheticEvent, isExpanded: boolean) => {
-            setExpanded(isExpanded ? panel : false);
-        };
-
     return <>
 
         {/*Desktop*/}
-        <Grid sx={{ display: {xs: 'none', md: 'flex'} }} container spacing={2}>
+        <Grid container spacing={2}>
             <Grid md={12} lg={6}>
                 <Stack spacing={2}>
 
@@ -74,81 +61,26 @@ export default function DriverInfo(props: InfoProps) {
                 </Stack>
             </Grid>
 
-            <Grid md={12} lg={6} sx={{mb: 5}}>
+            <Grid md={12} lg={6} sx={{mb: 2}}>
 
-                <Divider sx={{ my: 1, display: { md: 'block', lg: 'none' }}} />
+                <Divider sx={{ mt: 1, mb: 2, display: { md: 'block', lg: 'none' }}} />
 
-                <Typography variant="subtitle1" sx={{ fontWeight: 'bold' }}>
-                    Trophy Cabinet
-                </Typography>
-                <Box className={"stat-border trophies"} >
+                <Box className={"stat-border trophies"}>
+                    {/*<Typography*/}
+                    {/*    variant="subtitle1"*/}
+                    {/*    sx={{ fontWeight: 'bold' }}*/}
+                    {/*    position={'absolute'}*/}
+                    {/*    zIndex={9}*/}
+                    {/*    top={15}*/}
+                    {/*    // left={'50%'}*/}
+                    {/*    // right={'50%'}*/}
+                    {/*>*/}
+                    {/*    Trophy Cabinet*/}
+                    {/*</Typography>*/}
                     <TrophyCabinet loading={props.data_loading} driverRaces={props.driver_races}/>
                 </Box>
             </Grid>
         </Grid>
-
-        {/*Mobile*/}
-        <Box sx={{ display: { xs: 'block', md: 'none' }}} mt={2}>
-
-            <Accordion className={"stat-border info"} expanded={expanded === 'info'} onChange={handleChange('info')}>
-                <AccordionSummary
-                    expandIcon={<ExpandMoreIcon/>}
-                    aria-controls="panel1a-content"
-                    id="panel1a-header"
-                >
-                    <Typography> Licenses </Typography>
-                </AccordionSummary>
-
-                <AccordionDetails>
-                    <DriverLicenses loading={props.loading} licenses={props.user.licenses}/>
-                </AccordionDetails>
-            </Accordion>
-
-            <Accordion className={"stat-border race-stats"} expanded={expanded === 'race-stats'} onChange={handleChange('race-stats')}>
-                <AccordionSummary
-                    expandIcon={<ExpandMoreIcon/>}
-                    aria-controls="panel1a-content"
-                    id="panel1a-header"
-                >
-                    <Typography> Race Stats </Typography>
-                </AccordionSummary>
-
-                <AccordionDetails>
-                    <RaceStats results={props.driver_races} loading={props.data_loading}/>
-                </AccordionDetails>
-            </Accordion>
-
-            <Accordion className={"stat-border driving-stats"} expanded={expanded === 'driving-stats'} onChange={handleChange('driving-stats')}>
-                <AccordionSummary
-                    expandIcon={<ExpandMoreIcon/>}
-                    aria-controls="panel1a-content"
-                    id="panel1a-header"
-                >
-                    <Typography> Driving Stats </Typography>
-                </AccordionSummary>
-
-                <AccordionDetails>
-                    <DrivingStats results={props.driver_races} loading={props.data_loading}/>
-                </AccordionDetails>
-            </Accordion>
-
-            <Accordion className={"stat-border trophies"} expanded={expanded === 'trophies'} onChange={handleChange('trophies')}>
-                <AccordionSummary
-                    expandIcon={<ExpandMoreIcon/>}
-                    aria-controls="panel1a-content"
-                    id="panel1a-header"
-                >
-                    <Typography> Trophy Cabinet </Typography>
-                </AccordionSummary>
-
-                <AccordionDetails>
-                    <Box m={-1.5}>
-                        <TrophyCabinet loading={props.data_loading} driverRaces={props.driver_races} />
-                    </Box>
-                </AccordionDetails>
-            </Accordion>
-
-        </Box>
     </>
 }
 
